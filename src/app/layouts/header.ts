@@ -187,7 +187,7 @@ export class HeaderComponent implements OnInit {
     }
 
     createSocketConnection(token: any) {
-        const socketUrl = `wss://almaragy.ras.yeastar.com/openapi/v1.0/subscribe?access_token=${token}`;
+        const socketUrl = `wss://almaraghidxb.ras.yeastar.com/openapi/v1.0/subscribe?access_token=${token}`;
         this.subject = webSocket(socketUrl);
 
         this.subject.subscribe((err: any) => console.log('Socket Error:', err));
