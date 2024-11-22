@@ -1,0 +1,178 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Details
+            By Phone</a>
+    </li>
+</ol>
+<div class="mb-5 mt-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-4 xl:grid-cols-4">
+    <div class="panel col-span-2 ">
+        <h5 for="name" class="small_label_text m-0 dark:text-white-dark"><b style="font-size: 16px;">
+                View Customer Detail
+            </b></h5>
+        <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 2%;margin-bottom: 2%;" />
+        <input type="text" placeholder="Enter Mobile Number" [(ngModel)]="phone" class="form-input text-xs"
+            maxlength="11" />
+        <div class="mt-5 mb-2" style="display: flex; justify-content: space-between; float: right;">
+            <button class="btn btn-success" (click)="ViewDetails(phone)">View</button>
+        </div>
+    </div>
+</div>
+<modal #custDetailModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Customer Details
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div *ngIf="load_flag" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+        </div>
+        <div *ngIf="!load_flag">
+            <div class="table-responsive" *ngIf="customerdata != null">
+                <table class="small_view" style="border: 1px solid #eee">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">Name</th>
+                            <th style="width: 12%">Location</th>
+                            <th>Latest Job-card</th>
+                            <th style="width: 15%" class="text-center">Latest SA</th>
+                            <th class="text-center">Last Invoiced</th>
+                            <th style="width: 20%" class="text-center">Vehicles</th>
+                            <th class="text-right">Total Job-cards</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>{{ customerdata.customer_name }}</b>
+                            </td>
+                            <td>{{ customerdata.city }}</td>
+                            <td>
+                                <span class="badge badge-outline-primary" *ngIf="custjobcard.length >0">{{
+                                    custjobcard[0].job_no }}</span>
+                            </td>
+                            <td>
+                                <b *ngIf="custjobcard.length >0">{{ custjobcard[0].user_name }}</b>
+                            </td>
+                            <td *ngIf="custjobcard.length >0">{{ custjobcard[0].invoice_date }}</td>
+                            <td>
+                                <span *ngFor="let veh of custvehicle">{{ veh.reg_no }}, </span>
+                            </td>
+                            <td class="text-right">{{ custjobcard.length }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="table-responsive" *ngIf="custjobcard.length >0">
+                <label> <b>Job Cards</b></label>
+                <table class="small_view" style="border: 1px solid #eee">
+                    <thead>
+                        <tr>
+                            <th>JC Number</th>
+                            <th>Status</th>
+                            <th>Vehicle Number</th>
+                            <th>Vehicle Family</th>
+                            <th>Vehicle Model</th>
+                            <th>Service Advisor</th>
+                            <th>INV No</th>
+                            <th>INV Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let jc of custjobcard">
+                            <td>
+                                <b>{{ jc.job_no }}</b>
+                            </td>
+                            <td>{{ jc.job_status }}</td>
+                            <td>{{ jc.car_reg_no }}</td>
+                            <td>{{ jc.brand_code }},{{ jc.family_name }}</td>
+                            <td>{{ jc.model_name }},{{ jc.model_year }}</td>
+                            <td>{{ jc.user_name }}</td>
+                            <td>{{ jc.invoice_no }}</td>
+                            <td>{{jc.invoice_date }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="table-responsive" *ngIf="custleads.length > 0">
+                <label> <b>Leads</b></label>
+                <table class="small_view" style="border: 1px solid #eee">
+                    <thead>
+                        <tr>
+                            <th>Created</th>
+                            <th>Lead Code</th>
+                            <th>Status</th>
+                            <th>Source</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ld of custleads">
+                            <td>{{ ld.created }}</td>
+                            <td>
+                                <span class="badge badge-outline-primary">{{ ld.lead_code }}</span>
+                            </td>
+                            <td>{{ ld.ld_sts }}</td>
+                            <td>{{ld.ld_src }}</td>
+                            <td>{{ld.lead_note}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="table-responsive">
+                <label> <b>Recent Call Logs</b></label>
+                <table class="small_view" style="border: 1px solid #eee">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Staff</th>
+                            <th>Purpose</th>
+                            <th>Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="log.length!=0">
+                            <tr [ngSwitch]="lg.calltype" *ngFor="let lg of log">
+                                <td>{{ lg.datetime }}</td>
+                                <td
+                                    [ngClass]="{'text-success': lg.calltype === 'Inbound', 'text-warning': lg.calltype === 'Outbound'}">
+                                    {{ lg.calltype }}</td>
+                                <td
+                                    [ngClass]="{'text-danger': lg.disposition === 'NO ANSWER', 'text-primary': lg.disposition !== 'NO ANSWER'}">
+                                    {{ lg.disposition }}
+                                </td>
+                                <td>{{ lg.calltype === 'Inbound' ? lg.dst : lg.src }}</td>
+                                <td [ngClass]="{'text-danger': lg.purpose === 'fail', 'text-primary': lg.purpose !== 'fail'}">
+                                    {{ lg.purpose === 'fail' ? 'Not Found' : lg.purpose }}
+                                </td>
+                                <td [ngClass]="{'text-danger': lg.leadlog === 'fail', 'text-primary': lg.leadlog !== 'fail'}">
+                                    {{ lg.leadlog === 'fail' ? 'Not Found' : lg.leadlog }}
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="log.length == 0">
+                            <tr>
+                                <td style="text-align: center;" colspan="6"><span><b>No Recent Call Logs</b></span></td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="custDetailModalClose()" class="btn btn-outline-danger">DISMISS</button>
+    </ng-template>
+</modal>

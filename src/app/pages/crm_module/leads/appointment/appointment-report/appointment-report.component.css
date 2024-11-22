@@ -1,0 +1,174 @@
+.lobipanel {
+    margin-bottom: 25px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.panel-bd>.panel-heading {
+    color: #010611;
+    border-color: #b7b9bf;
+    position: relative;
+}
+
+.lobipanel>.panel-heading {
+    padding: 5px;
+    position: relative;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.ui-sortable-handle {
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+i.fa-ban {
+    color: red;
+}
+
+.Pendingwork a {
+    color: #222;
+    font-weight: 700;
+}
+
+.Pendingwork p {
+    color: #222;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+p {
+    margin: 0 0 10px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.label-warning {
+    color: white;
+    background-color: #ffc751;
+    border: 2px solid #ffc751;
+}
+
+.label-default {
+    color: white;
+    background-color: #ced0d2;
+    border: 2px solid #ced0d2;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.label-default {
+    padding: 1%;
+    background-color: #ff0000;
+    border-radius: 12%;
+}
+
+.work-touchpoint-date {
+    float: left;
+    margin: 0 10px 0 0;
+    border: 1px solid gray;
+    background: #f2f2f2;
+}
+
+.work-touchpoint-date .day {
+    color: #323232;
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 4px 0;
+    text-align: center;
+    width: 30px;
+}
+
+.work-touchpoint-date .month {
+    background-color: #009688;
+    color: #fff;
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 3px 0 3px 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 30px;
+}
+
+.work-touchpoint-date2 {
+    float: left;
+    margin: 0 10px 0 0;
+    border: 1px solid gray;
+    background: #f2f2f2;
+}
+
+.work-touchpoint-date2 .day {
+    color: #323232;
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 4px 0;
+    text-align: center;
+    width: 30px;
+}
+
+.work-touchpoint-date2 .month {
+    background-color: #222;
+    color: #fff;
+    display: block;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 3px 0 3px 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 30px;
+}
+
+.detailswork a {
+    color: #222;
+    font-weight: 600;
+}
+
+/* a {
+    color: #009688;
+    text-decoration: none;
+}
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+a {
+    background-color: transparent;
+} */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+user agent stylesheet a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}

@@ -1,0 +1,40 @@
+<div class="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3 xl:grid-cols-4" *ngIf="!load_flag">
+    <div class="col-span-4 panel">
+        <div class="mb-5 flex items-center justify-between">
+            <h5 class="text-lg font-semibold dark:text-white-light">Quote Logs</h5>
+            <span class="badge badge-outline-primary">{{quoteCode}}</span>
+        </div>
+        <div class="flex-1 p-0">
+            <ng-container>
+                <div class="relative h-full pb-[68px]">
+                    <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                    <ng-scrollbar #scrollable
+                        class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                        visibility="native">
+                        <div class="space-y-5 p-4">
+                            <div class="flex items-start gap-3" *ngFor="let log of quoteLogs"
+                                [ngClass]="log.ql_created_by != us_id ? 'justify-start' : 'justify-end'">
+                                <div class="space-y-2">
+                                    <div class="flex items-start gap-3">
+                                        <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                            [ngClass]="log.ql_created_by != us_id ? '!bg-info text-white ltr:rounded-br-none rtl:rounded-bl-none' : '!bg-primary text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                            {{ log.ql_notes }} by <b>{{ log.us_firstname }}</b>
+                                        </div>
+                                    </div>
+                                    <div class="text-xs text-white-dark rtl:text-left">
+                                        {{ log.ql_created_on }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-scrollbar>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<div *ngIf="load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+</div>

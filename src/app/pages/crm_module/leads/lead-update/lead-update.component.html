@@ -1,0 +1,235 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Lead
+            Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/leads/lead-list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Lead List</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Lead
+            Details</a>
+    </li>
+</ol>
+<div class="mt-5 pb-0">
+    <div class="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3 xl:grid-cols-4" *ngIf="!load_flag">
+        <div class="panel lg:col-span-2 xl:col-span-3">
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                <h5 class="text-lg font-semibold dark:text-white-light">
+                    Lead Details
+                    <!-- <span class="badge badge-outline-primary">{{ lead.apptm_code }}</span> -->
+                </h5>
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <button type="button" class="btn btn-primary btn-sm">LEAD - {{lead.lead_code}}</button>
+                </div>
+            </div>
+            <div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            </div>
+            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+                    <input type="text" readonly placeholder="Customer name" [(ngModel)]="lead.name"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+                    <input type="text" readonly placeholder="Customer Number" [(ngModel)]="lead.phone"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="lead.status_id!=0">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Status</label>
+                    <ng-select [(ngModel)]="lead.status_id" disabled="true" [searchable]="false" [clearable]="false">
+                        <!-- <ng-option value="0">Current Status</ng-option> -->
+                        <ng-option value="1">Opened</ng-option>
+                        <ng-option value="3">Completed</ng-option>
+                        <ng-option value="4">Cancelled</ng-option>
+                        <ng-option value="5">Lead To Customer</ng-option>
+                        <ng-option value="6">Closed</ng-option>
+                    </ng-select>
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Purpose</label>
+                    <input type="text" readonly placeholder="Lead Purpose" [(ngModel)]="lead.call_purpose"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="lead.source_id!=0 ">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Lead Source</label>
+                    <ng-select [(ngModel)]="lead.source_id" disabled="true" [searchable]="false" [clearable]="false">
+                        <ng-option value="1">Phone Call</ng-option>
+                        <ng-option value="2">Social Media</ng-option>
+                        <ng-option value="3">Website</ng-option>
+                        <ng-option value="5">Direct Lead</ng-option>
+                        <ng-option value="6">Lost Customer</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="lead.source_id == '2' ">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Source</label>
+                    <input type="text" readonly placeholder="Social Media Source"
+                        [(ngModel)]="lead.smcs_name" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div class="col-span-2" *ngIf="lead.source_id == '2' ">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign</label>
+                    <input type="text" readonly placeholder="Social Media Campaign"
+                        [(ngModel)]="lead.smc_message" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="lead.assigned!=null">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Assignee</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="lead.assigned" bindValue="us_id"
+                        [searchable]="false" [clearable]="false" placeholder="Select Staff" class="custom-multiselect"
+                        disabled="true">
+                    </ng-select>
+                </div>
+                <div *ngIf="lead.lead_createdby">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Created By</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" bindValue="us_id" [searchable]="false"
+                        [clearable]="false" placeholder="Select Staff" class="custom-multiselect" disabled="true"
+                        [(ngModel)]="lead.lead_createdby">
+                    </ng-select>
+                </div>
+                <div class="col-span-2">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Comment</label>
+                    <input type="text" disabled="true" placeholder="User name" [(ngModel)]="lead.lead_note"
+                        class="form-input text-xs" maxlength="250" />
+                </div>
+            </div>
+            <div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            </div>
+            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+                <!-- <div>
+                    <label for="country">Call Status</label>
+                    <ng-select [searchable]="false" [clearable]="false" placeholder="Select Status"
+                        [(ngModel)]="lead.call_status">
+                        <ng-option value="1">Answered</ng-option>
+                        <ng-option value="2">Not Answered</ng-option>
+                    </ng-select>
+                </div> -->
+                <div>
+                    <label for="country">Update Lead</label>
+                    <ng-select [searchable]="false" [clearable]="false" placeholder="Select Status"
+                        [(ngModel)]="lead.new_status" >
+                        <!-- <ng-option value="0">Select Status</ng-option> -->
+                        <ng-option value="1">Schedule Appointment</ng-option>
+                        <ng-option value="2">Lead Cancelled</ng-option>
+                        <ng-option value="3" *ngIf="naCount != 2">Customer Not Answering</ng-option>
+                        <ng-option value="4" *ngIf="naCount == 2">Customer Not Responding</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="lead.new_status == 1 ">
+                    <label for="country" >Appointment Type*</label>
+                    <ng-select [(ngModel)]="lead.apptm_group" placeholder="Appointment Type">
+                        <ng-option value="1">Normal</ng-option>
+                        <ng-option value="2">Campaign</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="lead.new_status == 1 ">
+                    <label for="vehicle_model" >Vehicle Model</label>
+                    <input for="vehicle_model" type="text" [(ngModel)]="lead.vehicle_model"
+                        placeholder="Vehicle Model" class="form-input text-xs" maxlength="60" />
+                </div>
+                <div *ngIf="lead.new_status == 1 ">
+                    <label for="reg_no" >Register Number</label>
+                    <input for="reg_no" type="text" [(ngModel)]="lead.reg_no" placeholder="Register Number"
+                        class="form-input text-xs" maxlength="12" />
+                </div>
+                <div *ngIf="lead.new_status == 1 ">
+                    <label for="country">Appointment Date*</label>
+                    <ng2-flatpickr [config]="basic" placeholder="Appointment Date" [(ngModel)]="lead.dateField"
+                        addClass="form-input"></ng2-flatpickr>
+                </div>
+                <div *ngIf="lead.new_status==1 ">
+                    <label for="name">Appointment Time*</label>
+                    <input type="time" placeholder="User name" [(ngModel)]="lead.appTime" class="form-input text-xs"
+                        maxlength="50" />
+                </div>
+                <div *ngIf="lead.new_status==1 ">
+                    <label for="country">Assigned To*</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="lead.new_assigned"
+                        bindValue="us_id" [searchable]="false" [clearable]="false" placeholder="Select Staff"
+                        class="custom-multiselect">
+                    </ng-select>
+                </div>
+                <div *ngIf="lead.new_status==1 ">
+                    <label for="name">Pickup & Drop Details</label>
+                    <ng-select [(ngModel)]="lead.transportation_service" placeholder="Pick & Drop Requirement"
+                        [searchable]="false" [clearable]="false">
+                        <!-- <ng-option value="0">Pick & Drop Requirement</ng-option> -->
+                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                        <ng-option value="2">Pick Up Required</ng-option>
+                        <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option>
+                    </ng-select>
+                </div>
+                <div class="ng-autocomplete col-span-2">
+                    <label for="name">Customer Comment</label>
+                    <ng-autocomplete [data]="notesList" [searchKeyword]="noteSearch" placeholder="Remarks"
+                        maxlength="250" [(ngModel)]="lead.Remarks" class="custom-multiselect"
+                        [itemTemplate]="itemTemplateCode" (keydown.enter)="preventDefault()">
+                    </ng-autocomplete>
+                    <ng-template #itemTemplateCode let-item>
+                        <a [innerHTML]="item"></a>
+                    </ng-template>
+                </div>
+            </div>
+            <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+                <div class="col-span-2" *ngIf="lead.new_status == '2'">
+                    <label class="small_label_text m-0 dark:text-white-dark">Cancel Reason*</label>
+                    <input type="text" [(ngModel)]="lead.cancelReason" class="form-input text-xs"
+                        placeholder="Cancel Reason" />
+                </div>
+            </div>
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center" *ngIf="lead.new_status">
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <button type="button" class="btn btn-outline-success" size="small" (click)="leadUpdate(lead)"
+                        style="float: right">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+            </div>
+            <div class="panel flex-1 p-0">
+                <ng-container>
+                    <div class="relative h-full pb-[68px]">
+                        <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                        <ng-scrollbar #scrollable
+                            class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                            visibility="native">
+                            <div class="space-y-5 p-4">
+                                <div class="flex items-start gap-3" *ngFor="let log of lead_log">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                {{ log.lac_activity }} by
+                                                <b>{{ log.us_firstname }}</b>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-white-dark rtl:text-left">
+                                            {{ log.c_date }},{{log.c_time}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-scrollbar>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>

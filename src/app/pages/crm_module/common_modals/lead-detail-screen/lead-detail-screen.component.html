@@ -1,0 +1,106 @@
+<div>
+    <div>
+        <h6 class="text-primary" style="text-align: center; margin-bottom: 10px; margin-top: 10px">
+            <strong>{{ lead_data["lead_code"] }}</strong>
+        </h6>
+    </div>
+    <div>
+        <h6 class="text-success" style="text-align: center; margin-bottom: 10px; margin-top: 10px">
+            {{ lead_data["ld_sts"] }}
+        </h6>
+    </div>
+</div>
+<div class="table-responsive" *ngIf="lead_data != null">
+    <table class="small_view" style="border: 1px solid #eee">
+        <thead>
+            <tr>
+                <th>Created By</th>
+                <th>Created On</th>
+                <th>Lead Source</th>
+                <th>Purpose</th>
+                <th>Assigned To</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <b>{{ lead_data["creted"] }}</b>
+                </td>
+                <td>{{ lead_data["lead_creted_date"] }}</td>
+                <td>
+                    {{ lead_data["ld_src"]}}
+                    <!-- <span class="badge badge-outline-primary">{{ lead_data["ld_src"]}}</span> -->
+                </td>
+                <td>
+                    <b>{{ lead_data["call_purpose"] }}</b>
+                </td>
+                <td>{{ lead_data["assigned"] }}</td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4 mb-5">
+    <div class="panel col-span-2">
+        <div class="mb-5 flex items-center justify-between">
+            <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+        </div>
+        <div class="panel flex-1 p-0">
+            <ng-container>
+                <div class="relative h-full pb-[68px]">
+                    <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                    <ng-scrollbar #scrollable
+                        class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                        visibility="native">
+                        <div class="space-y-5 p-4">
+                            <div class="flex items-start gap-3" *ngFor="let act of lead_log">
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                            [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                            <span> {{ act.lac_created_on }}</span>-
+                                            <span>{{ act.acdate}}</span><br>
+                                            <span> {{act.lac_activity }} </span> By
+                                            <span >{{act.us_firstname }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-scrollbar>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="panel  col-span-2">
+        <div class="mb-5 flex items-center justify-between">
+            <h5 class="text-lg font-semibold dark:text-white-light">Call Log</h5>
+        </div>
+        <div class="panel flex-1 p-0">
+            <ng-container>
+                <div class="relative h-full pb-[68px]">
+                    <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                    <ng-scrollbar #scrollable
+                        class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                        visibility="native">
+                        <div class="space-y-5 p-4">
+                            <div class="flex items-start gap-3" *ngFor="let lg of lead_call_log">
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-3">
+                                        <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                            [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                            <span> {{ lg.lcl_time }}</span>-
+                                            <span>{{ lg.call_purpose }}</span><br>
+                                            <span > {{ lg.lcl_call_to }}</span>-
+                                            <span>{{ lg.role_name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-scrollbar>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

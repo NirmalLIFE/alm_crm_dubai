@@ -1,0 +1,5 @@
+.small_view td,
+th {
+    padding: 0 5px 0 5px;
+    font-size: 0.7vw
+}

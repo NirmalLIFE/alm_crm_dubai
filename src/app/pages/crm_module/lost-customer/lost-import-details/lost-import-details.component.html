@@ -1,0 +1,189 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Admin Settings</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/admin_staff/lost_customer/lc_import"
+            href="javascript:;"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Lost Customer Import List</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Lost customer details</a
+        >
+    </li>
+</ol>
+<div>
+    <div class="panel mt-6 pb-0">
+        <div class="mb-1 flex flex-col gap-5 md:flex-row md:items-center">
+            <h5 class="text-lg font-semibold dark:text-white-light">Imported Lost Customers</h5>
+            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <h5 class="text-lg font-semibold text-primary dark:text-white-light" *ngIf="!load_flag">
+                    {{ file['uf_filename'] }} | {{ lostCustomerListMaster.length }}&nbsp; Customers
+                </h5>
+            </div>
+        </div>
+        <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 0" />
+        <div class="mb-5 mt-3 flex sm:col-span-2" *ngIf="selectedCustomerList.length > 0">
+            <button type="button" class="btn btn-primary" (click)="assignCustomersToStaff()" style="float: right">Assign Selected</button>
+        </div>
+        <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+            <div class="flex-1 md:flex-auto">
+                <input
+                    [(ngModel)]="invoiceDateFrom"
+                    type="date"
+                    class="form-input"
+                    ngxTippy="Invoice Date From"
+                    placeholder="Invoice Date From"
+                    (change)="customSearchFilter()"
+                />
+            </div>
+            <div class="flex-1 md:flex-auto">
+                <input
+                    [(ngModel)]="invoiceDateTo"
+                    type="date"
+                    class="form-input"
+                    ngxTippy="Invoice Date To"
+                    placeholder="Invoice Date To"
+                    (change)="customSearchFilter()"
+                />
+            </div>
+            <div class="flex-1 md:flex-auto">
+                <input
+                    [(ngModel)]="model_year_from"
+                    type="text"
+                    class="form-input"
+                    ngxTippy="Model Year From"
+                    placeholder="Model Year From"
+                    (keyup)="customSearchFilter()"
+                />
+            </div>
+            <div class="flex-1 md:flex-auto">
+                <input
+                    [(ngModel)]="model_year_to"
+                    type="text"
+                    class="form-input"
+                    ngxTippy="Model Year To"
+                    placeholder="Model Year To"
+                    (keyup)="customSearchFilter()"
+                />
+            </div>
+            <div class="flex-1 md:flex-auto">
+                <input [(ngModel)]="modelCode" type="text" class="form-input" ngxTippy="Model Code" placeholder="Model Code" (keyup)="customSearchFilter()" />
+            </div>
+            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search..." style="border: 1px solid #009688" />
+            </div>
+        </div>
+        <div class="datatable" *ngIf="!load_flag">
+            <ng-datatable
+                #dataTable
+                [rows]="lostCustomerList"
+                [columns]="cols"
+                [search]="search"
+                [sortable]="true"
+                [hasCheckbox]="true"
+                [pageSize]="500"
+                [pageSizeOptions]="[500]"
+                (rowSelect)="updateCheckedList()"
+                [stickyHeader]="true"
+                skin="whitespace-nowrap table-hover bh-table-compact"
+                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            >
+                <ng-template slot="assigned_user" let-value="data">
+                    <h6 class="text-secondary" *ngIf="value.lcst_assign != 0">{{ value.assigned_user }}</h6>
+                    <h6 class="text-danger" *ngIf="value.lcst_assign == 0">{{ value.assigned_user }}</h6>
+                </ng-template>
+            </ng-datatable>
+        </div>
+        <div *ngIf="load_flag" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+            ></span>
+        </div>
+        <modal #assignLostCustomers class="modal-top animate animate-slide-in-down" [closeOnOutsideClick]="false">
+            <ng-template #modalHeader> <div>Assign Selected Lost Customers</div> </ng-template>
+            <form [formGroup]="assignForm" novalidate>
+                <ng-template #modalBody>
+                    <div
+                        class="relative mb-4"
+                        [ngClass]="assignForm.controls['assignUser'].touched ? (assignForm.controls['assignUser'].errors ? 'has-error' : 'has-success') : ''"
+                    >
+                        <label for="number">Assigned Staff</label>
+                        <ng-select
+                            [items]="usersList"
+                            bindLabel="us_firstname"
+                            bindValue="us_id"
+                            placeholder="Select staff To assign"
+                            [searchable]="true"
+                            [clearable]="false"
+                            class="custom-multiselect"
+                            formControlName="assignUser"
+                        >
+                        </ng-select>
+                        <ng-container *ngIf="assignForm.controls['assignUser'].touched && assignForm.controls['assignUser'].errors">
+                            <p class="mt-1 text-danger">Please select a staff</p>
+                        </ng-container>
+                    </div>
+                    <div
+                        class="relative mb-4"
+                        [ngClass]="assignForm.controls['assignDue'].touched ? (assignForm.controls['assignDue'].errors ? 'has-error' : 'has-success') : ''"
+                    >
+                        <label for="user">Start Date</label>
+                        <input
+                            id="assignDue"
+                            formControlName="assignDue"
+                            type="date"
+                            placeholder="Excluded Name"
+                            class="form-input"
+                            minlength="3"
+                            maxlength="50"
+                        />
+                        <ng-container *ngIf="assignForm.controls['assignDue'].touched && assignForm.controls['assignDue'].errors">
+                            <p class="mt-1 text-danger">Please fill start date</p>
+                        </ng-container>
+                    </div>
+                    <div
+                        class="relative mb-4"
+                        [ngClass]="assignForm.controls['assignDueTo'].touched ? (assignForm.controls['assignDueTo'].errors ? 'has-error' : 'has-success') : ''"
+                    >
+                        <label for="user">Due Date</label>
+                        <input
+                            id="assignDueTo"
+                            formControlName="assignDueTo"
+                            type="date"
+                            placeholder="Excluded Name"
+                            class="form-input"
+                            minlength="3"
+                            maxlength="50"
+                        />
+                        <ng-container *ngIf="assignForm.controls['assignDueTo'].touched && assignForm.controls['assignDueTo'].errors">
+                            <p class="mt-1 text-danger">Please fill start date</p>
+                        </ng-container>
+                    </div>
+                </ng-template>
+                <ng-template #modalFooter>
+                    <button type="button" (click)="assignLostCustomers.close()" class="btn btn-outline-danger">Discard</button>
+                    <button type="button" class="btn btn-primary ltr:ml-4 rtl:mr-4" (click)="saveAssigningDetails()" [disabled]="submit_flag">UPDATE</button>
+                </ng-template>
+            </form>
+        </modal>
+    </div>
+</div>

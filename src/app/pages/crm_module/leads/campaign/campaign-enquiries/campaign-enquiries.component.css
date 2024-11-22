@@ -1,0 +1,24 @@
+.create{
+    background: linear-gradient(to right, #4B79A1, #283E51);
+    color: white; /* Set text color to contrast with the gradient background */
+    /* Add any other styles you may need */
+}
+.float{
+	z-index: 100;
+    position: fixed;
+    width: 13vw;
+    height: 45px;
+    /* bottom: 40px; */
+    right: 5px;
+    background-color: #f47536;
+    color: #FFF;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 2px 2px 3px #999;
+    top: 75px;
+    padding: 5px 10px 5px 10px;
+}
+
+.my-float{
+	margin-top:22px;
+}

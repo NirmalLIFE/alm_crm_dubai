@@ -1,0 +1,6 @@
+#psf_call {
+    max-height: 90vh;
+    min-width: 90vw;
+    max-width: 95vh;
+    overflow-y: scroll;
+}

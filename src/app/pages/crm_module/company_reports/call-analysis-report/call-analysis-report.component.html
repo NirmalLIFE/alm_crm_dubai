@@ -1,0 +1,679 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">MIS</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink=""
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Call
+            Report</a>
+    </li>
+</ol>
+<div class="mt-6 pb-0">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">Company Inbound Call Analysis</h5>
+    </div>
+    <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark">Start Date</label>
+            <input type="date" [(ngModel)]="start_date" class="form-input" ngxTippy="Start Date"
+                placeholder="Start Date From" />
+        </div>
+        <div>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark">End Date</label>
+            <input type="date" [(ngModel)]="end_date" class="form-input" ngxTippy="End Date"
+                placeholder="End Date From" />
+        </div>
+        <div>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark" style="color: white">.</label>
+            <button type="button" (click)="getInboundCallDetails()" class="btn btn-outline-primary">SEARCH</button>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <div class="mt-2" *ngIf="!load_flag">
+        <div class="container">
+            <h1 class="level-1 rectangle">
+                Total Calls
+                <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                    style="font-size: large; font-weight: 900">{{
+                    totalUniqueCalls.length
+                    }}</span>
+            </h1>
+            <ol class="level-2-wrapper">
+                <li>
+                    <h2 class="level-2 rectangle mark-1">
+                        Marketing Calls<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                            style="font-size: large; font-weight: 900">{{
+                            totalMarketingCalls.length
+                            }}</span>
+                    </h2>
+                    <label style="margin-bottom: 0; color: #eb1414; font-weight: 700">Duplicate customers - {{
+                        MarketingDupeCustomers.length }}</label>
+                    <ol class="level-3-wrapper">
+                        <li>
+                            <h3 class="level-2 rectangle-sm mark-2"
+                                style="background: linear-gradient(45deg, #f59e0b, #3bba54)">
+                                New Customer<span *ngIf="!mk_lvl_1"
+                                    class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    style="font-size: 12px; font-weight: 900">{{ MarketingNewCustomers.length
+                                    }}</span><span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    *ngIf="mk_lvl_1"><svg viewBox="0 0 24 24" width="24" height="24"
+                                        stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                    </svg></span>
+                            </h3>
+                            <ol class="level-3-wrapper">
+                                <li>
+                                    <h3 (click)="callInfoFetch('MarketingMissedCustomers')"
+                                        class="level-3 rectangle-sm mark-3"
+                                        style="background: linear-gradient(45deg, #eb1414, #f59e0b)">
+                                        Missed Calls<br /><span *ngIf="!mk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{ MarketingMissedCustomers.length
+                                            }}</span><span class="badge my-0 bg-white-light text-black"
+                                            *ngIf="mk_lvl_2"><svg viewBox="0 0 24 24" width="24" height="24"
+                                                stroke="currentColor" stroke-width="1.5" fill="none"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('MarketingMissedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted<br /><span *ngIf="!mk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    MarketingMissedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <h3 (click)="callInfoFetch('MarketingAttendedCustomers')"
+                                        class="level-3 rectangle-sm mark-3"
+                                        style="background: linear-gradient(45deg, #ae8625, #f59e0b)">
+                                        Attended Calls<br /><span *ngIf="!mk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            MarketingAttendedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('MarketingAttendedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted <br /><span *ngIf="!mk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    MarketingAttendedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                    <!-- <ol class="level-3-wrapper">
+                                        <li>
+                                            <h3 class="level-3 rectangle-sm">Missed Calls</h3>
+                                        </li>
+                                        <li>
+                                            <h3 class="level-3 rectangle-sm">Attended Calls</h3>
+                                            
+                                        </li>
+                                    </ol> -->
+                                </li>
+                            </ol>
+                            <!-- <ol class="level-4-wrapper">
+                                <li>
+                                    <h4 class="level-4 rectangle">Person A</h4>
+                                </li>
+                                <li>
+                                    <h4 class="level-4 rectangle">Person B</h4>
+                                </li>
+                                <li>
+                                    <h4 class="level-4 rectangle">Person C</h4>
+                                </li>
+                                <li>
+                                    <h4 class="level-4 rectangle">Person D</h4>
+                                </li>
+                            </ol> -->
+                        </li>
+                        <li>
+                            <h3 class="level-2 rectangle-sm"
+                                style="background: linear-gradient(45deg, #f59e0b, #597c60)">
+                                Existing Customer<span *ngIf="!mk_lvl_1"
+                                    class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    style="font-size: 12px; font-weight: 900">{{ MarketingExistingCustomers.length
+                                    }}</span><span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    *ngIf="mk_lvl_1"><svg viewBox="0 0 24 24" width="24" height="24"
+                                        stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                    </svg></span>
+                            </h3>
+                            <ol class="level-3-wrapper">
+                                <li>
+                                    <h3 (click)="callInfoFetch('MarketingExstMissedCustomers')"
+                                        class="level-3 rectangle-sm"
+                                        style="background: linear-gradient(45deg, #eb1414, #f59e0b)">
+                                        Missed Calls<br /><span *ngIf="!mk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            MarketingExstMissedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('MarketingExstMissedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted<br /><span *ngIf="!mk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    MarketingExstMissedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <h3 (click)="callInfoFetch('MarketingExstAttendedCustomers')"
+                                        class="level-3 rectangle-sm"
+                                        style="background: linear-gradient(45deg, #ae8625, #f59e0b)">
+                                        Attended Calls<br /><span *ngIf="!mk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            MarketingExstAttendedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper" (click)="openModal('MarketingExstAttendedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted<br /><span *ngIf="!mk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    MarketingExstAttendedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="mk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                            <!-- <ol class="level-4-wrapper">
+                                <li>
+                                    <h4 class="level-4 rectangle">Person A</h4>
+                                </li>
+                                <li>
+                                    <h4 class="level-4 rectangle">Person B</h4>
+                                </li>
+                                <li>
+                                    <h4 class="level-4 rectangle">Person C</h4>
+                                </li>
+                                <li>
+                                    <h4 class="level-4 rectangle">Person D</h4>
+                                </li>
+                            </ol> -->
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    <h2 class="level-2 rectangle mark-1" style="background: #3b82f6">
+                        Non-Marketing Calls<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                            style="font-size: large; font-weight: 900">{{
+                            totalNonMarketingCalls.length
+                            }}</span>
+                    </h2>
+                    <label style="margin-bottom: 0; color: #eb1414; font-weight: 700">Duplicate customers - {{
+                        nonMarketingDupeCustomers.length }}</label>
+                    <ol class="level-3-wrapper">
+                        <li>
+                            <h3 class="level-2 rectangle-sm"
+                                style="background: linear-gradient(45deg, #10b981, #3b82f6)">
+                                New Customer<span *ngIf="!nmk_lvl_1"
+                                    class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    style="font-size: 12px; font-weight: 900">{{ nonMarketingNewCustomers.length
+                                    }}</span><span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    *ngIf="nmk_lvl_1"><svg viewBox="0 0 24 24" width="24" height="24"
+                                        stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                    </svg></span>
+                            </h3>
+                            <ol class="level-3-wrapper">
+                                <li>
+                                    <h3 (click)="callInfoFetch('nonMarketingMissedCustomers')"
+                                        class="level-3 rectangle-sm"
+                                        style="background: linear-gradient(45deg, #ec2912, #3b82f6)">
+                                        Missed Calls<br /><span *ngIf="!nmk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            nonMarketingMissedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('nonMarketingMissedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted<br /><span *ngIf="!nmk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    nonMarketingMissedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <h3 (click)="callInfoFetch('nonMarketingAttendedCustomers')"
+                                        class="level-3 rectangle-sm"
+                                        style="background: linear-gradient(45deg, #ba8a21, #3b82f6)">
+                                        Attended Calls<br /><span *ngIf="!nmk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            nonMarketingAttendedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('nonMarketingAttendedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted <br /><span *ngIf="!nmk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    nonMarketingAttendedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            <h3 class="level-2 rectangle-sm"
+                                style="background: linear-gradient(45deg, #f27474, #3b82f6)">
+                                Existing Customer<span *ngIf="!nmk_lvl_1"
+                                    class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    style="font-size: 12px; font-weight: 900">{{ nonMarketingExistingCustomers.length
+                                    }}</span><span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                                    *ngIf="nmk_lvl_1"><svg viewBox="0 0 24 24" width="24" height="24"
+                                        stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                    </svg></span>
+                            </h3>
+                            <ol class="level-3-wrapper">
+                                <li>
+                                    <h3 (click)="callInfoFetch('nonMarketingExstMissedCustomers')"
+                                        class="level-3 rectangle-sm"
+                                        style="background: linear-gradient(45deg, #ec2912, #3b82f6)">
+                                        Missed Calls<br /><span *ngIf="!nmk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            nonMarketingExstMissedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('nonMarketingExstMissedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted<br /><span *ngIf="!nmk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    nonMarketingExstMissedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <h3 (click)="callInfoFetch('nonMarketingExstAttendedCustomers')"
+                                        class="level-3 rectangle-sm"
+                                        style="background: linear-gradient(45deg, #ba8a21, #3b82f6)">
+                                        Attended Calls<br /><span *ngIf="!nmk_lvl_2"
+                                            class="badge my-0 bg-white-light text-black"
+                                            style="font-size: 12px; font-weight: 900">{{
+                                            nonMarketingExstAttendedCustomers.length }}</span><span
+                                            class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                            </svg></span>
+                                    </h3>
+                                    <ol class="level-4-wrapper cursor-pointer"
+                                        (click)="openModal('nonMarketingExstAttendedConverted')">
+                                        <li>
+                                            <h4 class="level-4 rectangle">
+                                                Converted<br /><span *ngIf="!nmk_lvl_2"
+                                                    class="badge my-0 bg-white-light text-black"
+                                                    style="font-size: 14px; font-weight: 900">{{
+                                                    nonMarketingExstAttendedConverted.length }}</span><span
+                                                    class="badge my-0 bg-white-light text-black" *ngIf="nmk_lvl_2"><svg
+                                                        viewBox="0 0 24 24" width="24" height="24" stroke="currentColor"
+                                                        stroke-width="1.5" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle">
+                                                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                                                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                                                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                                                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                                                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                                                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                                                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                                                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                                                    </svg></span>
+                                            </h4>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+            <!-- <div id="CallReportModal" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Modal title</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+        </div>
+    </div>
+</div>
+
+<modal #modal5 class="modal-top animate animate-slide-in-down extra-large-modal call-view2"  style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div></div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="scroll-body">
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-4 lg:grid-cols-4 small-font" *ngIf="displaydetailsForModal">
+                <button (click)="filterClick('All','-1')" type="button"
+                    class="{{selectedFilterItem == '-1' ? 'btn btn-primary rounded-full' : 'btn btn-outline-primary rounded-full'}}">All
+                    ({{tempArrayofAllDetails?.length}})</button>
+                <button (click)="filterClick('missing','0')" type="button"
+                    class="{{selectedFilterItem == '0' ? 'btn btn-primary rounded-full' : 'btn btn-outline-primary rounded-full' }}">Missing
+                    ({{filterMissing?.length}})</button>
+                <button *ngFor="let purpose of purposeList" (click)="filterClick(purpose.call_purpose,purpose.cp_id)"
+                    type="button"
+                    class="{{selectedFilterItem == purpose.cp_id ? 'btn btn-primary rounded-full' : 'btn btn-outline-primary rounded-full' }}">{{purpose.call_purpose}}
+                    ({{purpose.LengthOfPurpose}})</button>
+            </div>
+            <div *ngIf="displaydetailsForModal">
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                    </div>
+                </div>
+                <div class="datatable">
+                    <ng-datatable [rows]="displaydetailsForModal" [columns]="cols" [search]="search"
+                        [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                        firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                        previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                        <ng-template slot="src" let-value="data">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.src }}"
+                                [tippyProps]="{ theme: 'info' }">
+                                ****{{ value.src | slice : -6 }}
+                            </button>
+                        </ng-template>
+                        <ng-template slot="remarks" let-value="data">
+                            <span ngxTippy="{{ value.remarks }}" *ngIf="value.remarks!=null"
+                                [tippyProps]="{ theme: 'info' }">{{ value.remarks | slice : 0 : 30 }}<ng-container
+                                    *ngIf="value.remarks.length > 50">...</ng-container></span>
+                        </ng-template>
+                    </ng-datatable>
+                </div>
+            </div>
+            <div class="flex justify-center items-center" *ngIf="!displaydetailsForModal&&!loderForModal">
+                <p>No Customers Gained</p>
+            </div>
+            <div class="flex justify-center items-center" *ngIf="loderForModal">
+                <button type="button" class="btn btn-secondary btn-lg">
+                    <span class="animate-ping w-3 h-3 ltr:mr-4 rtl:ml-4 inline-block rounded-full bg-white"></span>
+                    Hold on for a sec
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="closeModal()" class="btn btn-outline-danger">Discard</button>
+        <!-- <button type="button" (click)="modal5.close()" class="btn btn-primary ltr:ml-4 rtl:mr-4">Save</button> -->
+    </ng-template>
+</modal>

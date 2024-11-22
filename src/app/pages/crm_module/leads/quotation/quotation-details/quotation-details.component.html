@@ -1,0 +1,351 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Lead
+            Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/leads/quotation/quotation-list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Quotation
+            Requests</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Quotation
+            Details</a>
+    </li>
+</ol>
+<div class="mt-5 pb-0">
+    <div class="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3 xl:grid-cols-4" *ngIf="!load_flag">
+        <div class="panel lg:col-span-2 xl:col-span-3">
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                <h5 class="text-lg font-semibold dark:text-white-light">
+                    Quotation Details
+                    <!-- <span class="badge badge-outline-primary">{{ quotationDetails.apptm_code }}</span> -->
+                </h5>
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <button type="button" class="btn btn-primary btn-sm">LEAD - {{quotationDetails.lead_code}}</button>
+                </div>
+            </div>
+            <div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            </div>
+            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+                    <input type="text" readonly placeholder="Customer name" [(ngModel)]="quotationDetails.name"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+                    <input type="text" readonly placeholder="Customer Number" [(ngModel)]="quotationDetails.phone"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Quotation Source</label>
+                    <input type="text" readonly placeholder="Quotation Source"
+                        [(ngModel)]="quotationDetails.lead_source" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="quotationDetails.source_id == '2' ">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Source</label>
+                    <input type="text" readonly placeholder="Social Media Source"
+                        [(ngModel)]="quotationDetails.smcs_name" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div class="col-span-2" *ngIf="quotationDetails.source_id == '2' ">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign</label>
+                    <input type="text" readonly
+                        [value]="quotationDetails.smc_message + ' (' + quotationDetails.smc_name + ')'"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="quotationDetails.lql_status!=0">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Status</label>
+                    <ng-select [(ngModel)]="quotationDetails.lql_status" disabled="true" [searchable]="false"
+                        [clearable]="false">
+                        <!-- <ng-option value="0">Current Status</ng-option> -->
+                        <ng-option value="1">Quotation Provided</ng-option>
+                        <ng-option value="2">Quotation Accepted</ng-option>
+                        <ng-option value="3">Revise quote Requested</ng-option>
+                        <ng-option value="4">Not Answering</ng-option>
+                        <ng-option value="5">Quotation Rejected</ng-option>
+                        <ng-option value="6">Customer Not Responding</ng-option>
+                        <ng-option value="7">Quotation Enquiry</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.lql_status==1 && quotationDetails.lql_type!=0 ">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Quotation Type</label>
+                    <ng-select [(ngModel)]="quotationDetails.lql_type" disabled="true" [searchable]="false"
+                        [clearable]="false">
+                        <ng-option value="1">Normal Quotation</ng-option>
+                        <ng-option value="2">Special or campaign Quotation</ng-option>
+                        <ng-option value="3">Quotation Provided Via Whatsapp</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.lql_status==1 && quotationDetails.lql_code!=''">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Quotation No</label>
+                    <input type="text" readonly placeholder="Quotation No" [(ngModel)]="quotationDetails.lql_code"
+                        class="form-input text-xs" maxlength="50" />
+                    <!-- <ng-select [items]="qt_list" bindLabel="qt_code" bindValue="qt_id" [searchable]="false"
+                        [clearable]="false" [disabled]="true" [(ngModel)]="quotationDetails.lql_code">
+                    </ng-select> -->
+                </div>
+                <div *ngIf="quotationDetails.assigned!=null">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Assignee</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="quotationDetails.assigned"
+                        bindValue="us_id" [searchable]="false" [clearable]="false" placeholder="Select Staff"
+                        class="custom-multiselect" disabled="true">
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.lql_created_by!=null">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Created By</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="quotationDetails.lql_created_by"
+                        bindValue="us_id" [searchable]="false" [clearable]="false" placeholder="Select Staff"
+                        class="custom-multiselect" disabled="true">
+                    </ng-select>
+                </div>
+                <!-- <div *ngIf="quotationDetails.lql_source!=0">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Quotation Source</label>
+                    <ng-select [(ngModel)]="quotationDetails.lql_source" disabled="true" [searchable]="false" [clearable]="false">
+                        <ng-option value="0">Select Source</ng-option>
+                        <ng-option value="1">From Inbound Call</ng-option>
+                       
+                    </ng-select>
+                </div> -->
+                <div *ngIf="quotationDetails.lql_status==2">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Date</label>
+                    <input type="text" readonly placeholder="Appointment Date" [(ngModel)]="appt_id.appt_date"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="quotationDetails.lql_status==2">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Time</label>
+                    <input type="text" readonly placeholder="User name" [(ngModel)]="appt_id.appt_time"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="quotationDetails.lql_status==2">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Assignee</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="appt_id.appt_assign_to"
+                        bindValue="us_id" [searchable]="false" [clearable]="false" placeholder="Select Staff"
+                        class="custom-multiselect" disabled="true">
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.lql_status==2">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Pickup & Drop Details</label>
+                    <ng-select [(ngModel)]="appt_id.apptm_transport_service" disabled="true" [searchable]="false"
+                        [clearable]="false">
+                        <!-- <ng-option value="0">Pick & Drop Requirement</ng-option> -->
+                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                        <ng-option value="2">Pick Up Required</ng-option>
+                        <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.lql_status==2">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Created By</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" bindValue="us_id" [searchable]="false"
+                        [clearable]="false" placeholder="Select Staff" class="custom-multiselect" disabled="true"
+                        [(ngModel)]="appt_id.apptm_created_by">
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.lql_status==2">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Appointmnet
+                        Status</label>
+                    <ng-select [(ngModel)]="appt_id.apptm_status" disabled="true" [searchable]="false"
+                        [clearable]="false">
+                        <!-- <ng-option value="0">Current Status</ng-option> -->
+                        <ng-option value="1">Scheduled</ng-option>
+                        <ng-option value="2">Confirmed</ng-option>
+                        <ng-option value="3">Rescheduled</ng-option>
+                        <ng-option value="4">Cancelled</ng-option>
+                        <ng-option value="5">Completed/Visited</ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-span-2">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Comment</label>
+                    <input type="text" disabled="true" placeholder="User name" [(ngModel)]="quotationDetails.lead_note"
+                        class="form-input text-xs" maxlength="250" />
+                </div>
+            </div>
+            <div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            </div>
+            <div class="mb-5"
+                *ngIf="quotationDetails.lql_status!='2' && quotationDetails.lql_status!='5'&& quotationDetails.lql_status!='6'">
+                <label for="country" class="small_label_text m-0 dark:text-white-dark">Update Quotation Status</label>
+                <ng-select style="width:35%;" [searchable]="false" [clearable]="false" placeholder="Select Status"
+                    [(ngModel)]="quotationDetails.verify">
+                    <!-- <ng-option value="0">Select Status</ng-option> -->
+                    <ng-option value="1" *ngIf="naCount != 2 && quotationDetails.lql_status!='1'">Quotation
+                        Provided</ng-option>
+                    <ng-option value="2">Quotation Accepted</ng-option>
+                    <ng-option value="3">Revise quote Requested</ng-option>
+                    <ng-option value="4" *ngIf="naCount!=2 && appt != true">Not Answering</ng-option>
+                    <ng-option value="5">Quotation Rejected</ng-option>
+                    <ng-option value="6" *ngIf="naCount == 2">Customer Not Responding</ng-option>
+                </ng-select>
+            </div>
+            <div class="mb-5 grid cols-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3"
+                *ngIf="quotationDetails.lql_status!='2' && quotationDetails.lql_status!='5'&& quotationDetails.lql_status!='6'">
+                <div *ngIf="quotationDetails.verify==1">
+                    <label for="country">Quotation Type</label>
+                    <ng-select [(ngModel)]="quotationDetails.quote_type" [searchable]="false" (change)="typechange()"
+                        placeholder="select Quotation Type" [clearable]="false">
+                        <!-- <ng-option value="0">Current Status</ng-option> -->
+                        <ng-option value="1">Normal Quotation</ng-option>
+                        <ng-option value="2">Special or campaign Quotation</ng-option>
+                        <ng-option value="3">Quotation Provided Via Whatsapp</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.verify == '1' && quotationDetails.quote_type != '3' ">
+                    <label>Quotation No</label>
+                    <ng-select [items]="quotecode" bindLabel="qt_code" bindValue="qt_id" [searchable]="true"
+                        [clearable]="true" placeholder="Select Quote" class="custom-multiselect"
+                        [(ngModel)]="quotationDetails.quote_no">
+                    </ng-select>
+                    <!-- <input [(ngModel)]="quotationDetails.quote_no" id="quote_no" type="text" placeholder="Quotation No"
+                        class="form-input" /> -->
+                </div>
+                <div *ngIf="quotationDetails.verify == '1' && quotationDetails.quote_type == '3' ">
+                    <label>Quotation No</label>
+                    <input [(ngModel)]="quotationDetails.quote_no" id="quote_no" type="text" readonly
+                        placeholder="Quotation No" class="form-input" />
+                </div>
+                <div *ngIf="quotationDetails.verify == '3'|| quotationDetails.verify == '5'">
+                    <label class="label">Reason</label>
+                    <input nbInput fullWidth type="text" name="reason" [(ngModel)]="quotationDetails.reason"
+                        placeholder="Reason" class="form-input">
+                </div>
+                <div *ngIf="quotationDetails.verify==2">
+                    <label for="country">Appointment Type*</label>
+                    <ng-select [(ngModel)]="quotationDetails.apptm_group" placeholder="Appointment Type">
+                        <ng-option value="1">Normal</ng-option>
+                        <ng-option value="2">Campaign</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.verify==2">
+                    <label for="country">Appointment Date*</label>
+                    <ng2-flatpickr [config]="basic" placeholder="Appointment Date"
+                        [(ngModel)]="quotationDetails.dateField" addClass="form-input"
+                        (change)="changeTimeslots(quotationDetails.dateField)"></ng2-flatpickr>
+                </div>
+                <div *ngIf="quotationDetails.verify==2">
+                    <label for="name">Appointment Time*</label>
+                    <ng-select [items]="timeSlots" bindLabel="time_slots" [(ngModel)]="quotationDetails.appTime"
+                        bindValue="time_slots" [searchable]="true" [clearable]="true" placeholder="Appointment Time"
+                        class="custom-multiselect">
+                    </ng-select>
+                    <!-- <input type="time" placeholder="Appointment Time" [(ngModel)]="quotationDetails.appTime"
+                        class="form-input text-xs" maxlength="50" /> -->
+                </div>
+                <!-- <div *ngIf="quotationDetails.verify==2">
+                    <label for="name">Vehicle Model</label>
+                    <input type="text" placeholder="Vehicle Model" [(ngModel)]="quotationDetails.vehicle_model"
+                        class="form-input text-xs" maxlength="50" />
+                </div> -->
+                <div *ngIf="quotationDetails.verify==2">
+                    <label for="name">Reg No</label>
+                    <input type="text" placeholder="Reg No" [(ngModel)]="quotationDetails.reg_no"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="quotationDetails.verify==2">
+                    <label for="country">Assigned To*</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="quotationDetails.assigned"
+                        bindValue="us_id" [searchable]="false" [clearable]="false" placeholder="Select Staff"
+                        class="custom-multiselect">
+                    </ng-select>
+                </div>
+                <div *ngIf="quotationDetails.verify==2">
+                    <label for="name">Pickup & Drop Details*</label>
+                    <ng-select [(ngModel)]="quotationDetails.transportation_service"
+                        placeholder="Pick & Drop Requirement" [searchable]="false" [clearable]="false">
+                        <!-- <ng-option value="0">Pick & Drop Requirement</ng-option> -->
+                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                        <ng-option value="2">Pick Up Required</ng-option>
+                        <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option>
+                    </ng-select>
+                </div>
+                <!-- <div class="col-span-2">
+                    <label for="name">Customer Comment</label>
+                    <input type="text" placeholder="Remarks" [(ngModel)]="quotationDetails.Remarks" class="form-input"
+                        maxlength="250" />
+                </div> -->
+                <div class="ng-autocomplete col-span-2">
+                    <label for="name">Customer Comment</label>
+                    <ng-autocomplete [data]="notesList" [searchKeyword]="noteSearch" placeholder="Remarks"
+                        maxlength="250" [(ngModel)]="quotationDetails.Remarks" class="custom-multiselect"
+                        [itemTemplate]="itemTemplateCode" (keydown.enter)="preventDefault()">
+                    </ng-autocomplete>
+                </div>
+                <ng-template #itemTemplateCode let-item>
+                    <a [innerHTML]="item"></a>
+                </ng-template>
+            </div>
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center"
+                *ngIf="quotationDetails.lql_status!='2' && quotationDetails.lql_status!='5'&& quotationDetails.lql_status!='6'">
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <button type="button" class="btn btn-outline-success" size="small"
+                        (click)="Quoteupdate(quotationDetails)" style="float: right">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+            </div>
+            <div class="panel flex-1 p-0">
+                <ng-container>
+                    <div class="relative h-full pb-[68px]">
+                        <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                        <ng-scrollbar #scrollable
+                            class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                            visibility="native">
+                            <div class="space-y-5 p-4">
+                                <div class="flex items-start gap-3" *ngFor="let log of quoteLog">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                *ngIf="log.lql_status!='0' && log.lql_status!='1'"
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                {{ log.lql_activity }} by
+                                                <b>{{ log.user_assigned }}</b>
+                                            </div>
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                *ngIf="log.lql_status=='1' && log.qt_code != null "
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                ({{log.qt_code}})-{{ log.lql_activity }} by
+                                                <b>{{ log.user_assigned }}</b>
+                                            </div>
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                *ngIf="log.lql_status=='1' && log.qt_code == null"
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                ({{log.lql_code}})-{{ log.lql_activity }} by
+                                                <b>{{ log.user_assigned }}</b>
+                                            </div>
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                *ngIf="log.lql_status=='0'"
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                {{ log.lql_activity }}
+                                                <!-- by 
+                                                <b>{{ log.user_assigned }}</b> -->
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-white-dark rtl:text-left">
+                                            {{ log.c_date }},{{log.c_time}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-scrollbar>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>

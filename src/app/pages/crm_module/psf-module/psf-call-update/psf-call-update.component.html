@@ -1,0 +1,338 @@
+<div *ngIf="!load_flag">
+    <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-1 lg:grid-cols-1">
+        <div>
+            <table class="table-striped table-bordered table" style="margin-bottom: 0 !important">
+                <tbody style="font-size: 14px">
+                    <tr style="background-color: #fff">
+                        <td style="padding: 0.25rem">Customer</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.cus_name | titlecase }}</b>
+                        </td>
+                        <td style="padding: 0.25rem">Job Card</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.psfm_job_no }}</b>
+                        </td>
+                        <td style="padding: 0.25rem">PSF Date</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.psfm_psf_assign_date | date : 'MMM d, y' }}</b>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #fff">
+                        <td style="padding: 0.25rem">Vehicle</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.psfm_reg_no }}</b>
+                        </td>
+                        <td style="padding: 0.25rem">Invoice Date</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.psfm_invoice_date | date : 'MMM d, y' }}</b>
+                        </td>
+                        <td style="padding: 0.25rem">Total Job-cards</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.jobcount }}</b>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #fff">
+                        <td style="padding: 0.25rem">Model</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.model_name }}</b>
+                        </td>
+                        <td style="padding: 0.25rem">Service Advisor</td>
+                        <td style="padding: 0.25rem">
+                            <b>{{ psf_details.us_firstname }}</b>
+                        </td>
+                        <td style="padding: 0.25rem">Alternate Number</td>
+                        <td style="padding: 0.25rem">
+                            <b *ngIf="psf_details.contact_phone != null">{{ psf_details.contact_phone }}</b>
+                            <b *ngIf="psf_details.contact_phone == null">NIL</b>
+                        </td>
+                    </tr>
+                    <tr style=" background-color: #00ab55; color: #fff; ">
+                        <td style="padding: 0.25rem" colspan="2">Response In Whatsapp Feedback</td>
+                        <td style="padding: 0.25rem" colspan="4" *ngIf="this.psf_details.wb_response!=null"><b>{{ this.psf_details.wb_response.pst_task }}</b></td>
+                        <td style="padding: 0.25rem" colspan="4" *ngIf="this.psf_details.wb_response==null">Not Responded</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div
+    class="mb-5 flex flex-col gap-5 md:flex-row md:items-center"
+    *ngIf="is_wipjobcard"
+    style="width: 100%; /* position: absolute; */ background: #f08484b0; z-index: 100; height: 100%"
+>
+    <h5 style="width: 100%; text-align: center; font-size: 22px; font-weight: bold">Customer vehicle is under service</h5>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</div>
+<div *ngIf="is_wipjobcard == false && !load_flag">
+    <div *ngFor="let calldata of callData; let i = index">
+        <ng-container *ngIf="calldata.call_disabled == 0">
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-2">
+                <hr style="margin: 0" />
+            </div>
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-2">
+                <span
+                    ><b>Attempt {{ i + 1 }}</b></span
+                >
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-5" style="background: #eee; padding: 5px">
+                <div>
+                    <label>Call Date</label>
+                    <input id="call_date" type="date" placeholder="Start Date" name="call_date" class="form-input" [(ngModel)]="calldata.call_date" readonly />
+                </div>
+                <div>
+                    <label>Customer Response</label>
+                    <input
+                        [(ngModel)]="calldata.call_response_text"
+                        type="text"
+                        placeholder="Remarks based on customer response"
+                        maxlength="200"
+                        class="form-input"
+                        readonly
+                    />
+                </div>
+                <div *ngIf="calldata.show_reason">
+                    <label>Response Reason</label>
+                    <input
+                        id="response_reason"
+                        type="text"
+                        [(ngModel)]="calldata.call_reason_text"
+                        placeholder="Remarks based on customer response"
+                        class="form-input"
+                        maxlength="100"
+                        readonly
+                    />
+                </div>
+                <div *ngIf="calldata.call_response == '5'" class="col-span-2">
+                    <label>Further Action</label>
+                    <ng-select
+                        fullWidth
+                        class="tiny-select"
+                        [items]="action"
+                        bindLabel="name"
+                        bindValue="value"
+                        [(ngModel)]="calldata.call_action"
+                        [searchable]="false"
+                        [clearable]="false"
+                        placeholder="Choose Further Action"
+                        class="custom-multiselect"
+                    >
+                    </ng-select>
+                </div>
+                <div *ngIf="calldata.call_action == '1'">
+                    <label>Transfer to</label>
+                    <!-- <ng-select fullWidth   >
+                        <ng-option value="0">Select Assignee</ng-option>
+                        <ng-option *ngFor="let assigne of userList" 
+                    </ng-select> -->
+                    <ng-select
+                        class="tiny-select"
+                        id="call_transfer_to"
+                        [items]="userList"
+                        bindLabel="us_firstname"
+                        bindValue="us_id"
+                        [searchable]="true"
+                        [clearable]="true"
+                        placeholder="Select Staff"
+                        class="custom-multiselect"
+                        [(ngModel)]="calldata.call_transfer_to"
+                    >
+                    </ng-select>
+                </div>
+                <div class="col-span-2">
+                    <label>Customer Remarks</label>
+                    <input
+                        [(ngModel)]="calldata.call_remark"
+                        id="call_remark"
+                        type="text"
+                        placeholder="Remarks based on customer response"
+                        maxlength="200"
+                        class="form-input"
+                        readonly
+                    />
+                </div>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+        </ng-container>
+        <ng-container *ngIf="calldata.call_disabled == 1">
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-2" style="align-items: center">
+                <div>
+                    <h3 class="m-0 dark:text-white-dark" style="font-weight: 900">Attempt {{ i + 1 }}</h3>
+                </div>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-5">
+                <div>
+                    <label>Call Date</label>
+                    <input id="call_date" type="date" [(ngModel)]="calldata.call_date" placeholder="Start Date" class="form-input" />
+                </div>
+                <div>
+                    <label>Customer Response</label>
+                    <ng-select
+                        [items]="psfResponse"
+                        bindLabel="rm_name"
+                        bindValue="rm_id"
+                        [(ngModel)]="calldata.call_response"
+                        [searchable]="false"
+                        [clearable]="false"
+                        placeholder="Select Response"
+                        class="custom-multiselect"
+                        (change)="updateResponseChange(calldata, calldata.call_response)"
+                    >
+                    </ng-select>
+                </div>
+                <div class="col-span-2" *ngIf="calldata.show_reason">
+                    <label>Response Reason</label>
+                    <!-- <ng-select fullWidth class="tiny-select" [(ngModel)]="calldata.call_reason" id="call_reason"
+                        (change)="updateReasonChange(calldata, calldata.call_reason)">
+                        <ng-option value="0">Select Response Reason</ng-option>
+                        <ng-option value="{{ reason_master.psfr_id }}" *ngFor="let reason_master of psfReason">{{
+                            reason_master.psfr_name | titlecase }}</ng-option>
+                    </ng-select> -->
+                    <ng-select
+                        [items]="psfReason"
+                        bindLabel="psfr_name"
+                        bindValue="psfr_id"
+                        [(ngModel)]="calldata.call_reason"
+                        [searchable]="false"
+                        [clearable]="false"
+                        placeholder="Select Response Reason"
+                        class="custom-multiselect"
+                        (change)="updateReasonChange(calldata, calldata.call_reason)"
+                    >
+                    </ng-select>
+                </div>
+                <div *ngIf="calldata.call_response == '5'">
+                    <label>Further Action</label>
+                    <ng-select
+                        fullWidth
+                        class="tiny-select"
+                        [items]="action"
+                        bindLabel="name"
+                        (change)="updateActionChange(calldata, calldata.call_action)"
+                        bindValue="value"
+                        [(ngModel)]="calldata.call_action"
+                        [searchable]="false"
+                        [clearable]="false"
+                        placeholder="Choose Further Action"
+                        class="custom-multiselect"
+                    >
+                    </ng-select>
+                    <!-- <ng-select fullWidth class="tiny-select" [(ngModel)]="calldata.call_action" name="call_action"
+                        (change)="updateActionChange(calldata, calldata.call_action)">
+                        <ng-option value="0">Choose Further Action</ng-option>
+                        <ng-option value="1">Transfer the call</ng-option>
+                        <ng-option value="2">Educated & Closed</ng-option>
+                        <ng-option value="3">Closed with approval</ng-option>
+                        <ng-option value="4">Revisit Requested</ng-option>
+                        <ng-option value="5">Apology over phone/mail</ng-option>
+                    </ng-select> -->
+                </div>
+                <div *ngIf="calldata.call_action == '1'">
+                    <label>Transfer to</label>
+                    <ng-select
+                        fullWidth
+                        class="tiny-select"
+                        [items]="specialUsers"
+                        bindLabel="us_firstname"
+                        bindValue="us_id"
+                        [(ngModel)]="calldata.call_transfer_to"
+                        [searchable]="false"
+                        [clearable]="false"
+                        placeholder="Select Assignee"
+                        class="custom-multiselect"
+                    >
+                    </ng-select>
+                    <!-- <ng-select fullWidth class="tiny-select" [(ngModel)]="calldata.call_transfer_to" name="call_transfer_to">
+                        <ng-option value="0">Select Assignee</ng-option>
+                        <ng-option *ngFor="let users of specialUsers" value="{{ users.us_id }}">{{ users.us_firstname }}({{
+                            users.role_name }})</ng-option>
+                    </ng-select> -->
+                </div>
+                <div class="col-span-2">
+                    <label>Customer Remarks</label>
+                    <input
+                        [(ngModel)]="calldata.call_remark"
+                        name="call_remark"
+                        type="text"
+                        placeholder="Remarks based on customer response"
+                        maxlength="200"
+                        class="form-input"
+                    />
+                </div>
+            </div>
+            <div *ngIf="calldata.call_response == '8'">
+                <!-- <nb-checkbox status="success" [(ngModel)]="calldata.call_close_status" name="br_monday">Close this
+                    Call</nb-checkbox> -->
+                <input type="checkbox" [(ngModel)]="calldata.call_close_status" class="form-checkbox" />
+                <span>Close this Call</span>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+        </ng-container>
+        <ng-container *ngIf="calldata.call_disabled == 2">
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-2" style="align-items: center">
+                <div>
+                    <h3 class="m-0 dark:text-white-dark" style="font-weight: 900">Attempt {{ i + 1 }}</h3>
+                </div>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-5" style="background: #eee; padding: 5px">
+                <div>
+                    <label>Call Date</label>
+                    <input placeholder="Start Date" id="call_date" class="form-input" [(ngModel)]="calldata.call_date" readonly />
+                </div>
+                <div>
+                    <label>Customer Response</label>
+                    <ng-select
+                        fullWidth
+                        class="tiny-select"
+                        [(ngModel)]="calldata.call_response"
+                        id="call_response"
+                        [disabled]="true"
+                        (change)="updateResponseChange(calldata, calldata.call_response)"
+                    >
+                        <ng-option value="0">Select Response</ng-option>
+                        <ng-option value="{{ resp_master.rm_id }}" *ngFor="let resp_master of psfResponse">{{ resp_master.rm_name | titlecase }}</ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-span-2">
+                    <label>Customer Remarks</label>
+                    <input
+                        [(ngModel)]="calldata.call_remark"
+                        id="call_remark"
+                        type="text"
+                        placeholder="Remarks based on customer response"
+                        maxlength="200"
+                        class="form-input"
+                        [disabled]="true"
+                        readonly
+                    />
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+<div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center" *ngIf="!load_flag">
+    <button class="btn btn-danger" style="float: left" (click)="modalEvent.emit(false)">DISMISS</button>
+    <div *ngIf="is_wipjobcard">
+        <input type="checkbox" [(ngModel)]="isChecked" class="form-checkbox" />
+        <span>Close this Call</span>
+    </div>
+    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+        <button type="button" class="btn btn-success" size="small" (click)="updatePSFCall()" style="float: right">Update</button>
+    </div>
+</div>
+<div *ngIf="load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+    ></span>
+</div>

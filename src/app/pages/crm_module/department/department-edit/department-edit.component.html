@@ -1,0 +1,112 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Admin Settings</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/admin_staff/departments/list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Department List</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Department Edit</a
+        >
+    </li>
+</ol>
+<div style="margin-top: 1.6rem" class="panel">
+    <div class="mb-5">
+        <form [formGroup]="deptForm" novalidate>
+            <h6 class="mb-5 text-lg font-bold">Department Details Update</h6>
+            <div class="grid grid-cols-1 gap-2 md:grid-cols-4 lg:grid-cols-4" *ngIf="!data_load_flag">
+                <div [ngClass]="deptForm.controls['dept_name'].touched ? (deptForm.controls['dept_name'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="dept_name">Department Name*</label>
+                    <input id="dept_name" type="text" formControlName="dept_name" placeholder="Department Name" class="form-input" maxlength="50" />
+                    <ng-container *ngIf="deptForm.controls['dept_name'].touched && deptForm.controls['dept_name'].errors">
+                        <p class="mt-1 text-danger">Please enter valid department name</p>
+                    </ng-container>
+                </div>
+                <div class="col-span-2" [ngClass]="deptForm.controls['dept_desc'].touched ? (deptForm.controls['dept_desc'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="dept_desc">Department Description</label>
+                    <input id="dept_desc" type="text" formControlName="dept_desc" placeholder="Department Description" class="form-input" maxlength="100" />
+                    <ng-container *ngIf="deptForm.controls['dept_desc'].touched && deptForm.controls['dept_desc'].errors">
+                        <p class="mt-1 text-danger">Please enter valid description</p>
+                    </ng-container>
+                </div>
+                <div>
+                    <label for="rdesc">Trunk List</label>
+                    <ng-select
+                        placeholder="Select Department"
+                        [searchable]="true"
+                        [clearable]="false"
+                        [multiple]="true"
+                        class="custom-multiselect"
+                        formControlName="trunk"
+                        [compareWith]="compareById"
+                    >
+                        <ng-option *ngFor="let option of trunkList" value="{{ option.name }}">{{ option.name }}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div *ngIf="!data_load_flag" style="margin-top: 1rem"><h5>Features Allowed</h5></div>
+            <div *ngIf="!data_load_flag" class="grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3" style="margin-top: 1rem">
+                <div *ngFor="let feature of featureData">
+                    <label class="inline-flex cursor-pointer">
+                        <input
+                            type="checkbox"
+                            [(ngModel)]="feature.checked"
+                            class="form-checkbox"
+                            [ngModelOptions]="{ standalone: true }"
+                            (change)="eventCheck($event, feature.ft_id)"
+                        />
+                        <span class="text-white-dark">{{ feature.ft_name }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <div *ngIf="data_load_flag" style="text-align: center">
+                <span
+                    class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+                ></span>
+            </div>
+            <div style="display: flex; justify-content: flex-end">
+                <button *ngIf="!data_submit_flag" type="submit" class="btn btn-primary" (click)="updateDepartmentDetails()">SUBMIT</button>
+                <button *ngIf="data_submit_flag" type="button" class="btn btn-primary">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2"
+                    >
+                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                    </svg>
+                    SAVING
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

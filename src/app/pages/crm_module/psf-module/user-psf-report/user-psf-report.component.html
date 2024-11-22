@@ -1,0 +1,545 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/psfadminreport"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-[#ebedf2] hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pr-3 rtl:pl-2 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">PSF
+            3rd CALL REPORT</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-primary ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pr-6 rtl:pl-2 rtl:before:-left-[15px] rtl:before:rotate-180">
+            PSF Call Report</a>
+    </li>
+</ol>
+<div class="panel mt-5 pb-0" *ngIf="userpsf_details">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center" style="justify-content: center;">
+        <h6 class="text-lg font-semibold dark:text-white-light">
+            PSF Call Report -{{ userpsf_details.us_firstname }}</h6>
+        <!-- <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <div class="flex-1 md:flex-auto">
+                <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search" />
+            </div>
+        </div> -->
+    </div>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4 mb-5" *ngIf="!load_flag">
+        <div class="col-span-2" *ngIf="userpsf_details.us_role_id == 11 || userpsf_details.us_role_id == 2">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table table-striped table-bordered" style="margin-bottom: 0 !important">
+                    <tbody style="font-size: 14px">
+                        <tr>
+                            <td style="text-align: center; padding: 0.5% ;background-color: #930000; color: #fff"
+                                colspan="3">
+                                <b>User Wise Statistics</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%; width: 60% ;background-color: #fff">Expired %</td>
+                            <td style="
+                        padding: 1%;
+                        text-align: center;
+                        color: red;
+                        width: 19.9%;background-color: #fff;
+                      ">
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+                                    (userpsf_details.expired_psf_calls /
+                                    userpsf_details.total_calls) *
+                                    100 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                            <td rowspan="4" style="text-align: center; padding-top: 10%;background-color: #fff;">
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">100%</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%;background-color: #fff;">Non Contactable %</td>
+                            <td style="padding: 1%; text-align: center; color: red;background-color: #fff">
+                               
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+                                    (userpsf_details.non_contactable /
+                                    userpsf_details.total_calls) *
+                                    100 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%;background-color: #fff">Incomplete %</td>
+                            <td style="padding: 1%; text-align: center; color: orange;background-color: #fff">
+                               
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+                                    (userpsf_details.incomplete_calls /
+                                    userpsf_details.total_calls) *
+                                    100 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%;background-color: #fff">Contacted %</td>
+                            <td style="padding: 1%; text-align: center; color: green;background-color: #fff">
+                               
+                               <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+                                    ((userpsf_details.ext_satisfied +
+                                    userpsf_details.fairlyHappy_psf_calls +
+                                    userpsf_details.happy_psf_calls +
+                                    userpsf_details.dissatisfied_psf_calls) /
+                                    userpsf_details.total_calls) *
+                                    100 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table class="table table-striped table-bordered" style="margin-bottom: 0 !important">
+                    <tbody style="font-size: 14px">
+                        <tr>
+                            <td style="padding: 1%; width: 60%; color: #e25300;background-color: #fff">
+                                Ext Satisfied %
+                            </td>
+                            <td style="
+                        padding: 1%;
+                        text-align: center;
+                        color: red;
+                        width: 19.9%;background-color: #fff;
+                      ">
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">
+                                    {{
+                                    (userpsf_details.ext_satisfied /
+                                    (userpsf_details.ext_satisfied +
+                                    userpsf_details.fairlyHappy_psf_calls +
+                                    userpsf_details.happy_psf_calls +
+                                    userpsf_details.dissatisfied_psf_calls)) *
+                                    100 || 0 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                            <td rowspan="4" style="text-align: center; padding-top: 10%;background-color: #fff">
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">100%</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%; width: 60%; color: #e25300;background-color: #fff;">
+                                Fairly Satisfied %
+                            </td>
+                            <td style="padding: 1%; text-align: center; color: red;background-color: #fff">
+                                
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">
+                                    {{(userpsf_details.fairlyHappy_psf_calls /
+                                    (userpsf_details.ext_satisfied +
+                                    userpsf_details.fairlyHappy_psf_calls +
+                                    userpsf_details.happy_psf_calls +
+                                    userpsf_details.dissatisfied_psf_calls)) *
+                                    100 || 0 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%; width: 60%; color: #e25300;background-color: #fff">
+                                Satisfied %
+                            </td>
+                            <td style="padding: 1%; text-align: center; color: red;background-color: #fff">
+                                
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">
+                                    {{
+                                    (userpsf_details.happy_psf_calls /
+                                    (userpsf_details.ext_satisfied +
+                                    userpsf_details.fairlyHappy_psf_calls +
+                                    userpsf_details.happy_psf_calls +
+                                    userpsf_details.dissatisfied_psf_calls)) *
+                                    100 || 0 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1%; width: 60%; color: #e25300;background-color: #fff;">
+                                Dissatisfied %
+                            </td>
+                            <td style="padding: 1%; text-align: center; color: red;background-color: #fff;">
+                              
+                               <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+                                    (userpsf_details.dissatisfied_psf_calls /
+                                    (userpsf_details.ext_satisfied +
+                                    userpsf_details.fairlyHappy_psf_calls +
+                                    userpsf_details.happy_psf_calls +
+                                    userpsf_details.dissatisfied_psf_calls)) *
+                                    100 || 0 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center; padding: 0.5%;background-color: yellow">
+                                <b>Customer Satisfaction Index(CSI)</b>
+                            </td>
+                            <td style="text-align: center; padding: 0.5%;background-color: yellow" colspan="2">
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+                                    ((userpsf_details.ext_satisfied * 5 +
+                                    userpsf_details.fairlyHappy_psf_calls * 4 +
+                                    userpsf_details.happy_psf_calls * 3 -
+                                    userpsf_details.dissatisfied_psf_calls * 5) /
+                                    ((userpsf_details.ext_satisfied +
+                                    userpsf_details.fairlyHappy_psf_calls +
+                                    userpsf_details.happy_psf_calls +
+                                    userpsf_details.dissatisfied_psf_calls) *
+                                    5)) *
+                                    100 || 0 | number : "1.2-2"
+                                    }}
+                                    %</b>
+                                <b *ngIf="userpsf_details.total_psf_calls == 0">0%</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-span-2" *ngIf="userpsf_details.us_role_id == 11 || userpsf_details.us_role_id == 2 ">
+            <div *ngIf="psfsagraph">
+                <apx-chart [series]="donutChart.series" [chart]="donutChart.chart" [stroke]="donutChart.stroke"
+                    [labels]="donutChart.labels" [colors]="donutChart.colors" [legend]="donutChart.legend"
+                    class="rounded-lg bg-white dark:bg-black">
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-right" *ngIf="!load_flag">
+        <div class="flex items-rigth gap-5 ltr:ml-auto rtl:mr-auto">
+            <div class="flex-1 md:flex-auto">
+                <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search" />
+            </div>
+        </div>
+    </div>
+    <div class="datatable" *ngIf="!load_flag">
+        <ng-datatable [rows]="userpsf_details?.user_psf_calls" [columns]="cols" [search]="search" [sortable]="true"
+            skin="whitespace-nowrap table-hover bh-table-compact"
+            firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+            previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+            <ng-template slot="customer_name" let-value="data">
+                <strong class="text-info">{{ value.customer_name | titlecase }}</strong>
+            </ng-template>
+            <ng-template slot="phone" let-value="data">
+                <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}"
+                    [tippyProps]="{ theme: 'info' }">
+                    ****{{ value.phone | slice : -6 }}
+                </button>
+            </ng-template>
+            <ng-template slot="psfm_job_no" let-value="data">
+                <strong class="text-primary"> {{ value.psfm_job_no }}</strong>
+            </ng-template>
+            <ng-template slot="lastsa_response" let-value="data">
+                <span class="badge bg-danger"
+                    *ngIf="value.lastsa_response == 'NIL'|| value.lastsa_response == null">NIL</span>
+                <span class="badge badge-outline-danger" *ngIf="value.lastsa_response == 'CLOSED INCOMPLETE'">CLOSED
+                    INCOMPLETE</span>
+                <span class="badge badge-outline-danger" *ngIf="value.lastsa_response == 'PENDING'">PENDING</span>
+                <span class="badge badge-outline-success" *ngIf="value.lastsa_response == 'EXTREMLY HAPPY'">EXTREMLY
+                    HAPPY</span>
+                <span class="badge badge-outline-warning" *ngIf="value.lastsa_response == 'NOT ANSWERING'">NOT
+                    ANSWERING</span>
+                <span class="badge badge-outline-danger"
+                    *ngIf="value.lastsa_response == 'DISSATISFIED'">DISSATISFIED</span>
+                <span class="badge badge-outline-primary" *ngIf="value.lastsa_response == 'PSF NOT APPLICABLE'">PSF NOT
+                    APPLICABLE</span>
+                <span class="badge badge-outline-info" *ngIf="value.lastsa_response == 'FAIRLY HAPPY'">FAIRLY
+                    HAPPY</span>
+                <span class="badge badge-outline-info" *ngIf="value.lastsa_response == 'HAPPY'">HAPPY</span>
+            </ng-template>
+            <ng-template slot="lastcre_response" let-value="data">
+                <span class="badge bg-danger"
+                    *ngIf="value.lastcre_response == 'NIL'|| value.lastcre_response == null">NIL</span>
+                <span class="badge badge-outline-danger" *ngIf="value.lastcre_response == 'CLOSED INCOMPLETE'">CLOSED
+                    INCOMPLETE</span>
+                <span class="badge badge-outline-danger" *ngIf="value.lastcre_response == 'PENDING'">PENDING</span>
+                <span class="badge badge-outline-success" *ngIf="value.lastcre_response == 'EXTREMLY HAPPY'">EXTREMLY
+                    HAPPY</span>
+                <span class="badge badge-outline-warning" *ngIf="value.lastcre_response == 'NOT ANSWERING'">NOT
+                    ANSWERING</span>
+                <span class="badge badge-outline-danger"
+                    *ngIf="value.lastcre_response == 'DISSATISFIED'">DISSATISFIED</span>
+                <span class="badge badge-outline-primary" *ngIf="value.lastcre_response == 'PSF NOT APPLICABLE'">PSF NOT
+                    APPLICABLE</span>
+                <span class="badge badge-outline-info" *ngIf="value.lastcre_response == 'FAIRLY HAPPY'">FAIRLY
+                    HAPPY</span>
+            </ng-template>
+            <ng-template slot="psfm_sa_rating" let-value="data">
+                <div class="flex items-center justify-center text-warning">
+                    <ng-container *ngIf="value.psfm_sa_rating == 'NIL' || value.psfm_sa_rating == null">
+                        <span class="badge bg-danger">NIL</span>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_sa_rating == '1'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-danger">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_sa_rating == '2'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_sa_rating == '3'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_sa_rating == '4'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_sa_rating == '5'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                </div>
+            </ng-template>
+            <ng-template slot="psfm_cre_rating" let-value="data">
+                <div class="flex items-center justify-center text-warning">
+                    <ng-container *ngIf="value.psfm_cre_rating == 'NIL' || value.psfm_cre_rating == null">
+                        <span class="badge bg-danger">NIL</span>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_cre_rating == '1'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-danger">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_cre_rating == '2'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_cre_rating == '3'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_cre_rating == '4'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                    <ng-container *ngIf="value.psfm_cre_rating == '5'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 fill-warning">
+                            <path
+                                d="M12 2L14.7364 8.68179L22 9.81818L16 15.0909L17.4727 22L12 18.5455L6.52734 22L8 15.0909L2 9.81818L9.2636 8.68179L12 2Z"
+                                stroke="currentColor" stroke-width="1.5"></path>
+                        </svg>
+                    </ng-container>
+                </div>
+            </ng-template>
+            <ng-template slot="sa_status" let-value="data">
+                <span class="badge badge-outline-primary" *ngIf="value.sa_status == 'OPEN'">OPEN</span>
+                <span class="badge badge-outline-warning" *ngIf="value.sa_status == 'PENDING'">PENDING</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.sa_status == 'TRANSFERRED'">TRANSFERRED</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.sa_status == 'REVISIT'">REVISIT</span>
+                <span class="badge badge-outline-danger" *ngIf="value.sa_status == 'CLOSED'">CLOSED</span>
+                <span class="badge badge-outline-info" *ngIf="value.sa_status == 'UNREACHABLE'">UNREACHABLE</span>
+                <span class="badge badge-outline-success" *ngIf="value.sa_status == 'COMPLETED'">COMPLETED</span>
+                <span class="badge badge-outline-info" *ngIf="value.sa_status == 'WIP'">WIP</span>
+            </ng-template>
+            <ng-template slot="cre_status" let-value="data">
+                <span class="badge badge-outline-primary" *ngIf="value.cre_status == 'OPEN'">OPEN</span>
+                <span class="badge badge-outline-warning" *ngIf="value.cre_status == 'PENDING'">PENDING</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.cre_status == 'TRANSFERRED'">TRANSFERRED</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.cre_status == 'REVISIT'">REVISIT</span>
+                <span class="badge badge-outline-danger" *ngIf="value.cre_status == 'CLOSED'">CLOSED</span>
+                <span class="badge badge-outline-info" *ngIf="value.cre_status == 'UNREACHABLE'">UNREACHABLE</span>
+                <span class="badge badge-outline-success" *ngIf="value.cre_status == 'COMPLETED'">COMPLETED</span>
+            </ng-template>
+            <ng-template slot="Action" let-value="data">
+                <button type="button" class="btn btn-primary" ngxTippy="Call Details"
+                    (click)="getPsfCallList(value.psfm_id)">Call Details</button>
+            </ng-template>
+        </ng-datatable>
+    </div>
+    <modal #psfcallhistory class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+        [closeOnOutsideClick]="false" style="max-width: 90vw;">
+        <ng-template #modalHeader>
+            <div style=" align-items: center; display: flex; ">
+                PSF CALL HISTORY
+            </div>
+        </ng-template>
+        <ng-template #modalBody>
+            <app-psf-call-history [oldcalldata]="oldCallData"></app-psf-call-history>
+        </ng-template>
+        <ng-template #modalFooter>
+            <button type="button" (click)="psfcallhistoryModal()" class="btn btn-outline-danger">DISMISS</button>
+        </ng-template>
+    </modal>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>
+<!-- <div *ngIf="load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+</div> -->

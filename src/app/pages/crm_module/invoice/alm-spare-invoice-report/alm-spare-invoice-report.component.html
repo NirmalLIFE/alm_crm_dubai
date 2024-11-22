@@ -1,0 +1,589 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            MIS</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            ALM Spare Invoice Report</a>
+    </li>
+</ol>
+<div class="panel mb-5 mt-5">
+    <div class="flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">Al Maraghi Spare Invoice Report</h5>
+    </div>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 1%; margin-bottom: 1%" />
+
+    <div class="grid grid-cols-4 gap-4 sm:grid-cols-4">
+        <div>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark" *ngIf="!isChecked">Bill Date
+                Start</label>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark" *ngIf="isChecked">Post Invoice Date
+                Start</label>
+            <input type="date" [(ngModel)]="bill_date_start" class="form-input" ngxTippy="Bill Date Start"
+                (change)="resetFields(1)" placeholder="Bill Date" />
+        </div>
+        <div>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark" *ngIf="!isChecked">Bill Date End</label>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark" *ngIf="isChecked">Post Invoice Date
+                End</label>
+            <input type="date" [(ngModel)]="bill_date_end" class="form-input" ngxTippy="Bill Date End"
+                (change)="resetFields(1)" placeholder="Bill Date" />
+        </div>
+        <div>
+            <label for="jobcard" class="small_label_text m-0 dark:text-white-dark">Supplier</label>
+            <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                placeholder="Select Supplier" [(ngModel)]="selectedSupplier" ngxTippy="Select Supplier"
+                (change)="resetFields(2)">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="{{ items.ss_id }}" *ngFor="let items of suppliersList">{{ items.ss_name
+                    }}</ng-option>
+            </ng-select>
+        </div>
+        <div>
+            <label for="jobcard" class="small_label_text m-0 dark:text-white-dark">Purchase Type</label>
+            <ng-select [searchable]="false" [clearable]="false" class="custom-multiselect"
+                placeholder="Select Purchase Type" [(ngModel)]="purchaseType" [ngModelOptions]="{ standalone: true }"
+                ngxTippy="Invoice Purchase Type" (change)="resetFields(3)">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="1">Credit</ng-option>
+                <ng-option value="2">Cash</ng-option>
+            </ng-select>
+        </div>
+        <div>
+            <label for="jobcard" class="small_label_text m-0 dark:text-white-dark">Type<span
+                    style="font-size: 12px; color: grey;">(Consumables,General,Normal)</span></label>
+            <ng-select [searchable]="false" [clearable]="false" class="custom-multiselect" placeholder="Select Type"
+                [(ngModel)]="type" [ngModelOptions]="{ standalone: true }" ngxTippy="(Consumables,General,Normal)"
+                (change)="resetFields(4)">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="1">Consumables</ng-option>
+                <ng-option value="2">General</ng-option>
+                <ng-option value="3">Normal</ng-option>
+            </ng-select>
+        </div>
+        <div>
+            <label for="jobcard" class="small_label_text m-0 dark:text-white-dark">Service Advisor</label>
+            <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                placeholder="Select Service Advisor" [(ngModel)]="selectedSA" ngxTippy="Select Service Advisor"
+                (change)="resetFields(5)">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="{{ items.us_laabs_id }}" *ngFor="let items of userlist">{{
+                    items.us_firstname}}</ng-option>
+            </ng-select>
+        </div>
+        <div>
+            <label for="jobcard" class="small_label_text m-0 dark:text-white-dark">Job Card</label>
+            <ng-select [searchable]="false" [clearable]="false" class="custom-multiselect"
+                placeholder="Select Job Card Status" [(ngModel)]="jbcardStatus" [ngModelOptions]="{ standalone: true }"
+                ngxTippy="Select Job Card Status">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="OPN">OPN</ng-option>
+                <ng-option value="WIP">WIP</ng-option>
+                <ng-option value="COMP">COMP</ng-option>
+                <ng-option value="INV">INV</ng-option>
+                <ng-option value="CAN">CAN</ng-option>
+                <ng-option value="CLO">CLO</ng-option>
+                <ng-option value="SUS">SUS</ng-option>
+                <ng-option value="TST">TST</ng-option>
+
+            </ng-select>
+        </div>
+        <div>
+            <label for="name" class="small_label_text m-0 dark:text-white-dark" style="color: white;">.</label>
+            <button type="button" (click)="getTotalInvoices();" class="btn btn-outline-primary">SEARCH</button>
+        </div>
+        <div>
+            <label class="inline-flex mt-3" style="float: left;">
+                <span class="peer-checked:text-info mr-1">Post Invoice Date</span>
+                <label class="w-12 h-6 relative">
+                    <input type="checkbox"
+                        class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                        id="custom_switch_checkbox2" [(ngModel)]="isChecked"
+                        (change)="checkValue(isChecked ? true : false)" />
+                    <span for="custom_switch_checkbox2"
+                        class="outline_checkbox bg-icon border-2 border-[#ebedf2] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#ebedf2] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                </label>
+            </label>
+        </div>
+        <div></div>
+        <div></div>
+        <div> <button type="button" class="btn btn-secondary " (click)="refresh()" style="float: right;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M15.9775 8.71452L15.5355 8.2621C13.5829 6.26318 10.4171 6.26318 8.46447 8.2621C6.51184 10.261 6.51184 13.5019 8.46447 15.5008C10.4171 17.4997 13.5829 17.4997 15.5355 15.5008C16.671 14.3384 17.1462 12.7559 16.9611 11.242M15.9775 8.71452H13.3258M15.9775 8.71452V6"
+                        stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                        d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+                        stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Reset
+            </button></div>
+    </div>
+</div>
+<div class="panel mb-5 mt-5 pb-5">
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <div class="flex flex-col sm:flex-row ng-star-inserted" *ngIf="!load_flag">
+        <div class="ltr:sm:mr-4 rtl:sm:ml-4">
+            <div class="max-w-[18rem] w-full shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none p-5"
+                style=" background: linear-gradient(to right, #AA076B, #61045F );">
+                <div class="text-black-light" style="text-align: -webkit-center;">
+                    <br>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M2 14C2 10.2288 2 8.34315 3.17157 7.17157C4.34315 6 6.22876 6 10 6H14C17.7712 6 19.6569 6 20.8284 7.17157C22 8.34315 22 10.2288 22 14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14Z"
+                            stroke="#ffffff" stroke-width="1.5" />
+                        <path
+                            d="M16 6C16 4.11438 16 3.17157 15.4142 2.58579C14.8284 2 13.8856 2 12 2C10.1144 2 9.17157 2 8.58579 2.58579C8 3.17157 8 4.11438 8 6"
+                            stroke="#ffffff" stroke-width="1.5" />
+                        <path
+                            d="M12 17.3333C13.1046 17.3333 14 16.5871 14 15.6667C14 14.7462 13.1046 14 12 14C10.8954 14 10 13.2538 10 12.3333C10 11.4129 10.8954 10.6667 12 10.6667M12 17.3333C10.8954 17.3333 10 16.5871 10 15.6667M12 17.3333V18M12 10V10.6667M12 10.6667C13.1046 10.6667 14 11.4129 14 12.3333"
+                            stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                    <br>
+                    <h5 class="text-white text-[15px] font-semibold mb-2">TOTAL BILLS</h5>
+                    <p *ngIf="inv_list">{{inv_list.length}} - (AED {{total_inv_cost}})</p>
+                    <p *ngIf="!inv_list">0 - (AED 0)</p>
+                    <p>GP - {{totalGP | number: "1.2-2"}}% (AED {{totalGP_amount | number: "1.2-2"}})</p>
+                    <br>
+                    <h5 class="text-white text-[15px] font-semibold mb-2">BILL WITH JOBCARD</h5>
+                    <p *ngIf="inv_list_with_jobcard">{{inv_list_with_jobcard.length}} - ( AED {{total_inv_cost -
+                        total_inv_cost_without_jobcard}})</p>
+                    <p>GP - {{totalGP_with_Job_Card.totalGP_with_Job_Card | number: "1.2-2"}}%
+                        (AED {{totalGP_amount_with_Job_Card.totalGP_amount_with_Job_Card | number: "1.2-2"}})</p>
+                    <br>
+                    <h5 class="text-white text-[15px] font-semibold mb-2">BILL WITHOUT JOBCARD</h5>
+                    <p *ngIf="inv_list_without_jobcard">{{inv_list_without_jobcard.length}} - (AED
+                        {{total_inv_cost_without_jobcard}})</p>
+                    <p>GP - {{totalGP_without_Job_Card | number: "1.2-2"}}% (AED {{totalGP_amount_without_Job_Card |
+                        number: "1.2-2"}})</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="grid flex-1 grid-cols-3 gap-2 sm:grid-cols-3">
+            <div style=" background: linear-gradient(to right, #3C3B3F, #605C3C );"
+                class="max-w-[30rem] w-full shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18 6.10156C19.3001 6.22944 20.1752 6.51846 20.8284 7.17164C22 8.34322 22 10.2288 22 14.0001C22 17.7713 22 19.6569 20.8284 20.8285C19.6569 22.0001 17.7712 22.0001 14 22.0001H10C6.22876 22.0001 4.34315 22.0001 3.17157 20.8285C2 19.6569 2 17.7713 2 14.0001C2 10.2288 2 8.34322 3.17157 7.17164C3.82475 6.51846 4.69989 6.22944 6 6.10156"
+                                stroke="#ffffff" stroke-width="1.5" />
+                            <path d="M10 6H14" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M11 9H13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M8.1589 11.7991L7.43926 11.1994C6.73152 10.6096 6.37764 10.3147 6.18882 9.91156C6 9.50842 6 9.04778 6 8.1265V7C6 4.64298 6 3.46447 6.73223 2.73223C7.46447 2 8.64298 2 11 2H13C15.357 2 16.5355 2 17.2678 2.73223C18 3.46447 18 4.64298 18 7V8.1265C18 9.04778 18 9.50842 17.8112 9.91156C17.6224 10.3147 17.2685 10.6096 16.5607 11.1994L15.8411 11.7991C14.0045 13.3296 13.0861 14.0949 12 14.0949C10.9139 14.0949 9.99553 13.3296 8.1589 11.7991Z"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M6 10L8.1589 11.7991C9.99553 13.3296 10.9139 14.0949 12 14.0949C13.0861 14.0949 14.0045 13.3296 15.8411 11.7991L18 10"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            Open({{open_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{open_jobcard.length}} -(AED {{open_jobcardGrandTotal}})</p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_open_jobcard | number:
+                            "1.2-2"}}% (AED {{totalGP_amount_with_Job_Card.gp_amount_open_jobcard | number:
+                            "1.2-2"}})</p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right, #159957, #155799);"
+                class="max-w-[30rem] w-full shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8 6.5V4.5C8 4.03534 8 3.80302 7.96157 3.60982C7.80376 2.81644 7.18356 2.19624 6.39018 2.03843C6.19698 2 5.96466 2 5.5 2C5.03534 2 4.80302 2 4.60982 2.03843C3.81644 2.19624 3.19624 2.81644 3.03843 3.60982C3 3.80302 3 4.03534 3 4.5V6.5C3 6.96466 3 7.19698 3.03843 7.39018C3.19624 8.18356 3.81644 8.80376 4.60982 8.96157C4.80302 9 5.03534 9 5.5 9C5.96466 9 6.19698 9 6.39018 8.96157C7.18356 8.80376 7.80376 8.18356 7.96157 7.39018C8 7.19698 8 6.96466 8 6.5Z"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M21 6.5V4.5C21 4.03534 21 3.80302 20.9616 3.60982C20.8038 2.81644 20.1836 2.19624 19.3902 2.03843C19.197 2 18.9647 2 18.5 2C18.0353 2 17.803 2 17.6098 2.03843C16.8164 2.19624 16.1962 2.81644 16.0384 3.60982C16 3.80302 16 4.03534 16 4.5V6.5C16 6.96466 16 7.19698 16.0384 7.39018C16.1962 8.18356 16.8164 8.80376 17.6098 8.96157C17.803 9 18.0353 9 18.5 9C18.9647 9 19.197 9 19.3902 8.96157C20.1836 8.80376 20.8038 8.18356 20.9616 7.39018C21 7.19698 21 6.96466 21 6.5Z"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M8 19.5V17.5C8 17.0353 8 16.803 7.96157 16.6098C7.80376 15.8164 7.18356 15.1962 6.39018 15.0384C6.19698 15 5.96466 15 5.5 15C5.03534 15 4.80302 15 4.60982 15.0384C3.81644 15.1962 3.19624 15.8164 3.03843 16.6098C3 16.803 3 17.0353 3 17.5V19.5C3 19.9647 3 20.197 3.03843 20.3902C3.19624 21.1836 3.81644 21.8038 4.60982 21.9616C4.80302 22 5.03534 22 5.5 22C5.96466 22 6.19698 22 6.39018 21.9616C7.18356 21.8038 7.80376 21.1836 7.96157 20.3902C8 20.197 8 19.9647 8 19.5Z"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M21 19.5V17.5C21 17.0353 21 16.803 20.9616 16.6098C20.8038 15.8164 20.1836 15.1962 19.3902 15.0384C19.197 15 18.9647 15 18.5 15C18.0353 15 17.803 15 17.6098 15.0384C16.8164 15.1962 16.1962 15.8164 16.0384 16.6098C16 16.803 16 17.0353 16 17.5V19.5C16 19.9647 16 20.197 16.0384 20.3902C16.1962 21.1836 16.8164 21.8038 17.6098 21.9616C17.803 22 18.0353 22 18.5 22C18.9647 22 19.197 22 19.3902 21.9616C20.1836 21.8038 20.8038 21.1836 20.9616 20.3902C21 20.197 21 19.9647 21 19.5Z"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M16 18.5H8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M16 5.5H8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M12 9.5L10.5 12H13.5L12 14.5" stroke="#ffffff" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            WIP({{wip_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{wip_jobcard.length}} - (AED {{wip_jobcardGrandTotal}})</p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_wip_jobcard | number: "1.2-2"}}% 
+                            (AED {{totalGP_amount_with_Job_Card.gp_amount_wip_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right,#093637, #44A08D);"
+                class="max-w-[30rem] w-full shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C22 4.92893 22 7.28595 22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12Z"
+                                stroke="#ffffff" stroke-width="1.5" />
+                            <path d="M6 15.8L7.14286 17L10 14" stroke="#ffffff" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M6 8.8L7.14286 10L10 7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M13 9L18 9" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M13 16L18 16" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            COMPLETED({{comp_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{comp_jobcard.length}} - ( AED {{comp_jobcardGrandTotal}})</p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_comp_jobcard | number:
+                            "1.2-2"}}% (AED {{totalGP_amount_with_Job_Card.gp_amount_comp_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right,#292E49, #536976);"
+                class="max-w-[30rem] w-full  shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M7.2626 3.26045C7.38219 2.13044 8.33828 1.25 9.5 1.25H14.5C15.6617 1.25 16.6178 2.13044 16.7374 3.26045C17.5005 3.27599 18.1603 3.31546 18.7236 3.41895C19.4816 3.55818 20.1267 3.82342 20.6517 4.34835C21.2536 4.95027 21.5125 5.70814 21.6335 6.60825C21.75 7.47522 21.75 8.57754 21.75 9.94513V16.0549C21.75 17.4225 21.75 18.5248 21.6335 19.3918C21.5125 20.2919 21.2536 21.0497 20.6517 21.6517C20.0497 22.2536 19.2919 22.5125 18.3918 22.6335C17.5248 22.75 16.4225 22.75 15.0549 22.75H8.94513C7.57754 22.75 6.47522 22.75 5.60825 22.6335C4.70814 22.5125 3.95027 22.2536 3.34835 21.6517C2.74643 21.0497 2.48754 20.2919 2.36652 19.3918C2.24996 18.5248 2.24998 17.4225 2.25 16.0549V9.94513C2.24998 8.57754 2.24996 7.47522 2.36652 6.60825C2.48754 5.70814 2.74643 4.95027 3.34835 4.34835C3.87328 3.82342 4.51835 3.55818 5.27635 3.41895C5.83973 3.31546 6.49952 3.27599 7.2626 3.26045ZM8.75 4.00102C8.75 4.00156 8.75 4.0021 8.75 4.00263V4.5C8.75 4.91421 9.08579 5.25 9.5 5.25H14.5C14.9142 5.25 15.25 4.91421 15.25 4.5V4.00263C15.25 4.00209 15.25 4.00156 15.25 4.00103V3.5C15.25 3.08579 14.9142 2.75 14.5 2.75H9.5C9.08579 2.75 8.75 3.08579 8.75 3.5V4.00102ZM16.735 4.76087C16.6058 5.88062 15.6544 6.75 14.5 6.75H9.5C8.34559 6.75 7.39424 5.88062 7.26496 4.76087C6.54678 4.7762 5.99336 4.81234 5.54735 4.89426C4.98054 4.99838 4.65246 5.16556 4.40901 5.40901C4.13225 5.68577 3.9518 6.07435 3.85315 6.80812C3.75159 7.56347 3.75 8.56458 3.75 10V16C3.75 17.4354 3.75159 18.4365 3.85315 19.1919C3.9518 19.9257 4.13225 20.3142 4.40901 20.591C4.68577 20.8678 5.07435 21.0482 5.80812 21.1469C6.56347 21.2484 7.56458 21.25 9 21.25H15C16.4354 21.25 17.4365 21.2484 18.1919 21.1469C18.9257 21.0482 19.3142 20.8678 19.591 20.591C19.8678 20.3142 20.0482 19.9257 20.1469 19.1919C20.2484 18.4365 20.25 17.4354 20.25 16V10C20.25 8.56458 20.2484 7.56347 20.1469 6.80812C20.0482 6.07434 19.8678 5.68577 19.591 5.40901C19.3475 5.16556 19.0195 4.99838 18.4527 4.89426C18.0066 4.81234 17.4532 4.7762 16.735 4.76087ZM6.25 14.5C6.25 14.0858 6.58579 13.75 7 13.75H15C15.4142 13.75 15.75 14.0858 15.75 14.5C15.75 14.9142 15.4142 15.25 15 15.25H7C6.58579 15.25 6.25 14.9142 6.25 14.5ZM6.25 18C6.25 17.5858 6.58579 17.25 7 17.25H12.5C12.9142 17.25 13.25 17.5858 13.25 18C13.25 18.4142 12.9142 18.75 12.5 18.75H7C6.58579 18.75 6.25 18.4142 6.25 18Z"
+                                fill="#ffffff" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            ROAD TEST({{tst_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{tst_jobcard.length}} - (AED {{tst_jobcardGrandTotal}})
+                        </p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_tst_jobcard | number: "1.2-2"}}% 
+                            (AED {{totalGP_amount_with_Job_Card.gp_amount_tst_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right, #20002c, #cbb4d4);"
+                class="max-w-[30rem] w-full bg-[#bba800] shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M16 4C18.175 4.01211 19.3529 4.10856 20.1213 4.87694C21 5.75562 21 7.16983 21 9.99826V15.9983C21 18.8267 21 20.2409 20.1213 21.1196C19.2426 21.9983 17.8284 21.9983 15 21.9983H9C6.17157 21.9983 4.75736 21.9983 3.87868 21.1196C3 20.2409 3 18.8267 3 15.9983V9.99826C3 7.16983 3 5.75562 3.87868 4.87694C4.64706 4.10856 5.82497 4.01211 8 4"
+                                stroke="#ffffff" stroke-width="1.5" />
+                            <path
+                                d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z"
+                                stroke="#ffffff" stroke-width="1.5" />
+                            <path d="M14.5 11L9.50004 16M9.50002 11L14.5 16" stroke="#ffffff" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            CLOSED({{closed_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{closed_jobcard.length}} - (AED {{clos_jobcardGrandTotal}})
+                        </p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_clos_jobcard | number:
+                            "1.2-2"}}% (AED {{totalGP_amount_with_Job_Card.gp_amount_clos_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right,#021B79, #0575E6);"
+                class="max-w-[30rem] w-full  shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6V18" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M15 9.5C15 8.11929 13.6569 7 12 7C10.3431 7 9 8.11929 9 9.5C9 10.8807 10.3431 12 12 12C13.6569 12 15 13.1193 15 14.5C15 15.8807 13.6569 17 12 17C10.3431 17 9 15.8807 9 14.5"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            INVOICED({{inv_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{inv_jobcard.length}} - (AED {{inv_jobcardGrandTotal}})</p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_inv_jobcard | number: "1.2-2"}}% 
+                            (AED {{totalGP_amount_with_Job_Card.gp_amount_inv_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right, #e65c00,#F9D423);"
+                class="max-w-[30rem] w-full  shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M5.31171 10.7615C8.23007 5.58716 9.68925 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.31034 17.856 2.52291 15.7061 4.94805 11.4063L5.31171 10.7615Z"
+                                stroke="#ffffff" stroke-width="1.5" />
+                            <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <circle cx="12" cy="16" r="1" fill="#ffffff" />
+                        </svg>
+
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            SUSPENDED({{suspended_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{suspended_jobcard.length}} - (AED {{sus_jobcardGrandTotal}})
+                        </p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_sus_jobcard | number: "1.2-2"}}%
+                            (AED {{totalGP_amount_with_Job_Card.gp_amount_sus_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div style=" background: linear-gradient(to right,#93291E, #ED213A);"
+                class="max-w-[30rem] w-full  shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+                <div class="p-5 flex items-center flex-col sm:flex-row">
+                    <div style="text-align: -webkit-center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="#ffffff" stroke-width="1.5"
+                                stroke-linecap="round" />
+                            <path
+                                d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                        <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                            CANCELLED({{can_jobcard.length}})</h5>
+                        <p class="mb-1 text-white-light">{{can_jobcard.length}} - (AED {{can_jobcardGrandTotal}})
+                        </p>
+                        <p class="mb-1 text-white-light">GP - {{totalGP_with_Job_Card.gp_can_jobcard | number: "1.2-2"}}%
+                            (AED {{totalGP_amount_with_Job_Card.gp_amount_can_jobcard | number: "1.2-2"}})
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel mt-6 pb-0">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">Spare Invoice List</h5>
+        <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <!-- <button type="button" class="btn btn-dark" style="float: right" (click)="postNewSpareInvoice();">Post
+                Invoice</button>
+            <button type="button" class="btn btn-success" style="float: right" (click)="createNewSpareInvoice();">ADD
+                NEW NM Invoice</button> -->
+            <div hlMenu class="dropdown">
+                <button hlMenuButton type="button"
+                    class="flex items-center rounded-md border border-[#e0e6ed] px-4 py-2 text-sm font-semibold dark:border-[#253b5c] dark:bg-[#1b2e4b] dark:text-white-dark">
+                    <span class="ltr:mr-1 rtl:ml-1">Columns</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5">
+                        <path d="M19 9L12 15L5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <ul *hlMenuItems @toggleAnimation class="w-max ltr:left-0 rtl:right-0" style="z-index: 100">
+                    <ng-container *ngFor="let col of cols; index as i">
+                        <li>
+                            <div class="flex items-center px-4 py-1">
+                                <label [for]="'chk-' + i" class="mb-0 cursor-pointer">
+                                    <input type="checkbox" [id]="'chk-' + i" class="form-checkbox"
+                                        [(ngModel)]="!col.hide" (change)="updateColumn(col)" />
+                                    <span class="ltr:ml-2 rtl:mr-2">{{ col.title }}</span>
+                                </label>
+                            </div>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+            <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+        </div>
+    </div>
+    <div class="datatable" *ngIf="!load_flag">
+        <ng-datatable [rows]="inv_list" [columns]="cols" [search]="search" [sortable]="true"
+            skin="whitespace-nowrap table-hover bh-table-compact"
+            firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+            previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+            <ng-template slot="inv_nm_id" let-value="data">
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="viewSpareInvoice(value)">
+                    ALM{{ value.inv_nm_id }}</button>
+            </ng-template>
+            <ng-template slot="finalsubtotal_credit" let-value="data">
+                <span *ngIf="value.inv_nm_purchase_type == '1'" style="float: right;">{{ value.finalsubtotal}}</span>
+            </ng-template>
+            <ng-template slot="finalsubtotal_cash" let-value="data">
+                <span *ngIf="value.inv_nm_purchase_type == '2'" style="float: right;">{{ value.finalsubtotal}}</span>
+            </ng-template>
+            <ng-template slot="totalPrice" let-value="data">
+                <span style="float: right;">{{ value.totalPrice}}</span>
+            </ng-template>
+            <ng-template slot="variation_margin" let-value="data">
+                <span style="float: right;">{{ value.variation_margin}}%</span>
+            </ng-template>
+            <ng-template slot="inv_jobcard_no" let-value="data">
+                <span *ngIf="value.inv_jobcard_no != null && value.inv_jobcard_no != ''" class="badge bg-secondary">{{
+                    value.inv_jobcard_no }}</span>
+            </ng-template>
+            <ng-template slot="job_status" let-value="data">
+                <span class="badge badge-outline-dark" *ngIf="value.job_status=='OPN'">{{ value.job_status }}</span>
+                <span class="badge badge-outline-danger" *ngIf="value.job_status=='CAN'">{{ value.job_status
+                    }}</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.job_status=='WIP'">{{ value.job_status
+                    }}</span>
+                <span class="badge badge-outline-success" *ngIf="value.job_status=='INV'">{{ value.job_status}}</span>
+                <span class="badge badge-outline-warning" *ngIf="value.job_status!='OPN' && value.job_status!='CAN' 
+                    && value.job_status!='WIP'&& value.job_status!='INV' && value.job_status!=null ">{{
+                    value.job_status}}</span>
+            </ng-template>
+            <ng-template slot="action" let-value="data">
+                <div class="flex items-center">
+                    <div>
+                        <button type="button" ngxTippy="Print" (click)="printSpareInvoice(value.inv_id)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6 17.9827C4.44655 17.9359 3.51998 17.7626 2.87868 17.1213C2 16.2426 2 14.8284 2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H16C18.8284 6 20.2426 6 21.1213 6.87868C22 7.75736 22 9.17157 22 12C22 14.8284 22 16.2426 21.1213 17.1213C20.48 17.7626 19.5535 17.9359 18 17.9827"
+                                    stroke="#1C274C" stroke-width="1.5" />
+                                <path opacity="0.5" d="M9 10H6" stroke="#1C274C" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path d="M19 14L5 14" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                <path
+                                    d="M18 14V16C18 18.8284 18 20.2426 17.1213 21.1213C16.2426 22 14.8284 22 12 22C9.17157 22 7.75736 22 6.87868 21.1213C6 20.2426 6 18.8284 6 16V14"
+                                    stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.5"
+                                    d="M17.9827 6C17.9359 4.44655 17.7626 3.51998 17.1213 2.87868C16.2427 2 14.8284 2 12 2C9.17158 2 7.75737 2 6.87869 2.87868C6.23739 3.51998 6.06414 4.44655 6.01733 6"
+                                    stroke="#1C274C" stroke-width="1.5" />
+                                <circle opacity="0.5" cx="17" cy="10" r="1" fill="#1C274C" />
+                                <path opacity="0.5" d="M15 16.5H9" stroke="#1C274C" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path opacity="0.5" d="M13 19H9" stroke="#1C274C" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                            </svg>
+
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" class="ltr:mr-2 rtl:ml-2" ngxTippy="Edit"
+                            (click)="viewSpareInvoice(value)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
+                                <path
+                                    d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
+                                    stroke="currentColor" stroke-width="1.5" />
+                                <path opacity="0.5"
+                                    d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015"
+                                    stroke="currentColor" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" ngxTippy="Delete">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-danger">
+                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path
+                                    d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path opacity="0.5"
+                                    d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                    stroke="currentColor" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" ngxTippy="Activity Log" (click)="activityLogModalOpen(value)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M9 12C9 12.5523 8.55228 13 8 13C7.44772 13 7 12.5523 7 12C7 11.4477 7.44772 11 8 11C8.55228 11 9 11.4477 9 12Z"
+                                    fill="#1C274C" />
+                                <path
+                                    d="M13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12Z"
+                                    fill="#1C274C" />
+                                <path
+                                    d="M16 13C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11C15.4477 11 15 11.4477 15 12C15 12.5523 15.4477 13 16 13Z"
+                                    fill="#1C274C" />
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12.0574 1.25H11.9426C9.63424 1.24999 7.82519 1.24998 6.41371 1.43975C4.96897 1.63399 3.82895 2.03933 2.93414 2.93414C2.03933 3.82895 1.63399 4.96897 1.43975 6.41371C1.24998 7.82519 1.24999 9.63422 1.25 11.9426V12.0574C1.24999 14.3658 1.24998 16.1748 1.43975 17.5863C1.63399 19.031 2.03933 20.1711 2.93414 21.0659C3.82895 21.9607 4.96897 22.366 6.41371 22.5603C7.82519 22.75 9.63423 22.75 11.9426 22.75H12.0574C14.3658 22.75 16.1748 22.75 17.5863 22.5603C19.031 22.366 20.1711 21.9607 21.0659 21.0659C21.9607 20.1711 22.366 19.031 22.5603 17.5863C22.75 16.1748 22.75 14.3658 22.75 12.0574V11.9426C22.75 9.63423 22.75 7.82519 22.5603 6.41371C22.366 4.96897 21.9607 3.82895 21.0659 2.93414C20.1711 2.03933 19.031 1.63399 17.5863 1.43975C16.1748 1.24998 14.3658 1.24999 12.0574 1.25ZM3.9948 3.9948C4.56445 3.42514 5.33517 3.09825 6.61358 2.92637C7.91356 2.75159 9.62177 2.75 12 2.75C14.3782 2.75 16.0864 2.75159 17.3864 2.92637C18.6648 3.09825 19.4355 3.42514 20.0052 3.9948C20.5749 4.56445 20.9018 5.33517 21.0736 6.61358C21.2484 7.91356 21.25 9.62177 21.25 12C21.25 14.3782 21.2484 16.0864 21.0736 17.3864C20.9018 18.6648 20.5749 19.4355 20.0052 20.0052C19.4355 20.5749 18.6648 20.9018 17.3864 21.0736C16.0864 21.2484 14.3782 21.25 12 21.25C9.62177 21.25 7.91356 21.2484 6.61358 21.0736C5.33517 20.9018 4.56445 20.5749 3.9948 20.0052C3.42514 19.4355 3.09825 18.6648 2.92637 17.3864C2.75159 16.0864 2.75 14.3782 2.75 12C2.75 9.62177 2.75159 7.91356 2.92637 6.61358C3.09825 5.33517 3.42514 4.56445 3.9948 3.9948Z"
+                                    fill="#1C274C" />
+                            </svg>
+
+                        </button>
+
+                    </div>
+                </div>
+            </ng-template>
+        </ng-datatable>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>
+<modal #activityLogModal class="modal-top animate animate-slide-in-down" [closeOnOutsideClick]="false"
+    style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Activity Log
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="panel">
+            <!-- <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+            </div> -->
+            <div class="panel flex-1 p-0">
+                <ng-container>
+                    <div class="relative h-full pb-[68px]">
+                        <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                        <ng-scrollbar #scrollable
+                            class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                            visibility="native">
+                            <div class="space-y-5 p-4" *ngIf="invlogs.length>0">
+                                <div class="flex items-start gap-3" *ngFor="let log of invlogs">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                {{ log.inv_log_note }} by <b>{{ log.us_firstname }}</b>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-white-dark rtl:text-left">
+                                            {{ log.inv_log_created_on }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-scrollbar>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="activityLogModalClose()" class="btn btn-outline-danger">DISMISS</button>
+    </ng-template>
+</modal>

@@ -1,0 +1,191 @@
+<div class="table-responsive" *ngIf="leads.length > 0">
+    <label> <b>Leads</b></label>
+    <table class="small_view" style="border: 1px solid #eee">
+        <thead>
+            <tr *ngFor="let ld of leads">
+                <th>Created</th>
+                <th>Name</th>
+                <th>Lead Code</th>
+                <th *ngIf="ld.purpose_id == '1'">Appointment Code</th>
+                <th>Purpose</th>
+                <th *ngIf="ld.purpose_id == '1'">Appointment Date</th>
+                <th>Status</th>
+                <th>Source</th>
+                <th style="width: 25%">Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ld of leads">
+                <td>{{ ld.created }}</td>
+                <td>{{ ld.name }}</td>
+                <td>
+                    <span class="badge badge-outline-primary">{{ ld.lead_code }}</span>
+                </td>
+                <td *ngIf="ld.purpose_id == '1'">
+                    <span class="badge badge-outline-primary">{{ ld.apptm_code }}</span>
+                </td>
+                <td>{{ ld.call_purpose }}</td>
+                <td *ngIf="ld.purpose_id == '1'">{{ ld.ld_appoint_date }}</td>
+                <td>{{ ld.ld_sts }}</td>
+                <td>{{ ld.ld_src }}</td>
+                <td>{{ ld.lead_note }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="leads.length > 0">
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+</div>
+<div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3" *ngIf="!appoint_flag">
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number*</label>
+        <input type="text" placeholder="Customer Number" [(ngModel)]="appointmentDetails.phone"
+            (change)="checkExistigCust(appointmentDetails.phone)" class="form-input text-xs" maxlength="50"
+            pattern="\d*" />
+    </div>
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+        <input type="text" placeholder="Customer name" [(ngModel)]="appointmentDetails.cust_name"
+            class="form-input text-xs" maxlength="50" />
+    </div>
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Date*</label>
+        <ng2-flatpickr [config]="dateConfig" placeholder="Appointment Date"
+            (change)="getSocialMediaCampaign(appointmentDetails.source)" [(ngModel)]="appointmentDetails.appt_date"
+            addClass="form-input"></ng2-flatpickr>
+    </div>
+    <div>
+        <label for="apptm_group" class="small_label_text m-0 dark:text-white-dark">Appointment Type*</label>
+        <ng-select [(ngModel)]="appointmentDetails.apptm_group" [clearable]="false" placeholder="Appointment Type"
+            class="custom-multiselect" appendTo="body">
+            <ng-option value="1">Normal</ng-option>
+            <ng-option value="2">Campaign</ng-option>
+        </ng-select>
+    </div>
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Time*</label>
+        <!-- <input type="time" placeholder="Appointment Time" [(ngModel)]="appointmentDetails.appt_time"
+            class="form-input text-xs" maxlength="50" [min]="minTime"/> -->
+        <!-- <ng2-flatpickr [config]="timeConfig" [(ngModel)]="appointmentDetails.appt_time"
+        placeholder="Appointment Time" addClass="form-input"></ng2-flatpickr> -->
+        <ng-select [items]="timeSlots" bindLabel="time_slots" [(ngModel)]="appointmentDetails.appt_time"
+            bindValue="time_slots" [searchable]="true" [clearable]="true" placeholder="Appointment Time"
+            class="custom-multiselect">
+        </ng-select>
+    </div>
+    <div>
+        <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Appointment Source*</label>
+        <ng-select [items]="sourceList" bindLabel="ld_src" [(ngModel)]="appointmentDetails.source" bindValue="ld_src_id"
+            [searchable]="true" [clearable]="true" placeholder="Appointment Source" class="custom-multiselect"
+            (change)="getSocialMediaCampaign(appointmentDetails.source)">
+        </ng-select>
+    </div>
+    <div class="col-span-2" *ngIf="appointmentDetails.source  == '2'">
+        <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign*</label>
+        <ng-select [items]="socialMediaCampaignList" bindLabel="displayLabel" bindValue="smc_id"
+            [(ngModel)]="appointmentDetails.social_media_camp" [searchable]="true" [clearable]="false"
+            placeholder="Social Media Campaign List" class="custom-multiselect" appendTo="body"
+            (change)="getSocialMediaCampaignSource(appointmentDetails.social_media_camp)">
+        </ng-select>
+    </div>
+    <div *ngIf="appointmentDetails.source  == '2'">
+        <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media
+            Source*</label>
+        <ng-select [items]="socialMediaSourceList" bindLabel="smcs_name" bindValue="smcs_id"
+            [(ngModel)]="appointmentDetails.social_media_source" [disabled]="true" [searchable]="true"
+            [clearable]="false" placeholder="Social Media Source List" class="custom-multiselect" appendTo="body">
+        </ng-select>
+    </div>
+
+    <div>
+        <label for="vehicle_model" class="small_label_text m-0 dark:text-white-dark">Vehicle Model</label>
+        <input for="vehicle_model" type="text" [(ngModel)]="appointmentDetails.vehicle_model"
+            placeholder="Vehicle Model" class="form-input text-xs" maxlength="60" />
+    </div>
+    <div>
+        <label for="reg_no" class="small_label_text m-0 dark:text-white-dark">Register Number</label>
+        <input for="reg_no" type="text" [(ngModel)]="appointmentDetails.reg_no" placeholder="Register Number"
+            class="form-input text-xs" maxlength="12" />
+    </div>
+    <div>
+        <label for="country" class="small_label_text m-0 dark:text-white-dark">Assignee To*</label>
+        <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="appointmentDetails.appt_assign_to"
+            bindValue="us_id" [searchable]="true" [clearable]="true" placeholder="Select Staff"
+            class="custom-multiselect">
+        </ng-select>
+    </div>
+    <!-- <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Source</label>
+        <ng-select [(ngModel)]="appointmentDetails.apptm_type" [searchable]="false" [clearable]="false">
+            <ng-option value="1">From Inbound Call</ng-option>
+            <ng-option value="2">From Lost Customer</ng-option>
+            <ng-option value="3">Revisit Customer</ng-option>
+            <ng-option value="4">Direct Customer</ng-option>
+        </ng-select>
+    </div> -->
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Pickup & Drop Details</label>
+        <ng-select [(ngModel)]="appointmentDetails.apptm_transport_service" [searchable]="true" [clearable]="true"
+            placeholder="Select Pick & Drop Requirement">
+            <!-- <ng-option value="0"> Select Pick & Drop Requirement</ng-option> -->
+            <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+            <ng-option value="2">Pick Up Required</ng-option>
+            <ng-option value="3">Drop Off Required</ng-option>
+            <ng-option value="4">Not Required</ng-option>
+        </ng-select>
+    </div>
+    <!-- <div>
+        <label for="country" class="small_label_text m-0 dark:text-white-dark">Created By</label>
+        <ng-select
+            [items]="userList"
+            bindLabel="us_firstname"
+            bindValue="us_id"
+            [searchable]="false"
+            [clearable]="false"
+            placeholder="Select Staff"
+            class="custom-multiselect"
+            [(ngModel)]="appointmentDetails.apptm_created_by"
+        >
+        </ng-select>
+    </div> -->
+    <!-- <div>
+        <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Status</label>
+        <ng-select [(ngModel)]="appointmentDetails.apptm_status" [searchable]="false" [clearable]="false">
+            <ng-option value="0">Current Status</ng-option>
+            <ng-option value="1">Scheduled</ng-option>
+            <ng-option value="2">Confirmed</ng-option>
+            <ng-option value="3">Rescheduled</ng-option>
+            <ng-option value="4">Cancelled</ng-option>
+            <ng-option value="5">Completed/Visited</ng-option>
+        </ng-select>
+    </div> -->
+    <div class="col-span-2">
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Comment</label>
+        <input type="text" placeholder="Customer Comment" [(ngModel)]="appointmentDetails.appt_note"
+            class="form-input text-xs" maxlength="250" />
+    </div>
+</div>
+<div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-1 xl:grid-cols-1" style="text-align: center"
+    *ngIf="appoint_flag">
+    <h5><i style="font-size: 16px; font-weight: bold">Appointment Already Scheduled</i></h5>
+</div>
+<div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
+    <button class="btn btn-danger" style="float: left" (click)="modalEvent.emit()">DISMISS</button>
+    <button class="btn btn-primary" *ngIf="appoint_flag == false"
+        [disabled]="!appointmentDetails.appt_date || createFlag" (click)="createAppointment(appointmentDetails)">SAVE
+        <span *ngIf="createFlag">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2">
+                <line x1="12" y1="2" x2="12" y2="6"></line>
+                <line x1="12" y1="18" x2="12" y2="22"></line>
+                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                <line x1="2" y1="12" x2="6" y2="12"></line>
+                <line x1="18" y1="12" x2="22" y2="12"></line>
+                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+            </svg>
+        </span></button>
+    <button class="btn btn-dark" *ngIf="appoint_flag" (click)="viewAppointmentDetails()">Appointment Edit</button>
+</div>

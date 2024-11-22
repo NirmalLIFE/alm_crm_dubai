@@ -1,0 +1,17 @@
+.bg-default{
+    background-color: #eee;
+    font-weight: 600;
+}
+
+.bg-default.border-transparent{
+    border-color: #d7d7d7;
+}
+
+.hoverclass:hover{
+    background-color: #4361ee;
+    color:#fff;
+}
+
+ng-select.changed{
+    border: 2px solid #e7515a;
+}

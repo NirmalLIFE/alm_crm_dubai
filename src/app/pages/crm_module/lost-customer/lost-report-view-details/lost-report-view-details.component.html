@@ -1,0 +1,98 @@
+<div class="table-responsive">
+    <table class="small_view" style="border: 1px solid #eee">
+        <thead>
+            <tr>
+                <th style="width: 20%">Name</th>
+                <th style="width: 12%">Location</th>
+                <th>Latest Job-card</th>
+                <th style="width: 15%" class="text-center">Latest SA</th>
+                <th class="text-center">Last Invoiced</th>
+                <!-- <th style="width: 20%" class="text-center">Vehicles</th> -->
+                <th class="text-right">Total Job-cards</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <b>{{ customerdata.customer_name }}</b>
+                </td>
+                <td>{{ customerdata.city }}</td>
+                <td>
+                    <span class="badge badge-outline-primary">{{ latest_jobcard.job_no }}</span>
+                </td>
+                <td>
+                    <b>{{ latest_jobcard.user_name }}</b>
+                </td>
+                <td>{{ latest_jobcard.invoice_date }}</td>
+                <!-- <td>
+                    <span *ngFor="let veh of customerDetails.vehicle_history">{{ veh }}, </span>
+                </td> -->
+                <td class="text-right">{{ jobcard.length }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 5%" />
+<table class="small_view" style="border: 1px solid #eee">
+    <thead>
+        <tr>
+            <th colspan="6" style="text-align: center; background-color: #eceff1 !important">Call logs</th>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Staff</th>
+            <th>Ring Duration</th>
+            <th>Talk Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngIf="report.length!=0">
+            <tr *ngFor="let lg of report">
+                <td>{{ lg.datetime }}</td>
+                <td class="text-success">{{ lg.calltype }}</td>
+                <td *ngIf="lg.disposition == 'NO ANSWER'" class="text-danger">
+                    {{ lg.disposition }}
+                </td>
+                <td *ngIf="lg.disposition != 'NO ANSWER'" class="text-primary">
+                    {{ lg.disposition }}
+                </td>
+                <td>{{ lg.src }}</td>
+                <td class="text-primary">{{ lg.ringduration }}Sec</td>
+                <td class="text-primary"> {{ lg.talk_minutes }}</td>
+            </tr>
+            <!-- <tr *ngIf="lg.calltype == 'Outbound'">
+                <td>{{ lg.datetime }}</td>
+                <td class="text-warning">{{ lg.calltype }}</td>
+                <td *ngIf="lg.disposition == 'NO ANSWER'" class="text-danger">
+                    {{ lg.disposition }}
+                </td>
+                <td *ngIf="lg.disposition != 'NO ANSWER'" class="text-primary">
+                    {{ lg.disposition }}
+                </td>
+                <td>{{ lg.src }}</td>
+                <td *ngIf="lg.purpose == 'fail'" class="text-danger">Not Found</td>
+                <td *ngIf="lg.purpose != 'fail'" class="text-primary">
+                    {{ lg.purpose }}
+                </td>
+                <td *ngIf="lg.leadlog == 'fail'" class="text-danger">Not Found</td>
+                <td *ngIf="lg.leadlog != 'fail'" class="text-primary">
+                    {{ lg.leadlog }}
+                </td>
+            </tr> -->
+        </ng-container>
+        <ng-container *ngIf="report.length == 0">
+            <tr>
+                <td style="text-align: center;" colspan="6"><span><b>No Call Logs</b></span></td>
+            </tr>
+        </ng-container>
+    </tbody>
+
+</table>
+<hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 5%" />
+<div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
+    <button class="btn btn-danger" style="float: left" (click)="modalEvent.emit()">DISMISS</button>
+    <!-- <button class="btn btn-primary" [disabled]="!customerdata.status"
+        (click)="saveLostCustDetails(customerdata)">SAVE DATA</button> -->
+</div>

@@ -1,0 +1,170 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Management Informations(MIS)</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/lost-customer/lost-count-report"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Assigned
+            Lost Customer Report</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Assigned
+            Lost Customers Report Details</a>
+    </li>
+</ol>
+<div>
+    <div class="pt-5">
+        <div class="mb-4 flex flex-col gap-2 md:flex-row md:items-center">
+            <div class="panel bg-gradient-to-r from-cyan-500 to-cyan-400 flex-1 small_card">
+                <div class="text-md font-semibold" (click)="filterData(0)">Total Customers</div>
+                <div class="mt-3 text-3xl font-bold">{{ total_row }}</div>
+            </div>
+            <div class="panel bg-gradient-to-r from-green-500 to-green-400 flex-1 small_card">
+                <div class="text-md font-semibold" (click)="filterData(1)">Attempted & Converted </div>
+                <div class="mt-3 text-3xl font-bold">{{ attempted_converted_count }}</div>
+            </div>
+            <div class="panel bg-gradient-to-r from-green-500 to-green-400 flex-1 small_card">
+                <div class="text-sm font-semibold" (click)="filterData(2)">Non-Attempted Converted</div>
+                <div class="mt-3 text-3xl font-bold">{{ nonattempted_converted_count }}</div>
+            </div>
+            <div class="panel bg-gradient-to-r from-yellow-500 to-yellow-400 flex-1 small_card">
+                <div class="text-md font-semibold" (click)="filterData(3)">Not Yet Converted </div>
+                <div class="mt-3 text-3xl font-bold">{{ not_converted_count }}</div>
+            </div>
+            <div class="panel bg-gradient-to-r from-blue-500 to-blue-400 flex-1 small_card">
+                <div class="text-md font-semibold" (click)="filterData(4)">Attempted Calls</div>
+                <div class="mt-3 text-3xl font-bold">{{ attempted_call }}</div>
+            </div>
+            <div class="panel bg-gradient-to-r from-red-500 to-red-400 flex-1 small_card">
+                <div class="text-md font-semibold" (click)="filterData(5)">Not Attempted Calls</div>
+                <div class="mt-3 text-3xl font-bold">{{ not_attempted_call }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel mt-6 pb-0">
+        <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center" style="justify-content: center;">
+            <h6 class="mb-5 text-lg font-bold">
+                Lost Customers Report - {{code}} ( {{start_date}} - {{due_date}}, {{us_name}}) </h6>
+            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <div class="flex-1 md:flex-auto">
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search" />
+                </div>
+            </div>
+        </div>
+        <div class="datatable" *ngIf="!load_flag">
+            <ng-datatable [rows]="custlist" [columns]="cols" [search]="search" [sortable]="true"
+                skin="whitespace-nowrap table-hover bh-table-compact"
+                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                <ng-template slot="phone" let-value="data">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}"
+                        [tippyProps]="{ theme: 'info' }" (click)="openCallLogs(value.phone)">
+                        ****{{ value.phone | slice : -6 }}
+                    </button>
+                </ng-template>
+                <!-- <ng-template slot="Action" let-value="data">
+                    <button type="button" class="btn btn-outline-primary" ngxTippy="Call Update"
+                        (click)="update(value.psfm_id)">Update</button>
+                </ng-template> -->
+                <ng-template slot="customer_name" let-value="data">
+                    <strong class="text-info">{{ value.customer_name | titlecase }}</strong>
+                </ng-template>
+                <!-- <ng-template slot="lcst_note" let-value="data">
+                    <button type="button" class="btn btn-outline-primary" ngxTippy="Call Update"
+                        *ngIf="value.lcst_note == null"
+                        (click)="assignedlostupdateModal(value.lcst_id,value.phone,value.customer_code,value.invoice_date)">Update</button>
+                    <p *ngIf="value.lcst_note != null" style="text-transform: capitalize"> {{ value.lcst_note }}</p>
+                </ng-template> -->
+
+                <ng-template slot="Categorized" let-value="data">
+                    <span class="badge bg-info" *ngIf="value.Categorized == 'Not Categorized'">Not Attempted</span>
+                    <span class="badge bg-success" *ngIf="value.Categorized == 'Interested Customer'">Interested
+                        Customer</span>
+                    <span class="badge bg-warning" *ngIf="value.Categorized == 'Unhappy Customer'">Unhappy
+                        Customer</span>
+                    <span class="badge bg-secondary" *ngIf="value.Categorized == 'Non Contactable Customer'">Non
+                        Contactable Customer</span>
+                    <span class="badge bg-danger" *ngIf="value.Categorized == 'DND Customer (Do Not Disturb)'">DND
+                        Customer (Do Not Disturb)</span>
+                    <span class="badge bg-danger" *ngIf="value.Categorized == 'Lost Customer'">Lost Customer</span>
+                </ng-template>
+                <ng-template slot="updated" let-value="data">
+                    <span class="badge bg-danger" *ngIf="value.updated == null">Not Yet Updated</span>
+                    <span *ngIf="value.updated != null">{{value.updated}}</span>
+                </ng-template>
+                <ng-template slot="lcst_status" let-value="data">
+                    <span class="badge badge-outline-success"
+                        *ngIf="value.lcst_status == 'Appointment'">Appointment</span>
+                    <span class="badge badge-outline-success" *ngIf="value.lcst_status == 'Positive Response'">Positive
+                        Response</span>
+                    <span class="badge badge-outline-warning" *ngIf="value.lcst_status == 'Not Answered'">Not
+                        Answered</span>
+                    <span class="badge badge-outline-secondary" *ngIf="value.lcst_status == 'Visited Customer'">Visited
+                        Customer</span>
+                    <span class="badge badge-outline-danger" *ngIf="value.lcst_status == 'Unhappy Customer'">Unhappy
+                        Customer</span>
+                    <span class="badge badge-outline-danger" *ngIf="value.lcst_status == 'Do Not Disturb'">Do Not
+                        Disturb</span>
+                    <span class="badge badge-outline-danger" *ngIf="value.lcst_status == 'Car Sold'">Car Sold</span>
+                    <span class="badge badge-outline-primary" *ngIf="value.lcst_status == 'Answered'">Answered</span>
+                    <span style=" color: red;" *ngIf="value.lcst_status == ''">NIL</span>
+                </ng-template>
+                <ng-template slot="action" let-value="data">
+                    <div>
+                        <button type="button" class="ltr:mr-2 rtl:ml-2" ngxTippy="View"
+                            (click)="reportViewDetailsModal(value.phone,value.customer_name, value.lcst_note_date,value.us_ext)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M7.26279 3.25871C7.38317 2.12953 8.33887 1.25 9.5 1.25H14.5C15.6611 1.25 16.6168 2.12953 16.7372 3.25871C17.5004 3.27425 18.1602 3.31372 18.7236 3.41721C19.4816 3.55644 20.1267 3.82168 20.6517 4.34661C21.2536 4.94853 21.5125 5.7064 21.6335 6.60651C21.75 7.47348 21.75 8.5758 21.75 9.94339V16.0531C21.75 17.4207 21.75 18.523 21.6335 19.39C21.5125 20.2901 21.2536 21.048 20.6517 21.6499C20.0497 22.2518 19.2919 22.5107 18.3918 22.6317C17.5248 22.7483 16.4225 22.7483 15.0549 22.7483H8.94513C7.57754 22.7483 6.47522 22.7483 5.60825 22.6317C4.70814 22.5107 3.95027 22.2518 3.34835 21.6499C2.74643 21.048 2.48754 20.2901 2.36652 19.39C2.24996 18.523 2.24998 17.4207 2.25 16.0531V9.94339C2.24998 8.5758 2.24996 7.47348 2.36652 6.60651C2.48754 5.7064 2.74643 4.94853 3.34835 4.34661C3.87328 3.82168 4.51835 3.55644 5.27635 3.41721C5.83977 3.31372 6.49963 3.27425 7.26279 3.25871ZM7.26476 4.75913C6.54668 4.77447 5.99332 4.81061 5.54735 4.89253C4.98054 4.99664 4.65246 5.16382 4.40901 5.40727C4.13225 5.68403 3.9518 6.07261 3.85315 6.80638C3.75159 7.56173 3.75 8.56285 3.75 9.99826V15.9983C3.75 17.4337 3.75159 18.4348 3.85315 19.1901C3.9518 19.9239 4.13225 20.3125 4.40901 20.5893C4.68577 20.866 5.07435 21.0465 5.80812 21.1451C6.56347 21.2467 7.56458 21.2483 9 21.2483H15C16.4354 21.2483 17.4365 21.2467 18.1919 21.1451C18.9257 21.0465 19.3142 20.866 19.591 20.5893C19.8678 20.3125 20.0482 19.9239 20.1469 19.1901C20.2484 18.4348 20.25 17.4337 20.25 15.9983V9.99826C20.25 8.56285 20.2484 7.56173 20.1469 6.80638C20.0482 6.07261 19.8678 5.68403 19.591 5.40727C19.3475 5.16382 19.0195 4.99664 18.4527 4.89253C18.0067 4.81061 17.4533 4.77447 16.7352 4.75913C16.6067 5.87972 15.655 6.75 14.5 6.75H9.5C8.345 6.75 7.39326 5.87972 7.26476 4.75913ZM9.5 2.75C9.08579 2.75 8.75 3.08579 8.75 3.5V4.5C8.75 4.91421 9.08579 5.25 9.5 5.25H14.5C14.9142 5.25 15.25 4.91421 15.25 4.5V3.5C15.25 3.08579 14.9142 2.75 14.5 2.75H9.5ZM15.5483 10.4883C15.8309 10.7911 15.8146 11.2657 15.5117 11.5483L11.226 15.5483C10.9379 15.8172 10.4907 15.8172 10.2025 15.5483L8.48826 13.9483C8.18545 13.6657 8.16908 13.1911 8.45171 12.8883C8.73433 12.5854 9.20893 12.5691 9.51174 12.8517L10.7143 13.9741L14.4883 10.4517C14.7911 10.1691 15.2657 10.1854 15.5483 10.4883Z"
+                                    fill="#1C274C" />
+                            </svg>
+                        </button>
+                    </div>
+                </ng-template>
+
+            </ng-datatable>
+        </div>
+        <div *ngIf="load_flag" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+        </div>
+    </div>
+</div>
+<modal #reportViewDetails class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            CUSTOMER INFO
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <app-lost-report-view-details [reportLostData]="reportLostData"
+            (modalEvent)="reportViewDetailsClose()"></app-lost-report-view-details>
+    </ng-template>
+    <!-- <ng-template #modalFooter>
+       
+   </ng-template> -->
+</modal>
+<modal #calllogmodal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Recent Call Logs
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <app-call-log-detail [calllogphn]="calllogphn"></app-call-log-detail>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="callhistoryModal()" class="btn btn-outline-danger">DISMISS</button>
+    </ng-template>
+</modal>

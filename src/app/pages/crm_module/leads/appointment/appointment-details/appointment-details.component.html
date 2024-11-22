@@ -1,0 +1,265 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Lead
+            Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/leads/appointment/appointment-list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Appointment
+            Leads</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Appointment
+            Details</a>
+    </li>
+</ol>
+<div class="mt-5 pb-0">
+    <div class="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3 xl:grid-cols-4" *ngIf="!load_flag">
+        <div class="panel lg:col-span-2 xl:col-span-3">
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                <h5 class="text-lg font-semibold dark:text-white-light">
+                    Appointment Details - <span class="badge badge-outline-primary">{{ appointmentDetails.apptm_code
+                        }}</span>
+                </h5>
+                <div class=" flex items-center gap-5 ltr:ml-auto rtl:mr-auto badge border-2 border-dashed"
+                    ngClass="badge badge-outline-primary"> {{ appointmentDetails.apptm_group_l}}</div>
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto" *ngIf="appointmentDetails.apptm_type!=3">
+                    <button type="button" class="btn btn-primary btn-sm">LEAD - {{ appointmentDetails.lead_code
+                        }}</button>
+                </div>
+            </div>
+            <div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            </div>
+            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+                    <input type="text" placeholder="Customer name" [(ngModel)]="appointmentDetails.cust_name"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+                    <input type="text" readonly placeholder="Customer Number" [(ngModel)]="appointmentDetails.call_from"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Source</label>
+                    <input type="text" readonly placeholder="Appointment Source"
+                        [(ngModel)]="appointmentDetails.lead_source" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div *ngIf="appointmentDetails.source_id == '2' ">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Source</label>
+                    <input type="text" readonly placeholder="Social Media Source"
+                        [(ngModel)]="appointmentDetails.smcs_name" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div class="col-span-2" *ngIf="appointmentDetails.source_id == '2' ">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign</label>
+                    <input type="text" readonly
+                        [value]="appointmentDetails.smc_message + ' (' + appointmentDetails.smc_name + ')'"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Date</label>
+                    <input type="text" readonly placeholder="Appointment Date"
+                        [(ngModel)]="appointmentDetails.appt_date" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Time</label>
+                    <input type="text" readonly placeholder="User name" [(ngModel)]="appointmentDetails.appt_time"
+                        class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Reg No</label>
+                    <input type="text" placeholder="Reg No"
+                        (change)="updateAppointmentRegNo(appointmentDetails.register_number,appointmentDetails.apptm_lead_id)"
+                        [(ngModel)]="appointmentDetails.register_number" class="form-input text-xs" maxlength="50" />
+                </div>
+                <div>
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Assignee</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname"
+                        [(ngModel)]="appointmentDetails.appt_assign_to" bindValue="us_id" [searchable]="false"
+                        [clearable]="false" placeholder="Select Staff" class="custom-multiselect" disabled="true">
+                    </ng-select>
+                </div>
+
+                <!-- <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Appointment Source</label>
+                    <ng-select [(ngModel)]="appointmentDetails.apptm_type" disabled="true" [searchable]="false" [clearable]="false">
+                        <ng-option value="0">Select Source</ng-option>
+                        <ng-option value="1">From Inbound Call</ng-option>
+                        <ng-option value="2">From Lost Customer</ng-option>
+                        <ng-option value="3">Revisit Customer</ng-option>
+                        <ng-option value="4">Direct Customer</ng-option>
+                        <ng-option value="5">Campaign Enquiry</ng-option>
+                    </ng-select>
+                </div> -->
+                <div>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Pickup & Drop Details</label>
+                    <ng-select [(ngModel)]="appointmentDetails.apptm_transport_service" disabled="true"
+                        [searchable]="false" [clearable]="false">
+                        <ng-option value="0">Pick & Drop Requirement</ng-option>
+                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                        <ng-option value="2">Pick Up Required</ng-option>
+                        <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option>
+                    </ng-select>
+                </div>
+                <div>
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Created By</label>
+                    <ng-select [items]="userList" bindLabel="us_firstname" bindValue="us_id" [searchable]="false"
+                        [clearable]="false" placeholder="Select Staff" class="custom-multiselect" disabled="true"
+                        [(ngModel)]="appointmentDetails.apptm_created_by">
+                    </ng-select>
+                </div>
+                <div>
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Status</label>
+                    <ng-select [(ngModel)]="appointmentDetails.apptm_status" disabled="true" [searchable]="false"
+                        [clearable]="false">
+                        <ng-option value="0">Current Status</ng-option>
+                        <ng-option value="1">Scheduled</ng-option>
+                        <ng-option value="2">Confirmed</ng-option>
+                        <ng-option value="3">Rescheduled</ng-option>
+                        <ng-option value="4">Cancelled</ng-option>
+                        <ng-option value="5">Completed/Visited</ng-option>
+                    </ng-select>
+                </div>
+                <div class="col-span-2">
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Comment</label>
+                    <input type="text" disabled="true" placeholder="Customer Comment"
+                        [(ngModel)]="appointmentDetails.lead_note" class="form-input text-xs" maxlength="250" />
+                </div>
+            </div>
+            <div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            </div>
+            <form [formGroup]="appointmentUpdate">
+                <div *ngIf="appointmentDetails.apptm_status != '4' && appointmentDetails.apptm_status != '5'">
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Update Appointment
+                        Status</label>
+                    <ng-select style="width: 35%" [searchable]="false" [clearable]="false" (change)="statuschange()"
+                        [(ngModel)]="newStatus" [ngModelOptions]="{ standalone: true }">
+                        <ng-option value="0">Select Status</ng-option>
+                        <ng-option value="2" *ngIf="appointmentDetails.apptm_status != 2 ">Appointment
+                            Confirmed</ng-option>
+                        <ng-option value="3">Appointment Reschedule</ng-option>
+                        <ng-option value="4">Appointment Cancelled</ng-option>
+                        <ng-option value="5">Appointment Completed</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="newStatus != '0'">
+                    <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+                </div>
+                <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+                    <div *ngIf="newStatus == '3'">
+                        <label for="country" class="small_label_text m-0 dark:text-white-dark">Reschedule Date</label>
+                        <input type="date" formControlName="rescheduleDate" class="form-input text-xs" [min]="minDate()"
+                            placeholder="Reschedule Date" />
+                    </div>
+                    <div *ngIf="newStatus == '3'">
+                        <label class="small_label_text m-0 dark:text-white-dark">Appointment TIme*</label>
+                        <input type="time" formControlName="rescheduleTime" class="form-input text-xs"
+                            placeholder="Appointment Time" />
+                    </div>
+                    <div *ngIf="newStatus == '3'">
+                        <label for="name" class="small_label_text m-0 dark:text-white-dark">Pickup & Drop
+                            Details</label>
+                        <ng-select formControlName="reschedulePickDrop" [searchable]="false" [clearable]="false"
+                            placeholder="Pickup & Drop Details">
+                            <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                            <ng-option value="2">Pick Up Required</ng-option>
+                            <ng-option value="3">Drop Off Required</ng-option>
+                            <ng-option value="4">Not Required</ng-option>
+                        </ng-select>
+                    </div>
+                    <div *ngIf="newStatus == '3'">
+                        <label for="country" class="small_label_text m-0 dark:text-white-dark">Assigned To</label>
+                        <ng-select [items]="userList" bindLabel="us_firstname" bindValue="us_id" [searchable]="true"
+                            [clearable]="true" placeholder="Select Staff" class="custom-multiselect"
+                            formControlName="rescheduleAssignee">
+                        </ng-select>
+                    </div>
+                    <div *ngIf="newStatus == '5'">
+                        <label class="small_label_text m-0 dark:text-white-dark">Job Card Number*</label>
+                        <ng-select [items]="jobno" bindLabel="job_no" bindValue="job_no" [searchable]="true"
+                            [clearable]="true" placeholder="Job Card Number" class="custom-multiselect"
+                            formControlName="confirmJobNo"
+                            (change)="checkCustomerNumber(appointmentDetails.call_from,appointmentUpdate.controls['confirmJobNo'].value)">
+                        </ng-select>
+                        <!-- <input type="text"  formControlName="confirmJobNo" class="form-input text-xs" placeholder="Job Card Number" /> -->
+                    </div>
+
+                    <div class="col-span-2" *ngIf="newStatus == '4'">
+                        <label class="small_label_text m-0 dark:text-white-dark">Cancel Reason*</label>
+                        <input type="text" formControlName="cancelReason" class="form-input text-xs"
+                            placeholder="Cancel Reason" />
+                    </div>
+                </div>
+                <div *ngIf="!customerNumber"
+                    class="flex items-center p-3.5 rounded text-warning bg-warning-light dark:bg-warning-dark-light">
+                    <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Warning!</strong>
+                        Job card Customer Phone Number Differs From Appointment Customer Phone Number</span>
+                </div>
+                <!-- <div
+                    class="relative flex items-center rounded border !border-warning bg-warning-light p-3.5 text-warning before:absolute before:top-1/2 before:-mt-2 before:border-b-8 before:border-l-8 before:border-t-8 before:border-b-transparent before:border-l-inherit before:border-t-transparent ltr:border-l-[64px] ltr:before:left-0 rtl:border-r-[64px] rtl:before:right-0 rtl:before:rotate-180 dark:bg-primary-dark-light">
+                    <span class="mb-2 absolute inset-y-0 m-auto h-6 w-6 text-white ltr:-left-11 rtl:-right-11">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.30928 9C8.59494 5 9.96832 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.45498 18.0635 2.24306 16.2635 4.05373 13"
+                                stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                            <circle cx="12" cy="16" r="1" fill="#ffffff" />
+                        </svg>
+                    </span>
+                    <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Warning!</strong> <b>Job card
+                            Customer Phone Number Differs From Appointment Customer Phone
+                            Number</b> </span>
+                </div> -->
+                <div class="mt-5" *ngIf="newStatus != '0'">
+                    <button class="btn btn-primary" (click)="updateAppointmentDetails()">UPDATE APPOINTMENT
+                        DETAILS</button>
+                </div>
+            </form>
+        </div>
+        <div class="panel">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+            </div>
+            <div class="panel flex-1 p-0">
+                <ng-container>
+                    <div class="relative h-full pb-[68px]">
+                        <div class="h-px w-full border-b border-[#e0e6ed] dark:border-[#1b2e4b]"></div>
+                        <ng-scrollbar #scrollable
+                            class="chat-conversation-box relative !h-[calc(100vh_-_289px)] min-h-[300px] sm:!h-[calc(100vh_-_300px)]"
+                            visibility="native">
+                            <div class="space-y-5 p-4">
+                                <div class="flex items-start gap-3" *ngFor="let log of appointmentLogs">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-3">
+                                            <div class="rounded-md bg-black/10 p-4 py-2 dark:bg-gray-800"
+                                                [ngClass]="'!bg-success text-white ltr:rounded-br-none rtl:rounded-bl-none'">
+                                                {{ log.applg_note }} by <b>{{ log.us_firstname }}</b>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-white-dark rtl:text-left">
+                                            {{ log.applg_time }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-scrollbar>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>

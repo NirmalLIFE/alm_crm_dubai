@@ -1,0 +1,404 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Quotations</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/quotation/normal_quote/quote_list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Special
+            Quotations</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Update
+            Quote</a>
+    </li>
+</ol>
+<div style="margin-top: 1.6rem"
+    class="rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+    <div class="mb-5">
+        <form [formGroup]="userForm">
+            <h6 class="mb-5 text-lg font-bold">Create Special Quote</h6>
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-6 lg:grid-cols-6" *ngIf="!data_load_flag">
+                <!-- <div [ngClass]="userForm.controls['qt_code'].touched ? (userForm.controls['qt_code'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="qt_code">Quotation No.</label>
+                    <input id="qt_code" type="text" readonly formControlName="qt_code" placeholder="Quote No." class="form-input" maxlength="50" />
+                    <ng-container *ngIf="userForm.controls['qt_code'].touched && userForm.controls['qt_code'].errors">
+                        <p class="mt-1 text-danger">Please enter valid Quotation Number</p>
+                    </ng-container>
+                </div> -->
+                <div class="col-span-2"
+                    [ngClass]="userForm.controls['customer'].touched ? (userForm.controls['customer'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="customer">Customer Name</label>
+                    <input id="customer" type="text" formControlName="customer" placeholder="Customer Name"
+                        class="form-input" maxlength="80" />
+                    <ng-container *ngIf="userForm.controls['customer'].touched && userForm.controls['customer'].errors">
+                        <p class="mt-1 text-danger">Please enter valid customer name</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['mobile'].touched ? (userForm.controls['mobile'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="mobile">Mobile Number</label>
+                    <input id="mobile" type="text" formControlName="mobile" placeholder="Mobile Number"
+                        class="form-input" maxlength="10" />
+                    <ng-container *ngIf="userForm.controls['mobile'].touched && userForm.controls['mobile'].errors">
+                        <p class="mt-1 text-danger">Please enter valid mobile number</p>
+                    </ng-container>
+                </div>
+                <div class="col-span-2"
+                    [ngClass]="userForm.controls['chassis'].touched ? (userForm.controls['chassis'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="chassis">Chassis Number*</label>
+                    <input id="chassis" style="text-transform: uppercase;" type="text" formControlName="chassis" placeholder="Chassis Number"
+                        class="form-input" maxlength="17" />
+                    <ng-container *ngIf="userForm.controls['chassis'].touched && userForm.controls['chassis'].errors">
+                        <p class="mt-1 text-danger">Please enter valid chassis number</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['model'].touched ? (userForm.controls['model'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="model">Make/Model/Year</label>
+                    <input id="model" style="text-transform: uppercase;" type="text" formControlName="model" placeholder="Make/Model/Year"
+                        class="form-input" maxlength="30" />
+                    <ng-container *ngIf="userForm.controls['model'].touched && userForm.controls['model'].errors">
+                        <p class="mt-1 text-danger">Please enter valid Make/Model/Year</p>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-1 md:grid-cols-3 lg:grid-cols-3" *ngIf="!data_load_flag">
+                <div
+                    [ngClass]="userForm.controls['regno'].touched ? (userForm.controls['regno'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="regno">Register No.</label>
+                    <input id="regno" style="text-transform: uppercase;" type="text" formControlName="regno" placeholder="Register Number"
+                        class="form-input" maxlength="10" />
+                    <ng-container *ngIf="userForm.controls['regno'].touched && userForm.controls['regno'].errors">
+                        <p class="mt-1 text-danger">Please enter valid register number</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['odometer'].touched ? (userForm.controls['odometer'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="odometer">Odometer</label>
+                    <input id="odometer" type="text" formControlName="odometer" placeholder="Odometer"
+                        class="form-input" maxlength="7" />
+                    <ng-container *ngIf="userForm.controls['odometer'].touched && userForm.controls['odometer'].errors">
+                        <p class="mt-1 text-danger">Please enter valid odometer</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['jobcard'].touched ? (userForm.controls['jobcard'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="jobcard">Jobcard No.</label>
+                    <input id="jobcard" style="text-transform: uppercase;" type="text" formControlName="jobcard" placeholder="Jobcard No"
+                        class="form-input" maxlength="50" />
+                    <ng-container *ngIf="userForm.controls['jobcard'].touched && userForm.controls['jobcard'].errors">
+                        <p class="mt-1 text-danger">Please enter valid jobcard no</p>
+                    </ng-container>
+                </div>
+            </div>
+            <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" *ngIf="!data_load_flag" />
+            <h6 class="text-md mb-2 font-bold" style="text-align: center" *ngIf="!data_load_flag">Spare Details</h6>
+            <div class="row background-card mb-1" *ngFor="let item_data of qt_item_spare; let i = index"
+                [ngStyle]="item_data.error_flag ? { border: '2px solid red' } : { border: '1px #eee' }">
+                <table>
+                    <thead style="font-size: 12px">
+                        <th style="text-align: left; width: 25%">Part Description</th>
+                        <th style="text-align: left; width: 8%">Quantity</th>
+                        <th style="text-align: left; width: 15%">Availability</th>
+                        <th style="text-align: left">Unit Price</th>
+                        <th style="text-align: left">Discount</th>
+                        <th style="text-align: left">Net Price</th>
+                        <th style="text-align: left">Total Price</th>
+                        <th style="text-align: left; width: 3%">Discount(%)</th>
+                        <th style="text-align: left"></th>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 0">
+                            <td style="padding: 1px">
+                                <!-- <div class="ng-autocomplete">
+                                        <ng-autocomplete [data]="preSpareList" [searchKeyword]="spareSearch"
+                                            placeholder="Part Name" maxlength="60" [(ngModel)]="item_data.item_name"
+                                            [ngModelOptions]="{ standalone: true }" name="p_item_name_{{ i }}"
+                                            class="custom-multiselect" [itemTemplate]="itemTemplate" #inputField>
+                                        </ng-autocomplete>
+                                    </div>
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item"></a>
+                                    </ng-template> -->
+                                <input id="item_name" type="text" [(ngModel)]="item_data.item_name"
+                                    name="item_name{{ i }}" placeholder="Part Name" class="form-input text-xs"
+                                    maxlength="60" [ngModelOptions]="{ standalone: true }" style="text-transform: uppercase;"/>
+                            </td>
+                            <!-- //(blur)="duplicateSpare(item_data, i)" -->
+                            <td style="padding: 1px">
+                                <input id="item_qty" type="number" [(ngModel)]="item_data.quantity"
+                                    onKeyPress="if(this.value.length==5) return false;" (input)="total_calc()"
+                                    name="quantity{{ i }}" placeholder="Quantity" class="form-input text-xs"
+                                    maxlength="5" [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td style="padding: 1px">
+                                <ng-select [(ngModel)]="item_data.availability" name="availability{{ i }}"
+                                    [searchable]="true" [clearable]="false" class="custom-multiselect"
+                                    [ngModelOptions]="{ standalone: true }">
+                                    <ng-option value="Stock">Stock</ng-option>
+                                    <ng-option value="EMC">EMC </ng-option>
+                                    <ng-option value="1 Day order">1 Day order </ng-option>
+                                    <ng-option value="2 Day order">2 Day order</ng-option>
+                                    <ng-option value="7 Day order">7 Day order</ng-option>
+                                    <ng-option value="15 Day order">15 Day order</ng-option>
+                                    <ng-option value="20 Day order">20 Day order</ng-option>
+                                    <ng-option value="90+ Days">90+ Days</ng-option>
+                                </ng-select>
+                            </td>
+                            <td style="padding: 1px">
+                                <input id="unit_price" type="number" [(ngModel)]="item_data.unit_price"
+                                    onKeyPress="if(this.value.length==12) return false;" (input)="tot_unit(item_data)"
+                                    name="unit_price{{ i }}" placeholder="Unit Price" class="form-input text-xs"
+                                    [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td style="padding: 1px">
+                                <input id="disc_amount" type="number" [(ngModel)]="item_data.discount_amt"
+                                    onKeyPress="if(this.value.length==12) return false;" (input)="total_disc(item_data)"
+                                    name="discount_amt{{ i }}" placeholder="Discount" class="form-input text-xs"
+                                    [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td style="padding: 1px">
+                                <input id="net_price" type="number" [(ngModel)]="item_data.net_price"
+                                    (input)="total_net(item_data)" name="net_price{{ i }}" class="form-input text-xs"
+                                    [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td style="padding: 1px">
+                                <input id="total_price" type="number" name="tetot{{ i }}"
+                                    value="{{ (item_data.unit_price - item_data.discount_amt) * item_data.quantity }}"
+                                    class="form-input text-xs" />
+                            </td>
+                            <td style="padding: 1px">
+                                <input id="dis_percent" type="number"
+                                    onKeyPress="if(this.value.length==5) return false;"
+                                    [(ngModel)]="item_data.dis_percent" (input)="total_disc_per(item_data)"
+                                    name="dis_percent{{ i }}" (keydown.Tab)="onKeySpare($event)"
+                                    class="form-input text-xs" [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td>
+                                <button type="button" ngxTippy data-tippy-content="Delete Spare"
+                                    (click)="deleteSpare(i)">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-danger">
+                                        <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path opacity="0.5"
+                                            d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: flex-start" *ngIf="!data_load_flag">
+                <button type="button" class="btn btn-outline-success btn-sm" style="float: left" id="auto_trigger"
+                    (click)="addItemSpare()">
+                    ADD NEW SPARE
+                </button>
+            </div>
+            <ng-container *ngIf="user_role != 17 && !data_load_flag">
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+                <h6 class="text-md mb-2 font-bold" style="text-align: center">Labour Details</h6>
+                <div style="border-radius: 5%">
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; width: 25%">Labour Description</th>
+                                <th style="text-align: left">Unit Price</th>
+                                <th style="text-align: left">Discount</th>
+                                <th style="text-align: left">Net Price</th>
+                                <th style="text-align: left">Total Price</th>
+                                <th style="text-align: left">Discount(%)</th>
+                                <th style="width: 10%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let itemdatal of qt_item_service; let j = index"
+                                [ngClass]="itemdatal.error_flag ? 'red_border' : 'no-border'">
+                                <td style="padding: 1px">
+                                    <!-- <div class="ng-autocomplete">
+                                        <ng-autocomplete [data]="preServiceList" maxlength="600"
+                                            placeholder="Labour Description" [(ngModel)]="itemdatal.item_name"
+                                            name="item_name_l_{{ j }}" #inputFieldLabour [searchKeyword]="labourSearch"
+                                            [ngModelOptions]="{ standalone: true }" [itemTemplate]="itemTemplateLabour">
+                                        </ng-autocomplete>
+                                    </div>
+                                    <ng-template #itemTemplateLabour let-item>
+                                        <a [innerHTML]="item"></a>
+                                    </ng-template> -->
+                                    <input type="text" class="form-input text-xs" [(ngModel)]="itemdatal.item_name"
+                                        name="sitem_name{{ j }}" style="text-transform: uppercase;"  maxlength="100" autocomplete="off"
+                                        placeholder="Labour Description" [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td style="padding: 1px">
+                                    <input type="number" class="form-input text-xs" [(ngModel)]="itemdatal.unit_price"
+                                        (input)="tot_unit(itemdatal)" name="sunit_price{{ j }}" autocomplete="off"
+                                        placeholder="Unit Price" onKeyPress="if(this.value.length==12) return false;"
+                                        [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td style="padding: 1px">
+                                    <input type="number" class="form-input text-xs" [(ngModel)]="itemdatal.discount_amt"
+                                        (input)="total_disc(itemdatal)" name="sdiscount_amt{{ j }}" autocomplete="off"
+                                        placeholder="Discount" onKeyPress="if(this.value.length==12) return false;"
+                                        [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td style="padding: 1px">
+                                    <input type="number" class="form-input text-xs" [(ngModel)]="itemdatal.net_price"
+                                        (input)="total_net(itemdatal)" name="net_price{{ j }}"
+                                        [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td style="padding: 1px">
+                                    <input type="number" class="form-input text-xs"
+                                        value="{{ (itemdatal.unit_price - itemdatal.discount_amt) * itemdatal.quantity | number : '1.2-2' }}" />
+                                </td>
+                                <td style="padding: 1px">
+                                    <input type="number" class="form-input text-xs"
+                                        onKeyPress="if(this.value.length==5) return false;"
+                                        [(ngModel)]="itemdatal.dis_percent" (input)="total_disc_per(itemdatal)"
+                                        name="sdis_percent{{ j }}" (keydown.Tab)="onKeyLabour($event)"
+                                        [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td style="text-align: center">
+                                    <button type="button" ngxTippy data-tippy-content="Delete Item"
+                                        (click)="deleteLabour(j)">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                            <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                                stroke-linecap="round" />
+                                            <path
+                                                d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
+                                                stroke-width="1.5" stroke-linecap="round" />
+                                            <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
+                                                stroke-width="1.5" stroke-linecap="round" />
+                                            <path opacity="0.5"
+                                                d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="7">
+                                    <button type="button" class="btn btn-outline-success btn-sm" style="float: left"
+                                        id="auto_trigger" (click)="addItemLabour()">
+                                        ADD NEW LABOUR ITEM
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </ng-container>
+            <div class="row" *ngIf="!data_load_flag && user_role != 17" style="margin-top: 4%; width: 100%">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-8" style="text-align: right">
+                            <label>Total Taxable Amount AED : <b>{{ this.tot_amount.toFixed(2) }}</b></label>
+                        </div>
+                        <!-- <div class="col-md-4" style="text-align: right">
+                            <b>0.00</b>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8" style="text-align: right">
+                            <label>VAT(5%) : <b>{{ this.tax_amount.toFixed(2) }}</b></label>
+                        </div>
+                        <!-- <div class="col-md-4" style="text-align: right">
+                            <b>0.00</b>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="text-align: right">
+                            <label style="font-size: 16px">Grand Total: <b> {{ (this.tax_amount +
+                                    this.tot_amount).toFixed(2) }}</b></label>
+                        </div>
+                        <!-- <div class="col-md-4" style="text-align: right">
+                            <b>
+                                <h6>
+                                    0.00
+                                </h6>
+                            </b>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <!-- <div class="col-md-4"></div> -->
+                        <div class="col-md-12" style="text-align: right; text-transform: capitalize">
+                            <b> {{ tot_words }} Dirhams Only</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="!data_load_flag && user_role == 17" style="margin-top: 4%; width: 100%">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-8" style="text-align: right">
+                            <label>Total Taxable Amount AED : <b>{{ this.tot_sp_amount.toFixed(2) }}</b></label>
+                        </div>
+                        <!-- <div class="col-md-4" style="text-align: right">
+                            <b>0.00</b>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8" style="text-align: right">
+                            <label>VAT(5%) : <b>{{ this.tot_sp_tax.toFixed(2) }}</b></label>
+                        </div>
+                        <!-- <div class="col-md-4" style="text-align: right">
+                            <b>0.00</b>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="text-align: right">
+                            <label style="font-size: 16px">Grand Total: <b> {{ (this.tot_sp_tax +
+                                    this.tot_sp_amount).toFixed(2) }}</b></label>
+                        </div>
+                        <!-- <div class="col-md-4" style="text-align: right">
+                            <b>
+                                <h6>
+                                    0.00
+                                </h6>
+                            </b>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <!-- <div class="col-md-4"></div> -->
+                        <div class="col-md-12" style="text-align: right; text-transform: capitalize">
+                            <b>{{ tot_sp_words }} Dirhams Only</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="data_load_flag" style="text-align: center">
+                <span
+                    class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+            </div>
+            <div style="display: flex; justify-content: flex-end" class="mt-5" *ngIf="!data_load_flag">
+                <button type="button" class="btn btn-success" style="float: left" id="auto_trigger"
+                    (click)="createQuote()">CREATE QUOTE</button>
+            </div>
+        </form>
+    </div>
+</div>

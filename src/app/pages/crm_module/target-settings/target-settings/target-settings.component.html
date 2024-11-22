@@ -1,0 +1,80 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Admin
+            Settings</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a href="javascript:;"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Target
+            Settings</a>
+    </li>
+</ol>
+<hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee;border: 1px solid #ddd;" />
+<div class="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2">
+    <div>
+        <label for="country">Role/Position</label>
+        <ng-select [items]="roleList" bindLabel="role_name" bindValue="role_id" [(ngModel)]="us_role_id" name="role_id"
+            [searchable]="false" [clearable]="false" placeholder="Select user role" class="custom-multiselect"
+            (change)=" onYearChange();">
+        </ng-select>
+    </div>
+    <div>
+        <label for="country">Year</label>
+        <ng-select [items]="yearList" bindLabel="yname" bindValue="yname" [(ngModel)]="year" name="year"
+            [searchable]="false" [clearable]="false" placeholder="Select year" class="custom-multiselect"
+            (change)="onYearChange();">
+        </ng-select>
+    </div>
+</div>
+<br>
+<table id="main_table" style="font-size: 0.9vw; font-weight: 600;" class="table-hover" *ngIf="us_role_id!=null && year!=null">
+    <thead>
+        <tr style="background-color: #eee !important;">
+            <th colspan="1" style="text-align:center;padding: 2px;"></th>
+            <th colspan="1" style="text-align:center;padding: 2px;">Lost Customer</th>
+            <th colspan="3" style="text-align:center;padding: 2px;">Inbound calls</th>
+        </tr>
+        <tr>
+            <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Month</th>
+            <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Target Customers</th>
+            <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Existing Customers</th>
+            <th style="text-align: center;border: 1px solid #ddd;padding: 2px;">New Customers</th>
+        </tr>
+    </thead>
+
+    <ng-container>
+        <tbody class="master">
+            <tr *ngFor="let data of targetData; let i = index">
+                <td class="include" style="text-align: left;padding: 2px;border: 1px solid #ddd;">
+                    {{ data.month }}
+                </td>
+                <td style="text-align: left;padding: 2px;border: 1px solid #ddd;">
+                    <input type="text" placeholder="" [(ngModel)]="data.ts_lostarget" name="target_{{ data.month}}_{{i}}"
+                        class="form-input" maxlength="50" />
+                </td>
+                <td style="text-align: left;padding: 2px;border: 1px solid #ddd;">
+                    <input type="text" [(ngModel)]="data.ts_exinbound" name="extcust_{{ data.month}}_{{i}}" placeholder=""
+                        class="form-input" maxlength="50" />
+                </td>
+                <td style="text-align: center;padding: 2px;border: 1px solid #ddd;">
+                    <div class="grid flex-1 grid-cols-1 gap-1 sm:grid-cols-1">
+                        <div>
+                            <input type="text" placeholder="" [(ngModel)]="data.ts_newinbound"
+                                name="newcust_{{ data.month}}_{{i}}" class="form-input" maxlength="50" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        
+    </ng-container>
+</table>
+<div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center mt-3" style="float: right;">
+    <button type="button" class="btn btn-primary" (click)="saveTargets()"
+     [disabled]="year ==null || us_role_id == null">SAVE</button>
+</div>

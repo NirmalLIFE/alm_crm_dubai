@@ -1,0 +1,8 @@
+.custom-tab:hover {
+    background: linear-gradient(to right, #009ffd, #2a2a72);
+    color: white;
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.30);
+}
+.small_view {
+    font-size: 0.8em;
+}

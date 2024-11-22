@@ -1,0 +1,123 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Admin Settings</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/admin_staff/user/user_list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >User List</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >User Edit</a
+        >
+    </li>
+</ol>
+<div style="margin-top: 1.6rem">
+    <form class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]" [formGroup]="userForm">
+        <h6 class="mb-5 text-lg font-bold">General Information Of User</h6>
+        <div class="flex flex-col sm:flex-row" *ngIf="!data_load_flag">
+            <div class="mb-5 w-full sm:w-2/12 ltr:sm:mr-4 rtl:sm:ml-4">
+                <img src="./assets/images/user_def.png" alt="" class="mx-auto h-20 w-20 rounded-full object-cover md:h-32 md:w-32" />
+            </div>
+            <div class="grid flex-1 grid-cols-1 gap-5 sm:grid-cols-2">
+                <div>
+                    <label for="name">Full Name</label>
+                    <input formControlName="us_firstname" type="text" placeholder="User name" class="form-input" />
+                </div>
+                <div>
+                    <label for="country">Role/Position</label>
+                    <ng-select
+                        [items]="roleList"
+                        bindLabel="role_name"
+                        bindValue="role_id"
+                        formControlName="us_role_id"
+                        [searchable]="false"
+                        [clearable]="false"
+                        placeholder="Select user role"
+                        class="custom-multiselect"
+                    >
+                    </ng-select>
+                    <!-- <select id="country" class="form-select text-white-dark" formControlName="us_role_id">
+                        <option *ngFor="let role of roleList" value="{{ role.role_id }}">{{ role.role_name }}</option>
+                    </select> -->
+                </div>
+
+                <div>
+                    <label for="phone">Phone</label>
+                    <input id="phone" type="text" formControlName="us_phone" placeholder="555-12121" class="form-input" />
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input id="email" formControlName="us_email" type="email" placeholder="sample@gmail.com" class="form-input" />
+                </div>
+                <div>
+                    <label for="name">Date Of Joining</label>
+                    <ng2-flatpickr [config]="basic" formControlName="us_date_of_joining" addClass="form-input"></ng2-flatpickr>
+                </div>
+                <div>
+                    <label for="email">LAABS User Id</label>
+                    <input id="us_laabs_id" min="0" formControlName="us_laabs_id" type="number" placeholder="LAABS User Id" class="form-input" />
+                </div>
+                <div>
+                    <label for="email">Assigned Extension</label>
+                    <ng-select
+                        [items]="userExtensions"
+                        bindLabel="number"
+                        bindValue="number"
+                        formControlName="us_extension"
+                        [searchable]="true"
+                        [clearable]="false"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                    >
+                    </ng-select>
+                </div>
+                <div class="mt-3 sm:col-span-2">
+                    <button *ngIf="!data_submit_flag" type="button" class="btn btn-primary" (click)="updateUserData()" style="float: right">UPDATE</button>
+                    <button *ngIf="data_submit_flag" type="button" class="btn btn-primary" style="float: right">
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2"
+                        >
+                            <line x1="12" y1="2" x2="12" y2="6"></line>
+                            <line x1="12" y1="18" x2="12" y2="22"></line>
+                            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                            <line x1="2" y1="12" x2="6" y2="12"></line>
+                            <line x1="18" y1="12" x2="22" y2="12"></line>
+                            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                        </svg>
+                        Updating
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="data_load_flag" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+            ></span>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,226 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">MIS</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink=""
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Workshop TAT Analysis</a>
+    </li>
+</ol>
+<div class="panel mb-5 mt-5 pb-5">
+    <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+        <div>
+            <label>Date From</label>
+            <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+        </div>
+        <div>
+            <label>Date To</label>
+            <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+        </div>
+        <div>
+            <label style="color: white;">.</label>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getAllJobcards()">SEARCH</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+</div>
+<div *ngIf="!load_flag" class="mb-6 grid grid-cols-1 gap-6 text-white sm:grid-cols-2 xl:grid-cols-4">
+    <div *ngIf="averageHoursPerProperty.Open_Start != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Open-Start (Waiting For Allocation - WFT For Inspection
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Open_Start}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Open_Start_1 != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Open-Start (Waiting For Allocation - WFT For Repair
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Open_Start_1}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Open_Start_2 != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Open-Start (Waiting For Allocation - WFT For
+                Diagnosing End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Open_Start_2}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Inspection != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Inspection (Under Inspection - Under Inspection
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Inspection}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Repair != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Repair (Under Repair - Under Repair End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Repair}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Repair_1 != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Repair (Under Approved Job Repair - Under
+                Approved Job Repair End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Repair_1}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Diagnosing != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Diagnosing (Under Diagnosing - Under Diagnosing
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Diagnosing}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Estimation != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Estimation (Under Inspection End - Under
+                Estimation End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Estimation}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Estimation_1 != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Estimation (Under Repair End - Under Estimation
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Estimation_1}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Estimation_2 != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Estimation (Under Diagnosing End - Under
+                Estimation End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Estimation_2}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Approval != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Approval (Under Estimation - Waiting For Approval
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Approval}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Parts != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Parts (Waiting For Approval End - Under Approved
+                Job Repair)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Parts}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Sublet != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Sublet (Under Sublet Repair - Under Sublet Repair
+                End)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Sublet}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Road_Test != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Road Test (Under QC - Completed) </div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Road_Test}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Completed != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Completed (Completed - Closed)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Completed}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Closed != '0'" class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Closed (Closed - Invoiced)</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Closed}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Workshop_TAT_Open_QC != '0'"
+        class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Workshop TAT Open QC</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Workshop_TAT_Open_QC}} <span
+                    class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Workshop_TAT_Open_Invoice != '0'"
+        class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Workshop TAT Open Invoice</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">{{averageHoursPerProperty.Workshop_TAT_Open_Invoice}}
+                <span class="small-text">Average Hrs</span></div>
+        </div>
+    </div>
+    <div *ngIf="averageHoursPerProperty.Front_office_TAT != '0'"
+        class="panel bg-gradient-to-r from-blue-500 to-blue-400">
+        <div class="flex justify-between">
+            <div class="text-md font-semibold ltr:mr-1 rtl:ml-1">Front office TAT</div>
+        </div>
+        <div class="mt-5 flex items-center">
+            <div class="text-3xl font-bold ltr:mr-3 rtl:ml-3">
+                <span class="small-text">{{averageHoursPerProperty.Front_office_TAT}}</span> <span
+                    class="small-text">Average Hrs</span>
+            </div>
+        </div>
+    </div>
+</div>

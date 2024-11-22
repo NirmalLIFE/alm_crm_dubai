@@ -1,0 +1,420 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Quotations</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/quotation/normal_quote/quote_list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Normal
+            Quotations</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Quote
+            Versions</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/quotation/normal_quote/quote_list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Version
+            Edit</a>
+    </li>
+</ol>
+<div class="mt-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">
+            Quote Version - <b class="text-primary">{{ qt_data.qt_code }}_V_{{ qtv_details.qvm_version_no }}</b>
+        </h5>
+        <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <div class="flex-1 md:flex-auto">
+                <div hlMenu class="dropdown"
+                    *ngIf="user_role == '2' || user_role == '13' || us_id == '13' ||  user_role == '1'">
+                    <button type="button" hlMenuButton class="btn btn-warning btn-sm dropdown-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+                            <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M9 10H6"></path>
+                            <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M19 14L5 14"></path>
+                            <circle fill="#ffffff" r="1" cy="10" cx="17"></circle>
+                            <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M15 16.5H9"></path>
+                            <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M13 19H9"></path>
+                            <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff"
+                                d="M22 12C22 14.8284 22 16.2426 21.1213 17.1213C20.48 17.7626 19.5535 17.9359 18 17.9827M6 17.9827C4.44655 17.9359 3.51998 17.7626 2.87868 17.1213C2 16.2426 2 14.8284 2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H16C18.8284 6 20.2426 6 21.1213 6.87868C21.4211 7.17848 21.6186 7.54062 21.7487 8">
+                            </path>
+                            <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff"
+                                d="M17.9827 6C17.9359 4.44655 17.7626 3.51998 17.1213 2.87868C16.2426 2 14.8284 2 12 2C9.17157 2 7.75736 2 6.87868 2.87868C6.23738 3.51998 6.06413 4.44655 6.01732 6M18 15V16C18 18.8284 18 20.2426 17.1213 21.1213C16.48 21.7626 15.5535 21.9359 14 21.9827M6 15V16C6 18.8284 6 20.2426 6.87868 21.1213C7.51998 21.7626 8.44655 21.9359 10 21.9827">
+                            </path>
+                        </svg>
+                        PRINTS
+                    </button>
+                    <ul *hlMenuItems class="whitespace-nowrap ltr:right-0 rtl:left-0">
+                        <li><a (click)="printQuote(1)">Grouped View</a></li>
+                        <!-- <li><a (click)="printQuote(2)">Combined Parts View</a></li> -->
+                        <li><a (click)="printQuote(3)">Combined Labour And Parts View</a></li>
+                    </ul>
+                </div>
+                <button type="button" class="btn btn-warning btn-sm" (click)="printQuote(1)"
+                    *ngIf="user_role != '2' && user_role != '13' && us_id != '13' &&  user_role != '1'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+                        <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M9 10H6"></path>
+                        <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M19 14L5 14"></path>
+                        <circle fill="#ffffff" r="1" cy="10" cx="17"></circle>
+                        <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M15 16.5H9"></path>
+                        <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M13 19H9"></path>
+                        <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff"
+                            d="M22 12C22 14.8284 22 16.2426 21.1213 17.1213C20.48 17.7626 19.5535 17.9359 18 17.9827M6 17.9827C4.44655 17.9359 3.51998 17.7626 2.87868 17.1213C2 16.2426 2 14.8284 2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H16C18.8284 6 20.2426 6 21.1213 6.87868C21.4211 7.17848 21.6186 7.54062 21.7487 8">
+                        </path>
+                        <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff"
+                            d="M17.9827 6C17.9359 4.44655 17.7626 3.51998 17.1213 2.87868C16.2426 2 14.8284 2 12 2C9.17157 2 7.75736 2 6.87868 2.87868C6.23738 3.51998 6.06413 4.44655 6.01732 6M18 15V16C18 18.8284 18 20.2426 17.1213 21.1213C16.48 21.7626 15.5535 21.9359 14 21.9827M6 15V16C6 18.8284 6 20.2426 6.87868 21.1213C7.51998 21.7626 8.44655 21.9359 10 21.9827">
+                        </path>
+                    </svg>
+
+                    PRINT
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" *ngIf="!data_load_flag" />
+    <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-3 lg:grid-cols-3" *ngIf="!data_load_flag">
+        <div>
+            Customer: <b>{{ qt_data.qt_cus_name }}</b>
+        </div>
+        <div>
+            Contact: <b>{{ qt_data.qt_cus_contact }}</b>
+        </div>
+        <div>
+            Make/Model/Year: <b>{{ qt_data.qt_make }} </b>
+        </div>
+        <div>
+            Chassis: <b>{{ qt_data.qt_chasis }}</b>
+        </div>
+        <div>
+            Reg No: <b>{{ qt_data.qt_reg_no }}</b>
+        </div>
+        <div>
+            Service Advisor: <b>{{ qt_data.sa_name }}</b>
+        </div>
+        <div>
+            SA Email: <b>{{ qt_data.sa_email }}</b>
+        </div>
+        <div>
+            Reference: <b>{{ qt_data.qt_jc_no }}</b>
+        </div>
+        <div>
+            Date: <b>{{ qtv_details.qvm_created_on | date }}</b>
+        </div>
+        <div>TRN No: <b>10026259840003</b></div>
+    </div>
+    <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" *ngIf="!data_load_flag" />
+    <table id="main_table" style="font-size: 0.8vw; font-weight: 600" class="table-hover" *ngIf="!data_load_flag">
+        <thead>
+            <tr style="background-color: rgb(0 171 85 / 0.2) !important;">
+                <th colspan="8" style="text-align: center; padding: 2px">SPARES</th>
+            </tr>
+            <tr>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Part Name</th>
+                <!-- <th>Part Code</th> -->
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Part Brand</th>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Part Type</th>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 2px">Quantity</th>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Availability</th>
+                <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Unit Price</th>
+                <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Sub Total</th>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 2px">Action</th>
+            </tr>
+        </thead>
+
+        <ng-container *ngFor="let item_master of qt_spare_item; let j = index">
+            <tbody class="master">
+                <ng-container *ngFor="let item_data of item_master.item_p_types; let i = index">
+                    <tr class="item_row" *ngIf="
+                            item_data.item_type == 1 &&
+                            item_data.item_delete_flag == false &&
+                            item_data.qit_delete_flag == false &&
+                            item_data.mapped_Flag == false
+                        ">
+                        <!--  && item_data.item_group == 0 -->
+                        <td [attr.rowspan]="item_master.item_p_types.length" class="include" *ngIf="i == 0"
+                            style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                            {{ item_data.item_name }}
+                        </td>
+                        <!-- <td
+              [attr.rowspan]="item_master.item_p_types.length"
+              class="include"
+              *ngIf="i == 0"
+            >
+              {{ item_data.item_code }}
+            </td> -->
+                        <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.brand_name }}({{
+                            item_data.brand_code }})</td>
+                        <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.qit_type }}</td>
+                        <td style="text-align: center; padding: 2px; border: 1px solid #ddd">
+                            {{ item_data.item_qty | number : '1.2-2' }}
+                        </td>
+                        <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.qit_availability
+                            }}</td>
+                        <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                            {{ item_data.qit_unit_price | number : '1.2-2' }}
+                        </td>
+                        <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                            {{ item_data.qit_unit_price * item_data.item_qty | number : '1.2-2' }}
+                        </td>
+                        <td style="text-align: center; padding: 2px; border: 1px solid #ddd">
+                            <input type="checkbox" [(ngModel)]="item_data.selected_flag" name="item_data_p_{{ i }}"
+                                (change)="groupCheckValue($event, item_data, item_master.item_p_types)"
+                                class="form-checkbox" [ngModelOptions]="{ standalone: true }" />
+
+                            <!-- <nb-checkbox [checked]="item_data.selected_flag" [(ngModel)]="item_data.selected_flag"
+                            name="item_data_p_{{ i }}" (change)="
+                  groupCheckValue(
+                    $event,
+                    item_data,
+                    item_master.item_p_types
+                  )
+                "></nb-checkbox> -->
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </ng-container>
+    </table>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; border: 1px solid #ddd"
+        *ngIf="!data_load_flag" />
+    <table id="main_table" style="font-size: 0.8vw; font-weight: 600" class="table-hover" *ngIf="!data_load_flag">
+        <thead>
+            <tr style="background-color: rgb(33 150 243 / 0.2) !important;">
+                <th colspan="6" style="text-align: center; padding: 2px">GENERIC ITEMS</th>
+            </tr>
+            <tr>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Generic Item</th>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Description</th>
+                <th style="text-align: center; border: 1px solid #ddd; padding: 2px">Quantity</th>
+                <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Unit Price</th>
+                <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Total Price</th>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Action</th>
+            </tr>
+        </thead>
+        <tbody class="master">
+            <ng-container *ngFor="let item_data of qt_items_master; let i = index">
+                <tr class="item_row"
+                    *ngIf="item_data.item_type == 3 && item_data.item_delete_flag == false && item_data.mapped_Flag == false">
+                    <!--  && item_data.item_group == 0 -->
+                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.item_code }}</td>
+                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.item_name }}</td>
+                    <td style="text-align: center; padding: 2px; border: 1px solid #ddd">{{ item_data.item_qty }}</td>
+                    <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                        <input type="text" [(ngModel)]="item_data.unit_price">
+                        <!-- {{ item_data.unit_price | number : '1.2-2' }} -->
+                    </td>
+                    <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                        {{ item_data.unit_price * item_data.item_qty | number : '1.2-2' }}
+                    </td>
+                    <td style="text-align: center; padding: 2px; border: 1px solid #ddd">
+                        <label class="inline-flex cursor-pointer">
+                            <input type="checkbox" [checked]="item_data.selected_flag"
+                                [(ngModel)]="item_data.selected_flag" (change)="groupCheckValue($event, item_data, [])"
+                                name="item_data_l_{{ i }}" class="form-checkbox"
+                                [ngModelOptions]="{ standalone: true }" />
+                            <span class="text-white-dark"></span>
+                        </label>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; border: 1px solid #ddd"
+        *ngIf="!data_load_flag" />
+    <table id="main_table" style="font-size: 0.8vw; font-weight: 600" class="table-hover" *ngIf="!data_load_flag">
+        <thead>
+            <tr style="background-color: rgb(226 160 63 / 0.2) !important">
+                <th colspan="3" style="text-align: center; padding: 2px">LABOUR</th>
+            </tr>
+            <tr>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Labour Description</th>
+                <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Labour Price</th>
+                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Action</th>
+            </tr>
+        </thead>
+        <tbody class="master">
+            <ng-container *ngFor="let item_data of qt_items_master; let i = index">
+                <tr class="item_row"
+                    *ngIf="item_data.item_type == 2 && item_data.item_delete_flag == false && item_data.mapped_Flag == false">
+                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.item_name }}</td>
+                    <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                        {{ item_data.unit_price | number : '1.2-2' }}
+                    </td>
+                    <td style="text-align: center; padding: 2px; border: 1px solid #ddd">
+                        <label class="inline-flex cursor-pointer">
+                            <input type="checkbox" [checked]="item_data.selected_flag"
+                                [(ngModel)]="item_data.selected_flag" (change)="groupCheckValue($event, item_data, [])"
+                                name="item_data_l_{{ i }}" class="form-checkbox"
+                                [ngModelOptions]="{ standalone: true }" />
+                            <span class="text-white-dark"></span>
+                        </label>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; border: 1px solid #ddd"
+        *ngIf="!data_load_flag" />
+    <div style="font-size: 18px; font-weight: 900; text-align: center" *ngIf="!data_load_flag">
+        <label><b>Particulars</b></label>
+    </div>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; border: 1px solid #ddd"
+        *ngIf="!data_load_flag" />
+    <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-4 lg:grid-cols-4" *ngIf="grouped_items.length > 0">
+        <div>
+            <label for="customer">Warranty Note</label>
+            <input type="text" [(ngModel)]="qtv_details.qvm_quote_label" name="qvm_quote_label" maxlength="80"
+                placeholder="Warranty Note" class="form-input" />
+        </div>
+    </div>
+    <table id="quote_table" *ngIf="grouped_items.length > 0" class="mb-2" style="border: 1px solid #eee">
+        <thead style="text-align: center; background-color: #818181; color: white">
+            <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Sl No</th>
+            <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Description</th>
+            <th style="text-align: center; border: 1px solid #ddd; padding: 2px">Quantity</th>
+            <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Unit Price</th>
+            <th style="text-align: right; border: 1px solid #ddd; padding: 2px">Total Price</th>
+            <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Action</th>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let group_items of grouped_items; let j = index; let even = even">
+                <tr [ngClass]="[group_items.length - 1 == i ? 'border_tr' : 'normal_tr', even ? ' even_row' : 'odd_row']"
+                    *ngFor="let line_item of group_items; let i = index">
+                    <td style="text-align: center" [attr.rowspan]="group_items.length" *ngIf="i == 0">
+                        {{ j + 1 }}
+                    </td>
+                    <td *ngIf="line_item.item_type == 1">
+                        {{ line_item.item_name }}
+                        <span style="font-size: 12px; font-style: italic; font-weight: 700">({{ line_item.brand_code }}
+                            - {{ line_item.qit_type }})</span>
+                    </td>
+                    <td *ngIf="line_item.item_type == 2">
+                        {{ line_item.item_name }}
+                    </td>
+                    <td *ngIf="line_item.item_type == 3">
+                        {{ line_item.item_code }}
+                    </td>
+                    <td style="text-align: center" *ngIf="line_item.item_type == 1 || line_item.item_type == 3">
+                        {{ line_item.qtvi_qtv_item_qty | number : '1.2-2' }}
+                    </td>
+                    <td style="text-align: right" *ngIf="line_item.item_type == 2"></td>
+                    <td style="text-align: right" [ngClass]="">
+                        <input type="number" [(ngModel)]="line_item.qtvi_qtv_item_price"
+                            (ngModelChange)="priceUpdate()" [ngStyle]="{
+                            'border': hoveredIndex === i ? '1px solid blue' : '1px solid #ccc', 
+                            'padding': '5px'
+                        }" (mouseover)="hoveredIndex = i" (mouseout)="hoveredIndex = -1" onKeyPress="if(this.value.length==8) return false;"
+                        oninput="validity.valid||(value='');" maxlength="8" step="0.01"/>
+                    </td>
+                    <td style="text-align: right">
+                        {{ line_item.qtvi_qtv_item_price * line_item.qtvi_qtv_item_qty | number : '1.2-2' }}
+                    </td>
+                    <td style="text-align: center">
+                        <button type="button" ngxTippy="Delete" (click)="deleteGrouped(line_item, i, group_items, j)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
+                                <path opacity="0.5"
+                                    d="M9.17065 4C9.58249 2.83481 10.6937 2 11.9999 2C13.3062 2 14.4174 2.83481 14.8292 4"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path
+                                    d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; border: 1px solid #ddd"
+        *ngIf="!data_load_flag" />
+    <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-12 lg:grid-cols-12" *ngIf="grouped_items.length > 0">
+        <div class="col-span-5">
+            <label>Additional Notes </label>
+            <textarea rows="6" [(ngModel)]="qtv_details.qvm_note" name="qvm_note" placeholder="Notes" class="form-input"
+                maxlength="8000"></textarea>
+        </div>
+        <div class="col-span-7" *ngIf="grouped_items.length > 0">
+            <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-12 lg:grid-cols-12">
+                <div style="text-align: right" class="col-span-10">
+                    <label>Total Spare Amount AED : </label>
+                </div>
+                <div style="text-align: right" class="col-span-2">
+                    <b>{{ spare_total | number : '1.2-2' }}
+                    </b>
+                </div>
+            </div>
+            <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-12 lg:grid-cols-12">
+                <div style="text-align: right" class="col-span-10">
+                    <label>Total Labour Amount AED : </label>
+                </div>
+                <div style="text-align: right" class="col-span-2">
+                    <b>{{ labour_total | number : '1.2-2' }}</b>
+                </div>
+            </div>
+            <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-12 lg:grid-cols-12">
+                <div style="text-align: right" class="col-span-10">
+                    <label>VAT(5%) : </label>
+                </div>
+                <div style="text-align: right" class="col-span-2">
+                    <b>{{ quote_vat | number : '1.2-2' }}</b>
+                </div>
+            </div>
+            <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-12 lg:grid-cols-12">
+                <div style="text-align: right" class="col-span-10">
+                    <label>Discount: </label>
+                </div>
+                <div style="text-align: right" class="col-span-2">
+                    <input type="number" [(ngModel)]="discount" name="discount" step="0.01"
+                        style="background-color: lightgray; border-width: 1px; text-align: right; border-radius: 5px"
+                        (input)="updateGrandTotal()" onKeyPress="if(this.value.length==8) return false;"
+                        class="form-input py-1.5 text-xs" />
+                </div>
+            </div>
+            <div class="mb-2 grid grid-cols-12 gap-1 md:grid-cols-12 lg:grid-cols-12">
+                <div style="text-align: right" class="col-span-10">
+                    <label>Grand Total: </label>
+                </div>
+                <div style="text-align: right; font-size: 1.5vw; font-weight: 800" class="col-span-2">
+                    <b>{{ total_amt | number : '1.2-2' }} </b>
+                </div>
+            </div>
+            <div class="mb-2 grid grid-cols-1 gap-1" style="text-align: right; text-transform: capitalize">
+                <b>{{ tot_words }} Dirhams Only</b>
+            </div>
+        </div>
+    </div>
+    <div style="display: flex; justify-content: flex-end" class="mt-5" *ngIf="!data_load_flag">
+        <button type="button" class="btn btn-danger ml-2"
+            *ngIf="selected_grouping_count == 0 && grouped_items.length > 0" style="float: left"
+            (click)="close()">CLOSE</button>
+        <button type="button" class="btn btn-warning ml-2" *ngIf="selected_grouping_count > 0" style="float: right"
+            (click)="groupItemsUpdate()">
+            Group Items
+        </button>
+        <button type="button" class="btn btn-primary ml-2"
+            *ngIf="selected_grouping_count == 0 && grouped_items.length > 0 && item_edit_value == 0"
+            style="float: right" (click)="updateQuote()">
+            Update Quote
+        </button>
+        <button type="button" class="btn btn-success ml-2"
+            *ngIf="selected_grouping_count == 0 && grouped_items.length > 0 && item_edit_value > 0" style="float: right"
+            (click)="updateQuote()">
+            CREATE NEW VERSION
+        </button>
+    </div>
+    <div *ngIf="data_load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>

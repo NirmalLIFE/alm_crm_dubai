@@ -1,0 +1,234 @@
+<!-- <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+        <input type="text" placeholder="Customer Number" [(ngModel)]="leadDetails.phone"
+            class="form-input text-xs" maxlength="50" />
+    </div>
+    <div>
+        <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+        <input type="text" placeholder="Customer name" [(ngModel)]="leadDetails.cust_name"
+            class="form-input text-xs" maxlength="50" />
+    </div>
+</div> -->
+<form [formGroup]="leadLog" novalidate>
+    <div class="mb-3 flex items-center justify-center" *ngIf="appoint_flag !=true">
+        <div [ngClass]="leadLog.controls['call_purpose'].touched ? (leadLog.controls['call_purpose'].errors ? 'has-error' : 'has-success') : ''"
+            style="width: 50%; text-align: center">
+            <label for="email">Purpose</label>
+            <ng-select [items]="purposeList" bindLabel="call_purpose" bindValue="cp_id" formControlName="call_purpose"
+                [searchable]="true" [clearable]="false" placeholder="Choose purpose" class="custom-multiselect"
+                appendTo="body" (change)="purposeChangeDataFetch()">
+            </ng-select>
+            <ng-container *ngIf="leadLog.controls['call_purpose'].touched && leadLog.controls['call_purpose'].errors">
+                <p class="mt-1 text-danger">Please enter valid purpose</p>
+            </ng-container>
+        </div>
+    </div>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+    <div class="table-responsive" *ngIf="leads.length > 0">
+        <label> <b>Leads</b></label>
+        <table class="small_view" style="border: 1px solid #eee">
+            <thead>
+                <tr *ngFor="let ld of leads">
+                    <th>Created</th>
+                    <th>Lead Code</th>
+                    <th *ngIf="ld.purpose_id =='1'">Appointment Code</th>
+                    <th>Purpose</th>
+                    <th *ngIf="ld.purpose_id =='1'">Appointment Date</th>
+                    <th>Status</th>
+                    <th>Source</th>
+                    <th style="width: 25%">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ld of leads">
+                    <td>{{ ld.created }}</td>
+                    <td>
+                        <span class="badge badge-outline-primary">{{ ld.lead_code }}</span>
+                    </td>
+                    <td *ngIf="ld.purpose_id =='1'">
+                        <span class="badge badge-outline-primary">{{ ld.apptm_code }}</span>
+                    </td>
+                    <td>{{ ld.call_purpose }}</td>
+                    <td *ngIf="ld.purpose_id =='1'">{{ ld.ld_appoint_date }}</td>
+                    <td>{{ ld.ld_sts }}</td>
+                    <td>{{ ld.ld_src }}</td>
+                    <td>{{ ld.lead_note }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="leads.length > 0">
+        <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+    </div>
+    <div class="mb-3 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3">
+        <div
+            [ngClass]="leadLog.controls['customerNumber'].touched ? (leadLog.controls['customerName'].errors ? 'has-error' : 'has-success') : ''">
+            <label for="customerNumber" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+            <input id="customerNumber" type="text" formControlName="customerNumber" placeholder="Customer Number"
+                class="form-input text-xs" maxlength="50" (change)="checkExistigCust()" />
+        </div>
+        <div
+            [ngClass]="leadLog.controls['customerName'].touched ? (leadLog.controls['customerName'].errors ? 'has-error' : 'has-success') : ''">
+            <label for="customerName" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+            <input id="customerName" (keydown.enter)="preventDefault()" type="text" formControlName="customerName"
+                placeholder="Customer Name" class="form-input text-xs" maxlength="50" />
+            <ng-container *ngIf="leadLog.controls['customerName'].touched && leadLog.controls['customerName'].errors">
+                <p class="mt-1 text-danger">Please enter valid name</p>
+            </ng-container>
+        </div>
+        <div *ngIf="leadLog.controls['call_purpose'].value == '1'">
+            <label for="appointment_date" class="small_label_text m-0 dark:text-white-dark">Appointment Date*</label>
+            <ng2-flatpickr (keydown.enter)="preventDefault()" [config]="basic" formControlName="appointment_date"
+                placeholder="Appointment Date" addClass="form-input text-xs"
+                (change)="changeTimeslots(leadLog.controls['appointment_date'].value )"></ng2-flatpickr>
+        </div>
+        <div [ngClass]="leadLog.controls['call_purpose'].touched ? (leadLog.controls['call_purpose'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="leadLog.controls['call_purpose'].value == '1'">
+            <label for="apptm_group" class="small_label_text m-0 dark:text-white-dark">Appointment Type*</label>
+            <ng-select formControlName="apptm_group" [searchable]="true" [clearable]="false"
+                placeholder="Appointment Type" class="custom-multiselect" appendTo="body">
+                <ng-option value="1">Normal</ng-option>
+                <ng-option value="2">Campaign</ng-option>
+            </ng-select>
+        </div>
+        <div *ngIf="leadLog.controls['call_purpose'].value == '1'">
+            <label for="appointment_time" class="small_label_text m-0 dark:text-white-dark">Appointment TIme*</label>
+            <ng-select [items]="timeSlots" bindLabel="time_slots" formControlName="appointment_time"
+                bindValue="time_slots" [searchable]="true" [clearable]="true" placeholder="Appointment Time"
+                class="custom-multiselect">
+            </ng-select>
+            <!-- <input type="time" (keydown.enter)="preventDefault()" id="appointment_time"
+                formControlName="appointment_time" class="form-input text-xs" placeholder="Appointment Time" /> -->
+        </div>
+        <div *ngIf="appoint_flag !=true"
+            [ngClass]="leadLog.controls['source_id'].touched ? (leadLog.controls['source_id'].errors ? 'has-error' : 'has-success') : ''">
+            <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Lead Source*</label>
+            <ng-select [items]="sourceList" bindLabel="ld_src" bindValue="ld_src_id" formControlName="source_id"
+                [searchable]="true" [clearable]="false" placeholder="Lead Source" class="custom-multiselect"
+                appendTo="body" (change)="getSocialMediaCampaign(leadLog.controls['source_id'].value)">
+            </ng-select>
+        </div>
+        <div class="col-span-2" *ngIf="leadLog.controls['source_id'].value=='2'"
+            [ngClass]="leadLog.controls['social_media_camp'].touched ? (leadLog.controls['social_media_camp'].errors ? 'has-error' : 'has-success') : ''">
+            <label for="lead_social_media_camp" class="small_label_text m-0 dark:text-white-dark">Social Media
+                Campaign*</label>
+            <ng-select [items]="socialMediaCampaignList" bindLabel="displayLabel" bindValue="smc_id"
+                formControlName="social_media_camp" [searchable]="true" [clearable]="false"
+                placeholder="Social Media Campaign List" class="custom-multiselect" appendTo="body"
+                (change)="getSocialMediaCampaignSource(leadLog.controls['social_media_camp'].value)">
+            </ng-select>
+        </div>
+        <div *ngIf="leadLog.controls['source_id'].value === '2'">
+            <label for="social_media_source" class="small_label_text m-0 dark:text-white-dark">Social Media
+                Source*</label>
+            <input id="social_media_source" type="text" readonly
+                [value]="getSocialMediaName(leadLog.controls['social_media_source'].value)" class="form-input text-xs"
+                maxlength="12" />
+            <!-- <ng-select [items]="socialMediaSourceList" bindLabel="smcs_name" bindValue="smcs_id"
+                formControlName="social_media_source" [searchable]="true" [clearable]="false"
+                placeholder="Social Media Source List" class="custom-multiselect" appendTo="body">
+            </ng-select> -->
+        </div>
+        <div [ngClass]="leadLog.controls['vehicle_model'].touched ? (leadLog.controls['vehicle_model'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="
+                leadLog.controls['call_purpose'].value == '4' || leadLog.controls['call_purpose'].value == '3' || leadLog.controls['call_purpose'].value == '1'
+            ">
+            <label for="vehicle_model" class="small_label_text m-0 dark:text-white-dark">Vehicle Model</label>
+            <input id="vehicle_model" (keydown.enter)="preventDefault()" type="text" formControlName="vehicle_model"
+                placeholder="Vehicle Model" class="form-input text-xs" maxlength="60" />
+            <ng-container *ngIf="leadLog.controls['vehicle_model'].touched && leadLog.controls['vehicle_model'].errors">
+                <p class="mt-1 text-danger">Please enter valid vehicle model</p>
+            </ng-container>
+        </div>
+        <div [ngClass]="leadLog.controls['reg_no'].touched ? (leadLog.controls['reg_no'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="
+                leadLog.controls['call_purpose'].value == '4' || leadLog.controls['call_purpose'].value == '3' || leadLog.controls['call_purpose'].value == '1'
+            ">
+            <label for="reg_no" class="small_label_text m-0 dark:text-white-dark">Register Number</label>
+            <input id="reg_no" (keydown.enter)="preventDefault()" type="text" formControlName="reg_no"
+                placeholder="Register Number" class="form-input text-xs" maxlength="12" />
+            <ng-container *ngIf="leadLog.controls['reg_no'].touched && leadLog.controls['reg_no'].errors">
+                <p class="mt-1 text-danger">Please enter valid register number</p>
+            </ng-container>
+        </div>
+        <div [ngClass]="leadLog.controls['call_purpose'].touched ? (leadLog.controls['call_purpose'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="leadLog.controls['call_purpose'].value == '4'">
+            <label for="lead_status" class="small_label_text m-0 dark:text-white-dark">Lead Status*</label>
+            <ng-select formControlName="lead_status" [searchable]="true" [clearable]="false" placeholder="Lead Status"
+                class="custom-multiselect" appendTo="body">
+                <ng-option value="1">Open</ng-option>
+                <ng-option value="6">Closed</ng-option>
+            </ng-select>
+        </div>
+        <div [ngClass]="leadLog.controls['call_purpose'].touched ? (leadLog.controls['call_purpose'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="leadLog.controls['call_purpose'].value == '3' || leadLog.controls['call_purpose'].value == '1' || leadLog.controls['call_purpose'].value == '2'">
+            <label for="assigned_to" class="small_label_text m-0 dark:text-white-dark">Assign To*</label>
+            <ng-select [items]="saCreList" bindLabel="us_firstname" bindValue="us_id" formControlName="assigned_to"
+                [searchable]="true" [clearable]="false" placeholder="Assigned Staff" class="custom-multiselect"
+                appendTo="body">
+            </ng-select>
+        </div>
+        <div [ngClass]="leadLog.controls['call_purpose'].touched ? (leadLog.controls['call_purpose'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="leadLog.controls['call_purpose'].value == '1'">
+            <label for="pick_drop" class="small_label_text m-0 dark:text-white-dark">Pick & Drop</label>
+            <ng-select formControlName="pick_drop" [searchable]="true" [clearable]="false"
+                placeholder="Pick & Drop Facility" class="custom-multiselect" appendTo="body">
+                <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                <ng-option value="2">Pick Up Required</ng-option>
+                <ng-option value="3">Drop Off Required</ng-option>
+                <ng-option value="4">Not Required</ng-option>
+            </ng-select>
+        </div>
+        <div [ngClass]="leadLog.controls['campaign_data'].touched ? (leadLog.controls['campaign_data'].errors ? 'has-error' : 'has-success') : ''"
+            *ngIf="leadLog.controls['call_purpose'].value == '2'">
+            <label for="campaign_data" class="small_label_text m-0 dark:text-white-dark">Select Campaign*</label>
+            <ng-select [items]="campaignList" bindLabel="camp_name" bindValue="camp_id" formControlName="campaign_data"
+                [searchable]="true" [clearable]="false" placeholder="Select Campaign" class="custom-multiselect"
+                appendTo="body">
+            </ng-select>
+        </div>
+        <div *ngIf="leadLog.controls['call_purpose'].value == '2'">
+            <label for="campaign_date" class="small_label_text m-0 dark:text-white-dark">Expected Arrival Date</label>
+            <ng2-flatpickr (keydown.enter)="preventDefault()" [config]="basic" formControlName="campaign_date"
+                placeholder="Expected Arrival Date" addClass="form-input text-xs"></ng2-flatpickr>
+        </div>
+        <div class="ng-autocomplete col-span-2">
+            <label for="call_note" class="small_label_text m-0 dark:text-white-dark">Customer Remark*</label>
+            <ng-select [items]="filteredNotesList" formControlName="call_note" [searchable]="true" [clearable]="false"
+                [addTag]="true" placeholder="Add note or select a note" class="custom-multiselect" appendTo="body"
+                (search)="onSearchChange($event)" (add)="onAddNewNote($event)">
+            </ng-select>
+            <!-- <ng-autocomplete [data]="filteredNotesList" [searchKeyword]="noteSearch" placeholder="Customer Remarks"
+                maxlength="250" formControlName="call_note" class="custom-multiselect" [itemTemplate]="itemTemplateCode"
+                (keydown.enter)="preventDefault()"  (inputChanged)="onSearchChange($event)" appendTo="body">
+            </ng-autocomplete> -->
+        </div>
+        <ng-template #itemTemplateCode let-item>
+            <a [innerHTML]="item"></a>
+        </ng-template>
+    </div>
+</form>
+<div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
+    <button class="btn btn-danger" style="float: left" (click)="modalEvent.emit()">DISMISS</button>
+    <button class="btn btn-dark" *ngIf="appoint_flag !=true && button_act_state==0"
+        [disabled]="!leadLog.controls['call_purpose'].value" (click)="saveLeadDetails()">SAVE
+        DATA</button>
+    <button type="submit" class="btn btn-dark" *ngIf="appoint_flag !=true && button_act_state==1" disabled>SAVE DATA
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2">
+            <line x1="12" y1="2" x2="12" y2="6"></line>
+            <line x1="12" y1="18" x2="12" y2="22"></line>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+            <line x1="2" y1="12" x2="6" y2="12"></line>
+            <line x1="18" y1="12" x2="22" y2="12"></line>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+        </svg>
+
+
+    </button>
+    <button class="btn btn-dark" *ngIf="appoint_flag == true" (click)="appointmentDetails()">Appointment Edit</button>
+</div>

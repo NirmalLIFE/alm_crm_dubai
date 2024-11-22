@@ -1,0 +1,1020 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">MIS
+            Module</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a href="javascript:;"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">PSF
+            Report</a>
+    </li>
+</ol>
+
+
+<div class="mb-5">
+    <div class="mt-3 flex flex-wrap justify-center border-b border-white-light dark:border-[#191e3a]">
+        <a href="javascript:;"
+            class="-mb-[1px] block border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black"
+            [ngClass]="{ '!border-white-light !border-b-white text-primary dark:!border-[#191e3a] dark:!border-b-black': tab13.toLowerCase() === 'home' }"
+            (click)="tab13 = 'home'">
+            PRIMARY PSF REPORT
+        </a>
+
+        <a href="javascript:;"
+            class="-mb-[1px] block border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black"
+            [ngClass]="{ '!border-white-light !border-b-white text-primary dark:!border-[#191e3a] dark:!border-b-black': tab13.toLowerCase() === 'profile' }"
+            (click)="tab13 = 'profile'">
+            PSF SECOND FOLLOWUP REPORT
+        </a>
+    </div>
+    <div class="flex-1 pt-5 text-sm" *ngIf="!load_flag">
+        <div *ngIf="tab13.toLowerCase() === 'home'">
+
+            <!-- <div class="panel mt-0 pb-0">
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Primary PSF Report</h5>
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+                        <input type="date" placeholder="Date To" [(ngModel)]="dateTo" class="form-input text-xs" />
+                        <button type="button" class="btn btn-success btn-sm" style="float: right" (click)="getPsfWhatsappReport()">SEARCH</button>
+                    </div>
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div> -->
+
+
+
+
+
+            <div class="mb-5 grid grid-cols-2 gap-4 md:grid-cols-5 lg:grid-cols-5">
+                <div>
+                    <input type="date" [(ngModel)]="startDate" class="form-input" ngxTippy="Start Date"
+                        placeholder="Invoice Date From" />
+                </div>
+                <div>
+                    <input type="date" [(ngModel)]="endDate" class="form-input" ngxTippy="End Date"
+                        placeholder="Invoice Date From" />
+                </div>
+                <div>
+                    <button type="button" (click)="SearchFilter()" class="btn btn-outline-primary">SEARCH</button>
+                </div>
+            </div>
+            <div></div>
+            <br />
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-4">
+                <div class="col-span-2">
+                    <div class="panel panel-bd lobidisable lobipanel lobipanel-sortable">
+                        <div class="panel-heading ui-sortable-handle">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4">
+                                <div class="col-span-2">
+                                    <label class="label"
+                                        style="margin-bottom: 0; color: black; font-size: medium; display: inline-block">
+                                        Expired Calls -
+                                        <b style="color: red; display: inline-block">{{ org_psf_data.expired_psf_calls
+                                            }}</b>
+                                        <label style="color: orange; display: inline-block">&nbsp;({{
+                                            (org_psf_data.expired_psf_calls / org_psf_data.total_psf_calls) * 100 |
+                                            number : '1.2-2' }}%)</label>
+                                    </label>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="dropdown" style="text-align: right">
+                                        <a (click)="navigateExpired(1)"
+                                            style="color: #3366ff; cursor: pointer; text-align: right">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" *ngIf="expired_calls.length > 0">
+                            <ng-container *ngFor="let exp of expired_calls">
+                                <div class="work-touchpoint">
+                                    <div class="work-touchpoint-date">
+                                        <span class="day">{{ exp.user_psf_calls.length }}</span>
+                                        <span class="month">Total</span>
+                                    </div>
+                                </div>
+                                <div class="detailswork">
+                                    <span class="label-custom label label-default pull-right">{{ exp.expired }}
+                                        CALL</span>
+                                    <a title="headings">{{ exp.us_firstname }} </a>
+                                    <br />
+                                    <p>{{ exp.role_name }}</p>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="panel-body" *ngIf="expired_calls.length == 0" style="text-align: center">
+                            <b>Nothing To Show Here</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <div class="panel panel-bd lobidisable lobipanel lobipanel-sortable">
+                        <div class="panel-heading ui-sortable-handle">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4">
+                                <div class="col-span-2">
+                                    <label
+                                        style="margin-bottom: 0; color: black; font-size: medium; display: inline-block">
+                                        Dissatisfied Customers -
+                                        <b style="color: red; display: inline-block">{{
+                                            org_psf_data.dissatisfied_psf_calls }}</b>
+                                        <label style="color: orange; display: inline-block">&nbsp;({{
+                                            (org_psf_data.dissatisfied_psf_calls / org_psf_data.total_psf_calls) * 100 |
+                                            number : '1.2-2' }}%)</label>
+                                    </label>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="dropdown" style="text-align: right">
+                                        <a style="color: #3366ff; cursor: pointer" (click)="navigateExpired(2)">View
+                                            Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" *ngIf="dissatisfied_calls.length > 0">
+                            <ng-container *ngFor="let dis of dissatisfied_calls">
+                                <div class="Pendingwork">
+                                    <span class="label-danger label label-default pull-right">{{ dis.dis_satisfied }}
+                                        Customer</span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="ng-star-inserted h-6 w-6"
+                                        style="vertical-align: middle">
+                                        <path d="M12 7V13" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round"></path>
+                                        <circle cx="12" cy="16" r="1" fill="currentColor"></circle>
+                                        <path opacity="0.5"
+                                            d="M7.84308 3.80211C9.8718 2.6007 10.8862 2 12 2C13.1138 2 14.1282 2.6007 16.1569 3.80211L16.8431 4.20846C18.8718 5.40987 19.8862 6.01057 20.4431 7C21 7.98943 21 9.19084 21 11.5937V12.4063C21 14.8092 21 16.0106 20.4431 17C19.8862 17.9894 18.8718 18.5901 16.8431 19.7915L16.1569 20.1979C14.1282 21.3993 13.1138 22 12 22C10.8862 22 9.8718 21.3993 7.84308 20.1979L7.15692 19.7915C5.1282 18.5901 4.11384 17.9894 3.55692 17C3 16.0106 3 14.8092 3 12.4063V11.5937C3 9.19084 3 7.98943 3.55692 7C4.11384 6.01057 5.1282 5.40987 7.15692 4.20846L7.84308 3.80211Z"
+                                            stroke="currentColor" stroke-width="1.5"></path>
+                                    </svg>
+                                    <a style="vertical-align: middle">{{ dis.us_firstname }} ({{ dis.role_name }})</a>
+                                    <div class="upworkdate">
+                                        <p>
+                                            {{ dis.dis_satisfied }} of {{ dis.user_psf_calls.length }} customers ({{
+                                            (dis.dis_satisfied / dis.user_psf_calls.length) * 100 | number : '1.2-2'
+                                            }}%)
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="panel-body" *ngIf="dissatisfied_calls.length == 0" style="text-align: center">
+                            <b>Nothing To Show Here</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-1">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table-striped table-bordered table" style="margin-bottom: 0 !important">
+                            <thead
+                                style="position: sticky; top: 0px; font-size: 10px; color: #fff; font-weight: 700; text-align: center; width: 100%">
+                                <tr>
+                                    <th style="background-color: #eee; text-align: center; padding: 0.5%; color: #000; font-size: 14px"
+                                        colspan="13">
+                                        <b>Company Analysis</b>
+                                    </th>
+                                </tr>
+                                <tr style="text-align: center">
+                                    <th style="background-color: #1e7a00; text-align: center" colspan="6">Completed
+                                        Calls</th>
+                                    <!-- <th rowspan="2" style="vertical-align: middle">
+                            Active Calls
+                          </th> -->
+                                    <th style="background-color: #1e7a00; text-align: center" colspan="4">Incomplete
+                                        Calls</th>
+                                    <th style="background-color: #1e7a00; text-align: center" colspan="3">Expired Calls
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #959595">Ext. Satisfied</th>
+                                    <th style="background-color: #959595">Fairly. Satisfied</th>
+                                    <th style="background-color: #959595">Satisfied</th>
+                                    <th style="background-color: #959595">Dissatisfied</th>
+                                    <th style="background-color: #959595">Non contactable</th>
+                                    <th style="background-color: #ffbc43">Total Comp.</th>
+                                    <th style="background-color: #959595">0 Attempt</th>
+                                    <th style="background-color: #959595">1 Attempt</th>
+                                    <th style="background-color: #959595">2 Attempt</th>
+                                    <th style="background-color: #ffbc43">Total Incomplete.</th>
+                                    <th style="background-color: #959595">Without Attempt</th>
+                                    <th style="background-color: #959595">With Attempt</th>
+                                    <th style="background-color: #ffbc43">Total Expired</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 14px">
+                                <tr>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.extHappy_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.fairlyHappy_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.happy_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.dissatisfied_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">
+                                        {{ org_psf_data.closed_after_max_psf_attempt }}
+                                    </td>
+                                    <td style="background-color: #ffbc43">
+                                        {{
+                                        org_psf_data.extHappy_psf_calls +
+                                        org_psf_data.fairlyHappy_psf_calls +
+                                        org_psf_data.happy_psf_calls +
+                                        org_psf_data.dissatisfied_psf_calls +
+                                        org_psf_data.closed_after_max_psf_attempt
+                                        }}
+                                    </td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.calls_zero_attempt }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.calls_one_attempt }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data.calls_two_attempt }}</td>
+                                    <td style="background-color: #ffbc43">
+                                        {{ org_psf_data.calls_zero_attempt + org_psf_data.calls_one_attempt +
+                                        org_psf_data.calls_two_attempt }}
+                                    </td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">
+                                        {{ org_psf_data.expired_psf_calls_non_attempt }}
+                                    </td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">
+                                        {{ org_psf_data.expired_psf_calls_attempt }}
+                                    </td>
+                                    <td style="background-color: #ffbc43">
+                                        {{ org_psf_data.expired_psf_calls_non_attempt +
+                                        org_psf_data.expired_psf_calls_attempt }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: right; background-color: #eed">
+                                        <b>PSF Not Driven</b>
+                                    </td>
+                                    <td colspan="1" style="text-align: right; background-color: #eed">
+                                        <b>{{ org_psf_data.psf_not_driven_calls }}</b>
+                                    </td>
+                                    <td colspan="2" style="text-align: right; background-color: #eeb">
+                                        <b>PSF not applicable calls</b>
+                                    </td>
+                                    <td *ngIf="org_psf_data.psf_not_applicable_calls > 0" colspan="1"
+                                        style="text-align: right; background-color: #eeb; text-decoration: underline; color: blue; cursor: pointer"
+                                        (click)="psfNotApplicable()">
+                                        <b>{{ org_psf_data.psf_not_applicable_calls }}</b>
+                                    </td>
+                                    <td *ngIf="org_psf_data.psf_not_applicable_calls == 0" colspan="1"
+                                        style="text-align: right; background-color: #eeb">
+                                        <b>{{ org_psf_data.psf_not_applicable_calls }}</b>
+                                    </td>
+                                    <td colspan="6" style="text-align: right; background-color: #dff7b1">
+                                        <b>Total PSF Calls</b>
+                                    </td>
+                                    <td colspan="1" style="text-align: right; background-color: #dff7b1">
+                                        <b>{{ org_psf_data.total_psf_calls + org_psf_data.psf_not_driven_calls }}</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6" style="margin-top: 1%">
+                  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-striped table-bordered" style="margin-bottom: 0 !important">
+                      <tbody style="font-size: 14px">
+                        <tr style="background-color: #930000; color: #fff">
+                          <td style="text-align: center; padding: 0.5%" colspan="3">
+                            <b>Company Statistics</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%; width: 60%">Expired %</td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: red;
+                              width: 19.9%;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              ((org_psf_data.expired_psf_calls_non_attempt +
+                              org_psf_data.expired_psf_calls_attempt) /
+                              org_psf_data.newtotalcalls) *
+                              100 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                          <td rowspan="4" style="text-align: center; padding-top: 10%">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">100%</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%">Non Contactable %</td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: red;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              (org_psf_data.closed_after_max_psf_attempt /
+                              org_psf_data.newtotalcalls) *
+                              100 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%">Incomplete %</td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: orange;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              ((org_psf_data.calls_zero_attempt +
+                              org_psf_data.calls_one_attempt +
+                              org_psf_data.calls_two_attempt) /
+                              org_psf_data.newtotalcalls) *
+                              100 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%">Contacted %</td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: green;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              ((org_psf_data.extHappy_psf_calls +
+                              org_psf_data.fairlyHappy_psf_calls +
+                              org_psf_data.happy_psf_calls +
+                              org_psf_data.dissatisfied_psf_calls) /
+                              org_psf_data.newtotalcalls) *
+                              100 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table class="table table-striped table-bordered" style="margin-bottom: 0 !important">
+                      <tbody style="font-size: 14px">
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%; width: 60%; color: #e25300">
+                            Ext Satisfied %
+                          </td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: red;
+                              width: 19.9%;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">
+                              {{
+                              (org_psf_data.extHappy_psf_calls /
+                              (org_psf_data.extHappy_psf_calls +
+                              org_psf_data.fairlyHappy_psf_calls +
+                              org_psf_data.happy_psf_calls +
+                              org_psf_data.dissatisfied_psf_calls)) *
+                              100 || 0 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                          <td rowspan="4" style="text-align: center; padding-top: 10%">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">100%</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%; width: 60%; color: #e25300">
+                            Fairly Satisfied %
+                          </td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: red;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              (org_psf_data.fairlyHappy_psf_calls /
+                              (org_psf_data.extHappy_psf_calls +
+                              org_psf_data.fairlyHappy_psf_calls +
+                              org_psf_data.happy_psf_calls +
+                              org_psf_data.dissatisfied_psf_calls)) *
+                              100 || 0 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%; width: 60%; color: #e25300">
+                            Satisfied %
+                          </td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: red;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">
+                              {{
+                              (org_psf_data.happy_psf_calls /
+                              (org_psf_data.extHappy_psf_calls +
+                              org_psf_data.fairlyHappy_psf_calls +
+                              org_psf_data.happy_psf_calls +
+                              org_psf_data.dissatisfied_psf_calls)) *
+                              100 || 0 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: #fff">
+                          <td style="padding: 1%; width: 60%; color: #e25300">
+                            Dissatisfied %
+                          </td>
+                          <td style="
+                              padding: 1%;
+                              text-align: center;
+                              color: red;
+                            ">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              (org_psf_data.dissatisfied_psf_calls /
+                              (org_psf_data.extHappy_psf_calls +
+                              org_psf_data.fairlyHappy_psf_calls +
+                              org_psf_data.happy_psf_calls +
+                              org_psf_data.dissatisfied_psf_calls)) *
+                              100 || 0 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                        <tr style="background-color: yellow">
+                          <td style="text-align: center; padding: 0.5%">
+                            <b>Customer Satisfaction Index(CSI)</b>
+                          </td>
+                          <td style="text-align: center; padding: 0.5%" colspan="2">
+                            <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                              ((org_psf_data.extHappy_psf_calls * 5 +
+                              org_psf_data.fairlyHappy_psf_calls * 4 +
+                              org_psf_data.happy_psf_calls * 3 -
+                              org_psf_data.dissatisfied_psf_calls * 5) /
+                              ((org_psf_data.extHappy_psf_calls +
+                              org_psf_data.fairlyHappy_psf_calls +
+                              org_psf_data.happy_psf_calls +
+                              org_psf_data.dissatisfied_psf_calls) *
+                              5)) *
+                              100 || 0 | number : "1.2-2"
+                              }}
+                              %</b>
+                            <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-6"></div> -->
+            </div>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4">
+                <div class="col-span-2" style="margin-top: 1%">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table-striped table-bordered table" style="margin-bottom: 0 !important">
+                            <tbody style="font-size: 14px">
+                                <tr>
+                                    <td style="text-align: center; padding: 0.5%; background-color: #930000; color: #fff"
+                                        colspan="3">
+                                        <b>Company Statistics</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; width: 60%; background-color: #fff">Expired %</td>
+                                    <td
+                                        style="padding: 1%; text-align: center; color: red; width: 19.9%; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            ((org_psf_data.expired_psf_calls_non_attempt +
+                                            org_psf_data.expired_psf_calls_attempt) /
+                                            org_psf_data.newtotalcalls) *
+                                            100 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                    <td rowspan="4" style="text-align: center; padding-top: 10%">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">100%</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; background-color: #fff">Non Contactable %</td>
+                                    <td style="padding: 1%; text-align: center; color: red; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            (org_psf_data.closed_after_max_psf_attempt / org_psf_data.newtotalcalls) *
+                                            100 | number : '1.2-2' }} %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; background-color: #fff">Incomplete %</td>
+                                    <td style="padding: 1%; text-align: center; color: orange; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            ((org_psf_data.calls_zero_attempt + org_psf_data.calls_one_attempt +
+                                            org_psf_data.calls_two_attempt) /
+                                            org_psf_data.newtotalcalls) *
+                                            100 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; background-color: #fff">Contacted %</td>
+                                    <td style="padding: 1%; text-align: center; color: green; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            ((org_psf_data.extHappy_psf_calls +
+                                            org_psf_data.fairlyHappy_psf_calls +
+                                            org_psf_data.happy_psf_calls +
+                                            org_psf_data.dissatisfied_psf_calls) /
+                                            org_psf_data.newtotalcalls) *
+                                            100 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table-striped table-bordered table" style="margin-bottom: 0 !important">
+                            <tbody style="font-size: 14px">
+                                <tr>
+                                    <td style="padding: 1%; width: 60%; color: #e25300; background-color: #fff">Ext
+                                        Satisfied %</td>
+                                    <td
+                                        style="padding: 1%; text-align: center; color: red; width: 19.9%; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">
+                                            {{
+                                            (org_psf_data.extHappy_psf_calls /
+                                            (org_psf_data.extHappy_psf_calls +
+                                            org_psf_data.fairlyHappy_psf_calls +
+                                            org_psf_data.happy_psf_calls +
+                                            org_psf_data.dissatisfied_psf_calls)) *
+                                            100 || 0 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                    <td rowspan="4" style="text-align: center; padding-top: 10%">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">100%</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; width: 60%; color: #e25300; background-color: #fff">Fairly
+                                        Satisfied %</td>
+                                    <td style="padding: 1%; text-align: center; color: red; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            (org_psf_data.fairlyHappy_psf_calls /
+                                            (org_psf_data.extHappy_psf_calls +
+                                            org_psf_data.fairlyHappy_psf_calls +
+                                            org_psf_data.happy_psf_calls +
+                                            org_psf_data.dissatisfied_psf_calls)) *
+                                            100 || 0 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; width: 60%; color: #e25300; background-color: #fff">
+                                        Satisfied %</td>
+                                    <td style="padding: 1%; text-align: center; color: red; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">
+                                            {{
+                                            (org_psf_data.happy_psf_calls /
+                                            (org_psf_data.extHappy_psf_calls +
+                                            org_psf_data.fairlyHappy_psf_calls +
+                                            org_psf_data.happy_psf_calls +
+                                            org_psf_data.dissatisfied_psf_calls)) *
+                                            100 || 0 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 1%; width: 60%; color: #e25300; background-color: #fff">
+                                        Dissatisfied %</td>
+                                    <td style="padding: 1%; text-align: center; color: red; background-color: #fff">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            (org_psf_data.dissatisfied_psf_calls /
+                                            (org_psf_data.extHappy_psf_calls +
+                                            org_psf_data.fairlyHappy_psf_calls +
+                                            org_psf_data.happy_psf_calls +
+                                            org_psf_data.dissatisfied_psf_calls)) *
+                                            100 || 0 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center; padding: 0.5%; background-color: yellow">
+                                        <b>Customer Satisfaction Index(CSI)</b>
+                                    </td>
+                                    <td style="text-align: center; padding: 0.5%; background-color: yellow" colspan="2">
+                                        <b *ngIf="org_psf_data.total_psf_calls != 0">{{
+                                            ((org_psf_data.extHappy_psf_calls * 5 +
+                                            org_psf_data.fairlyHappy_psf_calls * 4 +
+                                            org_psf_data.happy_psf_calls * 3 -
+                                            org_psf_data.dissatisfied_psf_calls * 5) /
+                                            ((org_psf_data.extHappy_psf_calls +
+                                            org_psf_data.fairlyHappy_psf_calls +
+                                            org_psf_data.happy_psf_calls +
+                                            org_psf_data.dissatisfied_psf_calls) *
+                                            5)) *
+                                            100 || 0 | number : '1.2-2'
+                                            }}
+                                            %</b>
+                                        <b *ngIf="org_psf_data.total_psf_calls == 0">0%</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-span-2"></div>
+            </div>
+            <!-- <div class="mb-5 mt-5 flex flex-col sm:flex-row md:items-center">
+                <div class="grid flex-1 grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2">
+                    <h6 class="flex flex-col sm:flex-row" style="font-size: large;font-weight: bold;">
+                        User Wise Report
+                    </h6>
+                    <div class="flex flex-col sm:flex-row">
+                        <i class="flex">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ng-star-inserted">
+                                <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5">
+                                </circle>
+                                <path d="M12 7V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                </path>
+                                <circle cx="12" cy="16" r="1" fill="currentColor"></circle>
+                            </svg>
+                        </i>
+                        <span class="flex">PSF Not Driven Calls Not Listed Here</span>
+                    </div>
+                </div>
+            </div> -->
+            <div class="mb-5 mt-5 grid grid-cols-5 gap-4 md:grid-cols-4 md:items-center lg:grid-cols-6">
+                <div class="col-span-2">
+                </div>
+                <div class="col-span-2">
+                    <h6 class="flex flex-col text-center sm:flex-row"
+                        style="font-size: large; font-weight: bold;justify-content: center;">User
+                        Wise Report</h6>
+                </div>
+                <div class="col-span-2">
+                    <div class="lol flex grid-cols-2 flex-col sm:flex-row" style="justify-content: flex-end">
+                        <!-- Add 'style="justify-content: flex-end;" to align the content to the right -->
+                        <i class="flex">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="ng-star-inserted h-6 w-6">
+                                <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5">
+                                </circle>
+                                <path d="M12 7V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                                </path>
+                                <circle cx="12" cy="16" r="1" fill="currentColor"></circle>
+                            </svg>
+                        </i>
+                        <span class="flex">PSF Not Driven Calls Not Listed Here</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="datatable">
+                <ng-datatable [rows]="user_psf_calls" [columns]="cols" [search]="search" [sortable]="true"
+                    [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                    <ng-template slot="name" let-value="data">
+                        <span><b>{{ value.us_firstname }}</b>({{ value.role_name }})</span>
+                    </ng-template>
+                    <ng-template slot="calls" let-value="data">
+                        <span>{{ value.user_psf_calls.length }}</span>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div class="dropdown w-max">
+                            <div hlMenu>
+                                <a hlMenuButton href="javascript:;" class="align-middle">
+                                    <svg class="m-auto h-5 w-5 opacity-70" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="1.5"></circle>
+                                        <circle opacity="0.5" cx="12" cy="12" r="2" stroke="currentColor"
+                                            stroke-width="1.5"></circle>
+                                        <circle cx="19" cy="12" r="2" stroke="currentColor" stroke-width="1.5"></circle>
+                                    </svg>
+                                </a>
+                                <ul *hlMenuItems @toggleAnimation class="ltr:right-0 rtl:left-0">
+                                    <li>
+                                        <a *hlMenuItem="let menuItem" (click)="openTodayModal(value)">Today Details</a>
+                                    </li>
+                                    <li>
+                                        <a *hlMenuItem="let menuItem" (click)="openViewDetails(value)">View Details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <!-- <ng-template slot="action" let-value="data">
+                        <button type="button" ngxTippy="Update Call Details" (click)="updateCallDetails(value)"
+                            class="btn btn-primary btn-sm h-6 w-6 rounded-full p-0" *ngIf="value.pupose_id == '0'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M18.18 8.03933L18.6435 7.57589C19.4113 6.80804 20.6563 6.80804 21.4241 7.57589C22.192 8.34374 22.192 9.58868 21.4241 10.3565L20.9607 10.82M18.18 8.03933C18.18 8.03933 18.238 9.02414 19.1069 9.89309C19.9759 10.762 20.9607 10.82 20.9607 10.82M18.18 8.03933L13.9194 12.2999C13.6308 12.5885 13.4865 12.7328 13.3624 12.8919C13.2161 13.0796 13.0906 13.2827 12.9882 13.4975C12.9014 13.6797 12.8368 13.8732 12.7078 14.2604L12.2946 15.5L12.1609 15.901M20.9607 10.82L16.7001 15.0806C16.4115 15.3692 16.2672 15.5135 16.1081 15.6376C15.9204 15.7839 15.7173 15.9094 15.5025 16.0118C15.3203 16.0986 15.1268 16.1632 14.7396 16.2922L13.5 16.7054L13.099 16.8391M13.099 16.8391L12.6979 16.9728C12.5074 17.0363 12.2973 16.9867 12.1553 16.8447C12.0133 16.7027 11.9637 16.4926 12.0272 16.3021L12.1609 15.901M13.099 16.8391L12.1609 15.901"
+                                    stroke="#fff" stroke-width="1.5" />
+                                <path d="M8 13H10.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M8 9H14.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M8 17H9.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                                <path
+                                    d="M19.8284 3.17157C18.6569 2 16.7712 2 13 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3 4.34315 3 6.22876 3 10V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C20.7715 19.8853 20.9554 18.4796 20.9913 16"
+                                    stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </ng-template> -->
+                </ng-datatable>
+            </div>
+        </div>
+        <div *ngIf="tab13.toLowerCase() === 'profile'">
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                <input type="date" [(ngModel)]="startDate" class="form-input" ngxTippy="Start Date"
+                    placeholder="Invoice Date From" style="width: 25%" />
+                <input type="date" [(ngModel)]="endDate" (change)="SearchFilter()" class="form-input"
+                    ngxTippy="End Date" placeholder="Invoice Date From" style="width: 25%" />
+            </div>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-4">
+                <div class="col-span-2">
+                    <div class="panel panel-bd lobidisable lobipanel lobipanel-sortable">
+                        <div class="panel-heading ui-sortable-handle">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4">
+                                <div class="col-span-2">
+                                    <label class="label"
+                                        style="margin-bottom: 0; color: black; font-size: medium; display: inline-block">
+                                        Expired Calls -
+                                        <b style="color: red; display: inline-block"> {{
+                                            org_psf_data_cre.expired_psf_calls }}</b>
+                                        <label style="color: orange; display: inline-block">&nbsp;({{
+                                            (org_psf_data_cre.expired_psf_calls / org_psf_data_cre.total_psf_calls) *
+                                            100 | number : '1.2-2'
+                                            }}%)</label>
+                                    </label>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="dropdown" style="text-align: right">
+                                        <a (click)="navigateExpired(3)"
+                                            style="color: #3366ff; cursor: pointer; text-align: right">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" *ngIf="cre_expired_calls.length > 0">
+                            <ng-container *ngFor="let exp of cre_expired_calls">
+                                <div class="work-touchpoint">
+                                    <div class="work-touchpoint-date">
+                                        <span class="day">{{ exp.user_psf_calls.length }}</span>
+                                        <span class="month">Total</span>
+                                    </div>
+                                </div>
+                                <div class="detailswork">
+                                    <span class="label-custom label label-default pull-right">{{ exp.expired }}
+                                        CALL</span>
+                                    <a title="headings">{{ exp.us_firstname }} </a>
+                                    <br />
+                                    <p>{{ exp.role_name }}</p>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="panel-body" *ngIf="cre_expired_calls.length == 0" style="text-align: center">
+                            <b>Nothing To Show Here</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-2">
+                    <div class="panel panel-bd lobidisable lobipanel lobipanel-sortable">
+                        <div class="panel-heading ui-sortable-handle">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-4 lg:grid-cols-4">
+                                <div class="col-span-2">
+                                    <label
+                                        style="margin-bottom: 0; color: black; font-size: medium; display: inline-block">
+                                        Dissatisfied Customers -
+                                        <b style="color: red; display: inline-block">{{
+                                            org_psf_data_cre.dissatisfied_psf_calls }}</b>
+                                        <label style="color: orange; display: inline-block">&nbsp;({{
+                                            (org_psf_data_cre.dissatisfied_psf_calls / org_psf_data_cre.total_psf_calls)
+                                            * 100 | number : '1.2-2'
+                                            }}%)</label>
+                                    </label>
+                                </div>
+                                <div class="col-span-2">
+                                    <div class="dropdown" style="text-align: right">
+                                        <a style="color: #3366ff; cursor: pointer" (click)="navigateExpired(4)">View
+                                            Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" *ngIf="cre_dissatisfied_calls.length > 0">
+                            <ng-container *ngFor="let dis of cre_dissatisfied_calls">
+                                <div class="Pendingwork">
+                                    <span class="label-danger label label-default pull-right">{{ dis.dis_satisfied }}
+                                        Customer</span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="ng-star-inserted h-6 w-6"
+                                        style="vertical-align: middle">
+                                        <path d="M12 7V13" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round"></path>
+                                        <circle cx="12" cy="16" r="1" fill="currentColor"></circle>
+                                        <path opacity="0.5"
+                                            d="M7.84308 3.80211C9.8718 2.6007 10.8862 2 12 2C13.1138 2 14.1282 2.6007 16.1569 3.80211L16.8431 4.20846C18.8718 5.40987 19.8862 6.01057 20.4431 7C21 7.98943 21 9.19084 21 11.5937V12.4063C21 14.8092 21 16.0106 20.4431 17C19.8862 17.9894 18.8718 18.5901 16.8431 19.7915L16.1569 20.1979C14.1282 21.3993 13.1138 22 12 22C10.8862 22 9.8718 21.3993 7.84308 20.1979L7.15692 19.7915C5.1282 18.5901 4.11384 17.9894 3.55692 17C3 16.0106 3 14.8092 3 12.4063V11.5937C3 9.19084 3 7.98943 3.55692 7C4.11384 6.01057 5.1282 5.40987 7.15692 4.20846L7.84308 3.80211Z"
+                                            stroke="currentColor" stroke-width="1.5"></path>
+                                    </svg>
+                                    <a style="vertical-align: middle">{{ dis.us_firstname }} ({{ dis.role_name }})</a>
+                                    <div class="upworkdate">
+                                        <p>
+                                            {{ dis.dis_satisfied }} of {{ dis.user_psf_calls.length }} customers ({{
+                                            (dis.dis_satisfied / dis.user_psf_calls.length) * 100 | number : '1.2-2'
+                                            }}%)
+                                        </p>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div class="panel-body" *ngIf="cre_dissatisfied_calls.length == 0" style="text-align: center">
+                            <b>Nothing To Show Here</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-1">
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                        <table class="table-striped table-bordered table" style="margin-bottom: 0 !important">
+                            <thead
+                                style="position: sticky; top: 0px; font-size: 10px; color: #fff; font-weight: 700; text-align: center; width: 100%">
+                                <tr>
+                                    <th style="background-color: #eee; text-align: center; padding: 0.5%; color: #000; font-size: 14px"
+                                        colspan="13">
+                                        <b>Company Analysis</b>
+                                    </th>
+                                </tr>
+                                <tr style="text-align: center">
+                                    <th style="background-color: #1e7a00; text-align: center" colspan="6">Completed
+                                        Calls</th>
+                                    <!-- <th rowspan="2" style="vertical-align: middle">
+                            Active Calls
+                          </th> -->
+                                    <th style="background-color: #1e7a00; text-align: center" colspan="4">Incomplete
+                                        Calls</th>
+                                    <th style="background-color: #1e7a00; text-align: center" colspan="3">Expired Calls
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #959595">Ext. Satisfied</th>
+                                    <th style="background-color: #959595">Fairly. Satisfied</th>
+                                    <th style="background-color: #959595">Satisfied</th>
+                                    <th style="background-color: #959595">Dissatisfied</th>
+                                    <th style="background-color: #959595">Non contactable</th>
+                                    <th style="background-color: #ffbc43">Total Comp.</th>
+                                    <th style="background-color: #959595">0 Attempt</th>
+                                    <th style="background-color: #959595">1 Attempt</th>
+                                    <th style="background-color: #959595">2 Attempt</th>
+                                    <th style="background-color: #ffbc43">Total Incomplete.</th>
+                                    <th style="background-color: #959595">Without Attempt</th>
+                                    <th style="background-color: #959595">With Attempt</th>
+                                    <th style="background-color: #ffbc43">Total Expired</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 14px">
+                                <tr>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.extHappy_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.fairlyHappy_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.happy_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.dissatisfied_psf_calls }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">
+                                        {{ org_psf_data_cre.closed_after_max_psf_attempt }}
+                                    </td>
+                                    <td style="background-color: #ffbc43">
+                                        {{
+                                        org_psf_data_cre.extHappy_psf_calls +
+                                        org_psf_data_cre.fairlyHappy_psf_calls +
+                                        org_psf_data_cre.happy_psf_calls +
+                                        org_psf_data_cre.dissatisfied_psf_calls +
+                                        org_psf_data_cre.closed_after_max_psf_attempt
+                                        }}
+                                    </td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.calls_zero_attempt }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.calls_one_attempt }}</td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">{{
+                                        org_psf_data_cre.calls_two_attempt }}</td>
+                                    <td style="background-color: #ffbc43">
+                                        {{ org_psf_data_cre.calls_zero_attempt + org_psf_data_cre.calls_one_attempt +
+                                        org_psf_data_cre.calls_two_attempt }}
+                                    </td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">
+                                        {{ org_psf_data_cre.expired_psf_calls_non_attempt }}
+                                    </td>
+                                    <td style="text-align: center; font-weight: 900; background-color: #fff">
+                                        {{ org_psf_data_cre.expired_psf_calls_attempt }}
+                                    </td>
+                                    <td style="background-color: #ffbc43">
+                                        {{ org_psf_data_cre.expired_psf_calls_non_attempt +
+                                        org_psf_data_cre.expired_psf_calls_attempt }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="12" style="text-align: right; background-color: #dff7b1">
+                                        <b>Total PSF Calls</b>
+                                    </td>
+                                    <td colspan="1" style="text-align: right; background-color: #dff7b1">
+                                        <b>{{ org_psf_data_cre.total_psf_calls }}</b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-5 mt-5 flex flex-col gap-1 md:flex-row md:items-center">
+                <h6 class="flex-1 md:flex-auto md:text-right"
+                    style="font-size: large; font-weight: bold; text-align: center">User Wise Report</h6>
+            </div>
+            <div class="datatable">
+                <ng-datatable [rows]="cre_user_psf_calls" [columns]="cols" [search]="search" [sortable]="true"
+                    [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                    <ng-template slot="name" let-value="data">
+                        <span><b>{{ value.us_firstname }}</b>({{ value.role_name }})</span>
+                    </ng-template>
+                    <ng-template slot="calls" let-value="data">
+                        <span>{{ value.user_psf_calls.length }}</span>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <button type="button" class="btn btn-primary" ngxTippy="Call Details"
+                            (click)="openViewDetails(value)">View Details</button>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+            <div class="mb-5 mt-5 flex flex-col gap-1 md:flex-row md:items-center">
+                <h6 class="flex-1 md:flex-auto md:text-right"
+                    style="font-size: large; font-weight: bold; text-align: center">SA Wise 10th day report</h6>
+            </div>
+            <div class="datatable">
+                <ng-datatable [rows]="user_psf_callsSA" [columns]="SA10thDAY" [search]="search" [sortable]="true"
+                    [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                    <ng-template slot="name" let-value="data">
+                        <span><b>{{ value.us_firstname }}</b>({{ value.role_name }})</span>
+                    </ng-template>
+                    <ng-template slot="calls" let-value="data">
+                        <span>{{ value.user_psf_callsSA.length }}</span>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <button type="button" class="btn btn-primary" ngxTippy="Call Details"
+                            (click)="openViewDetailscre(value)">View Details</button>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>

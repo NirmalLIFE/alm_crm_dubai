@@ -1,0 +1,764 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >MIS</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            routerLink=""
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Job sub statuses</a
+        >
+    </li>
+</ol>
+<div class="panel mb-5 mt-5 pb-5" style="padding: 0">
+    <div *ngIf="load_flag" class="pt-5" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+        ></span>
+    </div>
+    <div *ngIf="!load_flag" class="mt-3 flex flex-wrap justify-between border-b border-white-light text-center dark:border-[#191e3a]">
+        <a
+            href="javascript:;"
+            class="-mb-[1px] block flex-auto border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black hoverclass"
+            [ngClass]="{
+                '!border-white-light !border-b-white bg-info text-white dark:!border-[#191e3a] dark:!border-b-black': activeTab.toLowerCase() === 'opened',
+                'bg-default': activeTab.toLowerCase() !== 'opened'
+            }"
+            (click)="activeTab = 'opened'"
+        >
+            Opened
+            <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                >{{ categorizedJobs.openedJobs.length }}/{{ categorizedJobs.totalJobs.length }}</span
+            >
+        </a>
+        <a
+            href="javascript:;"
+            class="-mb-[1px] block flex-auto border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black hoverclass"
+            [ngClass]="{
+                '!border-white-light !border-b-white bg-info text-white dark:!border-[#191e3a] dark:!border-b-black': activeTab.toLowerCase() === 'wip',
+                'bg-default': activeTab.toLowerCase() !== 'wip'
+            }"
+            (click)="activeTab = 'wip'"
+        >
+            Work In Progress
+            <span
+                *ngIf="categorizedJobs.tskFlag"
+                style="margin: 0"
+                class="m-auto mb-10 inline-block h-2 w-2 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+            ></span>
+            <span *ngIf="!categorizedJobs.tskFlag" class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                >{{ categorizedJobs.wipJobs.length }}/{{ categorizedJobs.totalJobs.length }}</span
+            >
+        </a>
+        <a
+            href="javascript:;"
+            class="-mb-[1px] block flex-auto border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black hoverclass"
+            [ngClass]="{
+                '!border-white-light !border-b-white bg-info text-white dark:!border-[#191e3a] dark:!border-b-black':
+                    activeTab.toLowerCase() === 'taskcompleted',
+                    'bg-default': activeTab.toLowerCase() !== 'taskcompleted'
+            }"
+            (click)="activeTab = 'taskcompleted'"
+        >
+            Task Completed
+            <span
+                *ngIf="categorizedJobs.tskFlag"
+                style="margin: 0"
+                class="m-auto mb-10 inline-block h-2 w-2 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+            ></span>
+            <span *ngIf="!categorizedJobs.tskFlag" class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                >{{ categorizedJobs.taskCompJobs.length }}/{{ categorizedJobs.totalJobs.length }}</span
+            >
+        </a>
+        <a
+            href="javascript:;"
+            class="-mb-[1px] block flex-auto border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black hoverclass"
+            [ngClass]="{
+                '!border-white-light !border-b-white bg-info text-white dark:!border-[#191e3a] dark:!border-b-black': activeTab.toLowerCase() === 'closed',
+                'bg-default': activeTab.toLowerCase() !== 'closed'
+            }"
+            (click)="activeTab = 'closed'"
+        >
+            Closed
+            <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                >{{ categorizedJobs.closedJobs.length }}/{{ categorizedJobs.totalJobs.length }}</span
+            >
+        </a>
+        <a
+            href="javascript:;"
+            class="-mb-[1px] block flex-auto border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black hoverclass"
+            [ngClass]="{
+                '!border-white-light !border-b-white bg-info text-white dark:!border-[#191e3a] dark:!border-b-black': activeTab.toLowerCase() === 'completed',
+                'bg-default': activeTab.toLowerCase() !== 'completed'
+            }"
+            (click)="activeTab = 'completed'"
+        >
+            Completed
+            <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                >{{ categorizedJobs.completedJobs.length }}/{{ categorizedJobs.totalJobs.length }}</span
+            >
+        </a>
+        <a
+            href="javascript:;"
+            class="-mb-[1px] block flex-auto border border-transparent p-3.5 py-2 !outline-none transition duration-300 hover:border-white-light hover:border-b-white dark:hover:border-[#191e3a] dark:hover:border-b-black hoverclass"
+            [ngClass]="{
+                '!border-white-light !border-b-white bg-info text-white dark:!border-[#191e3a] dark:!border-b-black': activeTab.toLowerCase() === 'quality',
+                'bg-default': activeTab.toLowerCase() !== 'quality'
+            }"
+            (click)="activeTab = 'quality'"
+        >
+            Under QC
+            <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                >{{ categorizedJobs.qcJobs.length }}/{{ categorizedJobs.totalJobs.length }}</span
+            >
+        </a>
+    </div>
+    <div class="flex-1 text-sm" *ngIf="!load_flag">
+        <div *ngIf="activeTab.toLowerCase() === 'opened'">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                <!-- <h5 class="text-lg font-semibold dark:text-white-light">Job Card Status Monitor</h5> -->
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <!-- <input [(ngModel)]="start_date" type="date" class="form-input text-xs" placeholder="Date From " />
+                    <input type="date" placeholder="Date To" [(ngModel)]="end_date" class="form-input text-xs" />
+                     -->
+                    <ng-select
+                        [(ngModel)]="selectedSubStatus"
+                        [searchable]="false"
+                        [clearable]="false"
+                        appendTo="body"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                        (click)="filterSubStatus(1)"
+                    >
+                        <ng-option value="0">Select All Sub Statuses</ng-option>
+                        <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of subStatusList">{{ items.jbs_sub_status }}</ng-option>
+                    </ng-select>
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div>
+            <div class="p-3">
+                <ng-datatable
+                    [rows]="categorizedJobs.openedJobs"
+                    [columns]="cols"
+                    [search]="search"
+                    [columnFilter]="false"
+                    [pageSize]="20"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                >
+                    <ng-template slot="job_no" let-value="data">
+                        <span class="badge bg-primary">{{ value.job_no }}</span>
+                    </ng-template>
+                    <ng-template slot="customer_name" let-value="data">
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length > 20">{{ value.customer_name | slice : 0 : 20 }}...</span>
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length <= 20">{{ value.customer_name }}</span>
+                    </ng-template>
+                    <ng-template slot="jb_sub_status" let-value="data">
+                        <ng-select
+                            [searchable]="true"
+                            [clearable]="false"
+                            [selectOnTab]="true"
+                            class="custom-multiselect jobs_css"
+                            placeholder="Choose Sub Status For Job"
+                            ngxTippy="Choose Sub Status For Job"
+                            [(ngModel)]="value.jb_sub_status"
+                            (change)="updateSubStatus($event, value)"
+                            style="min-width: 260px"
+                        >
+                            <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of statusMap['OPN']" style="text-transform: capitalize">{{
+                                items.jbs_sub_status
+                            }}</ng-option>
+                        </ng-select>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div style="text-align: center">
+                            <button type="button" ngxTippy="View" (click)="viewStatusChangeHistory(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 4.45962C9.91153 4.16968 10.9104 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C3.75612 8.07914 4.32973 7.43025 5 6.82137"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+        <div *ngIf="activeTab.toLowerCase() === 'closed'">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                <!-- <h5 class="text-lg font-semibold dark:text-white-light">Job Card Status Monitor</h5> -->
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <!-- <input [(ngModel)]="start_date" type="date" class="form-input text-xs" placeholder="Date From " />
+                    <input type="date" placeholder="Date To" [(ngModel)]="end_date" class="form-input text-xs" />
+                     -->
+                    <ng-select
+                        [(ngModel)]="selectedSubStatus"
+                        [searchable]="true"
+                        [clearable]="false"
+                        appendTo="body"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                    >
+                        <ng-option value="0">Select All Sub Statuses</ng-option>
+                        <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of subStatusList">{{ items.jbs_sub_status }}</ng-option>
+                    </ng-select>
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div>
+            <div class="p-3">
+                <ng-datatable
+                    [rows]="categorizedJobs.closedJobs"
+                    [columns]="cols"
+                    [search]="search"
+                    [columnFilter]="false"
+                    [pageSize]="20"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                >
+                    <ng-template slot="job_no" let-value="data">
+                        <span class="badge bg-primary">{{ value.job_no }}</span>
+                    </ng-template>
+                    <ng-template slot="customer_name" let-value="data">
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length > 20">{{ value.customer_name | slice : 0 : 20 }}...</span>
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length <= 20">{{ value.customer_name }}</span>
+                    </ng-template>
+                    <ng-template slot="jb_sub_status" let-value="data">
+                        <ng-select
+                            [searchable]="true"
+                            [clearable]="false"
+                            [selectOnTab]="true"
+                            [(ngModel)]="value.jb_sub_status"
+                            class="custom-multiselect jobs_css"
+                            placeholder="Choose Sub Status For Job"
+                            ngxTippy="Choose Sub Status For Job"
+                            style="min-width: 260px"
+                        >
+                            <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of statusMap['CLO']">{{
+                                items.jbs_sub_status | titlecase
+                            }}</ng-option>
+                        </ng-select>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div style="text-align: center">
+                            <button type="button" ngxTippy="View" (click)="viewStatusChangeHistory(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 4.45962C9.91153 4.16968 10.9104 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C3.75612 8.07914 4.32973 7.43025 5 6.82137"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+        <div *ngIf="activeTab.toLowerCase() === 'completed'">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                <!-- <h5 class="text-lg font-semibold dark:text-white-light">Job Card Status Monitor</h5> -->
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <!-- <input [(ngModel)]="start_date" type="date" class="form-input text-xs" placeholder="Date From " />
+                    <input type="date" placeholder="Date To" [(ngModel)]="end_date" class="form-input text-xs" />
+                     -->
+                    <ng-select
+                        [(ngModel)]="selectedSubStatus"
+                        [searchable]="true"
+                        [clearable]="false"
+                        appendTo="body"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                    >
+                        <ng-option value="0">Select All Sub Statuses</ng-option>
+                        <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of subStatusList">{{ items.jbs_sub_status }}</ng-option>
+                    </ng-select>
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div>
+            <div class="p-3">
+                <ng-datatable
+                    [rows]="categorizedJobs.completedJobs"
+                    [columns]="cols"
+                    [search]="search"
+                    [columnFilter]="false"
+                    [pageSize]="20"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                >
+                    <ng-template slot="job_no" let-value="data">
+                        <span class="badge bg-primary">{{ value.job_no }}</span>
+                    </ng-template>
+                    <ng-template slot="customer_name" let-value="data">
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length > 20">{{ value.customer_name | slice : 0 : 20 }}...</span>
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length <= 20">{{ value.customer_name }}</span>
+                    </ng-template>
+                    <ng-template slot="jb_sub_status" let-value="data">
+                        <ng-select
+                            [searchable]="true"
+                            [clearable]="false"
+                            [(ngModel)]="value.jb_sub_status"
+                            [selectOnTab]="true"
+                            class="custom-multiselect jobs_css"
+                            placeholder="Choose Sub Status For Job"
+                            ngxTippy="Choose Sub Status For Job"
+                            style="min-width: 260px"
+                        >
+                            <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of statusMap['COM']">{{
+                                items.jbs_sub_status | titlecase
+                            }}</ng-option>
+                        </ng-select>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div style="text-align: center">
+                            <button type="button" ngxTippy="View" (click)="viewStatusChangeHistory(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 4.45962C9.91153 4.16968 10.9104 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C3.75612 8.07914 4.32973 7.43025 5 6.82137"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+        <div *ngIf="activeTab.toLowerCase() === 'quality'">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                <!-- <h5 class="text-lg font-semibold dark:text-white-light">Job Card Status Monitor</h5> -->
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <!-- <input [(ngModel)]="start_date" type="date" class="form-input text-xs" placeholder="Date From " />
+                    <input type="date" placeholder="Date To" [(ngModel)]="end_date" class="form-input text-xs" />
+                     -->
+                    <ng-select
+                        [(ngModel)]="selectedSubStatus"
+                        [searchable]="true"
+                        [clearable]="false"
+                        appendTo="body"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                    >
+                        <ng-option value="0">Select All Sub Statuses</ng-option>
+                        <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of subStatusList">{{ items.jbs_sub_status }}</ng-option>
+                    </ng-select>
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div>
+            <div class="p-3">
+                <ng-datatable
+                    [rows]="categorizedJobs.qcJobs"
+                    [columns]="cols"
+                    [search]="search"
+                    [columnFilter]="false"
+                    [pageSize]="20"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                >
+                    <ng-template slot="job_no" let-value="data">
+                        <span class="badge bg-primary">{{ value.job_no }}</span>
+                    </ng-template>
+                    <ng-template slot="customer_name" let-value="data">
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length > 20">{{ value.customer_name | slice : 0 : 20 }}...</span>
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length <= 20">{{ value.customer_name }}</span>
+                    </ng-template>
+                    <ng-template slot="jb_sub_status" let-value="data">
+                        <ng-select
+                            [searchable]="true"
+                            [clearable]="false"
+                            [selectOnTab]="true"
+                            [(ngModel)]="value.jb_sub_status"
+                            class="custom-multiselect jobs_css"
+                            placeholder="Choose Sub Status For Job"
+                            ngxTippy="Choose Sub Status For Job"
+                            style="min-width: 260px"
+                        >
+                            <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of statusMap['TST']">{{
+                                items.jbs_sub_status | titlecase
+                            }}</ng-option>
+                        </ng-select>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div style="text-align: center">
+                            <button type="button" ngxTippy="View" (click)="viewStatusChangeHistory(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 4.45962C9.91153 4.16968 10.9104 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C3.75612 8.07914 4.32973 7.43025 5 6.82137"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+        <div *ngIf="activeTab.toLowerCase() === 'wip'">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                <!-- <h5 class="text-lg font-semibold dark:text-white-light">Job Card Status Monitor</h5> -->
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <!-- <input [(ngModel)]="start_date" type="date" class="form-input text-xs" placeholder="Date From " />
+                    <input type="date" placeholder="Date To" [(ngModel)]="end_date" class="form-input text-xs" />
+                     -->
+                    <ng-select
+                        [(ngModel)]="selectedSubStatus"
+                        [searchable]="true"
+                        [clearable]="false"
+                        appendTo="body"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                    >
+                        <ng-option value="0">Select All Sub Statuses</ng-option>
+                        <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of subStatusList">{{ items.jbs_sub_status }}</ng-option>
+                    </ng-select>
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div>
+            <div class="p-3">
+                <ng-datatable
+                    [rows]="categorizedJobs.wipJobs"
+                    [columns]="cols"
+                    [search]="search"
+                    [columnFilter]="false"
+                    [pageSize]="20"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                >
+                    <ng-template slot="job_no" let-value="data">
+                        <span class="badge bg-primary">{{ value.job_no }}</span>
+                    </ng-template>
+                    <ng-template slot="customer_name" let-value="data">
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length > 20">{{ value.customer_name | slice : 0 : 20 }}...</span>
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length <= 20">{{ value.customer_name }}</span>
+                    </ng-template>
+                    <ng-template slot="jb_sub_status" let-value="data">
+                        <ng-select
+                            [searchable]="true"
+                            [clearable]="false"
+                            [selectOnTab]="true"
+                            class="custom-multiselect jobs_css"
+                            placeholder="Choose Sub Status For Job"
+                            ngxTippy="Choose Sub Status For Job"
+                            [(ngModel)]="value.jb_sub_status"
+                            *ngIf="value.job_status == 'WIP'"
+                            (change)="updateSubStatus($event, value)"
+                            style="min-width: 260px"
+                            [ngClass]="value.status_change==true?'changed':''"
+                        >
+                            <ng-option value="0">Select Sub Status</ng-option>
+                            <ng-option value="{{ items.jbs_status_id }}" [disabled]="items.isDisbaled" *ngFor="let items of statusMap['WIP']">{{
+                                items.jbs_sub_status | titlecase
+                            }}</ng-option>
+                        </ng-select>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div style="text-align: center">
+                            <button type="button" ngxTippy="View" (click)="viewStatusChangeHistory(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 4.45962C9.91153 4.16968 10.9104 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C3.75612 8.07914 4.32973 7.43025 5 6.82137"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+        <div *ngIf="activeTab.toLowerCase() === 'taskcompleted'">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                <!-- <h5 class="text-lg font-semibold dark:text-white-light">Job Card Status Monitor</h5> -->
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <!-- <input [(ngModel)]="start_date" type="date" class="form-input text-xs" placeholder="Date From " />
+                    <input type="date" placeholder="Date To" [(ngModel)]="end_date" class="form-input text-xs" />
+                     -->
+                    <ng-select
+                        [(ngModel)]="selectedSubStatus"
+                        [searchable]="true"
+                        [clearable]="false"
+                        appendTo="body"
+                        placeholder="Select an extension"
+                        class="custom-multiselect"
+                    >
+                        <ng-option value="0">Select All Sub Statuses</ng-option>
+                        <ng-option value="{{ items.jbs_status_id }}" *ngFor="let items of subStatusList">{{ items.jbs_sub_status }}</ng-option>
+                    </ng-select>
+                    <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+            </div>
+            <div class="p-3">
+                <ng-datatable
+                    [rows]="categorizedJobs.taskCompJobs"
+                    [columns]="cols"
+                    [search]="search"
+                    [columnFilter]="false"
+                    [pageSize]="20"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                >
+                    <ng-template slot="job_no" let-value="data">
+                        <span class="badge bg-primary">{{ value.job_no }}</span>
+                    </ng-template>
+                    <ng-template slot="customer_name" let-value="data">
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length > 20">{{ value.customer_name | slice : 0 : 20 }}...</span>
+                        <span ngxTippy="{{ value.customer_name }}" *ngIf="value.customer_name.length <= 20">{{ value.customer_name }}</span>
+                    </ng-template>
+                    <ng-template slot="jb_sub_status" let-value="data">
+                        <ng-select
+                            [searchable]="true"
+                            [clearable]="false"
+                            [selectOnTab]="true"
+                            class="custom-multiselect jobs_css"
+                            placeholder="Choose Sub Status For Job"
+                            ngxTippy="Choose Sub Status For Job"
+                            [(ngModel)]="value.jb_sub_status"
+                            *ngIf="value.job_status == 'WIP'"
+                            (change)="updateSubStatus($event, value)"
+                            style="min-width: 260px"
+                            [ngClass]="value.status_change==true?'changed':''"
+                        >
+                            <ng-option value="0">Select Sub Status</ng-option>
+                            <ng-option value="{{ items.jbs_status_id }}" [disabled]="items.isDisbaled" *ngFor="let items of statusMap['WIP']">{{
+                                items.jbs_sub_status | titlecase
+                            }}</ng-option>
+                        </ng-select>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <div style="text-align: center">
+                            <button type="button" ngxTippy="View" (click)="viewStatusChangeHistory(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9 4.45962C9.91153 4.16968 10.9104 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C3.75612 8.07914 4.32973 7.43025 5 6.82137"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                    />
+                                    <path
+                                        d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z"
+                                        stroke="#1C274C"
+                                        stroke-width="1.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+        </div>
+    </div>
+</div>
+<modal #modal2 class="modal-top animate animate-slide-in-down extra-large-modal">
+    <ng-template #modalHeader>
+        <div>Job Status Change History</div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div *ngIf="jobHistoryLoad" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+            ></span>
+        </div>
+        <div *ngIf="!jobHistoryLoad">
+            <div class="grid grid-cols-1 gap-1 md:grid-cols-3 lg:grid-cols-3">
+                <div>
+                    <label for="regno">Job No.</label>
+                    <span class="badge badge-outline-primary">{{ selectedJob.job_no }}</span>
+                </div>
+                <div>
+                    <label for="regno">Service Advisor</label>
+                    <h5>{{ selectedJob.user_name }}</h5>
+                </div>
+                <div>
+                    <label for="regno" style="float: right">Reg No.</label><br />
+                    <h5 style="float: right">{{ selectedJob.reg_no }}</h5>
+                </div>
+            </div>
+            <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" *ngIf="!jobHistoryLoad" />
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Changed To</th>
+                            <th>Changed On</th>
+                            <th>Changed By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of selectedJob.list">
+                            <td>{{ item.jbs_sub_status }}({{ item.jbsc_main_status }})</td>
+                            <td>{{ item.jbsc_updated_on }}</td>
+                            <td>{{ item.us_firstname }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" *ngIf="!jobHistoryLoad" />
+            <div class="table-responsive" *ngIf="hasNonZeroTimediff()">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TAT</th>
+                            <th>Completed In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="selectedJob.timediff.Open_Start != '0'">
+                            <td>Open Start</td>
+                            <td>{{ selectedJob.timediff.Open_Start }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Open_Start_1 != '0'">
+                            <td>Open Start</td>
+                            <td>{{ selectedJob.timediff.Open_Start_1 }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Open_Start_2 != '0'">
+                            <td>Open Start</td>
+                            <td>{{ selectedJob.timediff.Open_Start_2 }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Inspection != '0'">
+                            <td>Inspection</td>
+                            <td>{{ selectedJob.timediff.Inspection }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Repair != '0'">
+                            <td>Repair</td>
+                            <td>{{ selectedJob.timediff.Repair }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Repair_1 != '0'">
+                            <td>Repair</td>
+                            <td>{{ selectedJob.timediff.Repair_1 }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Diagnosing != '0'">
+                            <td>Diagnosing</td>
+                            <td>{{ selectedJob.timediff.Diagnosing }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Estimation != '0'">
+                            <td>Estimation</td>
+                            <td>{{ selectedJob.timediff.Estimation }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Estimation_1 != '0'">
+                            <td>Estimation</td>
+                            <td>{{selectedJob.timediff.Estimation_1}}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Estimation_2 != '0'">
+                            <td>Estimation</td>
+                            <td>{{selectedJob.timediff.Estimation_2}}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Approval != '0'">
+                            <td>Approval</td>
+                            <td>{{ selectedJob.timediff.Approval }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Parts != '0'">
+                            <td>Parts</td>
+                            <td>{{ selectedJob.timediff.Parts }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Sublet != '0'">
+                            <td>Sublet</td>
+                            <td>{{ selectedJob.timediff.Sublet }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Road_Test != '0'">
+                            <td>Road Test</td>
+                            <td>{{ selectedJob.timediff.Road_Test }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Completed != '0'">
+                            <td>Completed</td>
+                            <td>{{ selectedJob.timediff.Completed }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Closed != '0'">
+                            <td>Closed</td>
+                            <td>{{ selectedJob.timediff.Closed }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Workshop_TAT_Open_QC != '0'">
+                            <td>Workshop TAT (Open - QC)</td>
+                            <td>{{ selectedJob.timediff.Workshop_TAT_Open_QC }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Workshop_TAT_Open_Complete != '0'">
+                            <td>Workshop TAT (Open - Complete)</td>
+                            <td>{{ selectedJob.timediff.Workshop_TAT_Open_Complete }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Workshop_TAT_Open_Invoice != '0'">
+                            <td>Total TAT (Open - Invoice)</td>
+                            <td>{{ selectedJob.timediff.Workshop_TAT_Open_Invoice }}</td>
+                        </tr>
+                        <tr *ngIf="selectedJob.timediff.Front_office_TAT != '0'">
+                            <td>Front office TAT</td>
+                            <td>{{ selectedJob.timediff.Front_office_TAT }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <div class="mt-2" style=" display: flex; justify-content: center;">
+                    <p style="color: #9F99A3;" *ngIf="jobMinutes">Workshop TAT (Open - Complete): {{jobMinutes}} </p>
+                </div> -->
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="modal2.close()" class="btn btn-primary ltr:ml-4 rtl:mr-4">CLOSE</button>
+    </ng-template>
+</modal>

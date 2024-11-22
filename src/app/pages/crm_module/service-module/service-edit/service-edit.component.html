@@ -1,0 +1,322 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            Service Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/serviceList"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Service List</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            Service Details</a>
+    </li>
+</ol>
+
+<div class="panel mt-5 mb-5">
+    <div *ngIf="!load_flag">
+        <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+            <h5 class="text-lg font-semibold dark:text-white-light">Service Details -
+                <span class="badge badge-outline-primary">{{ service_details.sm_code}}</span>
+            </h5>
+        </div>
+        <div class="mb-5 grid grid-cols-4 gap-2" *ngIf="service_details">
+            <div class="col-span-3">
+                <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-2 xl:grid-cols-2">
+                    <div>
+                        <label for="name" class="m-0 dark:text-white-dark">Service Name</label>
+                        <ng-select fullWidth class="tiny-select" [(ngModel)]="service_details.sm_name"
+                            [searchable]="true" [clearable]="false" placeholder="Select Service" class="form-input"
+                            style="padding: 0">
+                            <ng-option value="Service A">Service A</ng-option>
+                            <ng-option value="Service B">Service B</ng-option>
+                            <ng-option value="Service A+">Service A+</ng-option>
+                            <ng-option value="Service B+">Service B+</ng-option>
+                        </ng-select>
+                    </div>
+                    <div>
+                        <label for="name" class="m-0 dark:text-white-dark">Engine No</label>
+                        <!-- <ng-select fullWidth [items]="engines" bindLabel="veh_enginemaster" [multiple]="true"
+                            [(ngModel)]="service_details.engines" bindValue="veh_enginemaster" [searchable]="true"
+                            [clearable]="false" placeholder="Select Engine Numbers" class="custom-multiselect"
+                            (change)="addOrRemoveEngines()">
+                        </ng-select> -->
+                        <ng-select fullWidth [items]="engines" bindLabel="veh_enginemaster" [multiple]="true"
+                            [(ngModel)]="service_details.engines" bindValue="veh_enginemaster" [searchable]="true"
+                            [clearable]="false" placeholder="Select Engine Numbers" class="custom-multiselect"
+                            (change)="addOrRemoveEngines()">
+                        </ng-select>
+
+                        <!-- <ng-select [items]="engines" [(ngModel)]="input6" [multiple]="true" [clearable]="false"
+                            placeholder="Select an Engine" class="custom-multiselect">
+                        </ng-select> -->
+                    </div>
+                    <div>
+                        <label for="name" class="m-0 dark:text-white-dark">Vin No</label>
+                        <ng-select fullWidth [items]="vingroups" bindLabel="veh_vingroup_master" [multiple]="true"
+                            [(ngModel)]="service_details.vin_nos" bindValue="veh_vingroup_master" [searchable]="true"
+                            [clearable]="false" placeholder="Select Vin Numbers" class="custom-multiselect"
+                            (change)="addOrRemoveVinNo()">
+                        </ng-select>
+                        <!-- <ng-select [items]="vingroups" [(ngModel)]="vinnos" [multiple]="true" [clearable]="false"
+                            placeholder="Select an Engine" class="custom-multiselect">
+                        </ng-select> -->
+                    </div>
+                    <div>
+                        <label for="name" class="m-0 dark:text-white-dark">KM</label>
+                        <!-- <ng-select fullWidth [items]="kilometers" bindLabel="veh_vingroup_master" [multiple]="true"
+                            [(ngModel)]="vingroups" bindValue="veh_vingroup_master" [searchable]="false" [clearable]="false"
+                            placeholder="Select Staff" class="custom-multiselect" (change)="Variant()">
+                        </ng-select> -->
+                        <ng-select [items]="kilometers" [(ngModel)]="service_details.serviceKM"
+                            (change)="addOrRemoveKM()" [multiple]="true" [clearable]="false" placeholder="Select an KM"
+                            class="custom-multiselect">
+                        </ng-select>
+                    </div>
+                </div>
+                <div style="font-size: 12px;font-weight: 800;"
+                    *ngIf="service_details.engines && service_details.engines.length>0">
+                    <i>
+                        <span>Selected Engine Numbers are </span>
+                        <span *ngFor="let Engine of service_details.engines;">
+                            {{ Engine}},
+                        </span>
+                    </i>
+                </div>
+                <div style="font-size: 12px;font-weight: 800;"
+                    *ngIf="service_details.vin_nos && service_details.vin_nos.length>0">
+                    <i>
+                        <span>Selected VIN Groups are </span>
+                        <span *ngFor="let vin of service_details.vin_nos;">
+                            {{ vin }},
+                        </span>
+                    </i>
+                </div>
+                <div style="font-size: 12px;font-weight: 800;"
+                    *ngIf="service_details.serviceKM && service_details.serviceKM.length>0">
+                    <i>
+                        <span>Selected Kilometers are </span>
+                        <span *ngFor="let km of service_details.serviceKM;">
+                            {{ km}} KM,
+                        </span>
+                    </i>
+                </div>
+                <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+                <div class="table-responsive mt-6" style=" overflow: unset; ">
+                    <h5 class="mb-3 text-lg font-semibold dark:text-white-light" style="text-align: center">Spare</h5>
+                    <table class="table-striped" style="background-color: #f6f8fa;">
+                        <thead>
+                            <tr>
+                                <th class="" style="width: 25% ;text-align: center;">DESCRIPTION</th>
+                                <th class="" style="width: 25%;text-align: center;">PART CODE</th>
+                                <th class="" style="width: 20%;text-align: center;">BRAND</th>
+                                <th class="" style="width: 12%;text-align: center;">QUANTITY</th>
+                                <th class="ltr:text-right rtl:text-left" style="width: 15%"> PRICE</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let spare of service_details.parts; let i = index">
+                                <tr *ngIf="spare.sp_delete_flag == 0">
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <ng-select [(ngModel)]="spare.pm_name" [searchable]="true" [clearable]="false"
+                                            placeholder="Part Name" ngxTippy="Select Part Name"
+                                            (change)="getPartcode(spare)">
+                                            <ng-option *ngFor="let parts of partsList" value="{{ parts.pm_name }}">{{
+                                                parts.pm_name}}</ng-option>
+                                        </ng-select>
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <ng-select [(ngModel)]="spare.pm_code" [searchable]="true" [clearable]="false"
+                                            placeholder="Part Number" ngxTippy="Select Part No"
+                                            (change)="getPartPrice(spare)">
+                                            <ng-option *ngFor="let parts of filteredList" value="{{ parts.pm_code }}">{{
+                                                parts.pm_code}}</ng-option>
+                                        </ng-select>
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <ng-select *ngIf="spare.sp_id != '0' " [(ngModel)]="spare.brand_name"
+                                            [searchable]="true" [clearable]="false" (change)="getPartPrice(spare)"
+                                            placeholder="Brand Name" ngxTippy="Select Brand Name">
+                                            <ng-option *ngFor="let parts of filteredList"
+                                                value="{{ parts.brand_name }}">{{
+                                                parts.brand_name}}</ng-option>
+                                        </ng-select>
+                                        <ng-select *ngIf="spare.sp_id == '0' " [(ngModel)]="spare.pm_brand"
+                                            [searchable]="true" [clearable]="false" (change)="getPartPrice(spare)"
+                                            placeholder="Brand Name" ngxTippy="Select Brand Name">
+                                            <ng-option *ngFor="let parts of filteredList"
+                                                value="{{ parts.brand_name }}">{{
+                                                parts.brand_name}}</ng-option>
+                                        </ng-select>
+                                    </td>
+                                    <td style="display: flex; justify-content: center;">
+                                        <input type="text" style="text-align: center; width: 50px;"
+                                            class="ltr:text-right rtl:text-left" [(ngModel)]="spare.sp_qty"
+                                            placeholder="Spare Quantity" class="form-input text-xs"
+                                            ngxTippy="Spare Quantity" (change)="getTotalServicePrice()" />
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <input type="text" style="text-align: cente;width: 80px;"
+                                            class="ltr:text-right rtl:text-left" [(ngModel)]="spare.pm_price"
+                                            placeholder="Spare PRICE" class="form-input text-xs" readonly
+                                            ngxTippy="Spare Price" />
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <button type="button" ngxTippy data-tippy-content="Delete Spare"
+                                            (click)="deleteSpare(i, spare)">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path
+                                                    d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5"
+                                                    d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <tr>
+                                <td colspan="1">
+                                    <button type="button" class="btn btn-dark" (click)="addNewSpare()">Add New
+                                        Spare</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="table-responsive mt-6" style=" overflow: unset;">
+                    <h5 class="mb-3 text-lg font-semibold dark:text-white-light" style="text-align: center">Labour</h5>
+                    <table class="table-striped" style="background-color: #f6f8fa;border-radius: 2px;">
+                        <thead>
+                            <tr>
+                                <th class="" style="width: 27%;text-align: center;">Name</th>
+                                <th class="" style="width: 25%;text-align: center;">DESCRIPTION</th>
+                                <th class="" style="width: 25%;text-align: center;">Code</th>
+                                <th class="ltr:text-right rtl:text-left" style="width: 15%;text-align: center;">PRICE
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let labour of service_details.labour; let i = index">
+                                <tr *ngIf="labour.sl_delete_flag == 0">
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <ng-select [(ngModel)]="labour.lm_name" [searchable]="true" [clearable]="false"
+                                            placeholder="Labour Name" ngxTippy="Select Labour Name"
+                                            (change)="getLabourCodeAndDescription(labour)">
+                                            <ng-option *ngFor="let labour of labourList" value="{{ labour.lm_name }}">{{
+                                                labour.lm_name}}</ng-option>
+                                        </ng-select>
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <ng-select [(ngModel)]="labour.lm_description" [searchable]="true"
+                                            [clearable]="false" placeholder="Labour Description"
+                                            ngxTippy="Select Labour Description">
+
+                                        </ng-select>
+
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <div class="ng-autocomplete">
+                                            <input type="text" style="text-align: left"
+                                                class="ltr:text-right rtl:text-left" [(ngModel)]="labour.lm_code"
+                                                placeholder="Labour Code" class="form-input text-xs" readonly />
+
+                                        </div>
+                                        <ng-template #itemTemplateGeneric let-item>
+                                            <a [innerHTML]="item"></a>
+                                        </ng-template>
+                                    </td>
+                                    <td style="padding-left: 2px;padding-right: 2px;">
+                                        <input type="text" style="text-align: center"
+                                            class="ltr:text-right rtl:text-left" [(ngModel)]="labour.sl_price"
+                                            placeholder="Labour Price" class="form-input text-xs"
+                                            ngxTippy="Enter Labour Price" (change)="getTotalServicePrice()" />
+                                    </td>
+                                    <td >
+                                        <button type="button" ngxTippy data-tippy-content="Delete Labour"
+                                            (click)="deleteLabour(i, labour)">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path
+                                                    d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5"
+                                                    d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <tr>
+                                <td colspan="1">
+                                    <button type="button" class="btn btn-dark" (click)="addNewLabour()">Add New
+                                        Labour</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="col-span-1">
+                <div class="panel" style="background-color:rgb(143, 162, 143) ;overflow-y: scroll;height: 100%;"
+                    *ngIf="Veh_variants.length>0">
+                    <div class="mb-5 flex items-center justify-between dark:text-white-light">
+                        <h5 class="text-lg font-semibold">Vehicle Variants</h5>
+                    </div>
+                    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+                    <div>
+                        <div class="space-y-6">
+                            <div class="flex" *ngFor="let variants of Veh_variants">
+                                <span>{{variants.veh_variant_master}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-span-2">
+                <a style="float: right;font-weight: bold;">Total Price</a>
+            </div>
+            <div class="col-span-1">
+                <a style="float: right;font-weight: bold;">AED {{service_details.service_price | number : '1.2-2' }}</a>
+            </div>
+            <div class="col-span-1">
+                <div style="float: right;">
+                    <button type="button" class="btn btn-success " style="float: right;margin-right: 55px;"
+                        (click)="updateService()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>

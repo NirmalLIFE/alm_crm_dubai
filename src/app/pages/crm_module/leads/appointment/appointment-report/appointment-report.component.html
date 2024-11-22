@@ -1,0 +1,589 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark" *ngIf="user_role != '9'">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            MIS</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Appointment Reports</a>
+    </li>
+</ol>
+<h5 *ngIf="user_role == '9'" class="text-lg font-semibold dark:text-white-light"
+    style="text-align: center; padding-bottom: 1rem">CRE Dashboard</h5>
+<div class="panel mb-5 mt-5 pb-5" *ngIf="user_role != '9'">
+    <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+        <div>
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date From </label>
+            <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+        </div>
+        <div>
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date To </label>
+            <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+        </div>
+        <div *ngIf="user_role != '9' ">
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Service Advisor</label>
+            <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                placeholder="Select Service Advisor" [(ngModel)]="selectedSA" ngxTippy="Select Service Advisor">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="{{ items.us_id }}" *ngFor="let items of userList">{{
+                    items.us_firstname}}</ng-option>
+            </ng-select>
+        </div>
+        <div>
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark" style="color: white;">.</label>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getAppointmentList()">SEARCH</button>
+        </div>
+    </div>
+</div>
+<div class="panel pb-2" *ngIf="user_role == '9'">
+    <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+        <div>
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date From </label>
+            <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+        </div>
+        <div>
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date To </label>
+            <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+        </div>
+        <div>
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark" style="color: white;">.</label>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getAppointmentList()">SEARCH</button>
+        </div>
+    </div>
+</div>
+<div class="mt-2 pb-2 mb-2">
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <div *ngIf="!load_flag" class="panel grid grid-cols-1 gap-2 md:grid-cols-4 lg:grid-cols-4 mb-5">
+        <div class="panel grid grid-cols"
+            style="background: linear-gradient(to right,#4B79A1, #4B79A1);color: white;justify-content:center;padding: 12px;">
+            <div class="text-md font-semibold">Total Appointments</div>
+            <div class="font-bold" style="font-size: large;text-align: center;">{{appointmentCounts.total_appts}}
+            </div>
+            <br>
+            <div class="text-lg font-semibold">Visited - {{appointmentCounts.visited_appts}}</div>
+        </div>
+        <div class="col-span-3">
+            <h5 class="text-md font-bold" style=" text-align: -webkit-center; ">Last 7 Day Analysis</h5>
+            <div class="flex flex-row">
+                <button type="button" class="flex w-full items-center p-4 hover:bg-gray-100 dark:hover:bg-[#192A3A]">
+                    <div class="ltr:pr-4 rtl:pl-4">
+                        <div class="items-baseline font-bold">
+                            <div class="text-xs ">Total Appointments</div>
+                            <div class="text-md">{{ appointmentCounts.last7DaysAppointment
+                                }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-hidden" *ngIf="appointmentCounts.last7DaysAppointment > '0'">
+                        <apx-chart [series]="profiteChartOption.series" [chart]="profiteChartOption.chart"
+                            [stroke]="profiteChartOption.stroke" [markers]="profiteChartOption.markers"
+                            [colors]="profiteChartOption.colors" [grid]="profiteChartOption.grid"
+                            [tooltip]="profiteChartOption.tooltip" [responsive]="profiteChartOption.responsive">
+                            <!-- loader -->
+                            <div
+                                class="grid min-h-[45px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                                <span
+                                    class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                            </div>
+                        </apx-chart>
+                    </div>
+                </button>
+                <button type="button" class="flex w-full items-center p-4 hover:bg-gray-100 dark:hover:bg-[#192A3A]">
+                    <div class="ltr:pr-4 rtl:pl-4">
+                        <div class="items-baseline font-bold">
+                            <div class="text-xs">Total Appointments Visited</div>
+                            <div class="text-md">{{
+                                appointmentCounts.last7DaysAppointment_visited
+                                }}</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 overflow-hidden" *ngIf="appointmentCounts.last7DaysAppointment_visited > '0'">
+                        <apx-chart [series]="last7DayApptChart.series" [chart]="last7DayApptChart.chart"
+                            [stroke]="last7DayApptChart.stroke" [markers]="last7DayApptChart.markers"
+                            [colors]="last7DayApptChart.colors" [grid]="last7DayApptChart.grid"
+                            [tooltip]="last7DayApptChart.tooltip" [responsive]="last7DayApptChart.responsive">
+                            <!-- loader -->
+                            <div
+                                class="grid min-h-[45px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                                <span
+                                    class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                            </div>
+                        </apx-chart>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <h5 *ngIf="!load_flag" class="mt-5 mb-5" style="text-align: center;font-weight: bold;">Marketing Appointment
+        Analysis</h5>
+    <div *ngIf="!load_flag" class="panel grid grid-cols-1 gap-4 md:grid-cols-5 lg:grid-cols-5 mb-5">
+        <div class="flex flex-col mb-5 mt-2 justify-around">
+            <div class="panel" *ngIf="filterOptions.length>0"
+                style="background: linear-gradient(to right,#1488CC, #2B32B2);color: white;text-align: -webkit-center;">
+                <div class="text-md font-semibold">Marketing Appointments</div>
+                <br>
+                <div class="font-bold" style="font-size: large;">{{appointmentCounts.marketing_appts}}</div>
+            </div>
+            <div class="panel" *ngIf="filterOptions.length>0"
+                style="background: linear-gradient(to right,#1488CC, #2B32B2);color: white;text-align: -webkit-center;">
+                <div class="text-md font-semibold">Visited</div>
+                <br>
+                <div class="font-bold" style="font-size: large;">{{appointmentCounts.marketing_visited}}</div>
+            </div>
+        </div>
+        <!-- <div class="panel gap-2 mb-5 mb-2"
+            style=" align-content: center;background: linear-gradient(to right,#1488CC, #2B32B2);color: white; padding: 12px;text-align: -webkit-center;">
+            <div class="text-md font-semibold">Marketing Appointments</div>
+            <br>
+            <div class="font-bold" style="font-size: large;">{{appointmentCounts.marketing_appts}}</div>
+            <br><br>
+            <div class="text-lg font-semibold">Visited - {{appointmentCounts.marketing_visited}}</div>
+        </div> -->
+        <div class="col-span-2 gap-2 mb-2">
+            <div class="table-responsive">
+                <table class="table-hover" style="font-size: small;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="font-bold">Total</th>
+                            <th class="font-bold">Visited</th>
+                            <th class="font-bold">Not Visited</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="font-bold">
+                            <td >Campaign</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.marketing_campaign}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_campaign_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_campaign_not_visited}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Normal</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">{{appointmentCounts.marketing_normal}}
+                            </td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_normal_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_normal_not_visited}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table-hover" style="font-size: small;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="font-bold">Total</th>
+                            <th class="font-bold">Visited</th>
+                            <th class="font-bold">Not Visited</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="font-bold">
+                            <td >Google Marketing</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.marketing_google_marketing}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_google_marketing_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_google_marketing -
+                                appointmentCounts.marketing_google_marketing_visited }}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Marketing Department</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.marketing_department}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_department_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_department -
+                                appointmentCounts.marketing_department_visited}}
+                            </td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Social Media</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.marketing_social_media}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_social_media_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_social_media -
+                                appointmentCounts.marketing_social_media_visited}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Website</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.marketing_website}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_website_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.marketing_website -
+                                appointmentCounts.marketing_website_visited}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-span-1 gap-2 mb-2" *ngIf="appointmentCounts.marketing_appts > '0'">
+            <div class="mb-1 flex flex-col items-start justify-between"
+                style="place-content: center;align-items: center;">
+                <apx-chart [series]="salesByCategory.series" [chart]="salesByCategory.chart"
+                    [dataLabels]="salesByCategory.dataLabels" [stroke]="salesByCategory.stroke"
+                    [colors]="salesByCategory.colors" [legend]="salesByCategory.legend"
+                    [plotOptions]="salesByCategory.plotOptions" [labels]="salesByCategory.labels"
+                    [states]="salesByCategory.states" class="rounded-lg bg-white dark:bg-black">
+                    <div
+                        class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+            <apx-chart [series]="markApptChart.series" [chart]="markApptChart.chart"
+                [dataLabels]="markApptChart.dataLabels" [stroke]="markApptChart.stroke" [colors]="markApptChart.colors"
+                [legend]="markApptChart.legend" [plotOptions]="markApptChart.plotOptions"
+                [labels]="markApptChart.labels" [states]="markApptChart.states"
+                class="rounded-lg bg-white dark:bg-black">
+                <div
+                    class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                    <span
+                        class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                </div>
+            </apx-chart>
+        </div>
+        <div class="col-span-1 gap-2 mb-2" style="align-content: center; " *ngIf="followers">
+            <div class="flex p-5">
+                <div class="font-bold ltr:ml-3 rtl:mr-3">
+                    <h5 style="font-size: small;">Last 7 Days Marketing Analysis</h5>
+                </div>
+            </div>
+            <div>
+                <apx-chart [series]="followers.series" [chart]="followers.chart" [stroke]="followers.stroke"
+                    [colors]="followers.colors" [legend]="followers.legend" [grid]="followers.grid"
+                    [yaxis]="followers.yaxis" [tooltip]="followers.tooltip" class="rounded-lg bg-white dark:bg-black">
+                    <div
+                        class="grid min-h-[176px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+    <h5 *ngIf="!load_flag" class="mt-5 mb-5" style="text-align: center;font-weight: bold;">Non-Marketing Appointment
+        Analysis</h5>
+    <div *ngIf="!load_flag" class="panel grid grid-cols-1 gap-4 md:grid-cols-5 lg:grid-cols-5 mb-5">
+        <div class="flex flex-col mb-5 mt-2 justify-around">
+            <div class="panel" *ngIf="filterOptions.length>0"
+                style="background: linear-gradient(to right,#1488CC, #2B32B2);color: white;text-align: -webkit-center;">
+                <div class="text-md font-semibold">Non-Marketing Appointments</div>
+                <br>
+                <div class="font-bold" style="font-size: large;">{{appointmentCounts.non_marketing_appts}}</div>
+            </div>
+            <div class="panel" *ngIf="filterOptions.length>0"
+                style="background: linear-gradient(to right,#1488CC, #2B32B2);color: white;text-align: -webkit-center;">
+                <div class="text-md font-semibold">Visited</div>
+                <br>
+                <div class="font-bold" style="font-size: large;">{{appointmentCounts.non_marketing_visited}}</div>
+            </div>
+        </div>
+        <!-- <div class="panel gap-2 mb-5 mb-2"
+            style=" align-content: center;background: linear-gradient(to right,#1488CC, #2B32B2);color: white; padding: 12px;text-align: -webkit-center;">
+            <div class="text-md font-semibold">Non-Marketing Appointments</div>
+            <br>
+            <div class="font-bold" style="font-size: large;">{{appointmentCounts.non_marketing_appts}}</div>
+            <br><br>
+            <div class="text-lg font-semibold">Visited - {{appointmentCounts.non_marketing_visited}}</div>
+
+        </div> -->
+        <div class="col-span-2 gap-2 mb-2">
+            <div class="table-responsive">
+                <table class="table-hover" style="font-size: small;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="font-bold">Total</th>
+                            <th class="font-bold">Visited</th>
+                            <th class="font-bold">Not Visited</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="font-bold">
+                            <td >Campaign</td>
+                            <td  style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.non_marketing_campaign}}</td>
+                            <td  style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_campaign_visited}}
+                            </td>
+                            <td  style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_campaign -
+                                appointmentCounts.non_marketing_campaign_visited}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Normal</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.non_marketing_normal}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_normal_visited}}
+                            </td>
+                            <td  style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_normal -
+                                appointmentCounts.non_marketing_normal_visited}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table class="table-hover" style="font-size: small;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="font-bold">Total</th>
+                            <th class="font-bold">Visited</th>
+                            <th class="font-bold">Not Visited</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="font-bold">
+                            <td >Direct</td>
+                            <td  style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.non_marketing_direct}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_direct_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_direct -
+                                appointmentCounts.non_marketing_direct_visited }}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Non-Marketing Department</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.non_marketing_department}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_department_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_department -
+                                appointmentCounts.non_marketing_department_visited}}
+                            </td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Lost Customer</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.non_marketing_lost}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_lost_visited}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_lost -
+                                appointmentCounts.non_marketing_lost_visited}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Dissatisfied</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{appointmentCounts.non_marketing_dissatisfied}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_dissatisfied}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{appointmentCounts.non_marketing_dissatisfied -
+                                appointmentCounts.non_marketing_dissatisfied_visited}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-span-1 gap-2 mb-2" *ngIf="nonMarkApptChart">
+            <div class="mb-1 flex flex-col items-start justify-between"
+                style="place-content: center;align-items: center;">
+                <apx-chart [series]="nonMarkApptChart.series" [chart]="nonMarkApptChart.chart"
+                    [dataLabels]="nonMarkApptChart.dataLabels" [stroke]="nonMarkApptChart.stroke"
+                    [colors]="nonMarkApptChart.colors" [legend]="nonMarkApptChart.legend"
+                    [plotOptions]="nonMarkApptChart.plotOptions" [labels]="nonMarkApptChart.labels"
+                    [states]="nonMarkApptChart.states" class="rounded-lg bg-white dark:bg-black">
+                    <div
+                        class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+            <apx-chart [series]="nonMarkAppt.series" [chart]="nonMarkAppt.chart" [dataLabels]="nonMarkAppt.dataLabels"
+                [stroke]="nonMarkAppt.stroke" [colors]="nonMarkAppt.colors" [legend]="nonMarkAppt.legend"
+                [plotOptions]="nonMarkAppt.plotOptions" [labels]="nonMarkAppt.labels" [states]="nonMarkAppt.states"
+                class="rounded-lg bg-white dark:bg-black">
+                <div
+                    class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                    <span
+                        class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                </div>
+            </apx-chart>
+        </div>
+        <div class="col-span-1 gap-2 mb-2" *ngIf="last7dayNonMarkApptChart">
+            <div class="flex p-5">
+                <div class="font-bold ltr:ml-3 rtl:mr-3">
+                    <h5 style="font-size: small;">Last 7 Days Non-Marketing Analysis</h5>
+                </div>
+            </div>
+            <div>
+                <apx-chart [series]="last7dayNonMarkApptChart.series" [chart]="last7dayNonMarkApptChart.chart"
+                    [stroke]="last7dayNonMarkApptChart.stroke" [legend]="last7dayNonMarkApptChart.legend"
+                    [colors]="last7dayNonMarkApptChart.colors" [grid]="last7dayNonMarkApptChart.grid"
+                    [yaxis]="last7dayNonMarkApptChart.yaxis" [labels]="last7dayNonMarkApptChart.labels"
+                    [tooltip]="last7dayNonMarkApptChart.tooltip" class="rounded-lg bg-white dark:bg-black">
+                    <div
+                        class="grid min-h-[176px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="internal_cust_load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <h5 *ngIf="!internal_cust_load_flag" class="mt-5 mb-5" style="text-align: center;font-weight: bold;">Internal
+        Customer Data Conversion</h5>
+    <div *ngIf="!internal_cust_load_flag" class="panel grid grid-cols-1 gap-4 md:grid-cols-5 lg:grid-cols-5 mb-5">
+        <div class="flex flex-col mb-5 mt-2 justify-around">
+            <div class="panel" *ngIf="filterOptions.length>0"
+                style="background: linear-gradient(to right,#1488CC, #2B32B2);color: white;text-align: -webkit-center;">
+                <div class="text-md font-semibold">Total Customers</div>
+                <br>
+                <div class="font-bold" style="font-size: large;">{{filterOptions[0].data.total_row}}</div>
+            </div>
+            <div class="panel" *ngIf="filterOptions.length>0"
+                style="background: linear-gradient(to right,#1488CC, #2B32B2);color: white;text-align: -webkit-center;">
+                <div class="text-md font-semibold">Converted</div>
+                <br>
+                <div class="font-bold" style="font-size: large;">{{filterOptions[0].data.converted}}</div>
+            </div>
+        </div>
+        <div class="col-span-2 gap-2 mb-5 mt-2">
+            <div class="table-responsive">
+                <table class="table-hover" style="font-size: small;">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="font-bold">Total</th>
+                            <th class="font-bold">Attempted</th>
+                            <th class="font-bold">Converted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="font-bold">
+                            <td>Lost Customer</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{filterOptions[1].data.total_row}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{filterOptions[1].data.attempted_call}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{filterOptions[1].data.converted}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Service Reminder</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{filterOptions[2].data.total_row}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{filterOptions[2].data.attempted_call}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{filterOptions[2].data.converted}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Discontinued Customer</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{filterOptions[3].data.total_row}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{filterOptions[3].data.attempted_call}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{filterOptions[3].data.converted}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Extended Warranty Customer</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{filterOptions[4].data.total_row}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{filterOptions[4].data.attempted_call}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{filterOptions[4].data.converted}}</td>
+                        </tr>
+                        <tr class="font-bold">
+                            <td >Campaign Data</td>
+                            <td style="color: rgb(19 74 236);text-align: center;">
+                                {{filterOptions[5].data.total_row}}</td>
+                            <td style="color: rgb(76, 196, 136 ,1);text-align: center;">
+                                {{filterOptions[5].data.attempted_call}}
+                            </td>
+                            <td style="color:  rgb(94, 162, 175 ,1);text-align: center;">
+                                {{filterOptions[5].data.converted}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-span-1 gap-2 mb-5 mt-2" *ngIf="customerChart">
+            <div class="mb-1 flex flex-col items-start justify-between"
+                style="place-content: center;align-items: center;">
+                <apx-chart [series]="customerChart.series" [chart]="customerChart.chart"
+                    [dataLabels]="customerChart.dataLabels" [stroke]="customerChart.stroke"
+                    [colors]="customerChart.colors" [legend]="customerChart.legend"
+                    [plotOptions]="customerChart.plotOptions" [labels]="customerChart.labels"
+                    [states]="customerChart.states" class="rounded-lg bg-white dark:bg-black">
+                    <div
+                        class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+        <div class="col-span-1 gap-2 mb-5 mt-2" *ngIf="customerConvertedChart">
+            <div class="mb-1 flex flex-col items-start justify-between"
+                style="place-content: center;align-items: center;">
+                <apx-chart [series]="customerConvertedChart.series" [chart]="customerConvertedChart.chart"
+                    [dataLabels]="customerConvertedChart.dataLabels" [stroke]="customerConvertedChart.stroke"
+                    [colors]="customerConvertedChart.colors" [legend]="customerConvertedChart.legend"
+                    [plotOptions]="customerConvertedChart.plotOptions" [labels]="customerConvertedChart.labels"
+                    [states]="customerConvertedChart.states" class="rounded-lg bg-white dark:bg-black">
+                    <div
+                        class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                        <span
+                            class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                    </div>
+                </apx-chart>
+            </div>
+        </div>
+    </div>
+</div>

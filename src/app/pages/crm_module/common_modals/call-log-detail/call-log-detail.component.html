@@ -1,0 +1,43 @@
+<div class="table-responsive mt-3" *ngIf="!load_flag">
+    <table class="small_view" style="border: 1px solid #eee">
+        <thead>
+            <tr>
+                <th colspan="6" style="text-align: center; background-color: #eceff1 !important">Recent Call logs</th>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Staff</th>
+                <th>Purpose</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="log.length!=0">
+                <tr [ngSwitch]="lg.calltype" *ngFor="let lg of log">
+                    <td>{{ lg.datetime }}</td>
+                    <td
+                        [ngClass]="{'text-success': lg.calltype === 'Inbound', 'text-warning': lg.calltype === 'Outbound'}">
+                        {{ lg.calltype }}</td>
+                    <td
+                        [ngClass]="{'text-danger': lg.disposition === 'NO ANSWER', 'text-primary': lg.disposition !== 'NO ANSWER'}">
+                        {{ lg.disposition }}
+                    </td>
+                    <td>{{ lg.calltype === 'Inbound' ? lg.dst : lg.src }}</td>
+                    <td [ngClass]="{'text-danger': lg.purpose === 'fail', 'text-primary': lg.purpose !== 'fail'}">
+                        {{ lg.purpose === 'fail' ? 'Not Found' : lg.purpose }}
+                    </td>
+                    <td [ngClass]="{'text-danger': lg.leadlog === 'fail', 'text-primary': lg.leadlog !== 'fail'}">
+                        {{ lg.leadlog === 'fail' ? 'Not Found' : lg.leadlog }}
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-container *ngIf="log.length == 0">
+                <tr>
+                    <td style="text-align: center;" colspan="6"><span><b>No Recent Call Logs</b></span></td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

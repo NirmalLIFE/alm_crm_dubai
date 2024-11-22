@@ -1,0 +1,9 @@
+::ng-deep .selected-on .ng-select-container {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+::ng-deep .selected-off .ng-select-container {
+    background-color: #f44336 !important;
+    color: white !important;
+}

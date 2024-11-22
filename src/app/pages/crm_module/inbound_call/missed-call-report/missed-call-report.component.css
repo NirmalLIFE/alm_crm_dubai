@@ -1,0 +1,7 @@
+.selected{
+    color:brown;
+    }
+    .selectedcard {
+        border: 5px solid#ad4f22;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }

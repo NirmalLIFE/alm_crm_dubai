@@ -1,0 +1,416 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Lead
+            Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Quotation
+            Leads</a>
+    </li>
+</ol>
+<a href="javascript:;" class="float" *ngIf="totalTimeExceedQuotes && totalTimeExceedQuotes.length > 0" (click)="totalTimeExceededQuotations()">
+    <span
+        class="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-warning/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px] ng-tns-c8-1"></span>
+    <span style="font-size: 12px;" > Total Time Exceeded Quotations</span><br />
+    <b >{{totalTimeExceedQuotes.length}}</b>
+</a>
+<div class="panel mb-5 mt-5 pb-5">
+    <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+        <div>
+            <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+        </div>
+        <div>
+            <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+        </div>
+        <!-- <ng-select
+            fullWidth
+            class="tiny-select"
+            [(ngModel)]="selectedStatus"
+            [searchable]="true"
+            [clearable]="false"
+            placeholder="Select Status"
+            class="form-input"
+            style="padding: 0"
+        >
+            <ng-option value="0">All</ng-option>
+            <ng-option value="1">Opened</ng-option>
+            <ng-option value="2">Call Transfered</ng-option>
+            <ng-option value="3">Appointment Scheduled</ng-option>
+            <ng-option value="4">Resolved or completed</ng-option>
+            <ng-option value="5">Closed</ng-option>
+        </ng-select> -->
+        <div>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getquotationcalls()">SEARCH</button>
+        </div>
+    </div>
+    <!-- <div class="grid grid-cols-3 gap-4 sm:grid-cols-3">
+        <div></div>
+        <div></div>
+        <div>
+            <button type="button" class="btn btn-warning my-4" style="float: right;" (click)="totalTimeExceededQuotations()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M6.30928 9C8.59494 5 9.96832 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.45498 18.0635 2.24306 16.2635 4.05373 13"
+                        stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="12" cy="16" r="1" fill="#ffffff" />
+                </svg>
+                Total Time Exceeded Quotations<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                    style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{totalTimeExceedQuotes.length}}</span>
+            </button>
+        </div>
+    </div> -->
+</div>
+<div class="panel mb-5 mt-5 pb-5" *ngIf="!load_flag">
+    <div class="flex flex-wrap items-center justify-center gap-3">
+        <button type="button" class="btn btn-primary my-4" (click)="filterQuotes(0)" [ngStyle]="{opacity:selected==0?'100%':'70%'}">
+            TOTAL QUOTATIONS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{allSRorQuotes.length}}</span>
+        </button>
+        <button type="button" class="btn btn-secondary my-4" (click)="filterQuotes(2)" [ngStyle]="{opacity:selected==2?'100%':'70%'}">
+            OPENED QUOTATION<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{openedQuotation.length}}</span>
+        </button>
+        <button type="button" class="btn btn-danger my-4" (click)="filterQuotes(3)" [ngStyle]="{opacity:selected==3?'100%':'70%'}">
+            CLOSED QUOTATION<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{closedQuotation.length}}</span>
+        </button>
+        <button type="button" class="btn btn-info my-4" (click)="filterQuotes(1)" [ngStyle]="{opacity:selected==1?'100%':'70%'}">
+            CALLBACK CUSTOMERS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{callbackCust}}</span>
+        </button>
+        <button type="button" class="btn btn-success my-4" (click)="filterQuotes(4)" [ngStyle]="{opacity:selected==4?'100%':'70%'}">
+            CONVERTED CUSTOMERS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{convertedQuote.length}}</span>
+        </button>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-3" *ngIf="notCallbackCust > 0">
+        <div (click)="filterQuotes(10)" style="cursor: pointer;" [ngStyle]="{opacity:selected==10?'100%':'70%'}"
+            class="relative flex items-center rounded border !border-warning bg-warning-light p-3.5 text-warning before:absolute before:top-1/2 before:-mt-2 before:border-b-8 before:border-l-8 before:border-t-8 before:border-b-transparent before:border-l-inherit before:border-t-transparent ltr:border-l-[64px] ltr:before:left-0 rtl:border-r-[64px] rtl:before:right-0 rtl:before:rotate-180 dark:bg-primary-dark-light">
+            <span class="absolute inset-y-0 m-auto h-6 w-6 text-white ltr:-left-11 rtl:-right-11">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M6.30928 9C8.59494 5 9.96832 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.45498 18.0635 2.24306 16.2635 4.05373 13"
+                        stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="12" cy="16" r="1" fill="#ffffff" />
+                </svg>
+            </span>
+            <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Warning!</strong>
+                <b>{{notCallbackCust}}</b>Time Exceeded Request as of Selected Date </span>
+        </div>
+    </div>
+</div>
+<!-- <div class="pt-5">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center cols-4">
+        <div class="panel bg-gradient-to-r from-green-500 to-green-400 flex">
+            <div class="text-md font-semibold">CALLBACK CUSTOMERS</div>
+            <div class="mt-3 text-3xl font-bold">{{callbackCust}}</div>
+        </div>
+        <div class="panel bg-gradient-to-r from-yellow-500 to-yellow-400 flex">
+            <div class="text-md font-semibold">TIME EXCEEDED REQUEST</div>
+            <div class="mt-3 text-3xl font-bold">{{notCallbackCust}}</div>
+        </div>
+    </div>
+</div> -->
+<div class="panel mt-5 pb-0">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">Quotation Lead Details</h5>
+        <!-- <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+        </div> -->
+        <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <button type="button" class="btn create rounded-full" (click)="openQuotationModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M10.9436 1.25H13.0564C14.8942 1.24998 16.3498 1.24997 17.489 1.40314C18.6614 1.56076 19.6104 1.89288 20.3588 2.64124C21.1071 3.38961 21.4392 4.33856 21.5969 5.51098C21.75 6.65019 21.75 8.10583 21.75 9.94359V14.0564C21.75 15.8942 21.75 17.3498 21.5969 18.489C21.4392 19.6614 21.1071 20.6104 20.3588 21.3588C19.6104 22.1071 18.6614 22.4392 17.489 22.5969C16.3498 22.75 14.8942 22.75 13.0564 22.75H10.9436C9.10583 22.75 7.65019 22.75 6.51098 22.5969C5.33856 22.4392 4.38961 22.1071 3.64124 21.3588C2.89288 20.6104 2.56076 19.6614 2.40314 18.489C2.24997 17.3498 2.24998 15.8942 2.25 14.0564V9.94358C2.24998 8.10582 2.24997 6.65019 2.40314 5.51098C2.56076 4.33856 2.89288 3.38961 3.64124 2.64124C4.38961 1.89288 5.33856 1.56076 6.51098 1.40314C7.65019 1.24997 9.10582 1.24998 10.9436 1.25ZM6.71085 2.88976C5.70476 3.02502 5.12511 3.27869 4.7019 3.7019C4.27869 4.12511 4.02502 4.70476 3.88976 5.71085C3.75159 6.73851 3.75 8.09318 3.75 10V14C3.75 15.9068 3.75159 17.2615 3.88976 18.2892C4.02502 19.2952 4.27869 19.8749 4.7019 20.2981C5.12511 20.7213 5.70476 20.975 6.71085 21.1102C7.73851 21.2484 9.09318 21.25 11 21.25H13C14.9068 21.25 16.2615 21.2484 17.2892 21.1102C18.2952 20.975 18.8749 20.7213 19.2981 20.2981C19.7213 19.8749 19.975 19.2952 20.1102 18.2892C20.2484 17.2615 20.25 15.9068 20.25 14V10C20.25 8.09318 20.2484 6.73851 20.1102 5.71085C19.975 4.70476 19.7213 4.12511 19.2981 3.7019C18.8749 3.27869 18.2952 3.02502 17.2892 2.88976C16.2615 2.75159 14.9068 2.75 13 2.75H11C9.09318 2.75 7.73851 2.75159 6.71085 2.88976ZM12 5.25C12.4142 5.25 12.75 5.58579 12.75 6V7.25L14 7.25C14.4142 7.25 14.75 7.58579 14.75 8C14.75 8.41421 14.4142 8.75 14 8.75L12.75 8.75L12.75 10C12.75 10.4142 12.4142 10.75 12 10.75C11.5858 10.75 11.25 10.4142 11.25 10L11.25 8.75H9.99997C9.58575 8.75 9.24997 8.41421 9.24997 8C9.24997 7.58579 9.58575 7.25 9.99997 7.25H11.25V6C11.25 5.58579 11.5858 5.25 12 5.25ZM7.25 14C7.25 13.5858 7.58579 13.25 8 13.25H16C16.4142 13.25 16.75 13.5858 16.75 14C16.75 14.4142 16.4142 14.75 16 14.75H8C7.58579 14.75 7.25 14.4142 7.25 14ZM8.25 18C8.25 17.5858 8.58579 17.25 9 17.25H15C15.4142 17.25 15.75 17.5858 15.75 18C15.75 18.4142 15.4142 18.75 15 18.75H9C8.58579 18.75 8.25 18.4142 8.25 18Z"
+                        fill="white" />
+                </svg>
+                Create Quote Request
+            </button>
+            <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <div *ngIf="!load_flag">
+        <div class="datatable">
+            <ng-datatable [rows]="SRorQuotes" [columns]="cols" [search]="search" [sortable]="true"
+                [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                <ng-template slot="phone" let-value="data">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone}}"
+                        [tippyProps]="{ theme: 'info' }" (click)="openCallLogs(value.phone)">
+                        ****{{ value.phone | slice : -6 }}
+                    </button>
+                </ng-template>
+                <ng-template slot="lead_code" let-value="data">
+                    <button type="button" class="btn btn-outline-primary btn-sm"
+                        (click)="openLeadDetailModal(value.lead_id)">
+                        {{ value.lead_code}}
+                    </button>
+                </ng-template>
+                <ng-template slot="type" let-value="data">
+                    <span *ngIf="value.type == 'Normal Quotation'" class="badge bg-info">Normal Quotation</span>
+                    <span class="badge bg-primary" *ngIf="value.type == 'Special or campaign Quotation'">Special or
+                        campaign Quotation </span>
+                    <span class="badge bg-danger" *ngIf="value.type == 'NIL'">NIL</span>
+                </ng-template>
+                <ng-template slot="status" let-value="data">
+                    <span *ngIf="value.status == 'Quotation Provided'" class="badge bg-info">Quotation Provided</span>
+                    <span class="badge bg-success" *ngIf="value.status == 'Quotation Accepted'">Quotation
+                        Accepted</span>
+                    <span class="badge bg-secondary" *ngIf="value.status == 'Revise quote Requested'">Revise quote
+                        Requested</span>
+                    <span class="badge bg-warning" *ngIf="value.status == 'Not Answering'">Not Answering</span>
+                    <span class="badge bg-danger" *ngIf="value.status == 'Quotation Rejected'">Quotation Rejected</span>
+                    <span class="badge bg-warning" *ngIf="value.status == 'Customer Not Responding'">Customer Not
+                        Responding</span>
+                    <span class="badge bg-warning" *ngIf="value.status == 'Quotation Not Provided'">Quotation Not
+                        Provided</span>
+                </ng-template>
+
+                <ng-template slot="c_date" let-value="data">
+                    <div class="flex flex-col gap-2 md:flex-row">
+                        <svg width="14" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                stroke="#1C274C" stroke-width="1.5" />
+                            <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                            <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                            <path
+                                d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                fill="#1C274C" />
+                        </svg>
+                        {{value.c_date}}
+                    </div>
+                </ng-template>
+                <ng-template slot="lead_note" let-value="data">
+                    <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note!=null"
+                        [tippyProps]="{ theme: 'info' }">{{ value.lead_note | slice : 0 : 30 }}<ng-container
+                            *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                </ng-template>
+                <ng-template slot="c_time" let-value="data">
+                    <div class="flex flex-col gap-2 md:flex-row">
+                        <svg width="14" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" stroke="#1C274C" stroke-width="1.5" />
+                            <path d="M12 8V12L14.5 14.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+
+                        {{value.c_time}}
+                    </div>
+                </ng-template>
+                <ng-template slot="action" let-value="data">
+                    <div>
+                        <button type="button" class="ltr:mr-2 rtl:ml-2" ngxTippy="Edit" (click)="quotesupdate(value)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
+                                <path
+                                    d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
+                                    stroke="currentColor" stroke-width="1.5" />
+                                <path opacity="0.5"
+                                    d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015"
+                                    stroke="currentColor" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+                </ng-template>
+            </ng-datatable>
+        </div>
+    </div>
+    <modal #calllogmodal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+        [closeOnOutsideClick]="false" style="max-width: 90vw;">
+        <ng-template #modalHeader>
+            <div style=" align-items: center; display: flex; ">
+                Recent Call Logs
+            </div>
+        </ng-template>
+        <ng-template #modalBody>
+            <app-call-log-detail [calllogphn]="calllogphn"></app-call-log-detail>
+        </ng-template>
+        <ng-template #modalFooter>
+            <button type="button" (click)="callhistoryModal()" class="btn btn-outline-danger">DISMISS</button>
+        </ng-template>
+    </modal>
+    <modal #leadDetailModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+        [closeOnOutsideClick]="false" style="max-width: 90vw;">
+        <ng-template #modalHeader>
+            <div style=" align-items: center; display: flex; ">
+                Lead Details
+            </div>
+        </ng-template>
+        <ng-template #modalBody>
+            <app-lead-detail-screen [leadDetail]="leadDetail"></app-lead-detail-screen>
+        </ng-template>
+        <ng-template #modalFooter>
+            <button type="button" (click)="LeadDetailModalClose()" class="btn btn-outline-danger">DISMISS</button>
+        </ng-template>
+    </modal>
+</div>
+<modal #quotationModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Create Quotation
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="table-responsive" *ngIf="leads.length > 0">
+            <label> <b>Leads</b></label>
+            <table class="small_view" style="border: 1px solid #eee">
+                <thead>
+                    <tr *ngFor="let ld of leads">
+                        <th>Created</th>
+                        <th>Name</th>
+                        <th>Lead Code</th>
+                        <th *ngIf="ld.purpose_id == '1'">Appointment Code</th>
+                        <th>Purpose</th>
+                        <th *ngIf="ld.purpose_id == '1'">Appointment Date</th>
+                        <th>Status</th>
+                        <th>Source</th>
+                        <th style="width: 25%">Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ld of leads">
+                        <td>{{ ld.created }}</td>
+                        <td>{{ ld.name }}</td>
+                        <td>
+                            <span class="badge badge-outline-primary">{{ ld.lead_code }}</span>
+                        </td>
+                        <td *ngIf="ld.purpose_id == '1'">
+                            <span class="badge badge-outline-primary">{{ ld.apptm_code }}</span>
+                        </td>
+                        <td>{{ ld.call_purpose }}</td>
+                        <td *ngIf="ld.purpose_id == '1'">{{ ld.ld_appoint_date }}</td>
+                        <td>{{ ld.ld_sts }}</td>
+                        <td>{{ ld.ld_src }}</td>
+                        <td>{{ ld.lead_note }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="leads.length > 0">
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+        </div>
+        <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3" *ngIf="!appoint_flag">
+            <div>
+                <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+                <input type="text" placeholder="Customer Number" [(ngModel)]="quotationDetails.phone"
+                    (change)="checkExistigCust(quotationDetails.phone)" class="form-input text-xs" maxlength="50" />
+            </div>
+            <div>
+                <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+                <input type="text" placeholder="Customer name" [(ngModel)]="quotationDetails.cust_name"
+                    class="form-input text-xs" maxlength="50" />
+            </div>
+            <div>
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Quote Source*</label>
+                <ng-select [items]="sourceList" bindLabel="ld_src" [(ngModel)]="quotationDetails.source"
+                    bindValue="ld_src_id" [searchable]="true" [clearable]="true" placeholder="Quote Source"
+                    class="custom-multiselect" (change)="getSocialMediaCampaign(quotationDetails.source)">
+                </ng-select>
+            </div>
+            <div class="col-span-2" *ngIf="quotationDetails.source  == '2'">
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign*</label>
+                <ng-select [items]="socialMediaCampaignList" bindLabel="displayLabel" bindValue="smc_id"
+                    [(ngModel)]="quotationDetails.social_media_camp" [searchable]="true" [clearable]="false"
+                    placeholder="Social Media Campaign List" class="custom-multiselect" appendTo="body"
+                    (change)="getSocialMediaCampaignSource(quotationDetails.social_media_camp)">
+                </ng-select>
+            </div>
+            <div *ngIf="quotationDetails.source == '2'">
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media
+                    Source*</label>
+                <ng-select [items]="socialMediaSourceList" bindLabel="smcs_name" bindValue="smcs_id"
+                    [(ngModel)]="quotationDetails.social_media_source" [disabled]="true" [searchable]="true" [clearable]="false"
+                    placeholder="Social Media Source List" class="custom-multiselect" appendTo="body">
+                </ng-select>
+            </div>
+            <div>
+                <label for="vehicle_model" class="small_label_text m-0 dark:text-white-dark">Vehicle Model</label>
+                <input id="vehicle_model" type="text" [(ngModel)]="quotationDetails.vehicle_model"
+                    placeholder="Vehicle Model" class="form-input text-xs" maxlength="60" />
+            </div>
+            <div>
+                <label for="reg_no" class="small_label_text m-0 dark:text-white-dark">Register Number</label>
+                <input id="reg_no" type="text" [(ngModel)]="quotationDetails.reg_no" placeholder="Register Number"
+                    class="form-input text-xs" maxlength="12" />
+            </div>
+            <div>
+                <label for="country" class="small_label_text m-0 dark:text-white-dark">Assign To*</label>
+                <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="quotationDetails.assigned_to"
+                    bindValue="us_id" [searchable]="true" [clearable]="true" placeholder="Select Staff"
+                    class="custom-multiselect">
+                </ng-select>
+            </div>
+            <div class="col-span-2">
+                <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Comment*</label>
+                <input type="text" placeholder="Customer Comment" [(ngModel)]="quotationDetails.customer_note"
+                    class="form-input text-xs" maxlength="250" />
+            </div>
+        </div>
+        <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-1 xl:grid-cols-1" style="text-align: center;"
+            *ngIf="appoint_flag">
+            <h5><i style="font-size: 16px;font-weight: bold;">Appointment Already Scheduled</i></h5>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
+            <button class="btn btn-danger" style="float: left" (click)="quotationModalClose()">DISMISS</button>
+            <button class="btn btn-primary"  *ngIf="appoint_flag != true" [disabled]="!quotationDetails.customer_note || createFlag "
+                (click)="createQuote(quotationDetails)">SAVE
+                <span *ngIf="createFlag">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2">
+                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                    </svg>
+                </span></button>
+            <button class="btn btn-dark" *ngIf="appoint_flag" (click)="viewAppointmentDetails()">Appointment
+                Edit</button>
+        </div>
+    </ng-template>
+    <!-- <ng-template #modalFooter>
+       <button type="button" (click)="appointmentModalClose()" class="btn btn-outline-danger">DISMISS</button>
+   </ng-template> -->
+</modal>

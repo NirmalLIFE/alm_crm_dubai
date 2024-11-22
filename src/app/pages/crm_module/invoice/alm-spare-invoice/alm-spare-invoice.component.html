@@ -1,0 +1,471 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            ALM Spare Invoice</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/spare-invoice/spare-invoice-list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Spare Invoice List</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a  routerLink="/spare-invoice/nm-spare-invoice-list"
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            NM Spare Invoice List</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a 
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            New Spare Invoice</a>
+    </li>
+</ol>
+<div class="panel mb-5 mt-5 pt-5">
+    <div class="flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">Al Maraghi Spare Invoice</h5>
+        <!-- <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <input [(ngModel)]="invoiceNo" ngxTippy="NM invoice number" type="text" class="form-input w-auto"
+                placeholder="NM Invoice number" />
+            <input type="text" ngxTippy="NM branch code where invoice generated" placeholder="NM Branch Code"
+                [(ngModel)]="branchCode" class="form-input text-xs" maxlength="11" />
+            <button type="button" class="btn btn-success btn-sm" style="float: right"
+                (click)="getSpareInvoice(invoiceNo, branchCode)">SEARCH</button>
+        </div> -->
+    </div>
+    <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 1%; margin-bottom: 1%" />
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <div *ngIf="!load_flag && show_flag && inv_details.items.length > 0">
+        <div class="flex flex-wrap justify-between gap-4 px-4">
+            <div class="text-2xl font-semibold uppercase">
+                Spare Invoice - <b>#{{ invoiceNo }}</b>
+            </div>
+            <div class="shrink-0">
+                <img src="./assets/images/alm_logo_l.png" alt="" style="width: 17rem" class="ltr:ml-auto rtl:mr-auto" />
+            </div>
+        </div>
+        <div class="px-4 ltr:text-right rtl:text-left">
+            <div class="mt-6 space-y-1 text-white-dark">
+                <div>P.O Box: 9573, 12th Street, Mussafah 33,</div>
+                <div>Abu Dhabi, UAE</div>
+                <div>Tel: (02)5503552</div>
+            </div>
+        </div>
+
+        <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+        <!-- <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-6 lg:grid-cols-6">
+        </div> -->
+        <div class="mb-3 grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
+            <div>
+                <label for="jobcard">Purchase Type*</label>
+                <ng-select [searchable]="false" [clearable]="false" class="custom-multiselect"
+                    placeholder="Select Purchase Type" [(ngModel)]="purchaseType" (change)="resetfields(1)"
+                    [ngModelOptions]="{ standalone: true }">
+                    <ng-option value="1">Credit</ng-option>
+                    <ng-option value="2">Cash</ng-option>
+                </ng-select>
+            </div>
+            <div>
+                <label for="jobcard">Type*<span
+                        style="font-size: 12px; color: grey;">(Consumables,General,Normal)</span></label>
+                <ng-select [searchable]="false" [clearable]="false" class="custom-multiselect" placeholder="Select Type"
+                    [(ngModel)]="type" [ngModelOptions]="{ standalone: true }" (change)="resetfields(2)">
+                    <ng-option value="1">Consumables</ng-option>
+                    <ng-option value="2">General</ng-option>
+                    <ng-option value="3">Normal</ng-option>
+                </ng-select>
+            </div>
+            <div>
+                <div *ngIf="type!='1'">
+                    <label for="jobcard">Jobcard No.*</label>
+                    <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                        (search)="filterJobcards($event)" (change)="getCustomerJobcards($event)"
+                        class="custom-multiselect" placeholder="Select Jobcard" [(ngModel)]="selectedJobcard"
+                        [ngModelOptions]="{ standalone: true }">
+                        <ng-option value="">Select Jobcard</ng-option>
+                        <ng-option value="{{ items.job_no }}" *ngFor="let items of filteredJobcards">{{ items.job_no
+                            }}</ng-option>
+                    </ng-select>
+                </div>
+                <div *ngIf="type=='1'">
+                    <label for="jobcard">Jobcard No.</label>
+                    <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                        (search)="filterJobcards($event)" (change)="getCustomerJobcards($event)"
+                        class="custom-multiselect" placeholder="Select Jobcard" [(ngModel)]="selectedJobcard"
+                        [ngModelOptions]="{ standalone: true }">
+                        <ng-option value="">Select Jobcard</ng-option>
+                        <ng-option value="{{ items.job_no }}" *ngFor="let items of filteredJobcards">{{ items.job_no
+                            }}</ng-option>
+                    </ng-select>
+                </div>
+            </div>
+            <div *ngIf="type=='1' || type=='2'">
+                <label class="inline-flex mt-3" style="float: left;">
+                    <span class="peer-checked:text-info mr-1">Margin</span>
+                    <label class="w-12 h-6 relative">
+                        <input type="checkbox"
+                            class="custom_switch absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+                            id="custom_switch_checkbox2" [(ngModel)]="isChecked"
+                            (change)="checkValue(isChecked ? true : false)" />
+                        <span for="custom_switch_checkbox2"
+                            class="outline_checkbox bg-icon border-2 border-[#ebedf2] dark:border-white-dark block h-full rounded-full before:absolute before:left-1 before:bg-[#ebedf2] dark:before:bg-white-dark before:bottom-1 before:w-4 before:h-4 before:rounded-full before:bg-[url(/assets/images/close.svg)] before:bg-no-repeat before:bg-center peer-checked:before:left-7 peer-checked:before:bg-[url(/assets/images/checked.svg)] peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                    </label>
+                </label>
+            </div>
+            <div *ngIf="jobCardCustomer.length>0">
+                <div class="mb-2 flex w-full items-center justify-between">
+                    <div class="text-white-dark">Customer :</div>
+                    <div>{{ jobCardCustomer[0].customer_name | uppercase }}</div>
+                </div>
+                <div class="mb-2 flex w-full items-center justify-between">
+                    <div class="text-white-dark">Phone :</div>
+                    <div>{{jobCardCustomer[0].phone}}</div>
+                </div>
+                <div class="mb-2 flex w-full items-center justify-between">
+                    <div class="text-white-dark">Reg No:</div>
+                    <div>{{jobCardCustomer[0].car_reg_no}}</div>
+                </div>
+                <div class="flex w-full items-center justify-between">
+                    <div class="text-white-dark">Chassis :</div>
+                    <div>{{jobCardCustomer[0].chassis_no}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive mt-6">
+            <h5 class="mb-3 text-lg font-semibold dark:text-white-light" style="text-align: center">Particulars</h5>
+            <table class="table-striped">
+                <thead>
+                    <tr>
+                        <th class="" style="width: 17%">PART CODE</th>
+                        <th class="" style="width: 27%">DESCRIPTION</th>
+                        <th class="" style="width: 8%">QUANTITY</th>
+                        <th class="ltr:text-right rtl:text-left" style="width: 10%">UNIT PRICE</th>
+                        <th class="ltr:text-right rtl:text-left" style="width: 10%">VAT</th>
+                        <th class="ltr:text-right rtl:text-left" style="width: 10%">SUB TOTAL</th>
+                        <th class="ltr:text-right rtl:text-left" style="width: 8%">MARGIN(%)</th>
+                        <th class="ltr:text-right rtl:text-left" style="width: 10%">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let spare of inv_details.items">
+                        <tr>
+                            <td>{{ spare.PART_NO }}</td>
+                            <td>{{ spare.DESCRIPTION }}</td>
+                            <td style="text-align: center">{{ spare.ITEM_QTY }}</td>
+                            <td class="ltr:text-right rtl:text-left">{{ spare.UNIT_PRICE | number : '1.2-2' }}</td>
+                            <td class="ltr:text-right rtl:text-left">{{ spare.VAT_AMOUNT | number : '1.2-2' }}</td>
+                            <td class="ltr:text-right rtl:text-left">
+                                {{ spare.ITEM_QTY * (spare.UNIT_PRICE * 1 + spare.VAT_AMOUNT * 1) | number : '1.2-2' }}
+                            </td>
+                            <td class="ltr:text-right rtl:text-left"> {{spare.margin_applied}}
+                                <!-- <input id="parts_margin" type="text" style="text-align: right"
+                                    [(ngModel)]="spare.margin_applied" placeholder="PARTS MARGIN (%)"
+                                    class="form-input text-xs" maxlength="3" (change)="updateMargin(spare)" /> -->
+                            </td>
+                            <td class="ltr:text-right rtl:text-left">{{ spare.margin_total }}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="ltr:text-right rtl:text-left">
+                            <b>{{ inv_details.details.TOTAL_AMOUNT | number : '1.2-2' }}</b>
+                        </th>
+                        <th class="ltr:text-right rtl:text-left">
+                            <b>{{ inv_details.details.TOTAL_VAT_AMOUNT | number : '1.2-2' }}</b>
+                        </th>
+                        <th class="ltr:text-right rtl:text-left">
+                            <b>{{ inv_details.details.TOTAL_VAT_AMOUNT * 1 + inv_details.details.TOTAL_AMOUNT * 1 |
+                                number : '1.2-2' }}</b>
+                        </th>
+                        <th></th>
+                        <th class="ltr:text-right rtl:text-left">
+                            <b>{{ marginAppliedTotal | number : '1.2-2' }}</b>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="mt-6 grid grid-cols-1 px-4 sm:grid-cols-2">
+            <div>
+                <label for="description">DESCRIPTION</label>
+                <textarea rows="2" id="description" [(ngModel)]="description" type="text" placeholder="DESCRIPTION"
+                    class="form-input" minlength="3" maxlength="100">
+                    </textarea>
+            </div>
+            <div class="space-y-2 ltr:text-right rtl:text-left">
+                <div class="flex items-center">
+                    <div class="flex-1">Subtotal</div>
+                    <div class="w-[37%]">{{ marginAppliedTotal - marginAppliedTotal * 0.05 | number : '1.2-2' }}</div>
+                </div>
+                <div class="flex items-center">
+                    <div class="flex-1">VAT</div>
+                    <div class="w-[37%]">{{ marginAppliedTotal * 0.05 | number : '1.2-2' }}</div>
+                </div>
+                <div class="flex items-center">
+                    <div class="flex-1">Discount</div>
+                    <div class="w-[37%]">
+                        <input id="parts_margin" type="number" style="text-align: right; width: 40%"
+                            [(ngModel)]="discountApplied" placeholder="Discount" class="form-input text-xs"
+                            maxlength="5" (input)="calculateTotal()" />
+                    </div>
+                </div>
+                <div class="flex items-center text-lg font-semibold">
+                    <div class="flex-1">Grand Total</div>
+                    <div class="w-[37%]">AED {{ grandTotal | number : '1.2-2' }}</div>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end" class="mt-5">
+            <button type="button" class="btn btn-success" style="float: left" id="auto_trigger"
+                *ngIf="grandTotal>= (inv_details.details.TOTAL_VAT_AMOUNT * 1 + inv_details.details.TOTAL_AMOUNT * 1)"
+                (click)="saveNMInvoice()">SAVE INVOICE</button>
+            <button type="button" class="btn btn-dark" style="float: left" id="auto_trigger"
+                *ngIf="grandTotal< (inv_details.details.TOTAL_VAT_AMOUNT * 1 + inv_details.details.TOTAL_AMOUNT * 1)"
+                (click)="saveNMInvoice()">SEND TO ADMIN APPROVAL</button>
+        </div>
+    </div>
+    <!-- <div *ngIf="!load_flag && !show_flag">
+        <label style="text-align: center">Please fetch an invoice from Naser Mohsin</label>
+    </div> -->
+    <!-- <div style="border-radius: 5px; border: 1px solid #9e9e9e75; padding: 10px" *ngIf="inv_details.details">
+        <h6 class="text-md mb-2 font-bold" style="text-align: center">Invoice Details-({{ invoiceNo }})</h6>
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th style="text-align: left; width: 20%">Invoice Date</th>
+                    <th style="text-align: left; width: 20%">SUB TOTAL</th>
+                    <th style="text-align: left; width: 20%">DISCOUNT AMOUNT</th>
+                    <th style="text-align: left; width: 15%">TOTAL VAT AMOUNT</th>
+                    <th style="text-align: left; width: 10%">Parts Margin</th>
+                    <th style="text-align: left; width: 15%">TOTAL AMOUNT</th>
+                    <th style="width: 5%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="inv_details.details">
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [(ngModel)]="inv_details.details.DOC_DATE"
+                            placeholder="PART CODE"
+                            class="form-input text-xs"
+                            maxlength="60"
+                        />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [(ngModel)]="inv_details.details.TOTAL_AMOUNT"
+                            placeholder="DESCRIPTION"
+                            class="form-input text-xs"
+                            maxlength="60"
+                        />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [(ngModel)]="inv_details.details.TOTAL_DISCOUNT"
+                            placeholder="UNIT PRICE"
+                            class="form-input text-xs"
+                            maxlength="60"
+                        />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [(ngModel)]="inv_details.details.TOTAL_VAT_AMOUNT"
+                            placeholder="UNIT PRICE"
+                            class="form-input text-xs"
+                            maxlength="60"
+                        />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [(ngModel)]="partsMarginPercentage"
+                            placeholder="PARTS MARGIN (%)"
+                            class="form-input text-xs"
+                            maxlength="60"
+                            readonly
+                        />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [value]="
+                                +(inv_details.details.TOTAL_AMOUNT || 0) +
+                                    +(inv_details.details.TOTAL_DISCOUNT || 0) +
+                                    +(inv_details.details.TOTAL_VAT_AMOUNT || 0) +
+                                    +calculateTotalMarginAmount(inv_details.details) | number : '1.2-2'
+                            "
+                            placeholder="DESCRIPTION"
+                            class="form-input text-xs"
+                            maxlength="60"
+                        />
+                    </td>
+                    <td class="text-center">
+                        <button type="button" ngxTippy data-tippy-content="Delete Item"
+                            (click)="deleteGenericItem(j, item_data_g)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <path
+                                    d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
+                                    stroke-width="1.5" stroke-linecap="round" />
+                                <path opacity="0.5"
+                                    d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                    stroke="currentColor" stroke-width="1.5" />
+                            </svg>
+                        </button> 
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <button type="button" class="btn btn-outline-success btn-sm" style="float: left"
+                            id="auto_trigger" ngxTippy="Shortcut alt + G" (click)="addGenericItem()">ADD NEW
+                            GENERIC ITEM</button>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 2%; margin-bottom: 2%" />
+        <h6 class="text-md mb-2 font-bold" style="text-align: center">Invoice Items</h6>
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th style="text-align: left; width: 20%">PART CODE</th>
+                    <th style="text-align: left; width: 20%">DESCRIPTION</th>
+                    <th style="text-align: left; width: 10%">QUANTITY</th>
+                    <th style="text-align: left; width: 10%">UNIT PRICE</th>
+                    <th style="text-align: left; width: 10%">VAT AMOUNT</th>
+                    <th style="text-align: left; width: 10%">Parts Margin</th>
+                    <th style="text-align: left; width: 10%">SUB TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let spare of inv_details.items">
+                    <td style="padding: 1px">
+                        <input id="part_code" type="text" [(ngModel)]="spare.PART_NO" placeholder="PART CODE" class="form-input text-xs" maxlength="60" />
+                    </td>
+                    <td style="padding: 1px">
+                        <input id="part_code" type="text" [(ngModel)]="spare.DESCRIPTION" placeholder="DESCRIPTION" class="form-input text-xs" maxlength="60" />
+                    </td>
+                    <td style="padding: 1px">
+                        <input id="part_code" type="text" [(ngModel)]="spare.ITEM_QTY" placeholder="UNIT PRICE" class="form-input text-xs" maxlength="60" />
+                    </td>
+                    <td style="padding: 1px">
+                        <input id="part_code" type="text" [(ngModel)]="spare.UNIT_PRICE" placeholder="UNIT PRICE" class="form-input text-xs" maxlength="60" />
+                    </td>
+                    <td style="padding: 1px">
+                        <input id="part_code" type="text" [(ngModel)]="spare.VAT_AMOUNT" placeholder="VAT AMOUNT" class="form-input text-xs" maxlength="60" />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [(ngModel)]="partsMarginPercentage"
+                            placeholder="PARTS MARGIN (%)"
+                            class="form-input text-xs"
+                            maxlength="60"
+                            readonly
+                        />
+                    </td>
+                    <td style="padding: 1px">
+                        <input
+                            id="part_code"
+                            type="text"
+                            [value]="
+                                +spare.UNIT_PRICE * +spare.ITEM_QTY + +spare.VAT_AMOUNT * +spare.ITEM_QTY + +calculateMarginAmount(spare)
+                                    | number : '1.2-2'
+                                    | decimalNumber
+                            "
+                            placeholder="SUB TOTAL"
+                            class="form-input text-xs"
+                            maxlength="60"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                    </td>
+                    <td colspan="2" style="text-align: right;">
+                        <strong>Grand Total:</strong>
+                    </td>
+                    <td style="padding: 1px;"> 
+                        {{ calculateGrandTotal() | number : '1.2-2' | decimalNumber }}
+                    </td>
+                </tr>
+            </tfoot> 
+        </table>
+        <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 2%; margin-bottom: 2%" />
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-8" style="text-align: right">
+                    <label
+                        >Total Taxable Amount AED : <b>{{ calculateTaxableAmount() }}</b></label
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8" style="text-align: right">
+                    <label
+                        >VAT(5%) : <b>{{ inv_details.details.TOTAL_VAT_AMOUNT || 0 }}</b></label
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8" style="text-align: right">
+                    <label
+                        >Parts Margin : <b>{{ partsMargin }}%</b></label
+                    >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="text-align: right">
+                    <label style="font-size: 16px"
+                        >Grand Total:
+                        <b>{{
+                            +(inv_details.details.TOTAL_AMOUNT || 0) +
+                                +(inv_details.details.TOTAL_DISCOUNT || 0) +
+                                +(inv_details.details.TOTAL_VAT_AMOUNT || 0) +
+                                +calculateTotalMarginAmount(inv_details.details) | number : '1.2-2'
+                        }}</b></label
+                    >
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12" style="text-align: right; text-transform: capitalize">
+                    <b> {{ (totalAmountToWords()) }} Dirhams Only</b>
+                </div>
+            </div>
+        </div> 
+    </div> -->
+</div>

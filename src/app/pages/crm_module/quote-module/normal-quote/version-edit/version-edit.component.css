@@ -1,0 +1,24 @@
+#quote_table {
+    width: 100%;
+    border: 1px solid #d1d1d1;
+}
+
+#quote_table th {
+    border-right: 1px solid #d1d1d1;
+    border-bottom: 1px solid #d1d1d1;
+    padding: 6px 10px 6px 10px;
+}
+
+#quote_table tr td {
+    border-right: 1px solid #d1d1d1;
+    padding: 6px 10px 6px 10px;
+}
+
+#quote_table .border_tr {
+    border-bottom: 1px solid #d1d1d1;
+
+}
+
+#quote_table .odd_row {
+    background: #eee;
+}

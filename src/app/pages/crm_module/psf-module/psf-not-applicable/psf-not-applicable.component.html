@@ -1,0 +1,111 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/psfadminreport"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-[#ebedf2] hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pr-3 rtl:pl-2 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">PSF
+            CALL REPORT</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-t-transparent before:border-b-transparent before:border-l-primary ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pr-6 rtl:pl-2 rtl:before:-left-[15px] rtl:before:rotate-180">
+            PSF NOT APPLICABLE CALLS</a>
+    </li>
+</ol>
+<div class="panel mt-5 pb-0" *ngIf="psf_not_applicable_calls">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+        <h6 class="text-lg font-semibold dark:text-white-light">
+            PSF NOT APPLICABLE CALLS</h6>
+    </div>
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-right">
+        <div class="flex items-rigth gap-5 ltr:ml-auto rtl:mr-auto">
+            <div class="flex-1 md:flex-auto">
+                <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search" />
+            </div>
+        </div>
+    </div>
+    <div class="datatable" *ngIf="!load_flag">
+        <ng-datatable [rows]="psf_not_applicable_calls" [columns]="cols" [search]="search" [sortable]="true"
+            skin="whitespace-nowrap table-hover bh-table-compact"
+            firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+            previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+            <ng-template slot="customer_name" let-value="data">
+                <strong class="text-info">{{ value.customer_name | titlecase }}</strong>
+            </ng-template>
+            <ng-template slot="phone" let-value="data">
+                <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}"
+                    [tippyProps]="{ theme: 'info' }">
+                    ****{{ value.phone | slice : -6 }}
+                </button>
+            </ng-template>
+            <ng-template slot="psfm_job_no" let-value="data">
+                <strong class="text-primary"> {{ value.psfm_job_no }}</strong>
+            </ng-template>
+            <ng-template slot="lastsa_response" let-value="data">
+                <span class="badge bg-danger"
+                    *ngIf="value.lastsa_response == 'NIL'|| value.lastsa_response == null">NIL</span>
+                <span class="badge badge-outline-danger" *ngIf="value.lastsa_response == 'CLOSED INCOMPLETE'">CLOSED
+                    INCOMPLETE</span>
+                <span class="badge badge-outline-danger" *ngIf="value.lastsa_response == 'PENDING'">PENDING</span>
+                <span class="badge badge-outline-success" *ngIf="value.lastsa_response == 'EXTREMLY HAPPY'">EXTREMLY
+                    HAPPY</span>
+                <span class="badge badge-outline-warning" *ngIf="value.lastsa_response == 'NOT ANSWERING'">NOT
+                    ANSWERING</span>
+                <span class="badge badge-outline-danger"
+                    *ngIf="value.lastsa_response == 'DISSATISFIED'">DISSATISFIED</span>
+                <span class="badge badge-outline-primary" *ngIf="value.lastsa_response == 'PSF NOT APPLICABLE'">PSF NOT
+                    APPLICABLE</span>
+                <span class="badge badge-outline-secondary"
+                    *ngIf="value.lastsa_response == 'VEHICLE WORK IN PROGRESS'">VEHICLE WORK IN PROGRESS</span>
+                <span class="badge badge-outline-info" *ngIf="value.lastsa_response == 'FAIRLY HAPPY'">FAIRLY
+                    HAPPY</span>
+            </ng-template>
+            <ng-template slot="attempt_count" let-value="data">
+                <span *ngIf="value.last_call_status.pst_psf_status!=19">{{ value.last_call_status.attempt_count
+                    }}</span>
+                <span *ngIf="value.last_call_status.pst_psf_status==19">0</span>
+            </ng-template>
+            <ng-template slot="sa_status" let-value="data">
+                <span class="badge badge-outline-primary" *ngIf="value.sa_status == 'OPEN'">OPEN</span>
+                <span class="badge badge-outline-warning" *ngIf="value.sa_status == 'PENDING'">PENDING</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.sa_status == 'TRANSFERRED'">TRANSFERRED</span>
+                <span class="badge badge-outline-secondary" *ngIf="value.sa_status == 'REVISIT'">REVISIT</span>
+                <span class="badge badge-outline-danger" *ngIf="value.sa_status == 'CLOSED'">CLOSED</span>
+                <span class="badge badge-outline-info" *ngIf="value.sa_status == 'UNREACHABLE'">UNREACHABLE</span>
+                <span class="badge badge-outline-success" *ngIf="value.sa_status == 'COMPLETED'">COMPLETED</span>
+                <span class="badge badge-outline-info" *ngIf="value.sa_status == 'WIP'">WIP</span>
+            </ng-template>
+            <ng-template slot="Action" let-value="data">
+                <button type="button" class="btn btn-primary" ngxTippy="Call Details"
+                    *ngIf="value.last_call_status.pst_psf_status!=19" (click)="getPsfCallList(value.psfm_id)">Call
+                    Details</button>
+            </ng-template>
+        </ng-datatable>
+    </div>
+    <modal #psfcallhistory class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+        [closeOnOutsideClick]="false" style="max-width: 90vw;">
+        <ng-template #modalHeader>
+            <div style=" align-items: center; display: flex; ">
+                PSF CALL HISTORY
+            </div>
+        </ng-template>
+        <ng-template #modalBody>
+            <app-psf-call-history [oldcalldata]="oldCallData"></app-psf-call-history>
+        </ng-template>
+        <ng-template #modalFooter>
+            <button type="button" (click)="psfcallhistoryModal()" class="btn btn-outline-danger">DISMISS</button>
+        </ng-template>
+    </modal>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+</div>
+<!-- <div *ngIf="load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+</div> -->

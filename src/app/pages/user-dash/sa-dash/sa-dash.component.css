@@ -1,0 +1,50 @@
+@keyframes slide-left-right {
+    0% {transform: translateX(0);}
+    10%, 90% {transform: translateX(-5px);}
+    20%, 80% {transform: translateX(5px);}
+    30%, 50%, 70% {transform: translateX(-5px);}
+    40%, 60% {transform: translateX(5px);}
+    100% {transform: translateX(0);}
+}
+
+#scrollingText {
+    animation: slide-left-right 10s linear infinite;
+}
+
+
+.star-rating {
+    display: inline-block;
+    font-size: 15px;
+}
+
+.star-rating span {
+    color: #ffff;
+    /* Set color to dark for inactive stars */
+    position: relative;
+    display: inline-block;
+}
+
+.star-rating span:before {
+    content: '\2605';
+    /* Unicode character for a star */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: transparent;
+    /* Set color to transparent initially */
+}
+
+.star-rating span.full:before,
+.star-rating span.half:before {
+    color: #ffd700;
+    /* Set color to yellow for active stars */
+}
+
+.star-rating span.half:before {
+    width: 50%;
+    /* Make the width 50% for half-filled stars */
+}
+  

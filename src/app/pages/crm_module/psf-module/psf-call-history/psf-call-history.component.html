@@ -1,0 +1,69 @@
+<ng-container *ngIf="oldcalldata.length>0">
+    <div *ngFor="let calldata of oldcalldata;let i = index">
+        <ng-container>
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-2" style="align-items: center;">
+                <div>
+                    <span><b>Attempt {{ i + 1 }} by <span
+                                class="text-success">{{calldata.us_firstname}}</span></b></span>
+                </div>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-6 lg:grid-cols-6">
+                <div>
+                    <label>Call Date</label>
+                    <input id="call_date" type="date" [(ngModel)]="calldata.call_date" placeholder="Start Date"
+                        class="form-input" />
+                </div>
+                <div>
+                    <label>Customer Response</label>
+                    <input [(ngModel)]="calldata.call_response_text" type="text"
+                        placeholder="Remarks based on customer response" maxlength="200" class="form-input" readonly />
+                </div>
+                <div *ngIf="calldata.call_response == '1'">
+                    <label>Service Rating</label>
+                    <!-- <ng-select fullWidth class="tiny-select" [items]="rating" bindLabel="value" bindValue="value"
+                        [(ngModel)]="calldata.call_reason" [searchable]="false" [clearable]="false"
+                        placeholder="Select Rating By Customer" class="form-input">
+                    </ng-select> -->
+                    <input [(ngModel)]="calldata.call_rating" type="text"
+                    placeholder="Select Rating By Customer" maxlength="200" class="form-input" readonly />
+                </div>
+                <div *ngIf="calldata.show_reason" class="col-span-2">
+                    <label>Response Reason</label>
+                    <input id="response_reason" type="text" [(ngModel)]="calldata.call_reason_text"
+                        placeholder="Remarks based on customer response" class="form-input" maxlength="100" readonly />
+
+                </div>
+                <div *ngIf="calldata.call_response == '5'" class="col-span-2">
+                    <label>Further Action</label>
+                    <ng-select fullWidth class="tiny-select" [items]="action" bindLabel="name" bindValue="value"
+                        [(ngModel)]="calldata.call_action" [searchable]="false" [clearable]="false"
+                        placeholder="Choose Further Action" class="custom-multiselect">
+                    </ng-select>
+                </div>
+                <div *ngIf="calldata.call_action == '1'">
+                    <label>Transfer to</label>
+                    <ng-select fullWidth class="tiny-select" [(ngModel)]="calldata.call_transfer_to">
+                    </ng-select>
+                </div>
+                <div class="col-span-2">
+                    <label>Customer Remarks</label>
+                    <input id="customer_remark" type="text" [(ngModel)]="calldata.call_remark"
+                        placeholder="Remarks based on customer response" class="form-input" maxlength="200" readonly />
+                </div>
+            </div>
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+        </ng-container>
+    </div>
+</ng-container>
+<ng-container *ngIf="oldcalldata.length==0">
+    <div>
+        <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-2 lg:grid-cols-6" style="text-align: center;">
+            <label>No call history found</label>
+        </div>
+    </div>
+</ng-container>
+<!-- <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 5%" /> -->
+<!-- <div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
+    <button class="btn btn-danger" style="float: right" (click)="modalEvent.emit()">DISMISS</button>
+</div> -->

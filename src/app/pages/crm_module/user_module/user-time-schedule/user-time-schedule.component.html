@@ -1,0 +1,254 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Admin Settings</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/admin_staff/user/user_list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >User List</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >User Time Schedule</a
+        >
+    </li>
+</ol>
+<div style="margin-top: 1.6rem">
+    <div class="mb-5 grid grid-cols-1 gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <div class="panel">
+            <div class="mb-5 flex items-center justify-between">
+                <h5 class="text-lg font-semibold dark:text-white-light">Profile</h5>
+            </div>
+            <div class="mb-5" *ngIf="!data_load_flag">
+                <div class="flex flex-col items-center justify-center">
+                    <img src="./assets/images/user_def.png" alt="" class="mb-5 h-24 w-24 rounded-full object-cover" />
+                    <p class="text-xl font-semibold text-primary">{{ userData.us_firstname }}</p>
+                </div>
+                <ul class="m-auto mt-5 flex max-w-[220px] flex-col space-y-4 font-semibold text-white-dark">
+                    <li class="flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0">
+                            <path
+                                d="M2.3153 12.6978C2.26536 12.2706 2.2404 12.057 2.2509 11.8809C2.30599 10.9577 2.98677 10.1928 3.89725 10.0309C4.07094 10 4.286 10 4.71612 10H15.2838C15.7139 10 15.929 10 16.1027 10.0309C17.0132 10.1928 17.694 10.9577 17.749 11.8809C17.7595 12.057 17.7346 12.2706 17.6846 12.6978L17.284 16.1258C17.1031 17.6729 16.2764 19.0714 15.0081 19.9757C14.0736 20.6419 12.9546 21 11.8069 21H8.19303C7.04537 21 5.9263 20.6419 4.99182 19.9757C3.72352 19.0714 2.89681 17.6729 2.71598 16.1258L2.3153 12.6978Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M17 17H19C20.6569 17 22 15.6569 22 14C22 12.3431 20.6569 11 19 11H17.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M10.0002 2C9.44787 2.55228 9.44787 3.44772 10.0002 4C10.5524 4.55228 10.5524 5.44772 10.0002 6"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M4.99994 7.5L5.11605 7.38388C5.62322 6.87671 5.68028 6.0738 5.24994 5.5C4.81959 4.9262 4.87665 4.12329 5.38382 3.61612L5.49994 3.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <path
+                                d="M14.4999 7.5L14.6161 7.38388C15.1232 6.87671 15.1803 6.0738 14.7499 5.5C14.3196 4.9262 14.3767 4.12329 14.8838 3.61612L14.9999 3.5"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                        </svg>
+                        {{ userData.role_name }}
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0">
+                            <path
+                                d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path opacity="0.5" d="M7 4V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <path opacity="0.5" d="M17 4V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <path opacity="0.5" d="M2 9H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                        {{ userData.us_date_of_joining }}
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3.08289 10.5034C2.27659 11.3733 2 12.6129 2 13.8506C2 15.9105 3.78158 17.4153 5.6072 16.8975L6.9469 16.5175C8.15591 16.1746 9 14.9828 9 13.6187M20.9171 10.5034C21.7234 11.3733 22 12.6129 22 13.8506C22 15.9105 20.2184 17.4153 18.3928 16.8975L17.0531 16.5175C15.8441 16.1746 15 14.9828 15 13.6187"
+                                stroke="#1C274C"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M3.08301 10.5032C4.44035 9.03888 7.19334 7 12.0001 7C16.8069 7 19.5599 9.03889 20.9172 10.5032"
+                                stroke="#1C274C"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M9 13.6185C9 13.6185 9 11.9639 12 11.9639C15 11.9639 15 13.6185 15 13.6185"
+                                stroke="#1C274C"
+                                stroke-width="1.5"
+                            />
+                        </svg>
+
+                        Extension: {{ userData.ext_number }}
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="flex items-center gap-2">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0">
+                                <path
+                                    opacity="0.5"
+                                    d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12C22 15.7712 22 17.6569 20.8284 18.8284C19.6569 20 17.7712 20 14 20H10C6.22876 20 4.34315 20 3.17157 18.8284C2 17.6569 2 15.7712 2 12Z"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                />
+                                <path
+                                    d="M6 8L8.1589 9.79908C9.99553 11.3296 10.9139 12.0949 12 12.0949C13.0861 12.0949 14.0045 11.3296 15.8411 9.79908L18 8"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                />
+                            </svg>
+                            <span class="truncate text-primary">{{ userData.us_email }}</span></a
+                        >
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5">
+                            <path
+                                d="M16.1007 13.359L16.5562 12.9062C17.1858 12.2801 18.1672 12.1515 18.9728 12.5894L20.8833 13.628C22.1102 14.2949 22.3806 15.9295 21.4217 16.883L20.0011 18.2954C19.6399 18.6546 19.1917 18.9171 18.6763 18.9651M4.00289 5.74561C3.96765 5.12559 4.25823 4.56668 4.69185 4.13552L6.26145 2.57483C7.13596 1.70529 8.61028 1.83992 9.37326 2.85908L10.6342 4.54348C11.2507 5.36691 11.1841 6.49484 10.4775 7.19738L10.1907 7.48257"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M18.6763 18.9651C17.0469 19.117 13.0622 18.9492 8.8154 14.7266C4.81076 10.7447 4.09308 7.33182 4.00293 5.74561"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            />
+                            <path
+                                opacity="0.5"
+                                d="M16.1007 13.3589C16.1007 13.3589 15.0181 14.4353 12.0631 11.4971C9.10807 8.55886 10.1907 7.48242 10.1907 7.48242"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                            />
+                        </svg>
+                        <span class="whitespace-nowrap" dir="ltr">{{ userData.us_phone }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="data_load_flag" style="text-align: center">
+                <span
+                    class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+                ></span>
+            </div>
+        </div>
+        <div class="panel lg:col-span-2 xl:col-span-3">
+            <div class="mb-5">
+                <h5 class="text-lg font-semibold dark:text-white-light">Schedule</h5>
+            </div>
+            <div class="mb-5">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Start Time(Morning)</th>
+                                <th>End Time(Morning)</th>
+                                <th>Start Time(Afternoon)</th>
+                                <th>End Time(Afternoon)</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let itemData of workTime; let i = index">
+                                <td>
+                                    <ng-select placeholder="Select day" class="custom-multiselect" [(ngModel)]="itemData.day">
+                                        <ng-option value="Sunday">Sunday</ng-option>
+                                        <ng-option value="Monday">Monday</ng-option>
+                                        <ng-option value="Tuesday">Tuesday</ng-option>
+                                        <ng-option value="Wednesday">Wednesday</ng-option>
+                                        <ng-option value="Thursday">Thursday</ng-option>
+                                        <ng-option value="Friday">Friday</ng-option>
+                                        <ng-option value="Saturday">Saturday</ng-option>
+                                    </ng-select>
+                                </td>
+                                <td><input type="time" class="form-input" [(ngModel)]="itemData.fnstart" /></td>
+                                <td><input type="time" class="form-input" [(ngModel)]="itemData.fnend" /></td>
+                                <td><input type="time" class="form-input" [(ngModel)]="itemData.anstart" /></td>
+                                <td><input type="time" class="form-input" [(ngModel)]="itemData.anend" /></td>
+                                <td class="text-center">
+                                    <button type="button" ngxTippy data-tippy-content="Delete" (click)="deleteItem(i)">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                            <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <path
+                                                d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                stroke-linecap="round"
+                                            />
+                                            <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <path
+                                                opacity="0.5"
+                                                d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                            />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mb-5">
+                <button (click)="addTimeSchedule()" class="btn btn-success" style="float: left">ADD SCHEDULE</button>
+                <button *ngIf="!data_submit_flag" type="button" class="btn btn-primary" style="float: right" (click)="updateWorkTime()">SUBMIT</button>
+                <button *ngIf="data_submit_flag" type="button" class="btn btn-primary" style="float: right">
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2"
+                    >
+                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                    </svg>
+                    SAVING
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

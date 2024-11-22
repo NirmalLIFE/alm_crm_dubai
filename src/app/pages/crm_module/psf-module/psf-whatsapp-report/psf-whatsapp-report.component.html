@@ -1,0 +1,356 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">MIS</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a href="javascript:;"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">PSF
+            Whatsapp Report</a>
+    </li>
+</ol>
+<div>
+    <div class="panel mt-6 pb-0 ">
+        <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+            <h5 class="text-lg font-semibold dark:text-white-light">PSF Whatsapp Report</h5>
+            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+                <input type="date" placeholder="Date To" [(ngModel)]="dateTo" class="form-input text-xs" />
+                <button type="button" class="btn btn-success btn-sm" style="float: right"
+                    (click)="getPsfWhatsappReport()">SEARCH</button>
+            </div>
+        </div>
+        <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+        <div class="flex-2 mb-6 grid grid-cols-2 gap-5 sm:grid-cols-2" *ngIf="!load_flag">
+            <div>
+                <div>
+                    <div class="mb-5 flex items-start justify-between">
+                        <h5 class="text-lg font-semibold dark:text-white-light">
+                            Total Customers For Feedback - <b>{{ analyticCounts.total_messages }}</b>
+                        </h5>
+                    </div>
+                    <div class="flex flex-col space-y-5">
+                        <div class="flex items-center">
+                            <div class="h-9 w-9">
+                                <div
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/50 text-primary dark:bg-primary dark:text-white-light">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M18.4933 6.93502C18.8053 7.20743 18.8374 7.68122 18.565 7.99325L10.7079 16.9933C10.5654 17.1564 10.3594 17.25 10.1429 17.25C9.9263 17.25 9.72031 17.1564 9.57788 16.9933L6.43502 13.3933C6.16261 13.0812 6.19473 12.6074 6.50677 12.335C6.8188 12.0626 7.29259 12.0947 7.565 12.4068L10.1429 15.3596L17.435 7.00677C17.7074 6.69473 18.1812 6.66261 18.4933 6.93502Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="w-full flex-initial px-3">
+                                <div class="w-summary-info mb-1 flex justify-between font-semibold text-white-dark">
+                                    <h6>Total Message In Sent Status</h6>
+                                    <p class="text-xs ltr:ml-auto rtl:mr-auto">{{ analyticCounts.total_sent }}/{{
+                                        analyticCounts.total_messages }}</p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                        <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#009ffd] to-[#2a2a72] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                            [ngStyle]="{
+                                                width:
+                                                    analyticCounts.total_messages > 0
+                                                        ? ((analyticCounts.total_sent * 1) / analyticCounts.total_messages) * 1 * 100 + '%'
+                                                        : '0%'
+                                            }"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="h-9 w-9">
+                                <div
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-danger/50 text-danger dark:bg-danger dark:text-white-light">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M15.4933 6.93502C15.8053 7.20743 15.8374 7.68122 15.565 7.99325L7.70786 16.9933C7.56543 17.1564 7.35943 17.25 7.14287 17.25C6.9263 17.25 6.72031 17.1564 6.57788 16.9933L3.43502 13.3933C3.16261 13.0812 3.19473 12.6074 3.50677 12.335C3.8188 12.0626 4.29259 12.0947 4.565 12.4068L7.14287 15.3596L14.435 7.00677C14.7074 6.69473 15.1812 6.66261 15.4933 6.93502Z"
+                                            fill="#1C274C" />
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M20.5175 7.01946C20.8174 7.30513 20.829 7.77986 20.5433 8.07981L11.9716 17.0798C11.8201 17.2389 11.6065 17.3235 11.3872 17.3114C11.1679 17.2993 10.9649 17.1917 10.8318 17.0169L10.4035 16.4544C10.1526 16.1249 10.2163 15.6543 10.5458 15.4034C10.8289 15.1878 11.2161 15.2044 11.4787 15.4223L19.4571 7.04531C19.7428 6.74537 20.2175 6.73379 20.5175 7.01946Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="w-full flex-initial px-3">
+                                <div class="w-summary-info mb-1 flex justify-between font-semibold text-white-dark">
+                                    <h6>Total Message In Delivered Status</h6>
+                                    <p class="text-xs ltr:ml-auto rtl:mr-auto">{{ analyticCounts.total_delivered }}/{{
+                                        analyticCounts.total_messages }}</p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                        <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#a71d31] to-[#3f0d12] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                            [ngStyle]="{
+                                                width:
+                                                    analyticCounts.total_messages > 0
+                                                        ? ((analyticCounts.total_delivered * 1) / analyticCounts.total_messages) * 1 * 100 + '%'
+                                                        : '0%'
+                                            }"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="h-9 w-9">
+                                <div
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-warning/50 text-warning dark:bg-warning dark:text-white-light">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 13.4811 3.09753 14.8788 3.7148 16.1181C3.96254 16.6155 4.05794 17.2103 3.90163 17.7945L3.30602 20.0205C3.19663 20.4293 3.57066 20.8034 3.97949 20.694L6.20553 20.0984C6.78973 19.9421 7.38451 20.0375 7.88191 20.2852C9.12121 20.9025 10.5189 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 11.3655 21.1862 10.7466 21.065 10.1492C20.9826 9.74326 21.2448 9.34739 21.6508 9.26499C22.0567 9.18259 22.4526 9.44487 22.535 9.8508C22.6761 10.5458 22.75 11.2647 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C10.2817 22.75 8.65552 22.3463 7.21315 21.6279C6.99791 21.5207 6.77813 21.4979 6.59324 21.5474L4.3672 22.143C2.84337 22.5507 1.44927 21.1566 1.857 19.6328L2.4526 17.4068C2.50208 17.2219 2.47933 17.0021 2.37213 16.7869C1.65371 15.3445 1.25 13.7183 1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C12.7353 1.25 13.4541 1.32394 14.1492 1.46503C14.5551 1.54743 14.8174 1.9433 14.735 2.34924C14.6526 2.75517 14.2567 3.01745 13.8508 2.93505C13.2534 2.81378 12.6345 2.75 12 2.75ZM15.25 5C15.25 2.92893 16.9289 1.25 19 1.25C21.0711 1.25 22.75 2.92893 22.75 5C22.75 7.07107 21.0711 8.75 19 8.75C16.9289 8.75 15.25 7.07107 15.25 5ZM19 2.75C17.7574 2.75 16.75 3.75736 16.75 5C16.75 6.24264 17.7574 7.25 19 7.25C20.2426 7.25 21.25 6.24264 21.25 5C21.25 3.75736 20.2426 2.75 19 2.75Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="w-full flex-initial px-3">
+                                <div class="w-summary-info mb-1 flex justify-between font-semibold text-white-dark">
+                                    <h6>Total Message In Read Status</h6>
+                                    <p class="text-xs ltr:ml-auto rtl:mr-auto">{{ analyticCounts.total_seen }}/{{
+                                        analyticCounts.total_messages }}</p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                        <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#fcd545] to-[#fc9842] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                            [ngStyle]="{
+                                                width:
+                                                    analyticCounts.total_messages > 0
+                                                        ? ((analyticCounts.total_seen * 1) / analyticCounts.total_messages) * 1 * 100 + '%'
+                                                        : '0%'
+                                            }"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="h-9 w-9">
+                                <div
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-success/50 text-success dark:bg-success dark:text-white-light">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M9.01113 3.98966C9.29299 4.2932 9.27541 4.76775 8.97188 5.0496L3.75567 9.89322C3.11438 10.4887 2.75 11.3243 2.75 12.1994C2.75 13.122 3.15476 13.998 3.85725 14.596L8.94767 18.9289C9.26309 19.1974 9.30114 19.6707 9.03266 19.9861C8.76417 20.3016 8.29083 20.3396 7.97541 20.0711L2.88499 15.7382C1.84768 14.8553 1.25 13.5616 1.25 12.1994C1.25 10.9072 1.78806 9.67333 2.73499 8.79403L7.9512 3.95041C8.25473 3.66856 8.72928 3.68613 9.01113 3.98966ZM12.2472 5.67696C12.1341 5.77386 11.9991 5.89337 11.8341 6.03999L7.86184 9.57092C7.06075 10.283 6.52023 10.7658 6.17005 11.1773C5.83376 11.5725 5.76062 11.8033 5.76062 12C5.76062 12.1967 5.83376 12.4275 6.17005 12.8227C6.52022 13.2342 7.06074 13.717 7.86184 14.4291L11.8341 17.96C11.9991 18.1066 12.1341 18.2261 12.2472 18.323C12.2499 18.1742 12.2502 17.9939 12.2502 17.7732V15.4286C12.2502 15.0144 12.586 14.6786 13.0002 14.6786C14.9128 14.6786 16.9003 15.1325 18.6162 15.9686C19.5351 16.4163 20.3904 16.981 21.1163 17.6568C20.7475 14.6098 19.6578 12.6439 18.3567 11.399C16.7367 9.84897 14.6898 9.32143 13.0002 9.32143C12.586 9.32143 12.2502 8.98565 12.2502 8.57143V6.22685C12.2502 6.00615 12.2499 5.82585 12.2472 5.67696ZM11.765 4.1541C12.0219 3.9845 12.489 3.73814 13.0123 3.97312C13.5356 4.20811 13.6618 4.7209 13.7057 5.02557C13.7504 5.33582 13.7503 5.741 13.7502 6.17513C13.7502 6.19233 13.7502 6.20957 13.7502 6.22685V7.85061C15.5739 7.99207 17.6721 8.668 19.3937 10.3152C21.3688 12.2051 22.7502 15.279 22.7502 20C22.7502 20.3451 22.5148 20.6456 22.1798 20.7282C21.8447 20.8108 21.4966 20.6541 21.3362 20.3486C20.6804 19.0996 19.4721 18.0543 17.9592 17.3171C16.6726 16.6902 15.2017 16.3047 13.7502 16.2046V17.7732C13.7502 17.7904 13.7502 17.8077 13.7502 17.8249C13.7503 18.259 13.7504 18.6642 13.7057 18.9744C13.6618 19.2791 13.5356 19.7919 13.0123 20.0269C12.489 20.2619 12.0219 20.0155 11.765 19.8459C11.5035 19.6732 11.2007 19.404 10.8762 19.1155C10.8634 19.1041 10.8505 19.0926 10.8376 19.0811L6.82376 15.5133C6.07481 14.8476 5.45396 14.2958 5.02767 13.7948C4.57965 13.2683 4.26062 12.7014 4.26062 12C4.26062 11.2986 4.57965 10.7317 5.02767 10.2052C5.45396 9.70426 6.07481 9.15242 6.82375 8.48673L10.8376 4.91888C10.8505 4.9074 10.8634 4.89594 10.8762 4.88452C11.2007 4.59604 11.5035 4.32681 11.765 4.1541Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="w-full flex-initial px-3">
+                                <div class="w-summary-info mb-1 flex justify-between font-semibold text-white-dark">
+                                    <h6>Total Customers Replied</h6>
+                                    <p class="text-xs ltr:ml-auto rtl:mr-auto">{{ analyticCounts.total_responded }}/{{
+                                        analyticCounts.total_messages }}</p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                        <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#00ab55] to-[#007239] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                            [ngStyle]="{
+                                                width:
+                                                    analyticCounts.total_messages > 0
+                                                        ? ((analyticCounts.total_responded * 1) / analyticCounts.total_messages) * 1 * 100 + '%'
+                                                        : '0%'
+                                            }"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="h-9 w-9">
+                                <div
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-secondary/50 text-secondary dark:bg-secondary dark:text-white-light">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M5.31171 10.7615C8.23007 5.58716 9.68925 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.31034 17.856 2.52291 15.7061 4.94805 11.4063L5.31171 10.7615Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M12 8V13" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <circle cx="12" cy="16" r="1" fill="#1C274C" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="w-full flex-initial px-3">
+                                <div class="w-summary-info mb-1 flex justify-between font-semibold text-white-dark">
+                                    <h6>Total Message Failed</h6>
+                                    <p class="text-xs ltr:ml-auto rtl:mr-auto">{{ analyticCounts.total_failed }}/{{
+                                        analyticCounts.total_messages }}</p>
+                                </div>
+                                <div>
+                                    <div
+                                        class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                        <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#b28eff] to-[#643cbb] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                            [ngStyle]="{
+                                                width:
+                                                    analyticCounts.total_messages > 0
+                                                        ? ((analyticCounts.total_failed * 1) / analyticCounts.total_messages) * 1 * 100 + '%'
+                                                        : '0%'
+                                            }"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="mb-5 flex justify-between items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Customer Response Analytics</h5>
+
+                    <div class="flex items-center" *ngIf="total_Rating_percentage>0" >
+                       
+                        <div class="star-rating">
+                            <span *ngFor="let star of stars" [ngClass]="calculateStarClass2(total_Rating_percentage,star)" style="font-size: 29px;">
+                                &#9733; <!-- Unicode character for a star -->
+                            </span>
+                        </div>
+                        <span class="me-2">({{total_Rating_percentage}})</span>
+                        <!-- <ul class="flex" *ngFor="let star of stars; let i = index">
+                            <li
+                                class="{{(i+1)<= total_Rating_percentage ?'text-orange-500':'text-gray-500'}} text-base">
+                                &#9733; </li>
+                        </ul> -->
+                    </div>
+
+                </div>
+                <div class="">
+                    <apx-chart [series]="salesByCategory.series" [chart]="salesByCategory.chart"
+                        [dataLabels]="salesByCategory.dataLabels" [stroke]="salesByCategory.stroke"
+                        [colors]="salesByCategory.colors" [legend]="salesByCategory.legend"
+                        [plotOptions]="salesByCategory.plotOptions" [labels]="salesByCategory.labels"
+                        [states]="salesByCategory.states" class="rounded-lg bg-white dark:bg-black">
+                        <!-- loader -->
+                        <div
+                            class="grid min-h-[460px] place-content-center bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08]">
+                            <span
+                                class="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-black !border-l-transparent dark:border-white"></span>
+                        </div>
+                    </apx-chart>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="load_flag" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 grid grid-cols-5 gap-2 md:grid-cols-5 lg:grid-cols-5 panel" *ngIf="!load_flag">
+        <div class="panel h-full" style="background:linear-gradient(to right,#182848, #4b6cb7) ;"
+            *ngFor="let sa of saCounts">
+            <div class="-m-5 mb-2 flex items-center justify-between border-b border-[#e0e6ed] dark:border-[#1b2e4b]"
+                style="padding: 0.75rem 1.25rem 0.75rem 1.25rem;">
+                <a href="javascript:;" class="flex font-semibold">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-white ltr:mr-4 rtl:ml-4"
+                        style="font-weight: 800;font-size: 18px;">
+                        <span>{{sa.counts.Total}}</span>
+                    </div>
+                    <div>
+                        <h6 class="text-white-light" style="margin: 0;">{{sa.saName}} ({{sa.totalratingpercentage |
+                            number : '1.2-2'
+                            }})</h6>
+                        <div class="star-rating">
+                            <span *ngFor="let star of stars" [ngClass]="calculateStarClass(sa, star)">
+                                &#9733; <!-- Unicode character for a star -->
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="group">
+                <div class="mb-1">
+                    <p class="text-white-light" style="font-size: 11px;">Ex-satisfied -
+                        {{sa.counts.Extremely_Satisfied}}</p>
+                    <p class="text-white-light" style="font-size: 11px;">Fairly-satisfied -
+                        {{sa.counts.Fairly_Satisfied}}</p>
+                    <p class="text-white-light" style="font-size: 11px;">satisfied - {{sa.counts.Satisfied}}</p>
+                    <p class="text-white-light" style="font-size: 11px;">Dissatisfied - {{sa.counts.Dissatisfied}}</p>
+                    <p class="text-white-light" style="font-size: 11px;">Ex-Dissatisfied -
+                        {{sa.counts.Extremely_Dissatisfied}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="panel mt-6 pb-0 gap-2 flex" *ngIf="!load_flag">
+        <div style=" background: linear-gradient(to right,#292E49, #536976);" *ngFor="let sa of saCounts"
+            class="max-w-[30rem] w-full  shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none">
+            <div class="p-5 flex items-center flex-col sm:flex-row">
+                <div style="text-align: -webkit-center;">
+                    <p class="mb-1 text-white-light">Total</p>
+                    <p class="mb-1 text-white-light">{{sa.counts.Total}}</p>
+                </div>
+                <div class="flex-1 ltr:sm:pl-5 rtl:sm:pr-5 text-center sm:text-left">
+                    <h5 class="text-[#ffffff] text-[15px] font-semibold mb-1 dark:text-white-light">
+                        {{sa.saName}}</h5>
+                    <p class="mb-1 text-white-light">Ex-satisfied - {{sa.counts.Extremely_Satisfied}}</p>
+                    <p class="mb-1 text-white-light">Fairly-satisfied - {{sa.counts.Fairly_Satisfied}}</p>
+                    <p class="mb-1 text-white-light">satisfied - {{sa.counts.Satisfied}}</p>
+                    <p class="mb-1 text-white-light">Dissatisfied - {{sa.counts.Dissatisfied}}</p>
+                    <p class="mb-1 text-white-light">Ex-Dissatisfied - {{sa.counts.Extremely_Dissatisfied}}</p>
+                </div>
+                <div class="star-rating">
+                    <span *ngFor="let star of stars" [ngClass]="calculateStarClass(sa, star)">
+                        &#9733;
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="panel mt-6 pb-0" *ngIf="!load_flag">
+        <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+            <h5 class="text-lg font-semibold dark:text-white-light">PSF Whatsapp Report Details</h5>
+            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                <ng-select class="w-[12rem]"   [(ngModel)]="filter_selected" [items]="filterCusRevu" bindLabel="name" bindValue="id"  (change)="filterFeedback()" (load) = "filterFeedback()">
+                    <!-- <ng-option value="0">Filter</ng-option> -->
+                    <ng-option value="0">Select ALL Status</ng-option>
+                    <ng-option value="1">Extremely Satisfied</ng-option>
+                    <ng-option value="2">Very Satisfied</ng-option>
+                    <ng-option value="3">Satisfied</ng-option>
+                    <ng-option value="4">Dissatisfied</ng-option>
+                    <ng-option value="5">Very Dissatisfied</ng-option>
+                </ng-select>
+                <input [(ngModel)]="search" type="text" class="form-input text-xs" placeholder="Search " />
+            </div>
+        </div>
+        <div class="datatable" *ngIf="!load_flag">
+            <ng-datatable [rows]="wbMessages" [columns]="cols" [search]="search" [sortable]="true"
+                skin="whitespace-nowrap table-hover bh-table-compact"
+                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                <ng-template slot="psfm_job_no" let-value="data">
+                    <strong class="text-info">{{ value.psfm_job_no }}</strong>
+                </ng-template>
+                <ng-template slot="message_status" let-value="data">
+                    <span class="badge bg-primary" *ngIf="value.message_status == 'Sent'">{{ value.message_status
+                        }}</span>
+                    <span class="badge bg-secondary" *ngIf="value.message_status == 'Delivered'">{{ value.message_status
+                        }}</span>
+                    <span class="badge bg-danger" *ngIf="value.message_status == 'Failed'">{{ value.message_status
+                        }}</span>
+                    <span class="badge bg-warning" *ngIf="value.message_status == 'Seen'">{{ value.message_status
+                        }}</span>
+                    <span class="badge bg-success" *ngIf="value.message_status == 'Replied'">{{ value.message_status
+                        }}</span>
+                </ng-template>
+                <ng-template slot="wb_phone" let-value="data">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.wb_phone }}"
+                        [tippyProps]="{ theme: 'info' }">
+                        ****{{ value.wb_phone | slice : -6 }}
+                    </button>
+                </ng-template>
+            </ng-datatable>
+        </div>
+        <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+    </div>
+</div>

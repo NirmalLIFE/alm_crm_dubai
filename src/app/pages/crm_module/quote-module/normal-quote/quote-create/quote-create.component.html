@@ -1,0 +1,576 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Quotations</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/quotation/normal_quote/quote_list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Normal
+            Quotations</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Create
+            Quote</a>
+    </li>
+</ol>
+<div style="margin-top: 1.6rem"
+    class="rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+    <div class="mb-5">
+        <form [formGroup]="userForm">
+            <h6 class="mb-5 text-lg font-bold">Quotation Create</h6>
+            <div class="mb-2 grid grid-cols-1 gap-1 md:grid-cols-6 lg:grid-cols-6" *ngIf="!data_load_flag">
+                <!-- <div [ngClass]="userForm.controls['qt_code'].touched ? (userForm.controls['qt_code'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="qt_code">Quotation No.</label>
+                    <input id="qt_code" type="text" readonly formControlName="qt_code" placeholder="Quote No." class="form-input" maxlength="50" />
+                    <ng-container *ngIf="userForm.controls['qt_code'].touched && userForm.controls['qt_code'].errors">
+                        <p class="mt-1 text-danger">Please enter valid Quotation Number</p>
+                    </ng-container>
+                </div> -->
+                <div class="col-span-2"
+                    [ngClass]="userForm.controls['customer'].touched ? (userForm.controls['customer'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="customer">Customer Name</label>
+                    <input id="customer" type="text" formControlName="customer" placeholder="Customer Name"
+                        class="form-input" maxlength="80" />
+                    <ng-container *ngIf="userForm.controls['customer'].touched && userForm.controls['customer'].errors">
+                        <p class="mt-1 text-danger">Please enter valid customer name</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['mobile'].touched ? (userForm.controls['mobile'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="mobile">Mobile Number</label>
+                    <input id="mobile" type="text" formControlName="mobile" placeholder="Mobile Number"
+                        class="form-input" maxlength="10" />
+                    <ng-container *ngIf="userForm.controls['mobile'].touched && userForm.controls['mobile'].errors">
+                        <p class="mt-1 text-danger">Please enter valid mobile number</p>
+                    </ng-container>
+                </div>
+                <div class="col-span-2"
+                    [ngClass]="userForm.controls['chassis'].touched ? (userForm.controls['chassis'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="chassis">Chassis Number*</label>
+                    <input id="chassis" type="text" formControlName="chassis" placeholder="Chassis Number"
+                        class="form-input" maxlength="17" style="text-transform: uppercase" />
+                    <ng-container *ngIf="userForm.controls['chassis'].touched && userForm.controls['chassis'].errors">
+                        <p class="mt-1 text-danger">Please enter valid chassis number</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['model'].touched ? (userForm.controls['model'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="model">Make/Model/Year</label>
+                    <input id="model" type="text" formControlName="model" placeholder="Make/Model/Year"
+                        class="form-input" maxlength="30" style="text-transform: uppercase" />
+                    <ng-container *ngIf="userForm.controls['model'].touched && userForm.controls['model'].errors">
+                        <p class="mt-1 text-danger">Please enter valid Make/Model/Year</p>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-1 md:grid-cols-7 lg:grid-cols-7" *ngIf="!data_load_flag">
+                <div
+                    [ngClass]="userForm.controls['regno'].touched ? (userForm.controls['regno'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="regno">Register No.</label>
+                    <input id="regno" type="text" formControlName="regno" placeholder="Register Number"
+                        class="form-input" maxlength="10" style="text-transform: uppercase" />
+                    <ng-container *ngIf="userForm.controls['regno'].touched && userForm.controls['regno'].errors">
+                        <p class="mt-1 text-danger">Please enter valid register number</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['odometer'].touched ? (userForm.controls['odometer'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="odometer">Odometer</label>
+                    <input id="odometer" type="text" formControlName="odometer" placeholder="Odometer"
+                        class="form-input" maxlength="7" />
+                    <ng-container *ngIf="userForm.controls['odometer'].touched && userForm.controls['odometer'].errors">
+                        <p class="mt-1 text-danger">Please enter valid odometer</p>
+                    </ng-container>
+                </div>
+                <div
+                    [ngClass]="userForm.controls['jobcard'].touched ? (userForm.controls['jobcard'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="jobcard">Jobcard No.</label>
+                    <input id="jobcard" type="text" formControlName="jobcard" placeholder="Jobcard No"
+                        class="form-input" maxlength="50" />
+                    <ng-container *ngIf="userForm.controls['jobcard'].touched && userForm.controls['jobcard'].errors">
+                        <p class="mt-1 text-danger">Please enter valid jobcard no</p>
+                    </ng-container>
+                </div>
+                <div class="col-span-2" *ngIf="user_role == '11' "
+                    [ngClass]="userForm.controls['vehicle_value'].touched ? (userForm.controls['vehicle_value'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="vehicle_value">Approximate Vehicle value</label>
+                    <input id="vehicle_value" type="text" formControlName="vehicle_value" placeholder="Vehicle value"
+                        class="form-input" maxlength="50" />
+                    <ng-container
+                        *ngIf="userForm.controls['vehicle_value'].touched && userForm.controls['vehicle_value'].errors">
+                        <p class="mt-1 text-danger">Please enter valid Value</p>
+                    </ng-container>
+                </div>
+                <div class="col-span-2"
+                    [ngClass]="userForm.controls['sa'].touched ? (userForm.controls['sa'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="sa">SA Name</label>
+                    <input id="sa" type="text" formControlName="sa" placeholder="SA Name" class="form-input"
+                        maxlength="50" readonly />
+                    <ng-container *ngIf="userForm.controls['sa'].touched && userForm.controls['sa'].errors">
+                        <p class="mt-1 text-danger">Please enter valid SA name</p>
+                    </ng-container>
+                </div>
+                <div class="col-span-2"
+                    [ngClass]="userForm.controls['pa'].touched ? (userForm.controls['pa'].errors ? 'has-error' : 'has-success') : ''">
+                    <label for="pa">Parts Advisor</label>
+                    <input id="pa" type="text" formControlName="pa" placeholder="Parts Advisor" class="form-input"
+                        maxlength="50" readonly />
+                    <ng-container *ngIf="userForm.controls['pa'].touched && userForm.controls['pa'].errors">
+                        <p class="mt-1 text-danger">Please enter valid parts advisor</p>
+                    </ng-container>
+                </div>
+            </div>
+            <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" *ngIf="!data_load_flag" />
+            <h6 class="text-md mb-2 font-bold" style="text-align: center" *ngIf="!data_load_flag">Add Spare</h6>
+            <ng-container *ngFor="let item_data of qt_item_spare; let i = index">
+                <nav
+                    class="fixed bottom-0 top-0 z-[51] w-full max-w-[400px] bg-white p-4 transition-[right] duration-300 ltr:-right-[400px] rtl:-left-[400px] dark:bg-[#0e1726]">
+                    <a href="javascript:;" ngxTippy="Spare Preview" (click)="openPreview()"
+                        *ngIf="user_role == 17 || user_role == 1"
+                        class="absolute bottom-0 top-0 my-auto flex h-10 w-12 cursor-pointer items-center justify-center bg-primary text-white ltr:-left-12 ltr:rounded-bl-full ltr:rounded-tl-full rtl:-right-12 rtl:rounded-br-full rtl:rounded-tr-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+                            <path stroke-width="1.5" stroke="#ffffff"
+                                d="M3.27489 15.2957C2.42496 14.1915 2 13.6394 2 12C2 10.3606 2.42496 9.80853 3.27489 8.70433C4.97196 6.49956 7.81811 4 12 4C16.1819 4 19.028 6.49956 20.7251 8.70433C21.575 9.80853 22 10.3606 22 12C22 13.6394 21.575 14.1915 20.7251 15.2957C19.028 17.5004 16.1819 20 12 20C7.81811 20 4.97196 17.5004 3.27489 15.2957Z">
+                            </path>
+                            <path stroke-width="1.5" stroke="#ffffff"
+                                d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z">
+                            </path>
+                        </svg>
+                    </a>
+                </nav>
+                <div class="row background-card mb-1" *ngIf="item_data.item_delete_flag == 0"
+                    [ngStyle]="item_data.error_flag ? { border: '2px solid red' } : { border: '1px #eee' }">
+                    <table>
+                        <thead style="font-size: 12px">
+                            <th style="text-align: left; width: 35%">Part Name</th>
+                            <th style="text-align: left; width: 9%">Quantity</th>
+                            <th style="text-align: left; width: 18%">Part Code</th>
+                            <th style="text-align: left; width: 33%">Item Note</th>
+                            <th style="width: 5%"></th>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 0">
+                                <td style="padding: 1px">
+                                    <div class="ng-autocomplete" *ngIf="user_role != '17'">
+                                        <ng-autocomplete [data]="preSpareList" [searchKeyword]="spareSearch"
+                                            placeholder="Part Name" maxlength="60" [(ngModel)]="item_data.item_name"
+                                            [ngModelOptions]="{ standalone: true }" name="p_item_name_{{ i }}"
+                                            class="custom-multiselect" [itemTemplate]="itemTemplate" #inputField>
+                                        </ng-autocomplete>
+                                    </div>
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item"></a>
+                                    </ng-template>
+                                    <input *ngIf="user_role == '17'" id="item_name" type="text"
+                                        [(ngModel)]="item_data.item_name" placeholder="Part Name"
+                                        class="form-input text-xs" maxlength="60"
+                                        [ngModelOptions]="{ standalone: true }" name="p_item_name_{{ i }}" />
+                                </td>
+                                <!-- //(blur)="duplicateSpare(item_data, i)" -->
+                                <td style="padding: 1px">
+                                    <input id="item_qty" type="number"
+                                        onkeyup="if(parseInt(this.value)<0) this.value='';"
+                                        onKeyPress="if(this.value.length==4) return false;"
+                                        [(ngModel)]="item_data.item_qty" name="p_item_qty_{{ i }}"
+                                        placeholder="Quantity" class="form-input text-xs" maxlength="5"
+                                        [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td style="padding: 1px">
+                                    <div class="ng-autocomplete" *ngIf="user_role == 17 || user_role == 1">
+                                        <ng-autocomplete [data]="preSpareCodeList" [searchKeyword]="spareCodeSearch"
+                                            placeholder="Part Code" maxlength="30" [(ngModel)]="item_data.item_code"
+                                            [ngModelOptions]="{ standalone: true }" name="p_item_code_{{ i }}"
+                                            class="custom-multiselect" [itemTemplate]="itemTemplateCode">
+                                        </ng-autocomplete>
+                                    </div>
+                                    <ng-template #itemTemplateCode let-item>
+                                        <a [innerHTML]="item"></a>
+                                    </ng-template>
+                                    <input *ngIf="user_role != 17 && user_role != 1" id="item_code" type="text"
+                                        placeholder="Part Code" maxlength="30" class="form-input text-xs" disabled />
+                                </td>
+                                <td style="padding: 1px">
+                                    <input id="item_note" type="text" placeholder="Item Note" maxlength="100"
+                                        [(ngModel)]="item_data.item_note" name="p_item_note_{{ i }}"
+                                        class="form-input text-xs" [ngModelOptions]="{ standalone: true }" />
+                                </td>
+                                <td>
+                                    <button type="button" ngxTippy data-tippy-content="Delete Spare"
+                                        (click)="deleteSpare(i, item_data)">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-danger">
+                                            <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor"
+                                                stroke-width="1.5" />
+                                            <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="currentColor"
+                                                stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead style="font-size: 12px; line-height: 0">
+                            <th style="text-align: left; width: 30%">Brand</th>
+                            <th style="text-align: left; width: 19%">Type</th>
+                            <th style="text-align: left; width: 22%">Availability</th>
+                            <th style="text-align: left; width: 12%">Unit Price</th>
+                            <th style="text-align: left; width: 12%">Total Price</th>
+                            <th style="text-align: left; width: 5%"></th>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let p_types of item_data.item_p_types; let j = index">
+                                <tr style="border-bottom: 0" *ngIf="p_types.qit_delete_flag != 1">
+                                    <td style="padding-top: 6px; padding-left:0px; padding-right: 1px;">
+                                        <ng-select [items]="brandList" bindLabel="brand_name" bindValue="brand_id"
+                                            [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                                            class="custom-multiselect" placeholder="Select Brand"
+                                            [(ngModel)]="p_types.qit_brand" name="p_part_brand_{{ i }}_{{ j }}"
+                                            [ngModelOptions]="{ standalone: true }">
+                                        </ng-select>
+                                    </td>
+                                    <td style="padding-top: 6px; padding-left:0px; padding-right: 1px;">
+                                        <ng-select [(ngModel)]="p_types.qit_type" name="p_part_type_{{ i }}_{{ j }}"
+                                            [searchable]="true" [clearable]="false" class="custom-multiselect"
+                                            [ngModelOptions]="{ standalone: true }">
+                                            <ng-option value="0">Part Type</ng-option>
+                                            <ng-option value="New">New</ng-option>
+                                            <ng-option value="Used">Used</ng-option>
+                                            <ng-option value="ATC">ATC</ng-option>
+                                            <ng-option value="Recondition">Recondition</ng-option>
+                                            <ng-option value="Openbox">Openbox</ng-option>
+                                        </ng-select>
+                                    </td>
+                                    <td style="padding-top: 6px; padding-left:0px; padding-right: 1px;">
+                                        <ng-select [(ngModel)]="p_types.qit_availability"
+                                            name="p_item_avail_{{ i }}_{{ j }}" [searchable]="true" [clearable]="false"
+                                            class="custom-multiselect" [ngModelOptions]="{ standalone: true }">
+                                            <ng-option value="Stock">Stock</ng-option>
+                                            <ng-option value="EMC">EMC </ng-option>
+                                            <ng-option value="1 Day order">1 Day order </ng-option>
+                                            <ng-option value="2 Day order">2 Day order</ng-option>
+                                            <ng-option value="7 Day order">7 Day order</ng-option>
+                                            <ng-option value="15 Day order">15 Day order</ng-option>
+                                            <ng-option value="20 Day order">20 Day order</ng-option>
+                                            <ng-option value="90+ Days">90+ Days</ng-option>
+                                        </ng-select>
+                                    </td>
+                                    <td style="padding-top: 6px; padding-left:0px; padding-right: 1px;">
+                                        <input type="number" class="form-input text-xs" placeholder="Genuine Price"
+                                            [(ngModel)]="p_types.qit_unit_price" name="p_unit_price_{{ i }}_{{ j }}"
+                                            onkeyup="if(parseInt(this.value)<0) this.value='';"
+                                            onKeyPress="if(this.value.length==8) return false;"
+                                            [ngModelOptions]="{ standalone: true }" 
+                                            (wheel)="disableScroll($event)"/>
+                                    </td>
+                                    <td style="padding-top: 6px; padding-left:0px; padding-right: 1px;">
+                                        <input type="number"
+                                            value="{{ p_types.qit_unit_price * item_data.item_qty | number : '1.2-2' | decimalNumber }}"
+                                            placeholder="Total Price" readonly class="form-input text-xs"
+                                            name="p_total_price_{{ i }}_{{ j }}"
+                                            (keydown.Tab)="addItemTypeSpare(item_data)" />
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" ngxTippy data-tippy-content="Delete Item"
+                                            (click)="deleteItemSpare(p_types, j, item_data.item_p_types)"
+                                            *ngIf="getNonDeletedItemsCount(item_data) > 1">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                                    stroke-linecap="round" />
+                                                <path
+                                                    d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
+                                                    stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5"
+                                                    d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                                    stroke="currentColor" stroke-width="1.5" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: #eee !important">
+                                <td colspan="6">
+                                    <button type="button" class="btn btn-info btn-sm" style="float: left"
+                                        (click)="addItemTypeSpare(item_data)">
+                                        ADD TYPE
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </ng-container>
+            <div style="display: flex; justify-content: flex-start" *ngIf="!data_load_flag">
+                <button type="button" class="btn btn-outline-success btn-sm" style="float: left" id="auto_trigger"
+                    ngxTippy="Shortcut alt + P" (click)="addItemSpare()">
+                    ADD NEW SPARE
+                </button>
+            </div>
+            <ng-container *ngIf="user_role != 17 && !data_load_flag">
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+                <h6 class="text-md mb-2 font-bold" style="text-align: center">Generic Item Details</h6>
+
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; width: 25%">Item Name</th>
+                            <th style="text-align: left; width: 25%">Description</th>
+                            <th style="text-align: left; width: 8%">Priority</th>
+                            <th style="text-align: left; width: 9%">Quantity</th>
+                            <th style="text-align: left; width: 14%">Unit Price</th>
+                            <th style="text-align: left; width: 14%">Total Price</th>
+                            <th style="width: 5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item_data_g of qt_generic_item; let j = index"
+                            [ngClass]="item_data_g.error_flag ? 'red_border' : 'no-border'">
+                            <td style="padding: 1px">
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete [data]="preGenericList" maxlength="100" placeholder="Item Name"
+                                        [(ngModel)]="item_data_g.item_code" name="item_code_g_{{ j }}"
+                                        [searchKeyword]="genericSearch" [ngModelOptions]="{ standalone: true }"
+                                        [itemTemplate]="itemTemplateGeneric" #inputFieldGeneric>
+                                    </ng-autocomplete>
+                                </div>
+                                <ng-template #itemTemplateGeneric let-item>
+                                    <a [innerHTML]="item"></a>
+                                </ng-template>
+                            </td>
+                            <td style="padding: 1px">
+                                <input id="item_note" type="text" maxlength="100" placeholder="Item Description"
+                                    [(ngModel)]="item_data_g.item_name" name="item_name_g_{{ j }}"
+                                    class="form-input text-xs" [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td style="padding: 1px">
+                                <ng-select [items]="labourpriorityList" bindLabel="qlp_name" bindValue="qlp_name"
+                                    [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                                    class="custom-multiselect" placeholder="Select Priority Level"
+                                    [(ngModel)]="item_data_g.priority" [ngModelOptions]="{ standalone: true }"
+                                    [ngClass]="{
+                                        'high-priority': item_data_g.priority === 'High',
+                                        'medium-priority': item_data_g.priority === 'Medium',
+                                        'low-priority': item_data_g.priority === 'Low'
+                                      }">
+                                </ng-select>
+                            </td>
+                            <td style="padding: 1px">
+                                <input type="number" class="form-input text-xs" placeholder="Quantity"
+                                    [(ngModel)]="item_data_g.item_qty" name="item_qty_g_{{ j }}"
+                                    onkeyup="if(parseInt(this.value)<0) this.value='';"
+                                    onKeyPress="if(this.value.length==4) return false;"
+                                    [ngModelOptions]="{ standalone: true }" />
+                            </td>
+                            <td style="padding: 1px">
+                                <input type="number" class="form-input text-xs" placeholder="Unit Price"
+                                    [(ngModel)]="item_data_g.unit_price" name="item_unit_g_{{ j }}"
+                                    onkeyup="if(parseInt(this.value)<0) this.value='';"
+                                    onKeyPress="if(this.value.length==8) return false;"
+                                    [ngModelOptions]="{ standalone: true }" 
+                                    (wheel)="disableScroll($event)"/>
+                            </td>
+                            <td style="padding: 1px">
+                                <input type="number" class="form-input text-xs" placeholder="Total Price"
+                                    value="{{ item_data_g.item_qty * item_data_g.unit_price | number : '1.2-2' | decimalNumber }}"
+                                    readonly />
+                            </td>
+                            <td class="text-center">
+                                <button type="button" ngxTippy data-tippy-content="Delete Item"
+                                    (click)="deleteGenericItem(j, item_data_g)">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                        <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path opacity="0.5"
+                                            d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <button type="button" class="btn btn-outline-success btn-sm" style="float: left"
+                                    id="auto_trigger" ngxTippy="Shortcut alt + G" (click)="addGenericItem()">
+                                    ADD NEW GENERIC ITEM
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+                <h6 class="text-md mb-2 font-bold" style="text-align: center">Labour Details</h6>
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; width: 30%">Labour Name</th>
+                            <th style="text-align: left; width: 20%">Labour Condition</th>
+                            <th style="text-align: left; width: 20%">Labour Priority</th>
+                            <th style="text-align: left; width: 20%">Labour Price</th>
+                            <th style="width: 10%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item_data_l of qt_item_service; let j = index"
+                            [ngClass]="item_data_l.error_flag ? 'red_border' : 'no-border'">
+                            <td style="padding: 1px">
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete [data]="preServiceList" maxlength="600"
+                                        placeholder="Labour Description" [(ngModel)]="item_data_l.item_name"
+                                        name="item_name_l_{{ j }}" #inputFieldLabour [searchKeyword]="labourSearch"
+                                        [ngModelOptions]="{ standalone: true }" [itemTemplate]="itemTemplateLabour">
+                                    </ng-autocomplete>
+                                </div>
+                                <ng-template #itemTemplateLabour let-item>
+                                    <a [innerHTML]="item"></a>
+                                </ng-template>
+                            </td>
+                            <td style="padding: 1px">
+                                <ng-select [items]="labourConditionList" bindLabel="qlc_name" bindValue="qlc_name"
+                                    [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                                    class="custom-multiselect" placeholder="Select A Condition"
+                                    [(ngModel)]="item_data_l.condition" [ngModelOptions]="{ standalone: true }">
+                                </ng-select>
+                                <!-- <input type="text" class="form-input text-xs" placeholder="Labour Condition"
+                                    [(ngModel)]="item_data_l.condition" [ngModelOptions]="{ standalone: true }" /> -->
+                            </td>
+                            <td style="padding: 1px">
+                                <ng-select [items]="labourpriorityList" bindLabel="qlp_name" bindValue="qlp_name"
+                                    [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                                    class="custom-multiselect" placeholder="Select Priority Level"
+                                    [(ngModel)]="item_data_l.priority" [ngModelOptions]="{ standalone: true }"
+                                    [ngClass]="{
+                                        'high-priority': item_data_l.priority === 'High',
+                                        'medium-priority': item_data_l.priority === 'Medium',
+                                        'low-priority': item_data_l.priority === 'Low'
+                                      }">
+                                </ng-select>
+                                <!-- <input type="text" class="form-input text-xs" placeholder="Labour Priority"
+                                    [(ngModel)]="item_data_l.priority" [ngModelOptions]="{ standalone: true }" /> -->
+                            </td>
+                            <td style="padding: 1px">
+                                <input type="number" class="form-input text-xs" placeholder="Labour Price"
+                                    [(ngModel)]="item_data_l.unit_price" name="unit_price_{{ j }}"
+                                    onkeyup="if(parseInt(this.value)<0) this.value='';"
+                                    onKeyPress="if(this.value.length==8) return false;"
+                                    [ngModelOptions]="{ standalone: true }" 
+                                    (wheel)="disableScroll($event)"/>
+                            </td>
+                            <td style="text-align: center">
+                                <button type="button" ngxTippy data-tippy-content="Delete Item"
+                                    (click)="deleteLabour(j, item_data_l)">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                        <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path opacity="0.5"
+                                            d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                            stroke="currentColor" stroke-width="1.5" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <button type="button" class="btn btn-outline-success btn-sm" style="float: left"
+                                    id="auto_trigger" ngxTippy="Shortcut alt + L" (click)="addItemLabour()">
+                                    ADD NEW LABOUR ITEM
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </ng-container>
+            <div *ngIf="data_load_flag" style="text-align: center">
+                <span
+                    class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+            </div>
+            <div style="display: flex; justify-content: flex-end" class="mt-5" *ngIf="!data_load_flag">
+                <button type="button" class="btn btn-success" style="float: left" id="auto_trigger"
+                    (click)="updateQuote()">SAVE QUOTE</button>
+            </div>
+        </form>
+    </div>
+    <modal #sparePreview class="modal-top animate animate-slide-in-down extra-large-modal" [closeOnOutsideClick]="false"
+        style="max-width: 90vw">
+        <ng-template #modalHeader>
+            <div>Spare Preview</div>
+        </ng-template>
+        <ng-template #modalBody>
+            <table id="main_table" style="font-size: 13px; font-weight: 600" class="table-hover">
+                <thead style="background-color: #eee">
+                    <th style="width: 30%; text-align: left; border: 1px solid #ddd">Part Name</th>
+                    <!-- <th>Part Code</th> -->
+                    <th style="width: 20%; text-align: left; border: 1px solid #ddd">Part Brand</th>
+                    <th style="width: 10%; text-align: left; border: 1px solid #ddd">Part Type</th>
+                    <th style="width: 5%; text-align: center; border: 1px solid #ddd">Quantity</th>
+                    <th style="width: 15%; text-align: left; border: 1px solid #ddd">Availability</th>
+                    <th style="width: 10%; text-align: right; border: 1px solid #ddd">Unit Price</th>
+                    <th style="width: 10%; text-align: right; border: 1px solid #ddd">Sub Total</th>
+                </thead>
+                <tbody class="master">
+                    <ng-container *ngFor="let item_master of qt_item_spare; let j = index">
+                        <ng-container *ngFor="let item_data of item_master.item_p_types; let i = index">
+                            <tr class="item_row"
+                                *ngIf="item_master.item_type == '1' && item_master.item_delete_flag == '0' && item_data.qit_delete_flag == '0'">
+                                <td [attr.rowspan]="item_master.item_p_types.length" class="include" *ngIf="i == 0"
+                                    style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                    {{ item_master.item_name }}
+                                </td>
+                                <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{
+                                    item_data.qit_brand_name }}</td>
+                                <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{ item_data.qit_type
+                                    }}</td>
+                                <td style="text-align: center; padding: 2px; border: 1px solid #ddd">
+                                    {{ item_master.item_qty | number : '1.2-2' }}
+                                </td>
+                                <td style="text-align: left; padding: 2px; border: 1px solid #ddd">{{
+                                    item_data.qit_availability }}</td>
+                                <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                                    {{ item_data.qit_unit_price | number : '1.2-2' }}
+                                </td>
+                                <td style="text-align: right; padding: 2px; border: 1px solid #ddd">
+                                    {{ item_data.qit_unit_price * item_master.item_qty | number : '1.2-2' }}
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </ng-template>
+        <ng-template #modalFooter>
+            <button type="button" (click)="sparePreview.close()"
+                class="btn btn-primary ltr:ml-4 rtl:mr-4">CLOSE</button>
+        </ng-template>
+    </modal>
+</div>

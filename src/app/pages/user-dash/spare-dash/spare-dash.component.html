@@ -1,0 +1,21 @@
+<div>
+    <ul class="flex space-x-2 rtl:space-x-reverse">
+        <li>
+            <a href="javascript:;" class="text-primary hover:underline">Dashboard</a>
+        </li>
+        <li class="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
+            <span>Spare & Service</span>
+        </li>
+    </ul>
+    <div class="panel mt-5">
+        <div class="mb-5 flex items-center justify-between">
+            <h5 class="text-lg font-semibold dark:text-white-light">Quotation Management</h5>
+        </div>
+        <div class="mb-5">
+            <div class="flex flex-wrap items-center justify-center gap-2">
+                <button type="button" class="btn btn-primary" (click)="loadQuotation(0)">NORMAL QUOTATION</button>
+                <button type="button" class="btn btn-secondary" (click)="loadQuotation(1)">SPECIAL QUOTATION</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,349 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Lead
+            Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Campaign
+            Enquiries</a>
+    </li>
+</ol>
+<a href="javascript:;" class="float" *ngIf="timeExceededCampaignList && timeExceededCampaignList.length > 0"
+    (click)="totalOverDueCampaigns()">
+    <span
+        class="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-warning/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px] ng-tns-c8-1"></span>
+    <span style="font-size: 12px;"> Total Time Exceeded Campaigns</span><br />
+    <b>{{timeExceededCampaignList.length}}</b>
+</a>
+<div class="panel mb-5 mt-5 pb-5">
+    <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+        <div>
+            <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+        </div>
+        <div>
+            <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getCampaignEnquiry()">SEARCH</button>
+        </div>
+    </div>
+    <!-- <div class="grid grid-cols-3 gap-4 sm:grid-cols-3">
+        <div></div>
+        <div></div>
+        <div>
+            <button type="button" class="btn btn-warning my-4" (click)="totalOverDueCampaigns()" style="float: right;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M6.30928 9C8.59494 5 9.96832 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.45498 18.0635 2.24306 16.2635 4.05373 13"
+                        stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="12" cy="16" r="1" fill="#ffffff" />
+                </svg>
+                Total Time Exceeded Campaigns<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                    style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{timeExceededCampaignList.length}}</span>
+            </button>
+        </div>
+    </div> -->
+</div>
+<div class="panel mb-5 mt-5 pb-5" *ngIf="!load_flag">
+    <div class="flex flex-wrap items-center justify-center gap-3">
+        <button type="button" class="btn btn-primary my-4" (click)="filterCampaigns(0)"
+            [ngStyle]="{opacity:selected==0?'100%':'70%'}">
+            TOTAL CAMPAIGN LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{allcampaignList.length}}</span>
+        </button>
+        <button type="button" class="btn btn-secondary my-4" (click)="filterCampaigns(2)"
+            [ngStyle]="{opacity:selected==2?'100%':'70%'}">
+            OPENED CAMPAIGN LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{openedCampaign.length}}</span>
+        </button>
+        <button type="button" class="btn btn-danger my-4" (click)="filterCampaigns(3)"
+            [ngStyle]="{opacity:selected==3?'100%':'70%'}">
+            CLOSED CAMPAIGN LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{closedCampaign.length}}</span>
+        </button>
+        <!-- <button type="button" class="btn btn-success my-4" (click)="filterCampaigns(1)" [ngStyle]="{opacity:selected==1?'100%':'70%'}">
+            CALLBACK CUSTOMERS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+                {{callbackCust}}</span>
+        </button> -->
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-3" *ngIf="notCallbackCust > 0">
+        <div (click)="filterCampaigns(10)" style="cursor: pointer;" [ngStyle]="{opacity:selected==10?'100%':'70%'}"
+            class="relative flex items-center rounded border !border-warning bg-warning-light p-3.5 text-warning before:absolute before:top-1/2 before:-mt-2 before:border-b-8 before:border-l-8 before:border-t-8 before:border-b-transparent before:border-l-inherit before:border-t-transparent ltr:border-l-[64px] ltr:before:left-0 rtl:border-r-[64px] rtl:before:right-0 rtl:before:rotate-180 dark:bg-primary-dark-light">
+            <span class="absolute inset-y-0 m-auto h-6 w-6 text-white ltr:-left-11 rtl:-right-11">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M6.30928 9C8.59494 5 9.96832 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.45498 18.0635 2.24306 16.2635 4.05373 13"
+                        stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="12" cy="16" r="1" fill="#ffffff" />
+                </svg>
+            </span>
+            <span class="ltr:pr-2 rtl:pl-2"><strong class="ltr:mr-1 rtl:ml-1">Warning!</strong>
+                <b>{{notCallbackCust}}</b>Time Exceeded Request as of Selected Date</span>
+        </div>
+    </div>
+</div>
+<div class="panel mt-5 pb-0">
+    <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+        <h5 class="text-lg font-semibold dark:text-white-light">Campaign Lead Details</h5>
+        <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+            <button type="button" class="btn create rounded-full" (click)="createCampaign()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="6" r="4" stroke="white" stroke-width="1.5" />
+                    <path d="M21 10H19M19 10H17M19 10L19 8M19 10L19 12" stroke="white" stroke-width="1.5"
+                        stroke-linecap="round" />
+                    <path
+                        d="M17.9975 18C18 17.8358 18 17.669 18 17.5C18 15.0147 14.4183 13 10 13C5.58172 13 2 15.0147 2 17.5C2 19.9853 2 22 10 22C12.231 22 13.8398 21.8433 15 21.5634"
+                        stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Create Campaign Lead
+            </button>
+            <div hlMenu class="dropdown">
+                <button hlMenuButton type="button"
+                    class="flex items-center rounded-md border border-[#e0e6ed] px-4 py-2 text-sm font-semibold dark:border-[#253b5c] dark:bg-[#1b2e4b] dark:text-white-dark">
+                    <span class="ltr:mr-1 rtl:ml-1">Columns</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5">
+                        <path d="M19 9L12 15L5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <ul *hlMenuItems @toggleAnimation class="w-max ltr:left-0 rtl:right-0" style="z-index: 100">
+                    <ng-container *ngFor="let col of cols; index as i">
+                        <li>
+                            <div class="flex items-center px-4 py-1">
+                                <label [for]="'chk-' + i" class="mb-0 cursor-pointer">
+                                    <input type="checkbox" [id]="'chk-' + i" class="form-checkbox"
+                                        [(ngModel)]="!col.hide" (change)="updateColumn(col)" />
+                                    <span class="ltr:ml-2 rtl:mr-2">{{ col.title }}</span>
+                                </label>
+                            </div>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+
+            <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+    </div>
+    <div *ngIf="!load_flag">
+        <div class="datatable">
+            <ng-datatable [rows]="campaignList" [columns]="cols" [search]="search" [sortable]="true"
+                [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                <ng-template slot="phone" let-value="data">
+                    <button type="button" (click)="openCallLogs(value.phone)" class="btn btn-outline-secondary btn-sm"
+                        ngxTippy="{{ value.phone }}" [tippyProps]="{ theme: 'info' }">
+                        ****{{ value.phone | slice : -6 }}
+                    </button>
+                </ng-template>
+                <ng-template slot="lead_code" let-value="data">
+                    <button type="button" class="btn btn-outline-primary btn-sm">
+                        {{ value.lead_code }}
+                    </button>
+                </ng-template>
+                <ng-template slot="name" let-value="data">
+                    <span *ngIf="value.name != null">{{value.name}}</span>
+                    <span *ngIf="value.name == null">NIL</span>
+                </ng-template>
+                <ng-template slot="lead_source" let-value="data">
+                    <span>{{value.lead_source}}</span>
+                </ng-template>
+                <ng-template slot="lead_note" let-value="data">
+                    <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note!=null"
+                        [tippyProps]="{ theme: 'info' }">{{ value.lead_note | slice : 0 : 30 }}<ng-container
+                            *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                </ng-template>
+                <ng-template slot="action" let-value="data">
+                    <div>
+                        <button type="button" class="ltr:mr-2 rtl:ml-2" ngxTippy="Edit"
+                            (click)="viewCampaignDetails(value)">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
+                                <path
+                                    d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
+                                    stroke="currentColor" stroke-width="1.5" />
+                                <path opacity="0.5"
+                                    d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015"
+                                    stroke="currentColor" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+                </ng-template>
+            </ng-datatable>
+        </div>
+    </div>
+</div>
+<modal #campaignModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Create Campaign Lead
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="table-responsive" *ngIf="leads && leads.length > 0">
+            <label> <b>Leads</b></label>
+            <table class="small_view" style="border: 1px solid #eee">
+                <thead>
+                    <tr *ngFor="let ld of leads">
+                        <th>Created</th>
+                        <th>Name</th>
+                        <th>Lead Code</th>
+                        <th *ngIf="ld.purpose_id == '1'">Appointment Code</th>
+                        <th>Purpose</th>
+                        <th *ngIf="ld.purpose_id == '1'">Appointment Date</th>
+                        <th>Status</th>
+                        <th>Source</th>
+                        <th style="width: 25%">Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ld of leads">
+                        <td>{{ ld.created }}</td>
+                        <td>{{ ld.name }}</td>
+                        <td>
+                            <span class="badge badge-outline-primary">{{ ld.lead_code }}</span>
+                        </td>
+                        <td *ngIf="ld.purpose_id == '1'">
+                            <span class="badge badge-outline-primary">{{ ld.apptm_code }}</span>
+                        </td>
+                        <td>{{ ld.call_purpose }}</td>
+                        <td *ngIf="ld.purpose_id == '1'">{{ ld.ld_appoint_date }}</td>
+                        <td>{{ ld.ld_sts }}</td>
+                        <td>{{ ld.ld_src }}</td>
+                        <td>{{ ld.lead_note }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="leads && leads.length > 0">
+            <hr class="my-2 dark:border-[#191e3a]" style="border: 1px solid #eee" />
+        </div>
+        <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3" *ngIf="!appoint_flag">
+            <div>
+                <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Number</label>
+                <input type="text" placeholder="Customer Number" [(ngModel)]="campaignDetails.customerNumber"
+                    (change)="checkExistigCust(campaignDetails.customerNumber)" class="form-input text-xs"
+                    maxlength="50" />
+            </div>
+            <div>
+                <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Name</label>
+                <input type="text" placeholder="Customer name" [(ngModel)]="campaignDetails.customerName"
+                    class="form-input text-xs" maxlength="50" />
+            </div>
+            <div>
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Lead Source*</label>
+                <ng-select [items]="sourceList" bindLabel="ld_src" [(ngModel)]="campaignDetails.source_id"
+                    bindValue="ld_src_id" [searchable]="true" [clearable]="true" placeholder="Lead Source"
+                    class="custom-multiselect" (change)="getSocialMediaCampaign(campaignDetails.source_id)">
+                </ng-select>
+            </div>
+            <div class="col-span-2" *ngIf="campaignDetails.source_id == '2'">
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media
+                    Campaign*</label>
+                <ng-select [items]="socialMediaCampaignList" bindLabel="displayLabel" bindValue="smc_id"
+                    [(ngModel)]="campaignDetails.social_media_camp" [searchable]="true" [clearable]="false"
+                    placeholder="Social Media Campaign List" class="custom-multiselect" appendTo="body"
+                    (change)="getSocialMediaCampaignSource(campaignDetails.social_media_camp)">
+                </ng-select>
+            </div>
+            <div *ngIf="campaignDetails.source_id == '2'">
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media
+                    Source*</label>
+                <ng-select [items]="socialMediaSourceList" bindLabel="smcs_name" bindValue="smcs_id"
+                    [(ngModel)]="campaignDetails.social_media_source" [searchable]="true" [clearable]="false"
+                    placeholder="Social Media Source List" [disabled]="true" class="custom-multiselect" appendTo="body">
+                </ng-select>
+            </div>
+
+            <div>
+                <label for="country" class="small_label_text m-0 dark:text-white-dark">Assign To*</label>
+                <ng-select [items]="userList" bindLabel="us_firstname" [(ngModel)]="campaignDetails.assigned_to"
+                    bindValue="us_id" [searchable]="true" [clearable]="true" placeholder="Select Staff"
+                    class="custom-multiselect">
+                </ng-select>
+            </div>
+            <div>
+                <label for="campaign_data" class="small_label_text m-0 dark:text-white-dark">Select Campaign*</label>
+                <ng-select [items]="AllcampaignList" bindLabel="camp_name" [(ngModel)]="campaignDetails.campaign_data"
+                    bindValue="camp_id" [searchable]="true" [clearable]="true" placeholder="Select Campaign"
+                    class="custom-multiselect">
+                </ng-select>
+            </div>
+            <div>
+                <label for="campaign_date" class="small_label_text m-0 dark:text-white-dark">Expected Arrival
+                    Date</label>
+                <ng2-flatpickr [config]="basic" placeholder="Expected Arrival Date"
+                    [(ngModel)]="campaignDetails.campaign_date" addClass="form-input"></ng2-flatpickr>
+            </div>
+            <div class="col-span-2">
+                <label for="name" class="small_label_text m-0 dark:text-white-dark">Customer Comment*</label>
+                <input type="text" placeholder="Customer Comment" [(ngModel)]="campaignDetails.call_note"
+                    class="form-input text-xs" maxlength="250" />
+            </div>
+        </div>
+        <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-1 xl:grid-cols-1" style="text-align: center;"
+            *ngIf="appoint_flag">
+            <h5><i style="font-size: 16px;font-weight: bold;">Appointment Already Scheduled</i></h5>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
+            <button class="btn btn-danger" style="float: left" (click)="campaignModalClose()">DISMISS</button>
+            <button class="btn btn-primary" *ngIf="appoint_flag != true"
+                [disabled]="createFlag"
+                (click)="createCampaignLead(campaignDetails)">SAVE
+                <span *ngIf="createFlag">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2">
+                        <line x1="12" y1="2" x2="12" y2="6"></line>
+                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                        <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                        <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                        <line x1="2" y1="12" x2="6" y2="12"></line>
+                        <line x1="18" y1="12" x2="22" y2="12"></line>
+                        <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                        <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                    </svg>
+                </span></button>
+            <button class="btn btn-dark" *ngIf="appoint_flag" (click)="viewAppointmentDetails()">Appointment
+                Edit</button>
+        </div>
+    </ng-template>
+    <!-- <ng-template #modalFooter>
+       <button type="button" (click)="appointmentModalClose()" class="btn btn-outline-danger">DISMISS</button>
+   </ng-template> -->
+</modal>
+<modal #calllogmodal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Recent Call Logs
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <app-call-log-detail [calllogphn]="calllogphn"></app-call-log-detail>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="callhistoryModal()" class="btn btn-outline-danger">DISMISS</button>
+    </ng-template>
+</modal>
