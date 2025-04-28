@@ -164,10 +164,18 @@
                     <ng-select [(ngModel)]="dis_cust.newtransportation_service" [searchable]="false" [clearable]="false"
                         placeholder="Pick & Drop Requirement">
                         <!-- <ng-option value="0"></ng-option> -->
-                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                        <!-- <ng-option value="1">Pick Up & Drop Off Required</ng-option>
                         <ng-option value="2">Pick Up Required</ng-option>
                         <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option> -->
+                        <ng-option value="1">Free Pick & Drop</ng-option>
+                        <ng-option value="2">Free Pick</ng-option>
+                        <ng-option value="3">Free Drop</ng-option>
                         <ng-option value="4">Not Required</ng-option>
+                        <ng-option value="5">Paid Pick & Drop</ng-option>
+                        <ng-option value="6">Paid Pick Up</ng-option>
+                        <ng-option value="7">Paid Drop Off</ng-option>
+                        <ng-option value="8">Drop Off (Self)</ng-option>
                     </ng-select>
                 </div>
                 <div *ngIf="dis_cust.newresponseaction=='4'">

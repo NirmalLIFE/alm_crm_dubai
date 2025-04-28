@@ -942,4 +942,28 @@ export class StaffPostAuthService {
     getWhatsappCustomersFollowups(): Observable<any> {
         return this.http.get(environment.base_url + 'getWhatsappCustomersFollowups', { headers: this.reqHeader });
     }
+
+    fetchAllFollowUpCustomers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'fetchAllFollowUpCustomers', data, { headers: this.reqHeader });
+    }
+
+    getServiceRemainderDays(): Observable<any> {
+        return this.http.get(environment.base_url + 'getServiceRemainderDays', { headers: this.reqHeader });
+    }
+
+    updateServiceRemainderDays(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateServiceRemainderDays', data, { headers: this.reqHeader });
+    }
+
+    getSRCReport(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getSRCReport', data, { headers: this.reqHeader });
+    }
+
+    getAppointmentCustomersFromSRC(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getAppointmentCustomersFromSRC', data, { headers: this.reqHeader });
+    }
+
+    updateWhatsappAutoMessageHours(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateWhatsappAutoMessageHours', data, { headers: this.reqHeader });
+    }
 }

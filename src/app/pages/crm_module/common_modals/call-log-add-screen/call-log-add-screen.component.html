@@ -73,9 +73,10 @@
                 </div>
                 <div class="ng-autocomplete col-span-2">
                     <label for="call_note" class="small_label_text m-0 dark:text-white-dark">Customer Remark*</label>
-                    <ng-autocomplete [data]="filteredNotesList" [searchKeyword]="noteSearch" placeholder="Customer Remarks"
-                        maxlength="250" formControlName="call_note" class="custom-multiselect"
-                        [itemTemplate]="itemTemplateCode" (keydown.enter)="preventDefault()" (inputChanged)="onSearchChange($event)">
+                    <ng-autocomplete [data]="filteredNotesList" [searchKeyword]="noteSearch"
+                        placeholder="Customer Remarks" maxlength="250" formControlName="call_note"
+                        class="custom-multiselect" [itemTemplate]="itemTemplateCode" (keydown.enter)="preventDefault()"
+                        (inputChanged)="onSearchChange($event)">
                     </ng-autocomplete>
                     <ng-container *ngIf="leadLog.controls['call_note'].touched && leadLog.controls['call_note'].errors">
                         <p class="mt-1 text-danger">Note Limit Exceeded</p>
@@ -144,8 +145,8 @@
                     <label for="appointment_date" class="small_label_text m-0 dark:text-white-dark">Appointment
                         Date*</label>
                     <ng2-flatpickr (keydown.enter)="preventDefault()" [config]="basic"
-                        formControlName="appointment_date" placeholder="Appointment Date"
-                        addClass="form-input text-xs" (change)="changeTimeslots(leadLog.controls['appointment_date'].value)"></ng2-flatpickr>
+                        formControlName="appointment_date" placeholder="Appointment Date" addClass="form-input text-xs"
+                        (change)="changeTimeslots(leadLog.controls['appointment_date'].value)"></ng2-flatpickr>
                 </div>
                 <div *ngIf="leadLog.controls['call_purpose'].value == '1'">
                     <label for="appointment_time" class="small_label_text m-0 dark:text-white-dark">Appointment
@@ -162,10 +163,18 @@
                     <label for="pick_drop" class="small_label_text m-0 dark:text-white-dark">Pick & Drop</label>
                     <ng-select formControlName="pick_drop" [searchable]="true" [clearable]="false"
                         placeholder="Pick & Drop Facility" class="custom-multiselect" appendTo="body">
-                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                        <!-- <ng-option value="1">Pick Up & Drop Off Required</ng-option>
                         <ng-option value="2">Pick Up Required</ng-option>
                         <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option> -->
+                        <ng-option value="1">Free Pick & Drop</ng-option>
+                        <ng-option value="2">Free Pick</ng-option>
+                        <ng-option value="3">Free Drop</ng-option>
                         <ng-option value="4">Not Required</ng-option>
+                        <ng-option value="5">Paid Pick & Drop</ng-option>
+                        <ng-option value="6">Paid Pick Up</ng-option>
+                        <ng-option value="7">Paid Drop Off</ng-option>
+                        <ng-option value="8">Drop Off (Self)</ng-option>
                     </ng-select>
                 </div>
                 <div [ngClass]="leadLog.controls['campaign_data'].touched ? (leadLog.controls['campaign_data'].errors ? 'has-error' : 'has-success') : ''"
@@ -231,9 +240,10 @@
                     <div class="ng-autocomplete col-span-2">
                         <label for="call_note" class="small_label_text m-0 dark:text-white-dark">Customer Remark
                             *</label>
-                        <ng-autocomplete [data]="filteredNotesList" [searchKeyword]="noteSearch" placeholder="Customer Remarks"
-                            maxlength="250" formControlName="call_note" class="custom-multiselect"
-                            [itemTemplate]="itemTemplateCode" (keydown.enter)="preventDefault()" (inputChanged)="onSearchChange($event)">
+                        <ng-autocomplete [data]="filteredNotesList" [searchKeyword]="noteSearch"
+                            placeholder="Customer Remarks" maxlength="250" formControlName="call_note"
+                            class="custom-multiselect" [itemTemplate]="itemTemplateCode"
+                            (keydown.enter)="preventDefault()" (inputChanged)="onSearchChange($event)">
                         </ng-autocomplete>
                         <ng-container
                             *ngIf="leadLog.controls['call_note'].touched && leadLog.controls['call_note'].errors">

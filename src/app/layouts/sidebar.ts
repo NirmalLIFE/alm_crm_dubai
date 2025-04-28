@@ -29,6 +29,7 @@ export class SidebarComponent {
         spare_price_management: [],
         service_features: [],
         chat_features: [],
+        customer_features: [],
     };
 
     constructor(public translate: TranslateService, public storeData: Store<any>, public router: Router) {
@@ -282,6 +283,16 @@ export class SidebarComponent {
                 this.menuItems.report_features.push({
                     title: 'Customer Analysis',
                     link: '/customerAnalysis',
+                });
+            } else if (element['ft_id'] == 56) {
+                this.menuItems.report_features.push({
+                    title: 'Service Reminder Report',
+                    link: 'serviceRemainderReport',
+                });
+            } else if (element['ft_id'] == 58) {
+                this.menuItems.customer_features.push({
+                    title: 'Customer Follow-Ups',
+                    link: 'customerFollowUps',
                 });
             }
         });

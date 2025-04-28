@@ -64,6 +64,7 @@ export class AppointmentListComponent implements OnInit {
         { field: 'us_firstname', title: 'Assigned', hide: false },
         { field: 'apptm_created', title: 'Created', hide: false },
         { field: 'apptm_transport_service_l', title: 'Pick&Drop', hide: false },
+        { field: 'pickup_mode', title: 'Pickup Mode ', hide: false },
         { field: 'appt_count', title: 'Attempt No', hide: true },
         { field: 'apptm_status_l', title: 'Status', hide: false },
         { field: 'action', title: 'Action', hide: false },
@@ -153,14 +154,31 @@ export class AppointmentListComponent implements OnInit {
 
                     element['appoint_time'] = moment(element['appt_time'], 'HHmmss').format('hh:mm A');
                     if (element.apptm_transport_service == '1') {
-                        element['apptm_transport_service_l'] = 'Pick Up & Drop Off';
+                        element['apptm_transport_service_l'] = 'Free Pick & Drop';
                     } else if (element.apptm_transport_service == '2') {
-                        element['apptm_transport_service_l'] = 'Pick Up ';
+                        element['apptm_transport_service_l'] = 'Free Pick';
                     } else if (element.apptm_transport_service == '3') {
-                        element['apptm_transport_service_l'] = 'Drop Off';
+                        element['apptm_transport_service_l'] = 'Free Drop';
                     } else if (element.apptm_transport_service == '4') {
                         element['apptm_transport_service_l'] = 'Not Required';
+                    } else if (element.apptm_transport_service == '5') {
+                        element['apptm_transport_service_l'] = 'Paid Pick & Drop';
+                    } else if (element.apptm_transport_service == '6') {
+                        element['apptm_transport_service_l'] = 'Paid Pick Up';
+                    } else if (element.apptm_transport_service == '7') {
+                        element['apptm_transport_service_l'] = 'Paid Drop Off';
+                    } else if (element.apptm_transport_service == '8') {
+                        element['apptm_transport_service_l'] = 'Drop Off (Self)';
                     }
+
+                    if (element.apptm_pickup_mode == '1') {
+                        element['pickup_mode'] = 'Driver PickUp';
+                    } else if (element.apptm_pickup_mode == '2') {
+                        element['pickup_mode'] = 'Recovery PickUp';
+                    } else {
+                        element['pickup_mode'] = 'Nil';
+                    }
+
                     if (element.apptm_status == '1') {
                         element['apptm_status_l'] = 'Scheduled';
                         this.appointmentCounts.scheduled_appts++;

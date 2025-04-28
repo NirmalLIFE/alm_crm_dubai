@@ -93,6 +93,8 @@ import { WhatsappChatComponent } from './pages/crm_module/chats/whatsapp-chat/wh
 import { WhatsappLeadsListComponent } from './pages/crm_module/leads/whatsapp/whatsapp-leads-list/whatsapp-leads-list.component';
 import { WhatsappSettingsComponent } from './pages/crm_module/leads/whatsapp/whatsapp-settings/whatsapp-settings.component';
 import { CustomerAnalysisComponent } from './pages/crm_module/customer/customer-analysis/customer-analysis.component';
+import { CustomerFollowUpsComponent } from './pages/crm_module/customers/customer-follow-ups/customer-follow-ups.component';
+import { ServiceRemainderReportComponent } from './pages/crm_module/service-module/service-remainder-report/service-remainder-report.component';
 
 export const routes: Routes = [
     {
@@ -193,7 +195,8 @@ export const routes: Routes = [
             { path: 'whatsappLeadList', component: WhatsappLeadsListComponent },
             { path: 'whatsappSettings', component: WhatsappSettingsComponent },
             { path: 'customerAnalysis', component: CustomerAnalysisComponent },
-
+            { path: 'serviceRemainderReport', component: ServiceRemainderReportComponent },
+            { path: 'customerFollowUps', component: CustomerFollowUpsComponent },
 
         ],
     },

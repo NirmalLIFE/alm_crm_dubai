@@ -157,7 +157,8 @@ import { WhatsappLeadsListComponent } from './pages/crm_module/leads/whatsapp/wh
 import { QuoteLogComponent } from './pages/crm_module/quote-module/normal-quote/quote-logs/quote-log/quote-log.component';
 import { WhatsappSettingsComponent } from './pages/crm_module/leads/whatsapp/whatsapp-settings/whatsapp-settings.component';
 import { CustomerAnalysisComponent } from './pages/crm_module/customer/customer-analysis/customer-analysis.component';
-
+import { CustomerFollowUpsComponent } from './pages/crm_module/customers/customer-follow-ups/customer-follow-ups.component';
+import { ServiceRemainderReportComponent } from './pages/crm_module/service-module/service-remainder-report/service-remainder-report.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true }),
@@ -310,6 +311,8 @@ import { CustomerAnalysisComponent } from './pages/crm_module/customer/customer-
         QuoteLogComponent,
         WhatsappSettingsComponent,
         CustomerAnalysisComponent,
+        CustomerFollowUpsComponent,
+        ServiceRemainderReportComponent,
     ],
     providers: [AppService, Title, DatePipe,],
     bootstrap: [AppComponent],

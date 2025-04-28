@@ -103,11 +103,19 @@
                     <label for="name" class="small_label_text m-0 dark:text-white-dark">Pickup & Drop Details</label>
                     <ng-select [(ngModel)]="appointmentDetails.apptm_transport_service" disabled="true"
                         [searchable]="false" [clearable]="false">
-                        <ng-option value="0">Pick & Drop Requirement</ng-option>
+                        <!-- <ng-option value="0">Pick & Drop Requirement</ng-option>
                         <ng-option value="1">Pick Up & Drop Off Required</ng-option>
                         <ng-option value="2">Pick Up Required</ng-option>
                         <ng-option value="3">Drop Off Required</ng-option>
+                        <ng-option value="4">Not Required</ng-option> -->
+                        <ng-option value="1">Free Pick & Drop</ng-option>
+                        <ng-option value="2">Free Pick</ng-option>
+                        <ng-option value="3">Free Drop</ng-option>
                         <ng-option value="4">Not Required</ng-option>
+                        <ng-option value="5">Paid Pick & Drop</ng-option>
+                        <ng-option value="6">Paid Pick Up</ng-option>
+                        <ng-option value="7">Paid Drop Off</ng-option>
+                        <ng-option value="8">Drop Off (Self)</ng-option>
                     </ng-select>
                 </div>
                 <div>
@@ -171,10 +179,18 @@
                             Details</label>
                         <ng-select formControlName="reschedulePickDrop" [searchable]="false" [clearable]="false"
                             placeholder="Pickup & Drop Details">
-                            <ng-option value="1">Pick Up & Drop Off Required</ng-option>
+                            <!-- <ng-option value="1">Pick Up & Drop Off Required</ng-option>
                             <ng-option value="2">Pick Up Required</ng-option>
                             <ng-option value="3">Drop Off Required</ng-option>
+                            <ng-option value="4">Not Required</ng-option> -->
+                            <ng-option value="1">Free Pick & Drop</ng-option>
+                            <ng-option value="2">Free Pick</ng-option>
+                            <ng-option value="3">Free Drop</ng-option>
                             <ng-option value="4">Not Required</ng-option>
+                            <ng-option value="5">Paid Pick & Drop</ng-option>
+                            <ng-option value="6">Paid Pick Up</ng-option>
+                            <ng-option value="7">Paid Drop Off</ng-option>
+                            <ng-option value="8">Drop Off (Self)</ng-option>
                         </ng-select>
                     </div>
                     <div *ngIf="newStatus == '3'">

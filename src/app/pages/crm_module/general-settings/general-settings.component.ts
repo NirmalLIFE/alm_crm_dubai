@@ -52,6 +52,17 @@ export class GeneralSettingsComponent implements OnInit {
     public userRoleMarginLimit: any = [];
     public update_flag: boolean = false;
 
+    //Service Remainder Campaigns
+    public serviceRemainderDaysPhase1: any;
+    public serviceRemainderDaysPhase2: any;
+    public serviceRemainderDaysPhase3: any;
+    public intervalType = [
+        { id: 3, type: 'Days' }, // your interval options
+        { id: 2, type: 'Hours' },
+        { id: 1, type: 'Minutes' },
+    ];
+    public interval: any = 3;
+
     constructor(private userServices: StaffPostAuthService, private fb: FormBuilder) {
         JSON.parse(atob(atob(localStorage.getItem('access_data') || '{}'))).forEach((element: any) => {
             if (element['ft_id'] == 21) {
@@ -94,6 +105,13 @@ export class GeneralSettingsComponent implements OnInit {
         this.userServices.userList().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.userList = rdata.userList;
+            }
+        });
+        this.userServices.getServiceRemainderDays().subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                this.serviceRemainderDaysPhase1 = rdata.serviceRemainderDays.first_service_remainder_days;
+                this.serviceRemainderDaysPhase2 = rdata.serviceRemainderDays.second_service_remainder_days;
+                this.serviceRemainderDaysPhase3 = rdata.serviceRemainderDays.third_service_remainder_days;
             }
         });
         this.getSparePartsMargin();
@@ -451,6 +469,43 @@ export class GeneralSettingsComponent implements OnInit {
                         this.coloredToast('danger', 'Some error occurred, please try again');
                     }
                 });
+            }
+        });
+    }
+
+    updateServiceRemainderDays(phase: any) {
+        let data = {
+            service_remainder_days: null,
+            phase: phase,
+        };
+
+        switch (phase) {
+            case 1:
+                data.service_remainder_days = this.serviceRemainderDaysPhase1;
+                break;
+            case 2:
+                data.service_remainder_days = this.serviceRemainderDaysPhase2;
+                break;
+            case 3:
+                data.service_remainder_days = this.serviceRemainderDaysPhase3;
+                break;
+            default:
+                return;
+        }
+
+        const suffix = phase === 1 ? 'st' : phase === 2 ? 'nd' : phase === 3 ? 'rd' : 'th';
+        this.userServices.updateServiceRemainderDays(data).subscribe((rdata: any) => {
+            if (rdata.ret_data === 'success') {
+                this.coloredToast('success', `${phase}${suffix} serviceRemainderDays Updated Successfully`);
+                this.userServices.getServiceRemainderDays().subscribe((rdata: any) => {
+                    if (rdata.ret_data == 'success') {
+                        this.serviceRemainderDaysPhase1 = rdata.serviceRemainderDays.first_service_remainder_days;
+                        this.serviceRemainderDaysPhase2 = rdata.serviceRemainderDays.second_service_remainder_days;
+                        this.serviceRemainderDaysPhase3 = rdata.serviceRemainderDays.third_service_remainder_days;
+                    }
+                });
+            } else {
+                this.coloredToast('error', 'Failed to update service remainder days');
             }
         });
     }

@@ -32,6 +32,7 @@ export class WhatsappSettingsComponent implements OnInit {
     public inboundFollowUpTimes: any = [];
     public outboundFollowUpTimes: any = [];
     public whatsapp_lead_reopen_hours: any;
+    public whatsapp_auto_msg_hours: any;
     defaultUnit: any = 'Hours';
 
     constructor(private userServices: StaffPostAuthService, private cdRef: ChangeDetectorRef, public router: Router) {
@@ -158,6 +159,7 @@ export class WhatsappSettingsComponent implements OnInit {
         this.userServices.getWhatsappLeadReOpenHours().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.whatsapp_lead_reopen_hours = rdata.leadReopenHours.whatsapp_lead_reopen_hours;
+                this.whatsapp_auto_msg_hours = rdata.leadReopenHours.whatsapp_auto_msg_hours;
             }
         });
     }
@@ -171,6 +173,21 @@ export class WhatsappSettingsComponent implements OnInit {
             if (rdata.ret_data == 'success') {
                 this.getLeadReopenHours();
                 this.coloredToast('success', 'Whatsapp Leads Reopen Hours Updated Successfully');
+            } else {
+                this.coloredToast('danger', 'Some error occurred, please try again');
+            }
+        });
+    }
+
+    updateAutoMessageHours(hours: any) {
+        let data = {
+            whatsapp_auto_msg_hours: hours,
+        };
+
+        this.userServices.updateWhatsappAutoMessageHours(data).subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                this.getLeadReopenHours();
+                this.coloredToast('success', 'Non-Working Hours Auto Reply Updated Successfully');
             } else {
                 this.coloredToast('danger', 'Some error occurred, please try again');
             }

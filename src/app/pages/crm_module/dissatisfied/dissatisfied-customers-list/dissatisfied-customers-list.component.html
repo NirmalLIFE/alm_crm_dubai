@@ -122,17 +122,9 @@
                         ****{{ value.phone | slice : -6 }}
                     </button>
                 </ng-template>
-                <ng-template slot="type" let-value="data">
-                    <button *ngIf="value.lead_code != null" type="button" class="btn btn-outline-primary btn-sm">
-                        Inbound Call Dissatisfied ({{ value.lead_code }})
-                    </button>
-                    <button *ngIf="value.lead_code == null && value.ldm_type == 1" type="button"
-                        class="btn btn-outline-primary btn-sm">
-                        PSF 3rd Day Dissatisfied
-                    </button>
-                    <button *ngIf="value.lead_code == null && value.ldm_type == 2" type="button"
-                        class="btn btn-outline-primary btn-sm">
-                        PSF 7th Day Dissatisfied
+                <ng-template slot="Distype" let-value="data">
+                    <button type="button" class="btn btn-outline-primary btn-sm">
+                        {{ value.Distype }}
                     </button>
                 </ng-template>
                 <ng-template slot="action_taken" let-value="data">

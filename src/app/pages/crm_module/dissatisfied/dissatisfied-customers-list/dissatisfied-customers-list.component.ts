@@ -32,7 +32,7 @@ export class DissatisfiedCustomersListComponent implements OnInit {
         { field: 'call_from', title: 'Number', hide: false },
         { field: 'cust_name', title: 'Customer', hide: false },
         { field: 'c_date', title: 'Date' },
-        { field: 'type', title: 'Dissatisfied Type', hide: false },
+        { field: 'Distype', title: 'Dissatisfied Type', hide: false },
         { field: 'status', title: 'Status', hide: false },
         { field: 'assign', title: 'Assigned', hide: false },
         { field: 'response', title: 'Response', hide: false },
@@ -102,10 +102,14 @@ export class DissatisfiedCustomersListComponent implements OnInit {
                     } else {
                         element['phone'] = element.cphone;
                     }
-                    if (element.lead_code != '' && element.lead_code != null) {
-                        element['Distype'] = 'Inbound Call Dissatisfied';
-                    } else {
-                        element['Distype'] = 'PSF Dissatisfied';
+                    if (element.ldm_type == '1') {
+                        element['Distype'] = 'PSF 3rd Day Dissatisfied';
+                    } else if (element.ldm_type == '2') {
+                        element['Distype'] = 'PSF 7th Day Dissatisfied';
+                    } else if (element.ldm_type == '3') {
+                        element['Distype'] = 'Inbound Call Dissatisfied (' + element['lead_code'] + ')';
+                    } else if (element.ldm_type == '4') {
+                        element['Distype'] = ' Service Reminder Dissatisfied (' + element['lead_code'] + ')';
                     }
                     if (element.ldl_action == 1) {
                         element['action_taken'] = 'Transfer the call';

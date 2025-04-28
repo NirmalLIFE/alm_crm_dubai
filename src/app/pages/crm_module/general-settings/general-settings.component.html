@@ -72,6 +72,27 @@
                 </svg>
                 User Role Wise Margin Settings
             </a>
+            <a href="javascript:;"
+                class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
+                [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'srcs' }"
+                (click)="activeTab = 'srcs'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 19L17.5 17.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M19 5L17.5 6.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M5 19L6.5 17.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M5 5L6.5 6.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M2 12H4" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M19.9998 12L21.9998 12" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M12 4.00021L12 2.00021" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                    <path
+                        d="M10.1214 14.364C8.94978 13.1924 8.94978 11.2929 10.1214 10.1214C11.2929 8.94978 13.1924 8.94978 14.364 10.1214C14.8096 10.567 15.1209 11.4921 15.3355 12.4675C15.6564 13.926 15.8169 14.6553 15.2361 15.2361C14.6553 15.8169 13.926 15.6564 12.4675 15.3355C11.4921 15.1209 10.567 14.8096 10.1214 14.364Z"
+                        stroke="#1C274C" stroke-width="1.5" />
+                    <path
+                        d="M9 21.5422C4.94289 20.2679 2 16.4776 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 16.4776 19.0571 20.2679 15 21.5422"
+                        stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Service Remainder Campaign Settings
+            </a>
         </div>
         <div>
             <div *ngIf="activeTab.toLowerCase() === 'home'">
@@ -610,6 +631,103 @@
                         </ng-container>
 
                     </table>
+                </div>
+            </div>
+            <div *ngIf="activeTab.toLowerCase() === 'srcs'">
+                <div
+                    class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+                    <h6 class="mb-5 text-lg font-bold">Service Remainder WhatsApp Campaign Configurations</h6>
+                    <div class="flex flex-col sm:flex-row">
+                        <div class="grid flex-1 grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2">
+                            <div class="flex flex-col sm:flex-row" style="align-items: center">
+                                <label for="v_number" class="mb-0 gap-1" style="display: flex">1st Service Reminder Days
+                                    <svg ngxTippy="Enter 1st Service Reminder (in Days)" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.5"
+                                            d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </label>
+                                <div class="flex">
+                                    <input id="v_number" maxlength="4" [(ngModel)]="serviceRemainderDaysPhase1"
+                                        type="text" placeholder="Enter Service Remainder In Days"
+                                        class="form-input text-xs same-height" style="width: 10rem;" />
+                                    <ng-select [items]="intervalType" bindLabel="type" [(ngModel)]="interval"
+                                        bindValue="id" [searchable]="true" [clearable]="false" placeholder="days"
+                                        disabled class="custom-multiselect same-height">
+                                    </ng-select>
+                                    <button type="button" (click)="updateServiceRemainderDays(1)"
+                                        class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none same-height">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row" style="align-items: center">
+                                <label for="v_number" class="mb-0 gap-1" style="display: flex">2nd Service Reminder Days
+                                    <svg ngxTippy="Enter 2nd Service Reminder (in Days)" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.5"
+                                            d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </label>
+                                <div class="flex">
+                                    <input id="v_number" maxlength="4" [(ngModel)]="serviceRemainderDaysPhase2"
+                                        type="text" placeholder="Enter Service Remainder In Days"
+                                        class="form-input text-xs same-height" style="width: 10rem;" />
+                                    <ng-select [items]="intervalType" bindLabel="type" [(ngModel)]="interval"
+                                        bindValue="id" [searchable]="true" [clearable]="false" placeholder="days"
+                                        disabled class="custom-multiselect same-height">
+                                    </ng-select>
+                                    <button type="button" (click)="updateServiceRemainderDays(2)"
+                                        class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none same-height">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row" style="align-items: center">
+                                <label for="v_number" class="mb-0 gap-1" style="display: flex">3rd Service Reminder Days
+                                    <svg ngxTippy="Enter 3rd Service Reminder (in Days)" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path opacity="0.5"
+                                            d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                </label>
+                                <div class="flex">
+                                    <input id="v_number" maxlength="4" [(ngModel)]="serviceRemainderDaysPhase3"
+                                        type="text" placeholder="Enter Service Remainder In Days"
+                                        class="form-input text-xs same-height" style="width: 10rem;" />
+                                    <ng-select [items]="intervalType" bindLabel="type" [(ngModel)]="interval"
+                                        bindValue="id" [searchable]="true" [clearable]="false" placeholder="days"
+                                        disabled class="custom-multiselect same-height">
+                                    </ng-select>
+                                    <button type="button" (click)="updateServiceRemainderDays(3)"
+                                        class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none same-height">
+                                        UPDATE
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
