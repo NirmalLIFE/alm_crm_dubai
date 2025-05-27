@@ -115,6 +115,7 @@ export class GeneralSettingsComponent implements OnInit {
             }
         });
         this.getSparePartsMargin();
+        this.getUserRoleMargin();
     }
 
     getPSFSettingsData() {
@@ -346,7 +347,6 @@ export class GeneralSettingsComponent implements OnInit {
                 this.coloredToast('danger', 'Some error occurred please try again');
             }
         });
-        this.getUserRoleMargin();
     }
 
     savePartsMargin(data: any) {
@@ -423,7 +423,7 @@ export class GeneralSettingsComponent implements OnInit {
             if (rdata.ret_data === 'success') {
                 this.userRoleMargins = rdata.userRoleMargins;
             } else {
-                this.coloredToast('danger', 'Some error occurred, please try again');
+                // this.coloredToast('danger', 'Some error occurred, please try again');
             }
         });
     }

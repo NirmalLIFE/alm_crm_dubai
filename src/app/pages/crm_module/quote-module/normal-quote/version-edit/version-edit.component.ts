@@ -18,7 +18,7 @@ export class VersionEditComponent implements OnInit {
         qvm_note: '',
         qvm_quote_label: '',
     };
-    hoveredIndex: number = -1; 
+    hoveredIndex: number = -1;
     qt_data: any = {};
     qt_items_master: any[] = [];
     qt_items: any[] = [];
@@ -71,9 +71,10 @@ export class VersionEditComponent implements OnInit {
                             if (element.item_type == 1) {
                                 count = this.qt_items.filter((element2) => element2.qit_id == element.qit_id).length;
                                 element.unit_price = element.gen_price * element.item_qty;
-                                // if (this.us_id == '11') {
-                                //     element.qit_unit_price = element.qit_margin_price / element.item_qty;
-                                // }  i think its for margin flag
+                                if (this.user_role == '11' && element.qit_margin_price != '0' && element.qit_margin_price != '') {
+                                    element.qit_unit_price = element.qit_margin_price / element.item_qty;
+                                }
+                                // i think its for margin flag
                             } else {
                                 count = this.qt_items.filter((element2) => element2.item_id == element.item_id).length;
                             }
@@ -157,7 +158,6 @@ export class VersionEditComponent implements OnInit {
     }
 
     groupItemsUpdate() {
-
         this.item_edit_value++;
         let temp = this.qt_items_master.filter((item) => item.item_group == this.grouped_items.length + 1);
         const hasLaborCount = temp.filter((item: any) => item.item_type === '2' || item.item_type === '3').length;
@@ -170,7 +170,7 @@ export class VersionEditComponent implements OnInit {
             element.mapped_Flag = true;
             element.item_delete_flag = true;
             element.qtvi_qtv_item_qty = element.item_qty;
-            element.qtvi_qtv_item_price = element.item_type == '1' ? element.qit_unit_price : element.unit_price;    
+            element.qtvi_qtv_item_price = element.item_type == '1' ? element.qit_unit_price : element.unit_price;
         });
         this.grouped_items.push(temp);
         for (let i = 0; i < this.grouped_items.length; i++) {
@@ -204,7 +204,7 @@ export class VersionEditComponent implements OnInit {
                 }
             });
         });
-        this.quote_total = parseFloat((this.labour_total + this.spare_total).toFixed(2));       
+        this.quote_total = parseFloat((this.labour_total + this.spare_total).toFixed(2));
         this.quote_vat = parseFloat((this.quote_total * (5 / 100)).toFixed(2));
         this.total_amt = this.quote_total + this.quote_vat - this.discount;
 

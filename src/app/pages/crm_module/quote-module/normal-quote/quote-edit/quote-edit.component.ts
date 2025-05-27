@@ -142,10 +142,18 @@ export class QuoteEditComponent implements OnInit {
                 const { quotation, qt_items } = rdata;
                 this.qt_data = quotation;
                 this.qt_items = qt_items;
-                // if (quotation.qt_service_adv == '11' && this.user_id == '11') {
-                //     this.isChecked = true;
-                //     this.marginFlag = true;
-                // }
+                if (this.user_role == 11 && quotation.qt_margin_flag == '1') {
+                    this.isChecked = true;
+                    this.marginFlag = true;
+                } else if (this.user_role == 11) {
+                    this.isChecked = false;
+                    this.marginFlag = true;
+                } else {
+                    this.isChecked = false;
+                    this.marginFlag = false;
+                }
+
+                console.log("user role and marginflag ,quotation.qt_margin_flag ",this.user_role , this.marginFlag , quotation.qt_margin_flag)
                 qt_items.forEach((element: any) => {
                     if (element.qit_margin_price != '0' && element.qit_margin_price != '0.00') {
                         element.margin_total = element.qit_margin_price;
@@ -257,9 +265,9 @@ export class QuoteEditComponent implements OnInit {
     }
 
     addSA(us_id: any) {
-        if (us_id == 11 && this.user_id == '11') {
-            // this.isChecked = true;
-            // this.marginFlag = true;
+        if (this.user_role == '11') {
+            this.isChecked = true;
+            this.marginFlag = true;
             this.getSparePartsMargin();
         } else {
             this.marginFlag = false;
@@ -618,7 +626,6 @@ export class QuoteEditComponent implements OnInit {
                     element2.qit_unit_price == null ||
                     element2.qit_unit_price == '0.00'
                 ) {
-
                     this.success_flag = false;
                     element.error_flag = true;
                     this.updateFlag = false;
@@ -785,6 +792,7 @@ export class QuoteEditComponent implements OnInit {
             items: qt_items,
             qt_service_adv: this.userForm.value.sa_id,
             qt_code: this.userForm.controls['qt_code'].value,
+            marginFlag: this.isChecked,
         };
 
         if (this.success_flag && this.margin_flag) {
@@ -793,7 +801,7 @@ export class QuoteEditComponent implements OnInit {
                     this.getQuoteDetails();
                     this.coloredToast('success', 'Updates saved successfully');
                 } else {
-                    this.updateFlag=false;
+                    this.updateFlag = false;
                     this.coloredToast('danger', 'Some error occurred, please try again later');
                 }
             });

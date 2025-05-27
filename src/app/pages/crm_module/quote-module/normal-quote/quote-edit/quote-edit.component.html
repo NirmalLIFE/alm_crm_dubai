@@ -62,7 +62,8 @@
             <a href="javascript:;" style=" padding-top: 0; padding-bottom: 0.5rem; "
                 class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
                 [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'quote-logs' }"
-                (click)="activeTab = 'quote-logs'" *ngIf="user_role!='17'">
+                (click)="activeTab = 'quote-logs'">
+                <!-- *ngIf="user_role!='17'" -->
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 8V12L14.5 14.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -194,9 +195,9 @@
                             <p class="mt-1 text-danger">Please enter valid parts advisor</p>
                         </ng-container>
                     </div>
-                    <div class="col-span-2" *ngIf="userForm.controls['sa_id'].value == '11'"></div>
-                    <div class="col-span-2" *ngIf="userForm.controls['sa_id'].value == '11'"></div>
-                    <div class="col-span-2" *ngIf="userForm.controls['sa_id'].value == '11'">
+                    <div class="col-span-2" *ngIf="user_role == '11'"></div>
+                    <div class="col-span-2" *ngIf="user_role == '11'"></div>
+                    <div class="col-span-2" *ngIf="user_role == '11'">
                         <label class="inline-flex mt-3" style="float: left;" *ngIf="marginFlag">
                             <span class="peer-checked:text-info mr-1">Margin</span>
                             <label class="w-12 h-6 relative">
@@ -364,9 +365,9 @@
                                                 [(ngModel)]="p_types.qit_unit_price" name="p_unit_price_{{ i }}_{{ j }}"
                                                 onkeyup="if(parseInt(this.value)<0) this.value='';"
                                                 onKeyPress="if(this.value.length==8) return false;"
-                                                [ngModelOptions]="{ standalone: true }" (change)="getMarginPrice(j)" 
-                                                (wheel)="disableScroll($event)"
-                                                maxlength="8" (input)="clearNegativeValues(i, j)"/>
+                                                [ngModelOptions]="{ standalone: true }" (change)="getMarginPrice(j)"
+                                                (wheel)="disableScroll($event)" maxlength="8"
+                                                (input)="clearNegativeValues(i, j)" />
                                         </td>
                                         <td style="padding-top: 6px; padding-left:1px; padding-right: 1px;">
                                             <input type="number"
@@ -487,9 +488,8 @@
                                         [(ngModel)]="item_data_g.unit_price" name="item_unit_g_{{ j }}"
                                         onkeyup="if(parseInt(this.value)<0) this.value='';"
                                         onKeyPress="if(this.value.length==8) return false;"
-                                        [ngModelOptions]="{ standalone: true }" 
-                                        (wheel)="disableScroll($event)"
-                                        (input)="clearNegativeValuesGeneric(j)"/>
+                                        [ngModelOptions]="{ standalone: true }" (wheel)="disableScroll($event)"
+                                        (input)="clearNegativeValuesGeneric(j)" />
                                 </td>
                                 <td style="padding: 1px">
                                     <input type="number" class="form-input text-xs" placeholder="Total Price" value="{{
@@ -590,9 +590,8 @@
                                         [(ngModel)]="item_data_l.unit_price" name="unit_price_{{ j }}"
                                         onkeyup="if(parseInt(this.value)<0) this.value='';"
                                         onKeyPress="if(this.value.length==8) return false;"
-                                        [ngModelOptions]="{ standalone: true }" 
-                                        (wheel)="disableScroll($event)"
-                                        (input)="clearNegativeValuesLabour(j)"/>
+                                        [ngModelOptions]="{ standalone: true }" (wheel)="disableScroll($event)"
+                                        (input)="clearNegativeValuesLabour(j)" />
                                 </td>
                                 <td style="text-align: center;">
                                     <button type="button" ngxTippy data-tippy-content="Delete Item"

@@ -95,9 +95,9 @@ export class QuoteVersionsComponent implements OnInit {
                 this.vehicle_value = this.qt_data.qt_vehicle_value;
                 const qt_sp_temp = [];
 
-                // if (this.qt_data.qt_service_adv == '11' && this.us_id == '11') {
-                //     this.marginFlag = true;
-                // }
+                if (this.user_role == 11 && this.qt_data.qt_margin_flag == '1') {
+                    this.marginFlag = true;
+                }
                 for (const element of r_data.qt_items) {
                     element.selected_flag = false;
                     if (element.item_type == 1) {
@@ -269,12 +269,11 @@ export class QuoteVersionsComponent implements OnInit {
 
                     if (laborCount != 0) {
                         tempGroup.sort((a: any, b: any) => a.item_type - b.item_type);
-                        tempGroup.forEach((element :any) => {
-                            if(element.item_type == 1){
-                            element.qtvi_qtv_item_price=element.qit_unit_price
-                            }
-                            else{
-                            element.qtvi_qtv_item_price=element.unit_price
+                        tempGroup.forEach((element: any) => {
+                            if (element.item_type == 1) {
+                                element.qtvi_qtv_item_price = element.qit_unit_price;
+                            } else {
+                                element.qtvi_qtv_item_price = element.unit_price;
                             }
                         });
                         this.grouped_items.push(tempGroup);
@@ -297,7 +296,7 @@ export class QuoteVersionsComponent implements OnInit {
         this.discount = 0;
         this.labour_total = 0;
         this.spare_total = 0;
-        let flag = false;
+        // let flag = false;
         for (const master of this.grouped_items) {
             for (const element of master) {
                 const unitPrice = parseFloat(element.unit_price);
@@ -305,8 +304,8 @@ export class QuoteVersionsComponent implements OnInit {
                 const qitUnitPrice = parseFloat(element.qit_unit_price);
                 const qitDiscount = parseFloat(element.qit_discount);
                 const qit_margin_price = parseFloat(element.qit_margin_price);
-
-                if (this.us_id == '11' && this.qt_data.qt_service_adv == '11' && flag) {
+                // this.us_id == '11' && this.qt_data.qt_service_adv == '11' && flag
+                if (this.user_role == 11 && this.marginFlag) {
                     if (element.item_type === '2') {
                         this.labour_total += unitPrice;
                     } else if (element.item_type === '3') {
@@ -397,7 +396,7 @@ export class QuoteVersionsComponent implements OnInit {
         //     return;
         // }
         let total_amount = parseFloat(this.quote_total) + parseFloat(this.quote_vat);
-        console.log("amounts>>>>>>>>>>>>>>>>>",total_amount,this.discount)
+        console.log('amounts>>>>>>>>>>>>>>>>>', total_amount, this.discount);
 
         if (parseFloat(this.discount) >= total_amount) {
             this.discount = '0';
@@ -427,6 +426,7 @@ export class QuoteVersionsComponent implements OnInit {
             qvm_discount: this.discount,
             qvm_note: this.quote_note,
             qvm_quote_label: this.qvm_quote_label,
+            qt_margin_flag: this.marginFlag,
         };
 
         let grand_total = parseFloat(this.quote_total) + parseFloat(this.quote_vat);
@@ -663,5 +663,3 @@ export class QuoteVersionsComponent implements OnInit {
         });
     }
 }
-
-
