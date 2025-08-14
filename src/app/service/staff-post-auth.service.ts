@@ -966,4 +966,223 @@ export class StaffPostAuthService {
     updateWhatsappAutoMessageHours(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'updateWhatsappAutoMessageHours', data, { headers: this.reqHeader });
     }
+
+    //Service package modules apis
+    getServicePackage(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getServicePackage', data, { headers: this.reqHeader });
+    }
+
+    getServicePackageRequested(): Observable<any> {
+        return this.http.get(environment.base_url + 'ServicePackage/ServicePackageController', { headers: this.reqHeader });
+    }
+
+    createServicePackage(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageController', data, { headers: this.reqHeader });
+    }
+
+    getPartsForEngineNo(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getPartsForEngineNo', data, { headers: this.reqHeader });
+    }
+    getLabourPrice(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getLabourPrice', data, { headers: this.reqHeader });
+    }
+
+    saveServicePackageParts(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageController/update', data, { headers: this.reqHeader });
+    }
+
+    getEngineAndSparesByModelCode(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getEngineAndSparesByModelCode', data, { headers: this.reqHeader });
+    }
+
+    saveServicePackageLabours(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'saveServicePackageLabours', data, { headers: this.reqHeader });
+    }
+
+    getESLByModelCode(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getESLByModelCode', data, { headers: this.reqHeader });
+    }
+
+    getSPkilometer(): Observable<any> {
+        return this.http.get(environment.base_url + 'getSPkilometer', { headers: this.reqHeader });
+    }
+
+    saveSPKM(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'saveSPKM', data, { headers: this.reqHeader });
+    }
+
+    getModelCodes(): Observable<any> {
+        return this.http.get(environment.base_url + 'getModelCodes', { headers: this.reqHeader });
+    }
+
+    setSPSessionLock(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'setSPSessionLock', data, { headers: this.reqHeader });
+    }
+
+    checkSPSessionLock(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'checkSPSessionLock', data, { headers: this.reqHeader });
+    }
+
+    // getAllEnginesList(): Observable<any> {
+    //     return this.http.get(environment.base_url + 'getAllEnginesList', { headers: this.reqHeader });
+    // }
+
+    getAllPartsDetails(): Observable<any> {
+        return this.http.get(environment.base_url + 'getAllPartsDetails', { headers: this.reqHeader });
+    }
+
+    checkPartPrice(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'checkPartPrice', data, { headers: this.reqHeader });
+    }
+
+    getServicePackageParts(): Observable<any> {
+        return this.http.get(environment.base_url + 'getServicePackageParts', { headers: this.reqHeader });
+    }
+
+    createServicePackageParts(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageItemsMaster', data, { headers: this.reqHeader });
+    }
+
+    getServicePackagePartsById(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getServicePackagePartsById', data, { headers: this.reqHeader });
+    }
+
+    updateServicePackagePartsById(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateServicePackagePartsById', data, { headers: this.reqHeader });
+    }
+    deleteServicePackagePartsById(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'deleteServicePackagePartsById', data, { headers: this.reqHeader });
+    }
+
+    getSPByKm(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getSPByKm', data, { headers: this.reqHeader });
+    }
+
+    saveServicePackageKmPriceMap(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'saveServicePackageKmPriceMap', data, { headers: this.reqHeader });
+    }
+
+    getModelCodeLabourRates(): Observable<any> {
+        return this.http.get(environment.base_url + 'ServicePackage/ServicePackageMCLabour', { headers: this.reqHeader });
+    }
+
+    getDraftItems(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getDraftItems', data, { headers: this.reqHeader });
+    }
+
+    checkDuplicateOrdering(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'checkDuplicateOrdering', data, { headers: this.reqHeader });
+    }
+
+    getConsumablePrice(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getConsumablePrice', data, { headers: this.reqHeader });
+    }
+
+    increaseLabourRatesByFamilyCode(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageMCLabour', data, { headers: this.reqHeader });
+    }
+
+    updateModelCodeDetails(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageMCLabour/update', data, { headers: this.reqHeader });
+    }
+
+    createItemGroup(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageController/createItemGroup', data, { headers: this.reqHeader });
+    }
+
+    CheckItemHasGroup(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'CheckItemHasGroup', data, { headers: this.reqHeader });
+    }
+
+    getSPItemsById(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getSPItemsById', data, { headers: this.reqHeader });
+    }
+
+    updateSPGroupById(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateSPGroupById', data, { headers: this.reqHeader });
+    }
+
+    checkDuplicateModelCode(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'checkDuplicateModelCode', data, { headers: this.reqHeader });
+    }
+    getServicePackageByVin(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getServicePackageByVin', data, { headers: this.reqHeader });
+    }
+    getSpareForEngineNo(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getSpareForEngineNo', data, { headers: this.reqHeader });
+    }
+
+    checkEngineHasSameSPItems(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'checkEngineHasSameSPItems', data, { headers: this.reqHeader });
+    }
+    getPricesForEngNo(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getPricesForEngNo', data, { headers: this.reqHeader });
+    }
+
+    getServicePackageItems(): Observable<any> {
+        return this.http.get(environment.base_url + 'ServicePackage/ServicePackageItemsMaster', { headers: this.reqHeader });
+    }
+    returnToSupervisor(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'returnToSupervisor', data, { headers: this.reqHeader });
+    }
+
+    getServicePackageByModelCode(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getServicePackageByModelCode', data, { headers: this.reqHeader });
+    }
+
+    getServicePkgModelcodelist(): Observable<any> {
+        return this.http.get(environment.base_url + 'getServicePkgModelcodelist', { headers: this.reqHeader });
+    }
+
+    createGroup(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/ServicePackageController/createGroup', data, { headers: this.reqHeader });
+    }
+
+    getItemGroup(): Observable<any> {
+        return this.http.get(environment.base_url + 'getItemGroup', { headers: this.reqHeader });
+    }
+    getGroupsByPmId(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getGroupsByPmId', data, { headers: this.reqHeader });
+    }
+    getItemsBySpimIds(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getItemsBySpimIds', data, { headers: this.reqHeader });
+    }
+    deleteGroup(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'deleteGroup', data, { headers: this.reqHeader });
+    }
+
+    getAllEnginesList(): Observable<any> {
+        return this.http.get(environment.base_url + 'ServicePackage/EngineListController', { headers: this.reqHeader });
+    }
+
+    createEnginesList(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/EngineListController', data, { headers: this.reqHeader });
+    }
+
+    updateEnginelist(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/EngineListController/update', data, { headers: this.reqHeader });
+    }
+
+    deleteEnginelist(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServicePackage/EngineListController/delete', data, { headers: this.reqHeader });
+    }
+
+    servicePkgPartsList(): Observable<any> {
+        return this.http.get(environment.base_url + 'servicePkgPartsList', { headers: this.reqHeader });
+    }
+
+    getRequestedPrices(): Observable<any> {
+        return this.http.get(environment.base_url + 'getRequestedPrices', { headers: this.reqHeader });
+    }
+
+    acceptPrice(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'acceptPrice', data, { headers: this.reqHeader });
+    }
+    cancelPrice(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'cancelPrice', data, { headers: this.reqHeader });
+    }
+
+    getPartcodeprice(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getPartcodeprice', data, { headers: this.reqHeader });
+    }
 }

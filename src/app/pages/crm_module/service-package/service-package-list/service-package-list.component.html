@@ -1,0 +1,335 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+        >
+            Service Management</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+        >
+            Service Package</a
+        >
+    </li>
+</ol>
+
+<div class="panel mb-5 mt-5 pb-5">
+    <!-- <div class="grid grid-cols-4 items-end gap-4 sm:grid-cols-4"> -->
+    <!-- <div class="ng-autocomplete">
+            <label>Model Code*</label>
+            <ng-container>
+                <ng-autocomplete [data]="modelCodes" placeholder="Model Number" maxlength="50" [(ngModel)]="modelCode"
+                    class="custom-multiselect" [itemTemplate]="itemTemplateCode" (keydown.enter)="preventDefault()">
+                </ng-autocomplete>
+            </ng-container>
+        </div>
+        <ng-template #itemTemplateCode let-item>
+            <a [innerHTML]="item"></a>
+        </ng-template> -->
+    <!-- <div>
+            <label>Model Code*</label>
+            <div class="ng-autocomplete" style="z-index:100;">
+                <ng-autocomplete [data]="modelCodes" maxlength="20" placeholder="Model Code" [(ngModel)]="modelCode"
+                    ngxTippy="Enter Code" [ngModelOptions]="{ standalone: true }" [itemTemplate]="itemTemplateGeneric"
+                    #inputFieldGeneric>
+                </ng-autocomplete>
+            </div>
+            <ng-template #itemTemplateGeneric let-item>
+                <a [innerHTML]="item"></a>
+            </ng-template>
+        </div> -->
+    <!-- <div>
+            <label>Model Code*</label>
+            <input [(ngModel)]="modelCode" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="6" />
+        </div>
+        <div>
+            <label>Model Year</label>
+            <input [(ngModel)]="modelYear" name="modelYear" type="text" placeholder="Model Year" class="form-input text-xs" maxlength="4" />
+        </div>
+        <div>
+            <label>Variant</label>
+            <input [(ngModel)]="variant" name="variant" type="text" placeholder="Variant" class="form-input text-xs" maxlength="20" />
+        </div> -->
+    <!-- <div>
+            <label>Kilometer*</label>
+            <ng-select fullWidth [items]="kilometers" bindLabel="km_value" [multiple]="false" [(ngModel)]="kilometer"
+                bindValue="km_id" [searchable]="true" [clearable]="false" placeholder="Select a Kilometer"
+                class="custom-multiselect">
+            </ng-select>
+        </div> -->
+    <!-- <div>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small" (click)="validateAndCheckServicePackage()">SEARCH</button>
+        </div>
+    </div> -->
+
+    <!-- Mode Switcher -->
+    <div class="mb-4 flex items-center gap-6">
+        <label class="flex items-center gap-2">
+            <input type="radio" [(ngModel)]="searchMode" (ngModelChange)="searchMode = $event" value="modelCode" name="searchMode" />
+            <span>Search by <strong>Model Code</strong></span>
+        </label>
+        <label class="flex items-center gap-2">
+            <input type="radio" [(ngModel)]="searchMode" (ngModelChange)="searchMode = $event" value="yearVariant" name="searchMode" />
+            <span>Search by <strong>Year & Variant</strong></span>
+        </label>
+    </div>
+
+    <!-- Search Form -->
+    <div class="mb-5 mt-5 pb-5">
+        <div class="grid grid-cols-4 items-end gap-4 sm:grid-cols-4">
+            <!-- Model Code Field (only if selected) -->
+            <div *ngIf="searchMode === 'modelCode'">
+                <label>Model Code*</label>
+                <input [(ngModel)]="modelCode" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="6" />
+            </div>
+
+            <!-- Model Year + Variant Fields (only if selected) -->
+            <ng-container *ngIf="searchMode === 'yearVariant'">
+                <div>
+                    <label>Model Year*</label>
+                    <input [(ngModel)]="modelYear" type="text" placeholder="Model Year" class="form-input text-xs" maxlength="4" />
+                </div>
+
+                <div>
+                    <label>Variant*</label>
+                    <input [(ngModel)]="variant" type="text" placeholder="Variant" class="form-input text-xs" maxlength="50" />
+                </div>
+            </ng-container>
+
+            <!-- Search Button -->
+            <div>
+                <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small" (click)="validateAndCheckServicePackage()">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+    ></span>
+</div>
+
+<div *ngIf="!load_flag && !searched">
+    <div class="panel mb-5 mt-5 pb-5" *ngIf="servicePackage.length > 0">
+        <!-- KM Selection -->
+        <div class="flex flex-wrap gap-4">
+            <label *ngFor="let kmGroup of servicePackage" class="flex cursor-pointer items-center space-x-2">
+                <input
+                    type="radio"
+                    name="km_select"
+                    class="form-radio"
+                    [value]="kmGroup.km_value"
+                    [(ngModel)]="selectedKmValue"
+                    (ngModelChange)="onKmSelectionChange($event)"
+                />
+                <span class="text-sm font-semibold"> {{ kmGroup.km_value }}{{ kmGroup.km_id != '1' ? ' Km' : '' }} </span>
+            </label>
+        </div>
+    </div>
+    <!-- Items Table -->
+    <div class="panel mb-5 mt-5 pb-5" *ngIf="selectedKmValue != null && selectedKmValue != '' && servicePackage.length > 0">
+        <div *ngFor="let kmGroup of servicePackage">
+            <div *ngIf="selectedKmValue === kmGroup.km_value" class="mb-2 p-4">
+                <div class="mb-4 flex items-center justify-between">
+                    <div class="w-1/3"></div>
+
+                    <!-- Centered Label -->
+                    <label class="w-1/3 text-center font-extrabold">
+                        {{ kmGroup.km_id != '1' ? 'SERVICE FOR ' + kmGroup.km_value + ' KM' : kmGroup.km_value }}
+                    </label>
+
+                    <div class="flex w-1/3 justify-end">
+                        <!-- Right-Aligned Print Button -->
+                        <button *ngIf="user_role !== '14'" type="button" class="btn btn-primary btn-sm" (click)="openPrintReferenceModal(kmGroup)">
+                            PRINT &nbsp;
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24">
+                                <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M9 10H6"></path>
+                                <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M19 14L5 14"></path>
+                                <circle fill="#ffffff" r="1" cy="10" cx="17"></circle>
+                                <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M15 16.5H9"></path>
+                                <path stroke-linecap="round" stroke-width="1.5" stroke="#ffffff" d="M13 19H9"></path>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-width="1.5"
+                                    stroke="#ffffff"
+                                    d="M22 12C22 14.8284 22 16.2426 21.1213 17.1213C20.48 17.7626 19.5535 17.9359 18 17.9827M6 17.9827C4.44655 17.9359 3.51998 17.7626 2.87868 17.1213C2 16.2426 2 14.8284 2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H16C18.8284 6 20.2426 6 21.1213 6.87868C21.4211 7.17848 21.6186 7.54062 21.7487 8"
+                                ></path>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-width="1.5"
+                                    stroke="#ffffff"
+                                    d="M17.9827 6C17.9359 4.44655 17.7626 3.51998 17.1213 2.87868C16.2426 2 14.8284 2 12 2C9.17157 2 7.75736 2 6.87868 2.87868C6.23738 3.51998 6.06413 4.44655 6.01732 6M18 15V16C18 18.8284 18 20.2426 17.1213 21.1213C16.48 21.7626 15.5535 21.9359 14 21.9827M6 15V16C6 18.8284 6 20.2426 6.87868 21.1213C7.51998 21.7626 8.44655 21.9359 10 21.9827"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive" style="max-width: 100%; width: 95%; margin: auto">
+                    <table class="w-full table-fixed text-base">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%"></th>
+                                <th style="width: 60%">Item</th>
+                                <th style="width: 30%; text-align: right">
+                                    <ng-container *ngIf="user_role === '1' || user_role === '10' || user_role === '13' || user_role === '2'"
+                                        >Price</ng-container
+                                    >
+                                    <ng-container *ngIf="user_role === '14'">Part Cost & Labour Unit</ng-container>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of kmGroup.items">
+                                <td>
+                                    <input
+                                        *ngIf="item.spkm_km_optional_flag == 1"
+                                        type="checkbox"
+                                        class="form-checkbox"
+                                        [(ngModel)]="item.checked"
+                                        (change)="onItemCheckedChange(kmGroup.km_id, item)"
+                                    />
+                                </td>
+                                <!-- <td >
+                                    <i class="fas fa-eye cursor-pointer text-blue-500 mr-1"
+                                        (click)="toggleItemVisibility(item.item_id)" title="Show full name">
+                                    </i>
+                                    {{
+                                    visibleItemId === item.item_id
+                                    ? (item.item_type === 0 ? item.pm_name : item.spim_name)
+                                    : getMaskedName(item.item_type === 0 ? item.pm_name : item.spim_name)
+                                    }}
+                                </td> -->
+                                <td>
+                                    <span ngxTippy="{{ item.item_type === 0 ? item.spim_name : item.spim_name }}" class="cursor-pointer">
+                                        {{ toCamelCase(item.item_type === 0 ? item.spim_name : item.spim_name) }}
+                                        <ng-container *ngIf="item.pm_code && item.sp_spare_category == '1'"> ({{ item.pm_code }}) </ng-container>
+                                        <!-- {{ getMaskedName(item.item_type === 0 ? item.pm_name : item.spim_name) }} -->
+                                    </span>
+                                </td>
+                                <td style="text-align: right">
+                                    <ng-container *ngIf="user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2'">
+                                        {{ item.total | number : '1.2-2' }}
+                                    </ng-container>
+                                    <ng-container *ngIf="user_role == '14'">
+                                        <ng-container *ngIf="item.item_type == 0">
+                                            {{ item.sp_spare_qty * item.pm_price | number : '1.2-2' }}
+                                        </ng-container>
+                                        <ng-container *ngIf="item.item_type == 1">
+                                            {{ item.sp_labour_unit | number : '1.2-2' }}
+                                        </ng-container>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                            <tr *ngIf="user_role === '1' || user_role === '10' || user_role === '13' || user_role === '2'">
+                                <td colspan="2" class="text-right font-bold" style="text-align: right">Cost Price</td>
+                                <td class="font-bold" style="text-align: right">AED {{ actualSPAmount | number : '1.2-2' }}</td>
+                            </tr>
+                            <!-- <tr>
+                                <td colspan="2" class="font-bold" style="text-align: right;">
+                                    {{ (user_role === '1' || user_role === '10' || user_role === '13' || user_role ===
+                                    '2') ? 'Service Price' : 'Service Price' }}
+                                </td>
+                                <td class="font-bold" style="text-align: right;">
+                                    AED {{ totalSPAmount | number: '1.2-2' }}
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4 text-center text-lg font-bold text-blue-600">
+                    <span ngxTippy="AED {{ totalSPAmount | number : '1.2-2' }}" class="cursor-pointer">
+                        Service Price : AED {{ totalSPAmount | number : '1.2-2' }}
+                        <!-- SERVICE PRICE : ******** -->
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Spares Table -->
+<!-- <div class="panel mb-2 p-4" *ngIf="servicePackage.length > 0 && !load_flag">
+    <label class="block text-center font-bold mb-2">Spares List</label>
+    <div class="table-responsive">
+        <table class="table-fixed">
+            <thead>
+                <tr>
+                    <th style="width: 10%;"></th>
+                    <th style="width: 60%;">Parts</th>
+                    <th style="width: 30%;" style="text-align: right;">
+                        <ng-container *ngIf="user_role === '1' || user_role === '10'">Price</ng-container>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of servicePackage">
+                    <tr *ngIf="data.type === '0'">
+                        <td>
+                            <ng-container *ngIf="data.sp_spare_optional_flag == 1;">
+                                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.checked"
+                                    (change)="updateTotalSPAmount()" />
+                            </ng-container>
+                        </td>
+                        <td class="whitespace-nowrap">{{ data.name }}</td>
+                        <td style="text-align: right;">
+                            <ng-container *ngIf="user_role === '1' || user_role === '10'">
+                                {{ data.total | number : '1.2-2' }}
+                            </ng-container>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div> -->
+
+<!-- Labour Table -->
+<!-- <div class="panel mb-2 p-4" *ngIf="servicePackage.length > 0  && !load_flag">
+    <label class="block text-center font-bold mb-2">Labour List</label>
+    <div class="table-responsive">
+        <table class="table-fixed">
+            <thead>
+                <tr>
+                    <th style="width: 10%;"></th>
+                    <th style="width: 60%;">Labour</th>
+                    <th style="width: 30%;" style="text-align: right;">
+                        <ng-container *ngIf="user_role === '1' || user_role === '10'">Price</ng-container>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let data of servicePackage">
+                    <tr *ngIf="data.type === '1'">
+                        <td>
+                            <ng-container *ngIf="data.sp_labour_optional_flag == 1;">
+                                <input type="checkbox" class="form-checkbox" [(ngModel)]="data.checked"
+                                    (change)="updateTotalSPAmount()" />
+                            </ng-container>
+                        </td>
+                        <td class="whitespace-nowrap">{{ data.name }}</td>
+                        <td style="text-align: right;">
+                            <ng-container *ngIf="user_role === '1' || user_role === '10'">
+                                {{ data.total | number: '1.2-2' }}
+                            </ng-container>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr>
+                    <td colspan="2" class="text-right font-bold" style="text-align: right;">TOTAL</td>
+                    <td class="font-bold" style="text-align: right;">{{ totalSPAmount | number : '1.2-2' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> -->

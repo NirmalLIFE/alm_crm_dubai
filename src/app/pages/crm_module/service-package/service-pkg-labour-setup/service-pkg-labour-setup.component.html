@@ -1,0 +1,922 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+        >
+            Service Management</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/servicePackageRequested"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+        >
+            Service Package Requested</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+        >
+            Service Package</a
+        >
+    </li>
+</ol>
+
+<div *ngIf="!load_flag" style="text-align: center">
+    <span
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+    ></span>
+</div>
+
+<div class="panel mb-5 mt-5 pb-5" *ngIf="load_flag">
+    <div class="grid grid-cols-3 items-start gap-4" *ngIf="requestedServicePackage">
+        <div>
+            <label>Model Code</label>
+            <input [(ngModel)]="model_code" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="5" [disabled]="true" />
+        </div>
+
+        <div>
+            <label>Vin No</label>
+            <input [(ngModel)]="vin_no" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="20" />
+        </div>
+        <!-- [disabled]="true" -->
+
+        <div>
+            <label>Variant</label>
+            <input [(ngModel)]="variant" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="50" [disabled]="true" />
+        </div>
+
+        <div>
+            <label>Model Year</label>
+            <input [(ngModel)]="model_year" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="20" [disabled]="true" />
+        </div>
+
+        <div class="min-h-[90px]">
+            <label>Engine No*</label>
+            <ng-select
+                class="custom-multiselect"
+                fullWidth
+                [items]="engines"
+                bindLabel="eng_no"
+                bindValue="eng_id"
+                [(ngModel)]="engineNO"
+                [searchable]="true"
+                [clearable]="false"
+                placeholder="Select Engine Numbers"
+                [multiple]="false"
+                [ngModelOptions]="{ standalone: true }"
+            >
+                <!-- (change)="getPartsForEngineNo(engineNO)" -->
+            </ng-select>
+            <label *ngIf="!engineNO" class="mt-1 block text-xs text-red-500"> Please Select An Engine No </label>
+        </div>
+    </div>
+    <div class="mt-2 flex items-center justify-end gap-2 pr-2 text-sm text-red-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" viewBox="0 0 16 16" title="Multiple group items">
+            <path
+                d="M8.982 1.566a1.13 1.13 0 0 0-1.964 0L.165 13.233c-.457.778.091 1.767.982 1.767h13.706c.89 0 1.438-.99.982-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+            />
+        </svg>
+        <span>Multiple Group Item Warning</span>
+    </div>
+
+    <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />
+
+    <div class="table-responsive mt-6" style="overflow: unset" *ngIf="engineNO">
+        <h5 class="mb-3 text-lg font-semibold dark:text-white-light" style="text-align: center">Spare</h5>
+        <table class="table-striped" style="background-color: #f6f8fa">
+            <thead>
+                <tr>
+                    <th class="" style="width: 5%">Applicable</th>
+                    <th class="" style="width: 24%">Description</th>
+                    <th class="" style="width: 20%">Part Code</th>
+                    <th class="" style="width: 20%">Brand</th>
+                    <th class="" style="width: 10%">Unit</th>
+                    <th class="" style="width: 10%">Quantity</th>
+                    <th class="ltr:text-right rtl:text-left" style="width: 11%">Unit Price</th>
+                    <!-- <th class="" style="width: 11%">Labour Unit</th> -->
+                    <!-- <th class="ltr:text-right rtl:text-left" style="width: 10%">TOTAL</th> -->
+                    <!-- <th></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let spare of service_details.parts; let i = index">
+                    <tr *ngIf="spare.sp_spare_delete_flag == '0'">
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 6px">
+                                <input
+                                    type="checkbox"
+                                    class="form-checkbox"
+                                    [(ngModel)]="spare.applicable"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    (change)="onApplicableChange(spare, $event)"
+                                    [checked]="spare.applicable == 1"
+                                />
+
+                                <svg
+                                    *ngIf="spare.group_seq && spare.group_seq.toString().split(',').length > 1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="red"
+                                    viewBox="0 0 16 16"
+                                    title="Multiple group items"
+                                    (click)="fetchGroupDetails(spare.spim_id, spare)"
+                                >
+                                    <path
+                                        d="M8.982 1.566a1.13 1.13 0 0 0-1.964 0L.165 13.233c-.457.778.091 1.767.982 1.767h13.706c.89 0 1.438-.99.982-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+                                    />
+                                </svg>
+                            </div>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <!-- <div class="ng-autocomplete">
+                                <ng-autocomplete [data]="descriptions" [searchKeyword]="spareSearch"
+                                    placeholder="Part Name" maxlength="60" [(ngModel)]="spare.DESCRIPTION"
+                                    [ngModelOptions]="{ standalone: true }" name="p_item_name_{{ i }}"
+                                    class="custom-multiselect" [itemTemplate]="itemTemplate" #inputField>
+                                </ng-autocomplete>
+                            </div>
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item"></a>
+                            </ng-template> -->
+                            <ng-select
+                                [(ngModel)]="spare.DESCRIPTION"
+                                [searchable]="true"
+                                [clearable]="false"
+                                placeholder="Part Name"
+                                ngxTippy="Select Part Name"
+                                (change)="getPartcode(spare)"
+                                [disabled]="true"
+                            >
+                                <!-- For dropdown items -->
+                                <ng-option *ngFor="let part of descriptions" [value]="part">
+                                    {{ toTitleCase(part) }}
+                                </ng-option>
+
+                                <!-- For selected item -->
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ toTitleCase(item) }}
+                                </ng-template>
+                            </ng-select>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <div class="ng-autocomplete">
+                                <ng-autocomplete
+                                    [data]="partcodes"
+                                    [searchKeyword]="spareCodeSearch"
+                                    placeholder="Part Code"
+                                    maxlength="30"
+                                    [(ngModel)]="spare.PART_NO"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    name="p_item_code_{{ i }}"
+                                    class="custom-multiselect"
+                                    [itemTemplate]="itemTemplateCode"
+                                    ngxTippy="Enter Part Code"
+                                    (ngModelChange)="getPartsBasedOnPartcode(spare)"
+                                    [disabled]="spare.applicable != 1"
+                                >
+                                </ng-autocomplete>
+                            </div>
+                            <ng-template #itemTemplateCode let-item>
+                                <a [innerHTML]="item"></a>
+                            </ng-template>
+                            <!-- <ng-select [(ngModel)]="spare.PART_NO" [searchable]="true" [clearable]="false"
+                                placeholder="Part Number" ngxTippy="Select Part No" (change)="getPartPrice(spare)">
+                                <ng-option *ngFor="let parts of filteredList" value="{{ parts.pm_code }}">{{
+                                    parts.pm_code}}</ng-option>
+                            </ng-select> -->
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <ng-select
+                                [items]="brandList"
+                                bindLabel="brand_name"
+                                bindValue="brand_id"
+                                [searchable]="true"
+                                [clearable]="false"
+                                [selectOnTab]="true"
+                                class="custom-multiselect"
+                                placeholder="Select Brand"
+                                [(ngModel)]="spare.Brand"
+                                name="p_part_brand"
+                                ngxTippy="Select Brand"
+                                [ngModelOptions]="{ standalone: true }"
+                            >
+                            </ng-select>
+                            <!-- <ng-select [(ngModel)]="spare.Brand" [searchable]="true" [clearable]="false"
+                                placeholder="Brand Name" ngxTippy="Select Brand Name" (change)="getPartPrice(spare)">
+                                <ng-option *ngFor="let parts of filteredList" value="{{ parts.brand_name }}">{{
+                                    parts.brand_name}}</ng-option>
+                            </ng-select> -->
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <ng-select
+                                [clearable]="false"
+                                [selectOnTab]="true"
+                                class="custom-multiselect"
+                                placeholder="Select Unit Type"
+                                [(ngModel)]="spare.unit_type"
+                                name="p_part_brand"
+                                [ngModelOptions]="{ standalone: true }"
+                                ngxTippy="Select Unit Type"
+                            >
+                                <ng-option value="1">Unit</ng-option>
+                                <ng-option value="2">Litre</ng-option>
+                            </ng-select>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <input
+                                type="text"
+                                style="text-align: left"
+                                class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="spare.qty"
+                                placeholder="Spare Quantity"
+                                class="form-input text-xs"
+                                (ngModelChange)="getPartPrice(spare)"
+                                ngxTippy="Spare Quantity"
+                            />
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <input
+                                type="text"
+                                style="text-align: right"
+                                class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="spare.PRICE"
+                                placeholder="Spare PRICE"
+                                class="form-input text-xs"
+                                ngxTippy="Spare Price"
+                                (change)="checkPartPrice(spare)"
+                            />
+                            <!-- <input type="text" style="text-align: left" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="spare.PRICE" placeholder="Spare PRICE" class="form-input text-xs" readonly
+                                ngxTippy="Spare Price" /> -->
+                        </td>
+                        <!-- <td style="padding-left: 2px; padding-right: 2px">
+                            <input
+                                type="text"
+                                style="text-align: left"
+                                class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="spare.sp_spare_labour_unit"
+                                placeholder="Labour Unit"
+                                class="form-input text-xs"
+                                ngxTippy="Labour Unit"
+                            />
+                        </td> -->
+
+                        <!-- <td>
+                            <button type="button" ngxTippy data-tippy-content="Delete Spare"
+                                (click)="deleteSpare(i, spare)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                    <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                    <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path opacity="0.5"
+                                        d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                </svg>
+                            </button>
+                        </td> -->
+                    </tr>
+                </ng-container>
+                <!-- <tr>
+                    <td colspan="2">
+                        <button type="button" class="btn btn-dark" (click)="addNewSpare()">Add New
+                            Spare</button>
+                    </td>
+                </tr> -->
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+        <div style="display: flex; justify-content: flex-end; margin-top: 1rem" *ngIf="spStatus != 5">
+            <button class="btn btn-dark" [disabled]="isSubmittingPart" (click)="openUnselectedPartsModal(unselectedPartsModal)">Return To Part Advisor</button>
+        </div>
+    </div>
+    <!-- consumables -->
+    <div class="table-responsive mt-6" style="overflow: unset" *ngIf="engineNO">
+        <h5 class="mb-3 text-lg font-semibold dark:text-white-light" style="text-align: center">Consumables</h5>
+        <table class="table-striped" style="background-color: #f6f8fa">
+            <thead>
+                <tr>
+                    <th class="" style="width: 5%">Applicable</th>
+                    <th class="" style="width: 24%">Description</th>
+                    <th class="" style="width: 20%">Part Code</th>
+                    <th class="" style="width: 20%">Brand</th>
+                    <th class="" style="width: 10%">Unit</th>
+                    <th class="" style="width: 10%">Quantity</th>
+                    <th class="ltr:text-right rtl:text-left" style="width: 11%">Unit Price</th>
+                    <!-- <th class="" style="width: 11%">Labour Unit</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let consumable of service_details.consumables; let i = index">
+                    <tr *ngIf="consumable.sp_spare_delete_flag == '0'">
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="form-checkbox"
+                                [(ngModel)]="consumable.applicable"
+                                [ngModelOptions]="{ standalone: true }"
+                                (change)="onApplicableChange(consumable, $event)"
+                                [checked]="consumable.applicable == 1"
+                            />
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <ng-select
+                                [(ngModel)]="consumable.DESCRIPTION"
+                                [searchable]="true"
+                                [clearable]="false"
+                                placeholder="Part Name"
+                                ngxTippy="Select Part Name"
+                                (change)="getPartcode(consumable)"
+                                [disabled]="true"
+                            >
+                                <ng-option *ngFor="let part of consumablesNames" [value]="part">
+                                    {{ toTitleCase(part) }}
+                                </ng-option>
+
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ toTitleCase(item) }}
+                                </ng-template>
+
+                                <!-- 
+                                <ng-option *ngFor="let part of consumablesNames" [value]="part">
+                                    {{ part }}
+                                </ng-option> -->
+                            </ng-select>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <div class="ng-autocomplete">
+                                <ng-autocomplete
+                                    [data]="consumablecodes"
+                                    [searchKeyword]="spareCodeSearch"
+                                    placeholder="Part Code"
+                                    maxlength="30"
+                                    [(ngModel)]="consumable.PART_NO"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    name="p_item_code_{{ i }}"
+                                    class="custom-multiselect"
+                                    [itemTemplate]="itemTemplateCode"
+                                    ngxTippy="Enter Part Code"
+                                    [disabled]="consumable.applicable != 1"
+                                    (ngModelChange)="getConsumablePrice(consumable)"
+                                >
+                                </ng-autocomplete>
+                            </div>
+                            <ng-template #itemTemplateCode let-item>
+                                <a [innerHTML]="item"></a>
+                            </ng-template>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <ng-select
+                                [items]="brandList"
+                                bindLabel="brand_name"
+                                bindValue="brand_id"
+                                [searchable]="true"
+                                [clearable]="false"
+                                [selectOnTab]="true"
+                                class="custom-multiselect"
+                                placeholder="Select Brand"
+                                [(ngModel)]="consumable.Brand"
+                                name="p_part_brand"
+                                ngxTippy="Select Brand"
+                                [ngModelOptions]="{ standalone: true }"
+                            >
+                            </ng-select>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <ng-select
+                                [clearable]="false"
+                                [selectOnTab]="true"
+                                class="custom-multiselect"
+                                placeholder="Select Unit Type"
+                                [(ngModel)]="consumable.unit_type"
+                                name="p_part_brand"
+                                [ngModelOptions]="{ standalone: true }"
+                                ngxTippy="Select Unit Type"
+                            >
+                                <ng-option value="1">Unit</ng-option>
+                                <ng-option value="2">Litre</ng-option>
+                            </ng-select>
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <input
+                                type="text"
+                                style="text-align: left"
+                                class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="consumable.qty"
+                                placeholder="Spare Quantity"
+                                class="form-input text-xs"
+                                (ngModelChange)="getPartPrice(consumable)"
+                                ngxTippy="Consumable Quantity"
+                            />
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <input
+                                type="text"
+                                style="text-align: right"
+                                class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="consumable.PRICE"
+                                placeholder="Spare PRICE"
+                                class="form-input text-xs"
+                                ngxTippy="Consumable Price"
+                                readonly
+                            />
+                        </td>
+                        <!-- <td style="padding-left: 2px; padding-right: 2px">
+                            <input
+                                type="text"
+                                style="text-align: left"
+                                class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="consumable.sp_spare_labour_unit"
+                                placeholder="Labour Unit"
+                                class="form-input text-xs"
+                                ngxTippy="Labour Unit"
+                            />
+                        </td> -->
+                    </tr>
+                </ng-container>
+            </tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+    <div class="table-responsive mt-6" style="overflow: unset" *ngIf="engineNO">
+        <h5 class="mb-3 text-lg font-semibold dark:text-white-light" style="text-align: center">Labour</h5>
+        <table class="table-striped" style="background-color: #f6f8fa">
+            <thead>
+                <tr>
+                    <th style="width: 10%">Applicable</th>
+                    <th style="width: 45%">Name</th>
+                    <!-- <th style="width: 12%">Unit</th>
+                    <th style="width: 10%">Quantity</th>
+                    <th class="ltr:text-right rtl:text-left" style="width: 20%">Unit Price</th> -->
+                    <th style="width: 45%">Labour Unit</th>
+                    <!-- <th class="" style="width: 30%">DESCRIPTION</th>
+                    <th class="" style="width: 15%">UNIT</th>
+                    <th class="ltr:text-right rtl:text-left" style="width: 15%">UNIT PRICE</th> -->
+                    <!-- <th class="ltr:text-right rtl:text-left" style="width: 10%">TOTAL</th> -->
+                    <!-- <th></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let labour of service_details.Labour; let i = index">
+                    <tr *ngIf="labour.sp_labour_delete_flag == '0'">
+                        <td>
+                            <input
+                                type="checkbox"
+                                class="form-checkbox"
+                                [(ngModel)]="labour.applicable"
+                                [ngModelOptions]="{ standalone: true }"
+                                (change)="onApplicableChange(labour, $event)"
+                                [checked]="labour.applicable == 1"
+                            />
+                        </td>
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <ng-select
+                                class="custom-multiselect"
+                                fullWidth
+                                [items]="labourNames"
+                                bindLabel="sp_pm_name"
+                                bindValue="sp_pm_id"
+                                [(ngModel)]="labour.Name"
+                                [searchable]="true"
+                                [clearable]="false"
+                                placeholder="Select Labour Name"
+                                [multiple]="false"
+                                [ngModelOptions]="{ standalone: true }"
+                                [disabled]="true"
+                            >
+                            </ng-select>
+                            <!-- (ngModelChange)="getSPItemsCategory(labour)" -->
+                            <!-- <ng-select [(ngModel)]="labour.Name" [searchable]="true" [clearable]="false"
+                                placeholder="Labour Name" ngxTippy="Select Labour Name">
+                                <ng-option *ngFor="let labour of labourNames" value="{{ labour.sp_pm_name }}">{{
+                                    labour.sp_pm_name}}</ng-option>
+                            </ng-select> -->
+                        </td>
+                        <!-- <td style="padding-left: 2px;padding-right: 2px;">
+                            <ng-select [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                                placeholder="Select Unit Type" [(ngModel)]="labour.unit_type" name="p_part_brand"
+                                [ngModelOptions]="{ standalone: true }" ngxTippy="Select Unit Type"
+                                [disabled]="labour.sp_pm_category == '2' || labour.sp_pm_category == 2 ">
+                                <ng-option value="1">Unit</ng-option>
+                                <ng-option value="2">Litre</ng-option>
+                            </ng-select>
+                        </td> -->
+                        <!-- <td style="padding-left: 2px;padding-right: 2px;">
+                            <input type="text" style="text-align: left" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="labour.qty" placeholder="Quantity" class="form-input text-xs"
+                                ngxTippy="Quantity" [disabled]="labour.sp_pm_category == '2' || labour.sp_pm_category == 2 "
+                                (ngModelChange)="getTotalServicePrice()" />
+                        </td> -->
+                        <!-- <td style="padding-left: 2px;padding-right: 2px;">
+                            <input type="text" style="text-align: right" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="labour.PRICE" placeholder="PRICE" class="form-input text-xs"
+                                ngxTippy="Labour Price" (ngModelChange)="getTotalServicePrice()"
+                                [disabled]="labour.sp_pm_category == '2' || labour.sp_pm_category == 2 " />
+                            <input type="text" style="text-align: left" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="spare.PRICE" placeholder="Spare PRICE" class="form-input text-xs" readonly
+                                ngxTippy="Spare Price" />
+                        </td> -->
+                        <!-- <td style="padding-left: 2px; padding-right: 2px;">
+                            <ng-select [(ngModel)]="labour.Description" [searchable]="true" [clearable]="false"
+                                [disabled]="true" placeholder="Labour Description" ngxTippy="Select Labour Description">
+                            </ng-select>
+                        </td> -->
+                        <td style="padding-left: 2px; padding-right: 2px">
+                            <div class="ng-autocomplete">
+                                <input
+                                    type="text"
+                                    style="text-align: left"
+                                    class="form-input text-xs ltr:text-right rtl:text-left"
+                                    [(ngModel)]="labour.unit"
+                                    placeholder="Labour Unit"
+                                    (ngModelChange)="getTotalServicePrice()"
+                                />
+                            </div>
+                        </td>
+                        <!-- <td style="padding-left: 2px;padding-right: 2px;">
+                            <input type="text" style="text-align: left" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="labour.PRICE" placeholder="Labour Price" class="form-input text-xs"
+                                ngxTippy="Labour Price" readonly />
+                        </td> -->
+                        <!-- <td>
+                            <button type="button" ngxTippy data-tippy-content="Delete Labour"
+                                (click)="deleteLabour(i, labour)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
+                                    <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path
+                                        d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
+                                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                    <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path opacity="0.5"
+                                        d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                </svg>
+                            </button>
+                        </td> -->
+                    </tr>
+                </ng-container>
+                <tr>
+                    <!-- <td colspan="2">
+                        <button type="button" class="btn btn-dark" (click)="addNewLabour()">Add New
+                            Labour</button>
+                    </td> -->
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 12.5rem">
+                            <strong>Total Price:</strong>
+                            <strong> AED {{ service_details.TotalPrice | number : '1.2-2' }} </strong>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 12.5rem">
+                            <strong>Total Labour Unit:</strong>
+                            <strong>
+                                {{ service_details.labour_unit | number : '1.2-2' }}
+                            </strong>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 1rem" *ngIf="spStatus != 5">
+            <button class="btn btn-dark" [disabled]="isSubmittingLabour" (click)="openunselectedLabourModal(unselectedLabourModal)">
+                Return To Supervisor
+            </button>
+        </div>
+    </div>
+    <div class="mt-6 flex justify-end" *ngIf="engineNO">
+        <div class="flex items-center gap-2">
+            <!-- Draft button -->
+            <button
+                type="button"
+                class="btn btn-secondary flex items-center gap-2"
+                (click)="saveServicePackage(6)"
+                [disabled]="saveFlag || draftButtonFlag || isSubmittingLabour || isSubmittingPart"
+                *ngIf="spStatus != 5"
+            >
+                <span *ngIf="!draftButtonFlag"> Save As Draft</span>
+                <span *ngIf="draftButtonFlag">Saving...</span>
+                <span *ngIf="draftButtonFlag" class="loader h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+            </button>
+            <!-- Save button -->
+
+            <button
+                type="button"
+                [disabled]="saveFlag || isSubmittingLabour || isSubmittingPart"
+                [ngClass]="
+                    user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2'
+                        ? 'btn btn-primary flex items-center gap-2'
+                        : 'btn btn-success flex items-center gap-2'
+                "
+                (click)="saveServicePackage(2)"
+            >
+                <!-- When NOT saving -->
+                <ng-container *ngIf="!saveFlag">
+                    <span *ngIf="user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2'">
+                        Proceed to KM Mapping
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-1 inline-block">
+                            <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    <span *ngIf="user_role != '1' && user_role != '10' && user_role != '13' && user_role != '2'"> Save </span>
+                </ng-container>
+
+                <!-- When saving -->
+                <ng-container *ngIf="saveFlag">
+                    <span>
+                        {{ user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2' ? 'Finalising...' : 'Saving...' }}
+                    </span>
+                    <span class="loader ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                </ng-container>
+            </button>
+        </div>
+    </div>
+
+    <!-- <div class="mt-6 flex justify-end">
+        <button type="button" [ngClass]="user_role == '1' || user_role == '10' ? 'btn btn-primary' : 'btn btn-success'"
+            (click)="saveServicePackage()">
+            {{ user_role == '1' || user_role == '10' ? 'Proceed to Finalisation' : 'Save' }}
+        </button>
+    </div> -->
+</div>
+<modal #partsModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+    <ng-template #modalHeader>
+        <div style="align-items: center; display: flex">Parts List</div>
+    </ng-template>
+    <ng-template #modalBody>
+        <h2 class="text-center text-2xl">
+            The parts for Engine No. <b>{{ getSelectedEngineNo() }}</b> are already listed below. <br />
+            Would you like to copy those parts for this one?
+        </h2>
+
+        <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
+            <thead class="bg-gray-100 text-left">
+                <tr>
+                    <th class="border px-4 py-2">Engine No</th>
+                    <th class="border px-4 py-2">Model Code</th>
+                    <!-- <th class="border px-4 py-2">Price (AED)</th> -->
+                    <th class="border px-4 py-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let part of enginePartsList">
+                    <td class="border px-4 py-2">{{ part.eng_no }}</td>
+                    <td class="border px-4 py-2">{{ part.model_code }}</td>
+                    <!-- <td class="border px-4 py-2">{{ part.price }}</td> -->
+                    <td class="border px-4 py-2">
+                        <button type="button" class="btn btn-primary text-white" (click)="copyPartsToServiceDetails(part)">Copy</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button type="button" class="btn btn-danger text-white" (click)="this.partsModal.close()">Dismiss</button>
+    </ng-template>
+</modal>
+
+<modal #unselectedPartsModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+    <!-- Header -->
+    <ng-template #modalHeader>
+        <div style="align-items: center; display: flex">
+            Return to Part Advisor – Engine No. <b class="ml-2">{{ getSelectedEngineNo() }}</b>
+        </div>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template #modalBody>
+        <div *ngIf="unselectedSpareParts.length > 0; else noPartsFound">
+            <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
+                <thead class="bg-gray-100 text-left">
+                    <tr>
+                        <th class="border px-4 py-2 text-center">Select</th>
+                        <th class="border px-4 py-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let part of unselectedSpareParts">
+                        <td class="border px-4 py-2 text-center">
+                            <input type="checkbox" [(ngModel)]="part.selected" (change)="onPartSelectionChange()" />
+                        </td>
+                        <td class="border px-4 py-2">{{ part.DESCRIPTION || '-' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="selectedPartNames.length > 0" class="mt-4 rounded border border-blue-400 bg-blue-100 p-3 text-blue-800">
+                <strong>Add Parts:</strong> {{ selectedPartNames.join(', ') }}
+            </div>
+
+            <div class="mt-4">
+                <label for="partAdvisorNote" class="mb-1 block font-semibold">Note:</label>
+                <textarea
+                    id="partAdvisorNote"
+                    class="w-full rounded border border-gray-300 p-2"
+                    [(ngModel)]="noteToSupervisor"
+                    rows="3"
+                    placeholder="Write any note..."
+                ></textarea>
+            </div>
+        </div>
+
+        <ng-template #noPartsFound>
+            <p class="mt-6 text-center text-lg text-red-600">No unchecked spare parts found.</p>
+        </ng-template>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template #modalFooter>
+        <button type="button" class="btn btn-danger mr-3 text-white" (click)="unselectedPartsModal.close()">Cancel</button>
+        <button type="button" class="btn btn-primary text-white" [disabled]="unselectedSpareParts.length == 0" (click)="submitPartsToAdvisor()">
+            Return to Advisor
+        </button>
+    </ng-template>
+</modal>
+
+<modal #unselectedLabourModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+    <!-- Header -->
+    <ng-template #modalHeader>
+        <div style="align-items: center; display: flex">
+            Return to Supervisor – Engine No. <b class="ml-2">{{ getSelectedEngineNo() }}</b>
+        </div>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template #modalBody>
+        <div *ngIf="unselectedLabour.length > 0; else noLabourFound">
+            <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
+                <thead class="bg-gray-100 text-left">
+                    <tr>
+                        <th class="border px-4 py-2 text-center">Select</th>
+                        <th class="border px-4 py-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let part of unselectedLabour">
+                        <td class="border px-4 py-2 text-center">
+                            <input type="checkbox" [(ngModel)]="part.selected" (change)="onLabourSelectionChange()" />
+                        </td>
+                        <td class="border px-4 py-2">{{ part.DESCRIPTION || part.Description }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="selectedLabourNames.length > 0" class="mt-4 rounded border border-blue-400 bg-blue-100 p-3 text-blue-800">
+                <strong>Add Labours:</strong> {{ selectedLabourNames.join(', ') }}
+            </div>
+
+            <div class="mt-4">
+                <label for="supervisorNote" class="mb-1 block font-semibold">Note:</label>
+                <textarea
+                    id="supervisorNote"
+                    class="w-full rounded border border-gray-300 p-2"
+                    [(ngModel)]="noteToSupervisor"
+                    rows="3"
+                    placeholder="Write any note..."
+                ></textarea>
+            </div>
+        </div>
+
+        <ng-template #noLabourFound>
+            <p class="mt-6 text-center text-lg text-red-600">No unchecked Labours found.</p>
+        </ng-template>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template #modalFooter>
+        <button type="button" class="btn btn-danger mr-3 text-white" (click)="unselectedLabourModal.close()">Cancel</button>
+        <button type="button" class="btn btn-primary text-white" [disabled]="unselectedLabour.length == 0" (click)="submitLabourToSupervisor()">
+            Return to Supervisor
+        </button>
+    </ng-template>
+</modal>
+
+<!-- <modal #markApplicableModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+    <!-- Header -->
+<!-- <ng-template #modalHeader>
+        <div style="align-items: center; display: flex">Items Not Marked Applicable in Group</div>
+    </ng-template> -->
+
+<!-- Body -->
+<!-- <ng-template #modalBody>
+        <div *ngIf="notApplicableItems.length > 0; else noItemsFound">
+            <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
+                <thead class="bg-gray-100 text-left">
+                    <tr>
+                        <th class="border px-4 py-2 text-center">Select</th>
+                        <th class="border px-4 py-2">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of notApplicableItems">
+                        <td class="border px-4 py-2 text-center">
+                            <input type="checkbox" [(ngModel)]="item.selected" (change)="onItemSelectionChange()" />
+                        </td>
+                        <td class="border px-4 py-2">
+                            {{ item.DESCRIPTION || item.Description || item.name }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="selectedItemNames.length > 0" class="mt-4 rounded border border-blue-400 bg-blue-100 p-3 text-blue-800">
+                <strong>Mark as Applicable:</strong> {{ selectedItemNames.join(', ') }}
+            </div>
+        </div>
+
+        <ng-template #noItemsFound>
+            <p class="mt-6 text-center text-lg text-red-600">No unmarked items found in this group.</p>
+        </ng-template>
+    </ng-template> -->
+
+<!-- Footer -->
+<!-- <ng-template #modalFooter>
+        <button type="button" class="btn btn-danger mr-3 text-white" (click)="markApplicableModal.close()">Cancel</button>
+        <button type="button" class="btn btn-outline-primary mr-3" [disabled]="notApplicableItems.length === 0" (click)="markAllItemsAsApplicable()">
+            Mark All as Applicable
+        </button>
+        <button type="button" class="btn btn-primary text-white" [disabled]="selectedItemNames.length === 0" (click)="submitSelectedApplicableItems()">
+            Mark Selected as Applicable
+        </button>
+    </ng-template> -->
+<!-- </modal>  -->
+
+<modal #groupItemsModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+    <!-- Header -->
+    <ng-template #modalHeader>
+        <div style="align-items: center; display: flex">Items in Same Group(s)</div>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template #modalBody>
+        <div *ngFor="let groupId of getGroupKeys(groupedItems)" class="mb-4 rounded border border-gray-300">
+            <table class="w-full table-auto text-sm">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="border px-4 py-2 text-center">Select</th>
+                        <th class="border px-4 py-2 text-center">Group Name</th>
+                        <th class="border px-4 py-2">Item Names</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border px-4 py-2 text-center">
+                            <input
+                                type="checkbox"
+                                [(ngModel)]="groupSelection[groupId]"
+                                [checked]="groupSelection[groupId] || false"
+                                (change)="toggleGroupSelection(groupId, $event)"
+                            />
+                        </td>
+                        <td class="whitespace-nowrap border px-4 py-2 text-center">Group {{ groupId }}</td>
+                        <td class="border px-4 py-2">
+                            {{ getItemNamesForGroup(groupId) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <ng-template #noGroupItemsFound>
+            <p class="mt-6 text-center text-lg text-red-600">No items found in related groups.</p>
+        </ng-template>
+    </ng-template>
+
+    <!-- Footer -->
+    <ng-template #modalFooter>
+        <button type="button" class="btn btn-danger mr-3 text-white" (click)="groupItemsModal.close()">Close</button>
+        <button type="button" class="btn btn-primary text-white" (click)="onSubmitSelectedItems()">Submit Selected Items</button>
+    </ng-template>
+</modal>

@@ -1,0 +1,98 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Service Management</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+        >
+            Requested Parts Price</a
+        >
+    </li>
+</ol>
+
+<div>
+    <div class="panel mb-6 mt-6 pb-6">
+        <h3 class="mb-4 text-lg font-semibold text-gray-800">Price Request</h3>
+
+        <!-- Loader -->
+        <div *ngIf="load_flag" class="text-center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+            ></span>
+        </div>
+        <div>
+            <ng-container *ngIf="requestedPartPrices.length > 0; else noParts">
+                <div
+                    *ngFor="let pkg of requestedPartPrices"
+                    class="mb-5 flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+                >
+                    <!-- Left: Part Info -->
+                    <div>
+                        <!-- Part name + code -->
+                        <div class="flex items-center gap-2">
+                            <p class="text-xl font-medium text-gray-800 dark:text-gray-100">
+                                {{ pkg.spim_name }}
+                            </p>
+                            <span
+                                class="rounded border border-blue-500 bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-600 dark:border-blue-400 dark:bg-blue-900 dark:text-blue-300"
+                            >
+                                {{ pkg.pm_code }}
+                            </span>
+                        </div>
+
+                        <!-- Brand name -->
+                        <p class="mt-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+                            {{ pkg.brand_name }}
+                        </p>
+
+                        <!-- Prices -->
+                        <p class="mt-2 text-base text-gray-600 dark:text-gray-300">
+                            Old price:
+                            <strong class="text-gray-700 dark:text-gray-200">{{ pkg.pm_price }}</strong>
+                        </p>
+                        <p class="text-base text-gray-600 dark:text-gray-300">
+                            Requested new price:
+                            <strong class="text-primary">{{ pkg.pm_new_price }}</strong>
+                        </p>
+
+                        <!-- Requested by -->
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Requested by {{ pkg.us_firstname }}</p>
+                    </div>
+
+                    <!-- Right: Actions -->
+                    <div class="flex gap-2">
+                        <button
+                            type="button"
+                            class="rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            (click)="acceptPrice(pkg)"
+                        >
+                            Accept
+                        </button>
+                        <button
+                            type="button"
+                            class="rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                            (click)="confirmCancelPrice(pkg)"
+                        >
+                            Decline
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #noParts>
+                <div class="mt-4 text-center text-gray-500">No pending parts requests available.</div>
+            </ng-template>
+        </div>
+    </div>
+</div>

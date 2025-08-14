@@ -95,7 +95,19 @@ import { WhatsappSettingsComponent } from './pages/crm_module/leads/whatsapp/wha
 import { CustomerAnalysisComponent } from './pages/crm_module/customer/customer-analysis/customer-analysis.component';
 import { CustomerFollowUpsComponent } from './pages/crm_module/customers/customer-follow-ups/customer-follow-ups.component';
 import { ServiceRemainderReportComponent } from './pages/crm_module/service-module/service-remainder-report/service-remainder-report.component';
-
+import { ServicePackageListComponent } from './pages/crm_module/service-package/service-package-list/service-package-list.component';
+import { ServicePackageRequestedComponent } from './pages/crm_module/service-package/service-package-requested/service-package-requested.component';
+import { ServicePkgPartsSetupComponent } from './pages/crm_module/service-package/service-pkg-parts-setup/service-pkg-parts-setup.component';
+import { ServicePkgLabourSetupComponent } from './pages/crm_module/service-package/service-pkg-labour-setup/service-pkg-labour-setup.component';
+import { ServicePkgKmSetupComponent } from './pages/crm_module/service-package/service-pkg-km-setup/service-pkg-km-setup.component';
+import { EngineListComponent } from './pages/crm_module/vehicle-package/engine-list/engine-list.component';
+import { ServicePkgPartsMasterComponent } from './pages/crm_module/service-package/service-pkg-parts-master/service-pkg-parts-master.component';
+import { ServicePkgKmPriceMapComponent } from './pages/crm_module/service-package/service-pkg-km-price-map/service-pkg-km-price-map.component';
+import { ServicePkgMcLabourSetupComponent } from './pages/crm_module/service-package/service-pkg-mc-labour-setup/service-pkg-mc-labour-setup.component';
+import { ServicePkgAdminUpdateComponent } from './pages/crm_module/service-package/service-pkg-admin-update/service-pkg-admin-update.component';
+import { ServicePkgCnsLbrComponent } from './pages/crm_module/service-package/service-pkg-cns-lbr/service-pkg-cns-lbr.component';
+import { ServicePkgModelcodeListComponent } from './pages/crm_module/service-package/service-pkg-modelcode-list/service-pkg-modelcode-list.component';
+import { PartsPriceRequestAdminComponent } from './pages/crm_module/service-module/Spare-parts/parts-price-request-admin/parts-price-request-admin.component';
 export const routes: Routes = [
     {
         path: '',
@@ -197,7 +209,19 @@ export const routes: Routes = [
             { path: 'customerAnalysis', component: CustomerAnalysisComponent },
             { path: 'serviceRemainderReport', component: ServiceRemainderReportComponent },
             { path: 'customerFollowUps', component: CustomerFollowUpsComponent },
-
+            { path: 'servicePackageList', component: ServicePackageListComponent },
+            { path: 'servicePackageRequested', component: ServicePackageRequestedComponent },
+            { path: 'servicePackageParts/:id', component: ServicePkgPartsSetupComponent },
+            { path: 'servicePackageLabour/:id', component: ServicePkgLabourSetupComponent },
+            { path: 'servicePackageKm/:id', component: ServicePkgKmSetupComponent },
+            { path: 'EngineList', component: EngineListComponent },
+            { path: 'servicePackagePartsList', component: ServicePkgPartsMasterComponent },
+            { path: 'servicePackageKmPriceMap/:id', component: ServicePkgKmPriceMapComponent },
+            { path: 'servicePkgMcLabour', component: ServicePkgMcLabourSetupComponent },
+            { path: 'updatesServicePackage', component: ServicePkgAdminUpdateComponent },
+            { path: 'servicePkgCnsLbr/:id', component: ServicePkgCnsLbrComponent },
+            { path: 'ServicePkgModelcodeList', component: ServicePkgModelcodeListComponent },
+            { path: 'requestedPartsPrice', component: PartsPriceRequestAdminComponent },
         ],
     },
 ];

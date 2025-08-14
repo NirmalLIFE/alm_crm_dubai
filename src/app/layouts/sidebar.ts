@@ -252,17 +252,21 @@ export class SidebarComponent {
             else if (element['ft_id'] == 43) {
                 this.menuItems.service_features.push(
                     {
-                        title: 'Service List',
-                        link: '/serviceList',
-                    },
-                    {
-                        title: 'Parts Master',
-                        link: '/spare-parts/parts-list',
-                    },
-                    {
-                        title: 'Labour Master',
-                        link: '/Labour/labour-list',
+                        title: 'Periodic Service Price List',
+                        link: '/servicePackageList',
                     }
+                    // {
+                    //     title: 'Service List',
+                    //     link: '/serviceList',
+                    // },
+                    // {
+                    //     title: 'Parts Master',
+                    //     link: '/spare-parts/parts-list',
+                    // },
+                    // {
+                    //     title: 'Labour Master',
+                    //     link: '/Labour/labour-list',
+                    // }
                 );
             } else if (element['ft_id'] == 50) {
                 this.menuItems.chat_features.push({
@@ -293,6 +297,56 @@ export class SidebarComponent {
                 this.menuItems.customer_features.push({
                     title: 'Customer Follow-Ups',
                     link: 'customerFollowUps',
+                });
+            } else if (element['ft_id'] == 60) {
+                this.menuItems.service_features.push(
+                    {
+                        title: 'Service Package Requested',
+                        link: '/servicePackageRequested',
+                    }
+                    // {
+                    //     title: 'Parts Master',
+                    //     link: '/spare-parts/parts-list',
+                    // }
+                );
+            } else if (element['ft_id'] == 61) {
+                // this.menuItems.service_features.push({
+                //     title: 'Labour Master',
+                //     link: '/Labour/labour-list',
+                // });
+            } else if (element['ft_id'] == 62) {
+                this.menuItems.admin_features.push({
+                    title: 'Engine Master List',
+                    link: '/EngineList',
+                });
+                this.menuItems.admin_features.push({
+                    title: 'Service Package Items',
+                    link: '/servicePackagePartsList',
+                });
+            } else if (element['ft_id'] == 63) {
+                this.menuItems.admin_features.push({
+                    title: 'Model Code Labour Setup',
+                    link: '/servicePkgMcLabour',
+                });
+            } else if (element['ft_id'] == 64) {
+                this.menuItems.admin_features.push({
+                    title: 'Update Service Package',
+                    link: '/updatesServicePackage',
+                });
+            } else if (element['ft_id'] == 65) {
+                this.menuItems.admin_features.push({
+                    title: 'Service Package Model Code List',
+                    link: '/ServicePkgModelcodeList',
+                });
+            } else if (element['ft_id'] == 66) {
+                this.menuItems.service_features.push({
+                    title: 'Service Packages Parts List',
+                    link: '/spare-parts/parts-list',
+                });
+            } else if (element['ft_id'] == 67) {
+                this.menuItems.service_features.push({
+                    title: 'Requested Parts Price',
+                    link: '/requestedPartsPrice',
                 });
             }
         });

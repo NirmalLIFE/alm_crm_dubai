@@ -1,0 +1,5 @@
+.custom-table thead tr th,
+.custom-table tfoot tr th,
+.custom-table tbody tr td {
+  padding: 0.2rem 0.2rem 0.5rem 0.2rem; /* top, right, bottom, left */
+}

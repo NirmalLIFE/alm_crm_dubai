@@ -14,18 +14,18 @@ export class PartsListComponent implements OnInit {
     public load_flag: boolean = true;
     public brandList = [];
     public spareCategory = [];
-
+    public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
     partsDetails: any = [];
-    updateParts: any = [];
 
     public permittedAction: any[] = [];
     public part_flag: boolean = true;
 
     public cols = [
         { field: 'pm_code', title: 'Code' },
-        { field: 'pm_name', title: 'Name' },
+        { field: 'sp_pm_name', title: 'Name' },
         { field: 'brand_name', title: 'Brand' },
-        { field: 'spc_name', title: 'Category' },
+        // { field: 'spc_name', title: 'Category' },
+        // { field: 'pm_unit_type', title: 'Unit Type' },
         { field: 'pm_price', title: 'Price' },
         { field: 'action', title: 'Action' },
     ];
@@ -52,10 +52,12 @@ export class PartsListComponent implements OnInit {
             }
         });
         this.partsDetails = {
+            pm_id: '',
             part_code: '',
             part_name: '',
             part_brand: null,
-            part_category: null,
+            // part_category: null,
+            // pm_unit_type: '0',
             part_price: '',
         };
     }
@@ -65,7 +67,7 @@ export class PartsListComponent implements OnInit {
 
     getAllPartsList() {
         this.partsList = [];
-        this.userServices.getAllPartsList().subscribe((rdata: any) => {
+        this.userServices.servicePkgPartsList().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.partsList = rdata.parts;
                 this.load_flag = false;
@@ -75,120 +77,135 @@ export class PartsListComponent implements OnInit {
         });
     }
 
-    createParts(parts: any) {
-        this.part_flag = true;
+    // createParts(parts: any) {
+    //     this.part_flag = true;
 
-        // const requiredAttributes = ['part_code', 'part_name', 'part_price', 'part_brand', 'part_category'];
-        // let missingAttribute = '';
+    // const requiredAttributes = ['part_code', 'part_name', 'part_price', 'part_brand', 'part_category'];
+    // let missingAttribute = '';
 
-        // requiredAttributes.forEach((attribute) => {
-        //     if (parts[attribute] == null || parts[attribute] === '') {
-        //         this.part_flag = false;
-        //         missingAttribute = attribute.replace('_', ' ');
-        //         return;
-        //     }
-        // });
+    // requiredAttributes.forEach((attribute) => {
+    //     if (parts[attribute] == null || parts[attribute] === '') {
+    //         this.part_flag = false;
+    //         missingAttribute = attribute.replace('_', ' ');
+    //         return;
+    //     }
+    // });
 
-        // if (!this.part_flag) {
-        //     this.coloredToast('danger', `Spare Part ${missingAttribute.charAt(0).toUpperCase() + missingAttribute.slice(1)} is Required!!!`);
-        // }
+    // if (!this.part_flag) {
+    //     this.coloredToast('danger', `Spare Part ${missingAttribute.charAt(0).toUpperCase() + missingAttribute.slice(1)} is Required!!!`);
+    // }
 
-        if (parts.part_code == null || parts.part_code == '') {
-            this.part_flag = false;
-            this.coloredToast('danger', 'Spare Part Code is Required!!!');
-        } else if (parts.part_name == null || parts.part_name == '') {
-            this.part_flag = false;
-            this.coloredToast('danger', 'Spare Part Name is Required!!!');
-        } else if (parts.part_price == null || parts.part_price == '') {
-            this.part_flag = false;
-            this.coloredToast('danger', 'Spare Part Price is Required!!!');
-        } else if (parts.part_brand == null || parts.part_brand == '') {
-            this.part_flag = false;
-            this.coloredToast('danger', 'Spare Part Brand is Required!!!');
-        } else if (parts.part_category == null || parts.part_category == '') {
-            this.part_flag = false;
-            this.coloredToast('danger', 'Spare Part Category is Required!!!');
-        }
+    //     if (parts.part_code == null || parts.part_code == '') {
+    //         this.part_flag = false;
+    //         this.coloredToast('danger', 'Spare Part Code is Required!!!');
+    //     } else if (parts.part_name == null || parts.part_name == '') {
+    //         this.part_flag = false;
+    //         this.coloredToast('danger', 'Spare Part Name is Required!!!');
+    //     } else if (parts.part_price == null || parts.part_price == '') {
+    //         this.part_flag = false;
+    //         this.coloredToast('danger', 'Spare Part Price is Required!!!');
+    //     } else if (parts.part_brand == null || parts.part_brand == '') {
+    //         this.part_flag = false;
+    //         this.coloredToast('danger', 'Spare Part Brand is Required!!!');
+    //     }
 
-        if (this.part_flag == true) {
-            this.userServices.SavePartsDetails(parts).subscribe((rdata: any) => {
-                if (rdata.ret_data == 'success') {
-                    this.partsModal.close();
-                    this.getAllPartsList();
-                    this.coloredToast('success', 'Spare Parts Saved Successfully');
-                }
-            });
-        }
-    }
+    //     if (this.part_flag == true) {
+    //         this.userServices.SavePartsDetails(parts).subscribe((rdata: any) => {
+    //             if (rdata.ret_data == 'success') {
+    //                 this.partsModal.close();
+    //                 this.getAllPartsList();
+    //                 this.coloredToast('success', 'Spare Parts Saved Successfully');
+    //             }
+    //         });
+    //     }
+    // }
 
-    partsModalOpen() {
-        this.partsDetails = {
-            part_code: '',
-            part_name: '',
-            part_brand: null,
-            part_category: null,
-            part_price: '',
-        };
-        this.partsModal.open();
-    }
+    // partsModalOpen() {
+    //     this.partsDetails = {
+    //         part_code: '',
+    //         part_name: '',
+    //         part_brand: null,
+    //         part_category: null,
+    //         pm_unit_type: '0',
+    //         part_price: '',
+    //     };
+    //     this.partsModal.open();
+    // }
 
-    partsModalClose() {
-        this.partsDetails = {
-            part_code: '',
-            part_name: '',
-            part_brand: null,
-            part_category: null,
-            part_price: '',
-        };
-        this.partsModal.close();
-    }
+    // partsModalClose() {
+    //     this.partsDetails = {
+    //         part_code: '',
+    //         part_name: '',
+    //         part_brand: null,
+    //         part_category: null,
+    //         pm_unit_type: '0',
+    //         part_price: '',
+    //     };
+    //     this.partsModal.close();
+    // }
 
     editParts(value: any) {
-        this.updateParts = value;
+        this.partsDetails = {
+            pm_id: value.pm_id,
+            pm_code: value.pm_code,
+            sp_pm_name: value.sp_pm_name,
+            brand_name: value.brand_name,
+            pm_price: value.pm_price,
+        };
         this.partsEditModal.open();
     }
 
-    updatePartsDetails(part: any) {
-        this.userServices.UpdateSpareParts(part).subscribe((rdata: any) => {
+    updatePartsDetails() {
+        this.userServices.UpdateSpareParts(this.partsDetails).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.partsEditModal.close();
                 this.getAllPartsList();
                 this.coloredToast('success', 'Spare Parts Updated Successfully');
+            } else if (rdata.ret_data == 'duplicate') {
+                // this.partsEditModal.close();
+                // this.getAllPartsList();
+                this.coloredToast('warning', rdata.message);
+            } else if (rdata.ret_data == 'admin_approved') {
+                this.partsEditModal.close();
+                this.coloredToast('success', rdata.message);
+                this.getAllPartsList();
+            } else {
+                this.coloredToast('danger', 'Unable to update price.');
             }
         });
     }
     partsEditModalClose() {
-        this.updateParts = [];
+        this.partsDetails = [];
         this.partsEditModal.close();
         this.getAllPartsList();
     }
 
-    deleteParts(value: any) {
-        if (this.permittedAction.includes('3')) {
-            Swal.fire({
-                icon: 'warning',
-                title: "You won't be able to revert this!",
-                text: 'You are about to delete a Spare Parts, Are you sure?',
-                showCancelButton: true,
-                confirmButtonText: 'Delete',
-                padding: '2em',
-                customClass: 'sweet-alerts',
-            }).then((result) => {
-                if (result.value) {
-                    this.userServices.deleteSpare({ pm_id: value.pm_id }).subscribe((rdata: any) => {
-                        if (rdata.ret_data === 'success') {
-                            this.coloredToast('success', 'Spare Parts Deleted Successfully');
-                            this.getAllPartsList();
-                        } else {
-                            this.coloredToast('danger', "Can't Delete Spare Parts");
-                        }
-                    });
-                }
-            });
-        } else {
-            this.coloredToast('danger', "Can't Delete Service, Permission Denied");
-        }
-    }
+    // deleteParts(value: any) {
+    //     if (this.permittedAction.includes('3')) {
+    //         Swal.fire({
+    //             icon: 'warning',
+    //             title: "You won't be able to revert this!",
+    //             text: 'You are about to delete a Spare Parts, Are you sure?',
+    //             showCancelButton: true,
+    //             confirmButtonText: 'Delete',
+    //             padding: '2em',
+    //             customClass: 'sweet-alerts',
+    //         }).then((result) => {
+    //             if (result.value) {
+    //                 this.userServices.deleteSpare({ pm_id: value.pm_id }).subscribe((rdata: any) => {
+    //                     if (rdata.ret_data === 'success') {
+    //                         this.coloredToast('success', 'Spare Parts Deleted Successfully');
+    //                         this.getAllPartsList();
+    //                     } else {
+    //                         this.coloredToast('danger', "Can't Delete Spare Parts");
+    //                     }
+    //                 });
+    //             }
+    //         });
+    //     } else {
+    //         this.coloredToast('danger', "Can't Delete Service, Permission Denied");
+    //     }
+    // }
 
     coloredToast(color: string, message: string) {
         const toast = Swal.mixin({
