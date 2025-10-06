@@ -47,7 +47,7 @@ export class WhatsappLeadCreateComponent {
         });
         this.userServices.userList().subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                this.saCreList = rData.userList.filter((item: any) => item.us_role_id == '11' || item.us_role_id == '9');
+                this.saCreList = rData.userList.filter((item: any) => item.us_role_id == '11' || item.us_role_id == '9' || item.us_role_id == '19');
             }
         });
         this.userServices.getLeadSource().subscribe((rData: any) => {

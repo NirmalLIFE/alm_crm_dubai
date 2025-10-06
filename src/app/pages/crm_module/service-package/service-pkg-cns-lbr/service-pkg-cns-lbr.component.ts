@@ -431,7 +431,7 @@ export class ServicePkgCnsLbrComponent implements OnInit {
                             // Build the fresh data object
                             const newData = {
                                 Name: labour.sp_pm_id || null,
-                                Description: labour.sp_pm_name || null,
+                                Description: labour.spim_name || null,
                                 applicable: Number(labour.sp_labour_applicable) || 0,
                                 unit_type: labour.sp_pm_unit_type || null,
                                 qty: labour.sp_labour_qty || null,
@@ -725,6 +725,7 @@ export class ServicePkgCnsLbrComponent implements OnInit {
                         this.enginePartsList.push({
                             eng_no: engNo,
                             model_code: modelCode,
+                            spmc_model_year: item.spmc_model_year,
                             totalConsumablesPrice: isConsumable ? price : 0,
                             totalLabourUnit: isLabour ? labourUnit : 0,
                             parts: [item],
@@ -922,27 +923,6 @@ export class ServicePkgCnsLbrComponent implements OnInit {
             this.saveFlag = true;
         }
 
-        // const seen = new Set<string>();
-        // let duplicatePartNo: string | null = null;
-
-        // for (const part of this.service_details.parts) {
-        //     if (part?.PART_NO) {
-        //         const partNo = String(part.PART_NO).trim().toLowerCase();
-        //         if (seen.has(partNo)) {
-        //             duplicatePartNo = part.PART_NO;
-        //             break;
-        //         }
-        //         seen.add(partNo);
-        //     }
-        // }
-
-        // if (duplicatePartNo) {
-        //     this.coloredToast('danger', `Duplicate partcode found: ${duplicatePartNo}`);
-        //     this.saveFlag = false;
-        //     this.draftButtonFlag = false;
-        //     return;
-        // }
-
         if (type != 8) {
             if (this.engineNO == null || this.engineNO == '') {
                 this.coloredToast('danger', 'Engine Number is mandatory!');
@@ -1025,7 +1005,7 @@ export class ServicePkgCnsLbrComponent implements OnInit {
 
         // this.draftButtonFlag = false;
         // this.saveFlag = false;
-        console.log('datas>>>>>>>>>>>>>>>>', this.service_details);
+        // console.log('datas>>>>>>>>>>>>>>>>', this.service_details);
 
         this.userServices.saveServicePackageLabours(this.service_details).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {

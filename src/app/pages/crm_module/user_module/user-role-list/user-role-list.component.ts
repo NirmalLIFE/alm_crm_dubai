@@ -42,7 +42,6 @@ export class UserRoleListComponent implements OnInit {
   getUserRoles() {
     this.userServices.userRoleList().subscribe((rData: any) => {
       if (rData.ret_data == "success") {
-        console.log(rData.roleList);
         this.roleList = rData.roleList;
         this.load_flag = false;
       } else {

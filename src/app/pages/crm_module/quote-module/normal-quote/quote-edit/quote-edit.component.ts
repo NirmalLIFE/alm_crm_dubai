@@ -142,18 +142,14 @@ export class QuoteEditComponent implements OnInit {
                 const { quotation, qt_items } = rdata;
                 this.qt_data = quotation;
                 this.qt_items = qt_items;
-                if (this.user_role == 11 && quotation.qt_margin_flag == '1') {
+                // if (quotation.qt_service_adv == '11' && this.user_id == '11' && this.user_role == '11' )
+                if ((this.user_id == '52' || this.user_id == '10') && quotation.qt_margin_flag == '1') {
                     this.isChecked = true;
-                    this.marginFlag = true;
-                } else if (this.user_role == 11) {
-                    this.isChecked = false;
                     this.marginFlag = true;
                 } else {
                     this.isChecked = false;
-                    this.marginFlag = false;
+                    this.marginFlag = true;
                 }
-
-                console.log("user role and marginflag ,quotation.qt_margin_flag ",this.user_role , this.marginFlag , quotation.qt_margin_flag)
                 qt_items.forEach((element: any) => {
                     if (element.qit_margin_price != '0' && element.qit_margin_price != '0.00') {
                         element.margin_total = element.qit_margin_price;
@@ -265,7 +261,8 @@ export class QuoteEditComponent implements OnInit {
     }
 
     addSA(us_id: any) {
-        if (this.user_role == '11') {
+        // if (us_id == 11 && this.user_id == '11')
+        if (this.user_id == '52' || this.user_id == '10') {
             this.isChecked = true;
             this.marginFlag = true;
             this.getSparePartsMargin();
@@ -519,25 +516,65 @@ export class QuoteEditComponent implements OnInit {
         this.sparePreview.open();
     }
 
-    getMarginPrice(j: any) {
-        this.qt_item_spare.forEach((item: any) => {
-            this.sparePartsMargin.forEach((element2: any) => {
-                let subtotal = item.item_qty * item.item_p_types[j].qit_unit_price;
-                if (subtotal >= element2.spm_start_price && subtotal <= element2.spm_end_price && subtotal != 0) {
-                    if (this.isChecked) {
-                        item.item_p_types[j].margin_applied = element2.spm_price;
-                    } else {
-                        item.item_p_types[j].margin_applied = '0';
-                    }
-                    let qty = parseFloat(item.item_qty);
-                    let unitPrice = parseFloat(item.item_p_types[j].qit_unit_price);
-                    let marginTotal = (qty * unitPrice * (1 + parseFloat(item.item_p_types[j].margin_applied) / 100)).toFixed(2);
-                    item.item_p_types[j].margin_total = marginTotal;
-                    item.item_p_types[j].old_margin_total = marginTotal;
-                    item.item_p_types[j].marginAppliedTotal = marginTotal;
+    getMarginPrice(i: any, j: any) {
+        if (this.qt_item_spare[i]?.item_p_types?.[j]) {
+            const item = this.qt_item_spare[i];
+            const type = item.item_p_types[j];
+
+            this.sparePartsMargin.forEach((margin: any) => {
+                const subtotal = item.item_qty * type.qit_unit_price;
+
+                if (subtotal >= margin.spm_start_price && subtotal <= margin.spm_end_price && subtotal !== 0) {
+                    const appliedMargin = this.isChecked ? margin.spm_price : 0;
+                    type.margin_applied = appliedMargin.toString();
+                    const qty = parseFloat(item.item_qty);
+                    const unitPrice = parseFloat(type.qit_unit_price);
+                    const marginTotal = (qty * unitPrice * (1 + appliedMargin / 100)).toFixed(2);
+
+                    type.margin_total = marginTotal;
+                    type.old_margin_total = marginTotal;
+                    type.marginAppliedTotal = marginTotal;
                 }
             });
-        });
+        } else {
+            this.qt_item_spare.forEach((item: any) => {
+                this.sparePartsMargin.forEach((element2: any) => {
+                    let subtotal = item.item_qty * item.item_p_types.qit_unit_price;
+                    if (subtotal >= element2.spm_start_price && subtotal <= element2.spm_end_price && subtotal != 0) {
+                        if (this.isChecked) {
+                            item.item_p_types.margin_applied = element2.spm_price;
+                        } else {
+                            item.item_p_types.margin_applied = '0';
+                        }
+                        let qty = parseFloat(item.item_qty);
+                        let unitPrice = parseFloat(item.item_p_types.qit_unit_price);
+                        let marginTotal = (qty * unitPrice * (1 + parseFloat(item.item_p_types[j].margin_applied) / 100)).toFixed(2);
+                        item.item_p_types.margin_total = marginTotal;
+                        item.item_p_types.old_margin_total = marginTotal;
+                        item.item_p_types.marginAppliedTotal = marginTotal;
+                    }
+                });
+            });
+        }
+
+        // this.qt_item_spare.forEach((item: any) => {
+        //     this.sparePartsMargin.forEach((element2: any) => {
+        //         let subtotal = item.item_qty * item.item_p_types[j].qit_unit_price;
+        //         if (subtotal >= element2.spm_start_price && subtotal <= element2.spm_end_price && subtotal != 0) {
+        //             if (this.isChecked) {
+        //                 item.item_p_types[j].margin_applied = element2.spm_price;
+        //             } else {
+        //                 item.item_p_types[j].margin_applied = '0';
+        //             }
+        //             let qty = parseFloat(item.item_qty);
+        //             let unitPrice = parseFloat(item.item_p_types[j].qit_unit_price);
+        //             let marginTotal = (qty * unitPrice * (1 + parseFloat(item.item_p_types[j].margin_applied) / 100)).toFixed(2);
+        //             item.item_p_types[j].margin_total = marginTotal;
+        //             item.item_p_types[j].old_margin_total = marginTotal;
+        //             item.item_p_types[j].marginAppliedTotal = marginTotal;
+        //         }
+        //     });
+        // });
     }
 
     checkMarginPrice(price: any, totalprice: any, old_margin_total: any, j: any, i: any) {
@@ -574,7 +611,7 @@ export class QuoteEditComponent implements OnInit {
                 });
             }
         } else {
-            this.getMarginPrice(j);
+            this.getMarginPrice(i, j);
         }
     }
 

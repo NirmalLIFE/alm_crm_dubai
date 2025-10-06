@@ -61,7 +61,6 @@ export class AssignedLostUpdateComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('assignedlostdata', this.assignedLostData);
 
         this.lcst_id = this.assignedLostData.id;
         this.phone = this.assignedLostData.phone;
@@ -269,7 +268,6 @@ export class AssignedLostUpdateComponent implements OnInit {
                 }
             }
         }
-        console.log('data>>>>>>>>>>>>>>', data);
         if (this.lostflag) {
             data['lc_id'] = this.lcst_id;
             data['phone'] = this.phone;

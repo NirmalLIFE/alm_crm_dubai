@@ -1,0 +1,1392 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">MIS</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink=""
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">New
+            Customers</a>
+    </li>
+</ol>
+<div class="mb-2 mt-5">
+    <div class="mt-3 flex flex-wrap gap-2">
+        <a href="javascript:;"
+            class="-mb-[1px] flex items-center gap-2 rounded p-3.5 py-2 !outline-none transition duration-300 hover:bg-warning hover:text-white"
+            [ngClass]="{ 'bg-warning text-white': tab4.toLowerCase() === 'jobcard' }"
+            (click)="tab4 = 'jobcard'; fetchAllNewCustomers()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.5 14L17 14" [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" stroke-linecap="round" />
+                <path d="M7 14H7.5" [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" stroke-linecap="round" />
+                <path d="M7 10.5H7.5" [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" stroke-linecap="round" />
+                <path d="M7 17.5H7.5" [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" stroke-linecap="round" />
+                <path d="M10.5 10.5H17" [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" stroke-linecap="round" />
+                <path d="M10.5 17.5H17" [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" stroke-linecap="round" />
+                <path
+                    d="M8 3.5C8 2.67157 8.67157 2 9.5 2H14.5C15.3284 2 16 2.67157 16 3.5V4.5C16 5.32843 15.3284 6 14.5 6H9.5C8.67157 6 8 5.32843 8 4.5V3.5Z"
+                    [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'" stroke-width="1.5" />
+                <path
+                    d="M21 16.0002C21 18.8286 21 20.2429 20.1213 21.1215C19.2426 22.0002 17.8284 22.0002 15 22.0002H9C6.17157 22.0002 4.75736 22.0002 3.87868 21.1215C3 20.2429 3 18.8286 3 16.0002V13.0002M16 4.00195C18.175 4.01406 19.3529 4.11051 20.1213 4.87889C21 5.75757 21 7.17179 21 10.0002V12.0002M8 4.00195C5.82497 4.01406 4.64706 4.11051 3.87868 4.87889C3.11032 5.64725 3.01385 6.82511 3.00174 9"
+                    [attr.stroke]="tab4.toLowerCase() === 'jobcard' ? 'white' : '#1C274C'" stroke-width="1.5"
+                    stroke-linecap="round" />
+            </svg>
+            Jobcards
+        </a>
+        <a href="javascript:;"
+            class="-mb-[1px] flex items-center gap-2 rounded p-3.5 py-2 !outline-none transition duration-300 hover:bg-warning hover:text-white"
+            [ngClass]="{ 'bg-warning text-white': tab4.toLowerCase() === 'leads' }"
+            (click)="tab4 = 'leads'; fetchAllNewCustomerLeads()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 ltr:mr-2 rtl:ml-2">
+                <circle cx="12" cy="6" r="4" [attr.stroke]="tab4.toLowerCase() === 'leads' ? 'white' : '#1C274C'"
+                    stroke-width="1.5" />
+                <ellipse opacity="0.5" cx="12" cy="17" rx="7" ry="4"
+                    [attr.stroke]="tab4.toLowerCase() === 'leads' ? 'white' : '#1C274C'" stroke-width="1.5" />
+            </svg>
+            Leads
+        </a>
+    </div>
+    <div class="flex-1 pt-5 text-sm">
+        <div *ngIf="tab4.toLowerCase() === 'jobcard'">
+            <div class="panel mb-5 mt-5 pb-5">
+                <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+                    <div>
+                        <label>Date From</label>
+                        <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+                    </div>
+                    <div>
+                        <label>Date To</label>
+                        <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+                    </div>
+                    <div>
+                        <label>Customer Source</label>
+                        <ng-select [(ngModel)]="source" [searchable]="true" [clearable]="false" appendTo="body"
+                            placeholder="Select an extension" class="custom-multiselect">
+                            <ng-option value="0">ALL</ng-option>
+                            <ng-option *ngFor="let value of sourceList" value="{{ value.ld_src_id }}">{{ value.ld_src
+                                }}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div>
+                        <label style="color: white">.</label>
+                        <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                            (click)="fetchAllNewCustomers()">SEARCH</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="load_flag" style="text-align: center">
+                <span
+                    class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+            </div>
+            <div class="mb-2 grid grid-cols-3 gap-2" *ngIf="!load_flag && allNewCustomerList.length > 0">
+                <!-- Customer Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-2 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Job Open Customer Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ allNewCustomerList.length }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" (click)="filterCustomers(0)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 0 }">
+                            <div>Job Opened</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ allNewCustomerList.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(15)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 15 }">
+                            <div>Invoiced</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invoicedCount }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(17)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 17 }">
+                            <div>Current Month Leads</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ currentMonthCust }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(18)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 18 }">
+                            <div>Previous Month Leads</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ previousMonthCust }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(20)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 20 }">
+                            <div>Direct</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ directCustomers.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketing Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-2 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Job Open Marketing Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ whatsappDirect.length + whatsappCampaign.length + googleMarketing.length +
+                            socialMedia.length + marketingCall.length }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(9)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 9 }">
+                            <div>Whatsapp Direct</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ whatsappDirect.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(8)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 8 }">
+                            <div>Whatsapp Campaign</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ whatsappCampaign.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(7)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 7 }">
+                            <div>Google Marketing</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ googleMarketing.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(2)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 2 }">
+                            <div>Social Media</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ socialMedia.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(21)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 21 }">
+                            <div>Calls</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ marketingCall.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Non Marketing Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-2 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Job Open Non-Marketing Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{
+                            saDirect.length + directLead.length + lostCustomer.length + creWhatsapp.length +
+                            whatsappSerDue.length + nonMarketingCall.length
+                            }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(3)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 3 }">
+                            <div>SA Direct</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ saDirect.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(5)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 5 }">
+                            <div>Direct Lead</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ directLead.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(6)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 6 }">
+                            <div>Lost Customer</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ lostCustomer.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(4)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 4 }">
+                            <div>Cre Whatsapp</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ creWhatsapp.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(10)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 10 }">
+                            <div>Whatsapp Ser Due</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ whatsappSerDue.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(22)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 22 }">
+                            <div>Calls</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ nonMarketingCall.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoiced customer Statistics -->
+
+            <div class="mb-2 grid grid-cols-3 gap-2" *ngIf="!load_flag && allNewCustomerList.length > 0">
+                <!-- Customer Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-2 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Invoiced Customer Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ allInvNewCustomers.length }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(99)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 99 }">
+                            <div>Invoiced Customers</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ allInvNewCustomers.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(40)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 40 }">
+                            <div>Current Month Leads</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invCurrentMonthCust.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(41)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 41 }">
+                            <div>Previous Month Leads</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invPreviousMonthCust.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(42)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 42 }">
+                            <div>Direct</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invDirectCustomers.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(57)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 57 }">
+                            <div>Phone No - Mismatch</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ misMatchCustomers.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketing Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-2 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Invoiced Marketing Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{
+                            invWhatsappDirect.length +
+                            invWhatsappCampaign.length +
+                            invGoogleMarketing.length +
+                            invSocialMedia.length +
+                            invMarketingCall.length
+                            }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(43)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 43 }">
+                            <div>Whatsapp Direct</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invWhatsappDirect.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(44)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 44 }">
+                            <div>Whatsapp Campaign</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invWhatsappCampaign.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(45)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 45 }">
+                            <div>Google Marketing</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invGoogleMarketing.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(46)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 46 }">
+                            <div>Social Media</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invSocialMedia.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(47)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 47 }">
+                            <div>Calls</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invMarketingCall.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Non Marketing Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-2 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Invoiced Non-Marketing Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{
+                            invSADirect.length +
+                            invDirectLead.length +
+                            invLostCustomer.length +
+                            invCreWhatsapp.length +
+                            invWhatsappSerDue.length +
+                            invNonMarketingCall.length
+                            }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(48)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 48 }">
+                            <div>SA Direct</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invSADirect.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(49)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 49 }">
+                            <div>Direct Lead</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invDirectLead.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(50)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 50 }">
+                            <div>Lost Customer</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invLostCustomer.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(51)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 51 }">
+                            <div>Cre Whatsapp</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invCreWhatsapp.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(52)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 52 }">
+                            <div>Whatsapp Ser Due</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invWhatsappSerDue.length }}
+                            </div>
+                        </div>
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(53)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomer === 53 }">
+                            <div>Calls</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ invNonMarketingCall.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel mt-5 pb-0" *ngIf="!load_flag">
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Customer Details</h5>
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                    </div>
+                </div>
+                <div>
+                    <div class="datatable">
+                        <ng-datatable [rows]="newCustomerList" [columns]="cols" [search]="search" [sortable]="true"
+                            [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                            firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                            lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                            previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                            nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                            <ng-template slot="phone" let-value="data">
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    ngxTippy="{{ value.phone || value.cphone }}" [tippyProps]="{ theme: 'info' }"
+                                    *ngIf="value.phone || value.cphone">
+                                    ****{{ value.phone || value.cphone | slice : -6 }}
+                                </button>
+                            </ng-template>
+                            <ng-template slot="lead_code" let-value="data">
+                                <button *ngIf="value.lead_code != null" type="button"
+                                    class="btn btn-outline-primary btn-sm" (click)="fetchAllLeadsByPhone(value.phone)">
+                                    {{ value.lead_code }}
+                                </button>
+                            </ng-template>
+                            <ng-template slot="lead_purpose" let-value="data">
+                                <span class="badge bg-secondary">{{ value.lead_purpose }}</span>
+                            </ng-template>
+                            <ng-template slot="lead_note" let-value="data">
+                                <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note != null"
+                                    [tippyProps]="{ theme: 'info' }">{{ value.lead_note | slice : 0 : 30 }}<ng-container
+                                        *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                            </ng-template>
+                            <ng-template slot="lead_createdon" let-value="data">
+                                <div class="flex flex-col gap-2 md:flex-row" *ngIf="value.lead_createdon">
+                                    <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                    {{ value.lead_createdon | date : 'yyyy-MM-dd' }}
+                                </div>
+                                <div class="flex flex-col gap-2 md:flex-row" *ngIf="!value.lead_createdon">
+                                    <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                    {{ value.lead_creted_date | date : 'yyyy-MM-dd' }}
+                                </div>
+                            </ng-template>
+                            <ng-template slot="job_open_date" let-value="data">
+                                <div class="flex flex-col gap-2 md:flex-row">
+                                    <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                    {{ value.job_open_date | date : 'yyyy-MM-dd' }}
+                                </div>
+                            </ng-template>
+                            <!-- <ng-template slot="action" let-value="data">
+                                <div>
+                                    <button type="button" class="ltr:mr-2 rtl:ml-2" ngxTippy="Edit" (click)="leadEdit(value)"
+                                        *ngIf="value.status_id == '1'">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
+                                            <path
+                                                d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path opacity="0.5"
+                                                d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </ng-template> -->
+                        </ng-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="tab4.toLowerCase() === 'leads'">
+            <div class="panel mb-5 mt-5 pb-5">
+                <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
+                    <div>
+                        <label>Date From</label>
+                        <input [(ngModel)]="ldateFrom" type="date" class="form-input text-xs"
+                            placeholder="Date From " />
+                    </div>
+                    <div>
+                        <label>Date To</label>
+                        <input [(ngModel)]="ldateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+                    </div>
+                    <div>
+                        <label>Customer Source</label>
+                        <ng-select [(ngModel)]="lsource" [searchable]="true" [clearable]="false" appendTo="body"
+                            placeholder="Select an extension" class="custom-multiselect">
+                            <ng-option value="0">ALL</ng-option>
+                            <ng-option *ngFor="let value of sourceList" value="{{ value.ld_src_id }}">{{ value.ld_src
+                                }}</ng-option>
+                        </ng-select>
+                    </div>
+                    <div>
+                        <label style="color: white">.</label>
+                        <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                            (click)="fetchAllNewCustomerLeads()">
+                            SEARCH
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="l_load_flag" style="text-align: center">
+                <span
+                    class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+            </div>
+            <div class="mb-5 grid grid-cols-3 gap-2" *ngIf="!l_load_flag && allNewLeadsList.length > 0">
+                <!-- Customer Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Lead Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ allNewLeadsList.length }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" style="justify-content: space-between; cursor: pointer"
+                            (click)="filterCustomers(25)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 25 }">
+                            <div>Total Leads</div>
+                            <div class="text text-gray-900">
+                                {{ allNewLeadsList.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(26)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 26 }"
+                            style="justify-content: space-between; cursor: pointer">
+                            <div>Job Opened</div>
+                            <div class="text text-gray-900" style="font-size: 15px">
+                                {{ lopenjobcards.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(27)"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 27 }"
+                            style="justify-content: space-between; cursor: pointer">
+                            <div>Invoiced</div>
+                            <div class="text text-gray-900">
+                                {{ linvoicedjobcard.length }}
+                            </div>
+                        </div>
+                        <!-- <div>
+                            <div>Open Leads</div>
+                            <div class="text-lg text-yellow-700" (click)="filterCustomers(28)"
+                                style=" cursor: pointer; ">{{
+                                0 }}</div>
+                        </div>
+                        <div>
+                            <div>Leads Closed</div>
+                            <div class="text-lg text-rose-700" (click)="filterCustomers(29)" style=" cursor: pointer; ">
+                                {{
+                                0 }}</div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <!-- Lead Marketing Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Lead Marketing Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ lwhatsappDirect.length + lwhatsappCampaign.length + lgoogleMarketing.length +
+                            lsocialMedia.length + lmarketingCall.length }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" (click)="filterCustomers(9)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 9 }">
+                            <div>Whatsapp Direct</div>
+                            <div class="text text-gray-900">
+                                {{ lwhatsappDirect.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(8)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 8 }">
+                            <div>Whatsapp Campaign</div>
+                            <div class="text text-gray-900">
+                                {{ lwhatsappCampaign.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(7)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 7 }">
+                            <div>Google Marketing</div>
+                            <div class="text text-gray-900">
+                                {{ lgoogleMarketing.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(2)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 2 }">
+                            <div>Social Media</div>
+                            <div class="text text-gray-900">
+                                {{ lsocialMedia.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(29)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 29 }">
+                            <div>Calls</div>
+                            <div class="text text-gray-900">
+                                {{ lmarketingCall.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Non Marketing Statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Lead Non-Marketing Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{
+                            lsaDirect.length +
+                            ldirectLead.length +
+                            llostCustomer.length +
+                            lcreWhatsapp.length +
+                            lwhatsappSerDue.length +
+                            lnonMarketingCall.length
+                            }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" (click)="filterCustomers(3)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 3 }">
+                            <div>SA Direct</div>
+                            <div class="text text-gray-900">
+                                {{ lsaDirect.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(5)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 5 }">
+                            <div>Direct Lead</div>
+                            <div class="text text-gray-900">
+                                {{ ldirectLead.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(6)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 6 }">
+                            <div>Lost Customer</div>
+                            <div class="text text-gray-900">
+                                {{ llostCustomer.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(4)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 4 }">
+                            <div>Cre Whatsapp</div>
+                            <div class="text text-gray-900">
+                                {{ lcreWhatsapp.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(10)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 10 }">
+                            <div>Whatsapp Ser Due</div>
+                            <div class="text text-gray-900">
+                                {{ lwhatsappSerDue.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(30)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 30 }">
+                            <div>Calls</div>
+                            <div class="text text-gray-900">
+                                {{ lnonMarketingCall.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Whatsapp Lead Categorize -->
+                <!-- <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Whatsapp Lead Statistics</h5>
+                        <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ lwhatsappLeads.length }}
+                        </h4>
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div
+                            class="flex"
+                            (click)="filterCustomers(54)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 54 }"
+                        >
+                            <div>Hot Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lHotLeads.length }}
+                            </div>
+                        </div>
+                        <div
+                            class="flex"
+                            (click)="filterCustomers(55)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 55 }"
+                        >
+                            <div>Warm Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lWarmLeads.length }}
+                            </div>
+                        </div>
+                        <div
+                            class="flex"
+                            (click)="filterCustomers(56)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 56 }"
+                        >
+                            <div>Cold Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lColdLeads.length }}
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Potential Lead Statistics</h5>
+                        <!-- <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ lwhatsappLeads.length + callLeadHotCustomers.length}}
+                        </h4> -->
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" (click)="filterCustomers(58)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 58 }">
+                            <div>Total Potential Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lHotLeads.length + lWarmLeads.length + callLeadHotCustomers.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(59)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 59 }">
+                            <div>Hot Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lHotLeads.length + callLeadHotCustomers.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(60)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 60 }">
+                            <div>Warm Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lWarmLeads.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(61)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 61 }">
+                            <div>Cold Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lColdLeads.length + callColdCustomers.length }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex font-bold"
+                        style="justify-content: space-between; cursor: pointer border-b-2 border-blue-500 font-bold">
+                        <div>Potential Lead Conversion %</div>
+                        <div class="text text-gray-900">
+                            <span *ngIf="(lHotLeads.length + lWarmLeads.length + callLeadHotCustomers.length) > 0">
+                                {{
+                                (lopenjobcards.length / (lHotLeads.length + lWarmLeads.length +
+                                callLeadHotCustomers.length)) * 100
+                                | number: '1.2-2'
+                                }}%
+                            </span>
+                            <span *ngIf="(lHotLeads.length + lWarmLeads.length + callLeadHotCustomers.length) === 0">
+                                0%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex font-bold"
+                        style="justify-content: space-between; cursor: pointer border-b-2 border-blue-500 font-bold">
+                        <div>All Lead Conversion %</div>
+                        <div class="text text-gray-900">
+                            {{
+                            (
+                            (lHotLeads.length + lWarmLeads.length + callLeadHotCustomers.length +
+                            callColdCustomers.length + lColdLeads.length) > 0
+                            ? (lopenjobcards.length /
+                            (lHotLeads.length + lWarmLeads.length + callLeadHotCustomers.length +
+                            callColdCustomers.length + lColdLeads.length)) * 100
+                            : 0
+                            ) | number: '1.2-2'
+                            }}%
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Whatsapp Lead Statistics</h5>
+                        <!-- <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ lwhatsappLeads.length + callLeadHotCustomers.length}}
+                        </h4> -->
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" (click)="filterCustomers(64)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 64 }">
+                            <div>Potential Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lHotLeads.length + lWarmLeads.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(65)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 65 }">
+                            <div>Hot Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lHotLeads.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(66)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 66 }">
+                            <div>Warm Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lWarmLeads.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(67)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 67 }">
+                            <div>Cold Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lColdLeads.length }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 flex font-bold"
+                        style="justify-content: space-between; cursor: pointer border-b-2 border-blue-500 font-bold">
+                        <div>Potential Whatsapp Lead Conversion %</div>
+                        <div class="text text-gray-900">
+                            {{
+                            (
+                            (lHotLeads.length + lWarmLeads.length) > 0
+                            ? (whOpenedjobcards.length / (lHotLeads.length + lWarmLeads.length)) * 100
+                            : 0
+                            ) | number: '1.2-2'
+                            }}%
+                        </div>
+                    </div>
+                    <div class="mt-2 flex font-bold"
+                        style="justify-content: space-between; cursor: pointer border-b-2 border-blue-500 font-bold">
+                        <div>All Lead Conversion %</div>
+                        <div class="text text-gray-900">
+                            {{
+                            (
+                            (lHotLeads.length + lWarmLeads.length + lColdLeads.length) > 0
+                            ? (whOpenedjobcards.length / (lHotLeads.length + lWarmLeads.length + lColdLeads.length)) *
+                            100
+                            : 0
+                            ) | number: '1.2-2'
+                            }}%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- call lead statistics -->
+                <div class="panel h-full sm:col-span-3 lg:col-span-1">
+                    <div class="mb-5 flex items-center justify-between text-gray-800">
+                        <h5 class="text-lg font-semibold text-blue-600">Call Lead Statistics</h5>
+                        <!-- <h4 class="text-lg font-semibold text-green-600" style="float: right">
+                            {{ lwhatsappLeads.length + callLeadHotCustomers.length}}
+                        </h4> -->
+                    </div>
+                    <div class="grid gap-3 text-sm font-bold text-gray-600 sm:grid-cols-2">
+                        <div class="flex" (click)="filterCustomers(70)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 70 }">
+                            <div>Potential Leads</div>
+                            <div class="text text-gray-900">
+                                {{ callLeadHotCustomers.length }}
+                            </div>
+                        </div>
+                        <div class="flex" (click)="filterCustomers(71)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 71 }">
+                            <div>Cold Leads</div>
+                            <div class="text text-gray-900">
+                                {{ callColdCustomers.length }}
+                            </div>
+                        </div>
+                        <!-- <div
+                            class="flex"
+                            (click)="filterCustomers(56)"
+                            style="justify-content: space-between; cursor: pointer"
+                            [ngClass]="{ 'border-b-2 border-blue-500 font-bold': selectedCustomerType === 56 }"
+                        >
+                            <div>Warm Leads</div>
+                            <div class="text text-gray-900">
+                                {{ lWarmLeads.length }}
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="mt-2 flex font-bold"
+                        style="justify-content: space-between; cursor: pointer border-b-2 border-blue-500 font-bold">
+                        <div>Potential Call Lead Conversion %</div>
+                        <div class="text text-gray-900">
+                            {{
+                            (
+                            (lHotLeads.length + lWarmLeads.length) > 0
+                            ? (lopenjobcards.length / (lHotLeads.length + lWarmLeads.length)) * 100
+                            : 0
+                            ) | number: '1.2-2'
+                            }}%
+                        </div>
+
+                    </div>
+                    <div class="mt-2 flex font-bold"
+                        style="justify-content: space-between; cursor: pointer border-b-2 border-blue-500 font-bold">
+                        <div>All Lead Conversion %</div>
+                        <div class="text text-gray-900">
+                            {{
+                            (
+                            (lHotLeads.length + lWarmLeads.length + lColdLeads.length) > 0
+                            ? (whOpenedjobcards.length / (lHotLeads.length + lWarmLeads.length + lColdLeads.length)) *
+                            100
+                            : 0
+                            ) | number: '1.2-2'
+                            }}%
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel mt-5 pb-0" *ngIf="!l_load_flag">
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Customer Details</h5>
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                    </div>
+                </div>
+                <div>
+                    <div class="datatable">
+                        <ng-datatable [rows]="newLeadList" [columns]="leadsColumn" [search]="search" [sortable]="true"
+                            [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                            firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                            lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                            previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                            nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                            <ng-template slot="phone" let-value="data">
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    ngxTippy="{{ value.phone || value.mobile }}" [tippyProps]="{ theme: 'info' }"
+                                    *ngIf="value.phone || value.mobile">
+                                    ****{{ value.phone || value.mobile | slice : -6 }}
+                                </button>
+                            </ng-template>
+                            <ng-template slot="lead_code" let-value="data">
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                    (click)="fetchAllLeadsByPhone(value.phone)">
+                                    {{ value.lead_code }}
+                                </button>
+                            </ng-template>
+                            <ng-template slot="lead_purpose" let-value="data">
+                                <span class="badge bg-secondary">{{ value.lead_purpose }}</span>
+                            </ng-template>
+                            <ng-template slot="lead_note" let-value="data">
+                                <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note != null"
+                                    [tippyProps]="{ theme: 'info' }">{{ value.lead_note | slice : 0 : 30 }}<ng-container
+                                        *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                            </ng-template>
+                            <ng-template slot="lead_createdon" let-value="data">
+                                <div class="flex flex-col gap-2 md:flex-row" *ngIf="value.lead_createdon">
+                                    <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                    {{ value.lead_createdon | date : 'yyyy-MM-dd' }}
+                                </div>
+                                <div class="flex flex-col gap-2 md:flex-row" *ngIf="!value.lead_createdon">
+                                    <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                    {{ value.lead_creted_date | date : 'yyyy-MM-dd' }}
+                                </div>
+                            </ng-template>
+                            <ng-template slot="first_job_date" let-value="data">
+                                <div class="flex flex-col gap-2 md:flex-row">
+                                    <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                            stroke="#1C274C" stroke-width="1.5" />
+                                        <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                        <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5"
+                                            stroke-linecap="round" />
+                                        <path
+                                            d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                            fill="#1C274C" />
+                                        <path
+                                            d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                            fill="#1C274C" />
+                                    </svg>
+                                    {{ value.first_job_date | date : 'yyyy-MM-dd' }}
+                                </div>
+                            </ng-template>
+                            <!-- <ng-template slot="action" let-value="data">
+                                <div>
+                                    <button type="button" class="ltr:mr-2 rtl:ml-2" ngxTippy="Edit" (click)="leadEdit(value)"
+                                        *ngIf="value.status_id == '1'">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
+                                            <path
+                                                d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                            <path opacity="0.5"
+                                                d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015"
+                                                stroke="currentColor" stroke-width="1.5" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </ng-template> -->
+                        </ng-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<modal #leadModal class="modal-top animate animate-slide-in-down extra-large-modal call-view2" style="max-width: 90vw">
+    <ng-template #modalHeader>
+        <div></div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="scroll-body">
+            <div>
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Customer Lead Details</h5>
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+                    </div>
+                </div>
+                <div class="datatable">
+                    <ng-datatable [rows]="leadsList" [columns]="leadCols" [search]="leadSearch" [columnFilter]="false"
+                        skin="whitespace-nowrap table-hover bh-table-compact"
+                        firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                        previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                        <ng-template slot="lead_code" let-value="data">
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                ngxTippy="{{ value.lead_code }}" [tippyProps]="{ theme: 'secondary' }">
+                                {{ value.lead_code }}
+                            </button>
+                        </ng-template>
+                        <ng-template slot="call_purpose" let-value="data">
+                            <span *ngIf="value.call_purpose != null">{{ value.call_purpose }}
+                                <ng-container *ngIf="value.call_purpose == null">Missing</ng-container>
+                            </span>
+                        </ng-template>
+                        <ng-template slot="lead_note" let-value="data">
+                            <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note != null"
+                                [tippyProps]="{ theme: 'info' }">{{ value.lead_note | slice : 0 : 30 }}<ng-container
+                                    *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                        </ng-template>
+                        <ng-template slot="lead_createdon" let-value="data">
+                            <div class="flex flex-col gap-2 md:flex-row">
+                                <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                        stroke="#1C274C" stroke-width="1.5" />
+                                    <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path
+                                        d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                        fill="#1C274C" />
+                                </svg>
+                                {{ value.lead_createdon | date : 'yyyy-MM-dd' }}
+                            </div>
+                        </ng-template>
+                    </ng-datatable>
+                </div>
+            </div>
+            <div class="flex items-center justify-center" *ngIf="!leadsFlag && !leadsList">
+                <p>No Customers Gained</p>
+            </div>
+            <div class="flex items-center justify-center" *ngIf="leadsFlag">
+                <button type="button" class="btn btn-secondary btn-lg">
+                    <span class="inline-block h-3 w-3 animate-ping rounded-full bg-white ltr:mr-4 rtl:ml-4"></span>
+                    Hold on for a sec
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="closeModal()" class="btn btn-outline-danger">Discard</button>
+    </ng-template>
+</modal>
+
+<!-- <div class="panel mt-5 pb-0" *ngIf="!load_flag && graph_flag">
+    <div class="col-span-2" >
+        <div class="ng-tns-c35-16 mb-5 flex items-start justify-between" style="place-content: center;">
+            <h5 class="ng-tns-c35-16 text-lg font-semibold dark:text-white-light">Customer Source Analysis</h5>
+        </div>
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+            [plotOptions]="chartOptions.plotOptions" [yaxis]="chartOptions.yaxis" [xaxis]="chartOptions.xaxis"
+            [legend]="chartOptions.legend" [colors]="chartOptions.colors" [grid]="chartOptions.grid">
+        </apx-chart>
+    </div>
+</div> -->
+
+<!-- <div class="panel mt-5 mb-5 pb-2" *ngIf="!load_flag && allNewCustomerList.length > 0">
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <table class="w-full text-sm border border-gray-300" style="border-width: 2px;">
+                <tbody>
+                    <tr class="cursor-pointer border-b border-gray-300" (click)="filterCustomers(0)">
+                        <td class="p-3 font-semibold border-r border-gray-300">Total Customers</td>
+                        <td class="p-3 text-right font-bold">{{ allNewCustomerList.length }}</td>
+                    </tr>
+                    <tr class="cursor-pointer" (click)="filterCustomers(20)">
+                        <td class="p-3 font-semibold border-r border-gray-300">Direct Customers</td>
+                        <td class="p-3 text-right font-bold">{{ directCustomers.length }}</td>
+                    </tr>
+                    <tr class="cursor-pointer border-b border-gray-300" *ngFor="let item of overallcounts"
+                        (click)="filterCustomers(item.id)">
+                        <td class="p-3 font-semibold border-r border-gray-300">{{ item.label }}</td>
+                        <td class="p-3 text-right font-bold">{{ item.count }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <table class="w-full text-sm border border-gray-300" style="border-width: 2px;">
+                <tbody>
+                    <tr class="cursor-pointer border-b border-gray-300" *ngFor="let item of counts"
+                        (click)="filterCustomers(item.id)">
+                        <td class="p-3 font-semibold border-r border-gray-300">{{ item.name }}</td>
+                        <td class="p-3 text-right font-bold">{{ item.count }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="panel mt-5 mb-5 pb-2 " *ngIf="!load_flag && allNewCustomerList.length>0">
+    <div class="grid grid-cols-6 gap-2 mb-5">
+        <div class="panel grid grid-cols gap-1" (click)="filterCustomers(0)"
+            style="background: linear-gradient(to right,#374151, #374151);color: white;justify-content:center;padding: 10px; cursor: pointer;">
+            <div class="flex flex-1 gap-2 text-md font-semibold" style="font-size: 13px;">Total Customers
+            </div>
+            <div class="font-bold" style="font-size: large;text-align: center;">{{allNewCustomerList.length}}
+            </div>
+        </div>
+
+        <div class="gap-2" *ngFor="let item of counts">
+            <div class="panel grid grid-cols gap-1" (click)="filterCustomers(item.id)"
+                style="background: linear-gradient(to right,#374151, #374151);color: white;justify-content:center;padding: 10px; cursor: pointer;">
+                <div class="flex flex-1 gap-2 text-md font-semibold" style="font-size: 13px;">{{ item.name }}
+                </div>
+                <div class="font-bold" style="font-size: large;text-align: center;">{{ item.count }}
+                </div>
+            </div>
+        </div>
+
+        <div class="gap-2" *ngFor="let item of overallcounts">
+            <div class="panel grid grid-cols gap-1" (click)="filterCustomers(item.id)"
+                style="background: linear-gradient(to right,#374151, #374151);color: white;justify-content:center;padding: 10px; cursor: pointer;">
+                <div class="flex flex-1 gap-2 text-md font-semibold" style="font-size: 13px;">{{ item.label }}
+                </div>
+                <div class="font-bold" style="font-size: large;text-align: center;">{{ item.count }}
+                </div>
+            </div>
+        </div>
+
+        <div class="panel grid grid-cols gap-1" (click)="filterCustomers(20)"
+            style="background: linear-gradient(to right,#374151, #374151);color: white;justify-content:center;padding: 10px; cursor: pointer;">
+            <div class="flex flex-1 gap-2 text-md font-semibold" style="font-size: 13px;">Direct Customers
+            </div>
+            <div class="font-bold" style="font-size: large;text-align: center;">{{directCustomers.length}}
+            </div>
+        </div>
+
+    </div>
+</div> -->

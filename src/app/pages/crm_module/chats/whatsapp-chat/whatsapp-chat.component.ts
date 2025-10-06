@@ -1,6 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import { Server, Socket } from 'socket.io';
@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { log } from 'console';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
     selector: 'app-whatsapp-chat',
@@ -55,6 +57,7 @@ export class WhatsappChatComponent implements OnInit {
         lead_status: '',
         lead_details: null,
         wb_cus_category: 0,
+        lead_category: 0,
     };
     allCustomersList: any[] = [];
     allCustomersListMaster: any[] = [];
@@ -98,7 +101,7 @@ export class WhatsappChatComponent implements OnInit {
     appointmentData: any = {
         date: null,
         timeFrom: '',
-        timeTo: '',
+        // timeTo: '',
         cust_id: '',
         cust_mobile: '',
     };
@@ -115,6 +118,7 @@ export class WhatsappChatComponent implements OnInit {
         appointmentCust: 0,
         quotationCust: 0,
         irrelaventCust: 0,
+        purposeNotCust: 0,
     };
     // isContextMenuVisible = false;
     contextMenuPosition = { x: 0, y: 0 };
@@ -142,18 +146,39 @@ export class WhatsappChatComponent implements OnInit {
     isFollowUpSelected: boolean = false;
     fullcustomersLimit: any[] = [];
     // unreadMessagesFlag: boolean = false;
+    numbers: any[] = [];
+
+    //Purpost Not Selected Customers
+    offsets: any = 0;
+    limits: any = 10;
+
+    public uiFilter: any = null; // 8, 9, or 10
+    public apiFilter: any = null; // 1, 2, or 3
 
     onscroll = (ev: Event) => {
-        if (this.selectedFilter !== 0 || this.isFollowUpSelected) {
+        if (
+            (this.selectedFilter !== 0 && this.selectedFilter !== 7 && this.selectedFilter !== 8 && this.selectedFilter !== 10 && this.selectedFilter !== 9) ||
+            this.isFollowUpSelected ||
+            this.numbers.length > 0
+        ) {
             return;
         }
         // Handle scroll event
         const element = ev.target as HTMLElement;
         //scrollheight=total height of the scrollable content,  scrolltop =0, clientHeight = viewport height
         const atBottom = element.scrollHeight - element.scrollTop <= element.clientHeight + 10;
-        if (atBottom && !this.isLoading) {
-            // console.log('Scrolled to the bottom!');
-            this.updateUsersChat(); // Call your method to load more data
+
+        if (atBottom && !this.isLoading && (this.selectedFilter == 8 || this.selectedFilter == 9 || this.selectedFilter == 10)) {
+            // console.log('filters>>>>>>uiFilter >>>>>>>>selectedFilter>>>>>>', this.uiFilter, this.selectedFilter);
+            this.getCategoryCust(this.uiFilter, this.selectedFilter);
+        }
+
+        if (atBottom && !this.isLoading && this.selectedFilter == 0) {
+            this.updateUsersChat();
+        }
+
+        if (atBottom && !this.isLoading && this.selectedFilter == 7 && (this.uiFilter != 8 || this.uiFilter != 9 || this.uiFilter != 10)) {
+            this.getPurposeNotCust(7, 'seven');
         }
     };
     refreshFlag: boolean = false;
@@ -169,12 +194,34 @@ export class WhatsappChatComponent implements OnInit {
     forwardType: any;
     inboundFollowUpTimes: any;
     outboundFollowUpTimes: any;
+    searchTextChanged = new Subject<string>();
 
-    constructor(private userServices: StaffPostAuthService, public router: Router, private http: HttpClient, private datePipe: DatePipe) {
+    leadOptions = [
+        { value: '2', label: '🔥 Hot Lead', color: '#dc3545' }, // Red
+        { value: '1', label: '🌤️ Warm Lead', color: '#ffc107' }, // Yellow
+        { value: '0', label: '❄️ Cold Lead', color: '#17a2b8' }, // Blue
+    ];
+
+    LeadCategoryCounts: any = {
+        hot: 0,
+        warm: 0,
+        cool: 0,
+        notspecified: 0,
+    };
+    public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
+    getFilter: any = 0;
+    constructor(
+        private userServices: StaffPostAuthService,
+        public router: Router,
+        private http: HttpClient,
+        private datePipe: DatePipe,
+        private activeRouter: ActivatedRoute
+    ) {
         this.messages = [];
-        this.limit = 30;
+        this.limit = 20;
         this.offset = 0;
 
+        //COMMENTED WHEN USING LEAD CATEGORY, HOT, WARM, COLD..
         this.userServices.getFollowUpAlertTime().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.inboundFollowUpTimes = rdata.followUpTimes.filter((msg: any) => msg.wb_msg_fut_type === '0');
@@ -188,20 +235,140 @@ export class WhatsappChatComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        // this.hasMoredata = true;
         this.isLoading = false;
-        this.updateUsersChat();
-        this.getNewMessage().subscribe((message: any) => {});
-        this.getNewInActiveMessage().subscribe((message: any) => {});
-        this.socket.emit('create_room', {
-            room_id: 'crm_dxb_users',
-            user: atob(atob(localStorage.getItem('us_id') || '{}')),
+        const navigationEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+
+        if (navigationEntries.length > 0 && navigationEntries[0].type === 'reload') {
+        }
+        const storedNumbers = sessionStorage.getItem('chatNumbers');
+        if (storedNumbers) {
+            this.numbers = JSON.parse(storedNumbers);
+            this.searchWhatsappCustomersByPhoneNumbers();
+        } else {
+            this.updateUsersChat();
+            this.getNewMessage().subscribe((message: any) => {});
+            this.getNewInActiveMessage().subscribe((message: any) => {});
+            this.socket.emit('create_room', {
+                room_id: 'crm_dxb_users',
+                user: atob(atob(localStorage.getItem('us_id') || '{}')),
+            });
+        }
+
+        this.searchTextChanged
+            .pipe(
+                debounceTime(1000), // Adjust this value to delay the API call (500ms is ideal)
+                distinctUntilChanged()
+            )
+            .subscribe(() => {
+                this.searchCustomers();
+            });
+
+        // this.activeRouter.queryParams.subscribe((params) => {
+        //     if (params['numbers']) {
+        //         this.numbers = JSON.parse(decodeURIComponent(params['numbers']));
+        //         console.log('Entered in Whatsapp with numbers:', this.numbers);
+        //         this.searchWhatsappCustomersByPhoneNumbers();
+        //     } else {
+        // this.updateUsersChat();
+        // this.getNewMessage().subscribe((message: any) => {});
+        // this.getNewInActiveMessage().subscribe((message: any) => {});
+        // this.socket.emit('create_room', {
+        //     room_id: 'crm_dxb_users',
+        //     user: atob(atob(localStorage.getItem('us_id') || '{}')),
+        // });
+        //     }
+        // });
+    }
+
+    ngAfterViewInit() {
+        this.customersScrollable.scrolled.subscribe((event) => this.onscroll(event));
+        // this.getFollowUpCustomers();  //--commented for follow up
+        this.leadCategoryCount();
+    }
+
+    // ngOnInit(): void {
+    //     // this.hasMoredata = true;
+    //     this.isLoading = false;
+    //     this.updateUsersChat();
+    //     this.getNewMessage().subscribe((message: any) => {});
+    //     this.getNewInActiveMessage().subscribe((message: any) => {});
+    //     this.socket.emit('create_room', {
+    //         room_id: 'crm_dxb_users',
+    //         user: atob(atob(localStorage.getItem('us_id') || '{}')),
+    //     });
+
+    //     this.activeRouter.queryParams.subscribe((params) => {
+    //         this.numbers = params['numbers'] ? JSON.parse(params['numbers']) : [];
+    //         console.log('entered in  Whatsapp', this.numbers); // Array of numbers
+    //         this.searchWhatsappCustomersByPhoneNumbers();
+    //     });
+    // }
+    // ngAfterViewInit() {
+    //     // Subscribe to the 'scrolled' observable
+    //     this.customersScrollable.scrolled.subscribe((event) => this.onscroll(event));
+    //     this.getFollowUpCustomers();
+    // }
+
+    leadCategoryCount() {
+        this.userServices.getLeadCategoryCount().subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                this.LeadCategoryCounts = {
+                    hot: rdata.data?.hot ?? 0,
+                    warm: rdata.data?.warm ?? 0,
+                    cool: rdata.data?.cool ?? 0,
+                    notspecified: 0,
+                };
+            }
         });
     }
-    ngAfterViewInit() {
-        // Subscribe to the 'scrolled' observable
-        this.customersScrollable.scrolled.subscribe((event) => this.onscroll(event));
-        this.getFollowUpCustomers();
+
+    getCategoryCust(type: number, num: any) {
+        this.selectedFollowUp = '';
+        if (this.isLoading) return;
+
+        this.selectedFilter = num;
+        const wasFilter = this.uiFilter;
+        this.uiFilter = type;
+
+        if (wasFilter !== this.selectedFilter || this.hasMoredata === undefined) {
+            this.offsets = 0;
+            this.hasMoredata = true;
+            this.allCustomersList = [];
+        }
+
+        if (!this.hasMoredata) {
+            return;
+        }
+
+        this.isLoading = true;
+
+        const typeConversion: Record<number, number> = {
+            8: 2,
+            9: 1,
+            10: 0,
+        };
+
+        const catData = {
+            type: typeConversion[type] ?? type,
+            limit: this.limits,
+            offset: this.offsets,
+        };
+
+        this.userServices.getLeadCategoryCustomers(catData).subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                const fetched = rdata.wb_customers || [];
+                if (this.offsets == 0) {
+                    this.allCustomersList = fetched;
+                } else {
+                    this.allCustomersList = [...this.allCustomersList, ...fetched];
+                }
+                this.hasMoredata = fetched.length >= this.limits;
+                if (this.hasMoredata) {
+                    this.offsets += this.limits;
+                }
+                this.isLoading = false;
+            }
+        });
     }
 
     getFollowUpCustomers() {
@@ -344,6 +511,8 @@ export class WhatsappChatComponent implements OnInit {
                 this.currentUser.lead_id = rdata.wb_lead_details.lead_id ? rdata.wb_lead_details.lead_id : 0;
                 this.currentUser.lead_status = rdata.wb_lead_details.lead_id ? rdata.wb_lead_details.status_id : 0;
                 this.currentUser.lead_details = rdata.wb_lead_details.lead_id ? rdata.wb_lead_details : null;
+                this.currentUser.lead_category = rdata.wb_lead_details.lead_id ? rdata.wb_lead_details.lead_category : 0;
+
                 // this.socket.emit('create_room', {
                 //     room_id: 'crm_' + user.wb_cus_mobile,
                 //     user: user.wb_cus_name,
@@ -359,7 +528,8 @@ export class WhatsappChatComponent implements OnInit {
         if (this.isLoading) {
             return;
         }
-        this.limit = 30;
+        this.numbers = [];
+        this.limit = 20;
         this.offset = 0;
         this.refreshFlag = true;
         this.selectedFollowUp = 'zero';
@@ -367,7 +537,8 @@ export class WhatsappChatComponent implements OnInit {
         this.allCustomersListMaster = [];
         this.isShowUserChat = false;
         this.updateUsersChat();
-        this.getFollowUpCustomers();
+        this.getUnreadMessages(0);
+        // this.getFollowUpCustomers();
         window.scrollTo(0, 0);
     }
 
@@ -410,7 +581,7 @@ export class WhatsappChatComponent implements OnInit {
     //                     this.allCustomersList = this.newCustomers;
     //                     this.allCustomersListMaster = rdata.wb_customers;
     //                     this.refreshFlag = false;
-    //                 } else if (this.limit == 30 && this.offset == 0) {
+    //                 } else if (this.limit == 20 && this.offset == 0) {
     //                     this.allCustomersList = [];
     //                     this.allCustomersList = this.newCustomers;
     //                     this.allCustomersListMaster = rdata.wb_customers;
@@ -630,9 +801,9 @@ export class WhatsappChatComponent implements OnInit {
         // this.unreadCount = 0;
         // this.allCustomersList= [];
 
-        this.chatCounts = {
-            allCust: 0,
-        };
+        // this.chatCounts = {
+        //     allCust: 0,
+        // };
         if (this.hasMoredata === undefined) {
             this.hasMoredata = true;
         }
@@ -658,7 +829,7 @@ export class WhatsappChatComponent implements OnInit {
                     // };
 
                     this.newCustomers = rdata.wb_customers;
-                    if (this.refreshFlag || (this.limit == 30 && this.offset == 0)) {
+                    if (this.refreshFlag || (this.limit == 20 && this.offset == 0)) {
                         this.allCustomersList = [...this.newCustomers];
                         this.allCustomersListMaster = [...this.newCustomers];
                         this.refreshFlag = false;
@@ -748,26 +919,30 @@ export class WhatsappChatComponent implements OnInit {
                 }
             });
 
-            this.chatCounts = {
-                allCust: 0,
-                potentialCust: 0,
-                activeCust: 0,
-                appointmentCust: 0,
-                quotationCust: 0,
-                irrelaventCust: 0,
-            };
+            if (this.refreshFlag || (this.limit == 20 && this.offset == 0)) {
+                this.chatCounts = {
+                    allCust: 0,
+                    potentialCust: 0,
+                    activeCust: 0,
+                    appointmentCust: 0,
+                    quotationCust: 0,
+                    irrelaventCust: 0,
+                    purposeNotCust: 0,
+                };
 
-            this.userServices.getWhatsappCustomerCategorizeCounts().subscribe((rdata: any) => {
-                if (rdata.ret_data === 'success') {
-                    this.chatCounts.potentialCust = rdata.wb_customers_count.potential_Customer;
-                    this.chatCounts.activeCust = rdata.wb_customers_count.active_Customer;
-                    this.chatCounts.appointmentCust = rdata.wb_customers_count.appointment;
-                    this.chatCounts.quotationCust = rdata.wb_customers_count.quotation;
-                    this.chatCounts.irrelaventCust = rdata.wb_customers_count.irrelevant;
-                } else {
-                    this.coloredToast('danger', "Can't fetch whatsapp messages");
-                }
-            });
+                this.userServices.getWhatsappCustomerCategorizeCounts().subscribe((rdata: any) => {
+                    if (rdata.ret_data === 'success') {
+                        this.chatCounts.potentialCust = rdata.wb_customers_count.potential_Customer;
+                        this.chatCounts.activeCust = rdata.wb_customers_count.active_Customer;
+                        this.chatCounts.appointmentCust = rdata.wb_customers_count.appointment;
+                        this.chatCounts.quotationCust = rdata.wb_customers_count.quotation;
+                        this.chatCounts.irrelaventCust = rdata.wb_customers_count.irrelevant;
+                        this.chatCounts.purposeNotCust = rdata.wb_customers_count.purpose_not_cust;
+                    } else {
+                        this.coloredToast('danger', "Can't fetch whatsapp messages");
+                    }
+                });
+            }
 
             // this.potentialList={
             //     awaiting30m:0,
@@ -900,9 +1075,10 @@ export class WhatsappChatComponent implements OnInit {
                     this.scrollToBottom();
                 }
             } else {
-                this.limit = 30;
+                this.limit = 20;
                 this.offset = 0;
                 this.updateUsersChat();
+                this.getUnreadMessages(0);
             }
             this.playSound();
         });
@@ -1016,7 +1192,11 @@ export class WhatsappChatComponent implements OnInit {
                         this.height = 40; // Initial height of textarea
                         this.maxHeight = 150;
                     } else {
-                        this.coloredToast('danger', "Can't fetch whatsapp messages");
+                        if (rdata.blocked && rdata.blocked == 'true') {
+                            this.coloredToast('danger', 'Customer is blocked. Unable to send message.');
+                        } else {
+                            this.coloredToast('danger', "Can't fetch whatsapp messages");
+                        }
                     }
                 });
                 this.textMessage = '';
@@ -1033,15 +1213,12 @@ export class WhatsappChatComponent implements OnInit {
     }
 
     searchCustomers() {
-        console.log('searching...............', this.searchText);
-        console.log('fullcustomersLimit...............', this.fullcustomersLimit);
-
         if (!this.searchText) {
             this.allCustomersList = this.allCustomersListMaster;
             return;
         } else {
             let data = {
-                serachText: this.searchText,
+                searchText: this.searchText,
             };
 
             this.userServices.searchWhatsappCustomer(data).subscribe((rdata: any) => {
@@ -1107,7 +1284,7 @@ export class WhatsappChatComponent implements OnInit {
             } else {
                 this.userServices.sendNewCustomerMessage(this.newChatCustomer).subscribe((rdata: any) => {
                     if (rdata.ret_data === 'success') {
-                        this.limit = 30;
+                        this.limit = 20;
                         this.offset = 0;
                         this.updateUsersChat();
                         this.newchatModal.close();
@@ -1137,7 +1314,7 @@ export class WhatsappChatComponent implements OnInit {
             else {
                 this.userServices.sendNewCustomerCampaignNewMessage(this.newChatCustomer).subscribe((rdata: any) => {
                     if (rdata.ret_data === 'success') {
-                        this.limit = 30;
+                        this.limit = 20;
                         this.offset = 0;
                         this.updateUsersChat();
                         this.newchatModal.close();
@@ -1197,7 +1374,7 @@ export class WhatsappChatComponent implements OnInit {
         formData.append('customer_number', this.currentUser.wb_cus_mobile);
         this.userServices.sendWhatsappDocument(formData).subscribe((rdata: any) => {
             if (rdata.ret_data === 'success') {
-                this.limit = 30;
+                this.limit = 20;
                 this.offset = 0;
                 this.updateUsersChat();
                 this.isMessage = false;
@@ -1253,7 +1430,6 @@ export class WhatsappChatComponent implements OnInit {
             this.selectedMedia.customer_id = this.currentUser.wb_cus_id;
             this.selectedMedia.customer_number = this.currentUser.wb_cus_mobile;
             const formData = new FormData();
-            // console.log('mediaupload????????????0', this.selectedMedia);
             formData.append('media', this.selectedMedia.media_upload);
             formData.append('message', this.selectedMedia.message);
             formData.append('type', this.selectedMedia.type);
@@ -1262,7 +1438,7 @@ export class WhatsappChatComponent implements OnInit {
             formData.append('customer_number', this.currentUser.wb_cus_mobile);
             this.userServices.sendMessageWithMedia(formData).subscribe((rdata: any) => {
                 if (rdata.ret_data === 'success') {
-                    this.limit = 30;
+                    this.limit = 20;
                     this.offset = 0;
                     this.updateUsersChat();
                     this.mediaModal.close();
@@ -1434,8 +1610,10 @@ export class WhatsappChatComponent implements OnInit {
         let location = '';
         this.isMessage = true;
         if (type == 2) {
-            location = 'https://g.co/kgs/955uodk';
+            // https://g.co/kgs/955uodk
+            location = 'https://maps.app.goo.gl/hzsm84mWj3eyGSjm9';
         } else {
+            // 'https://g.co/kgs/kvFCbGz';
             location = 'https://g.co/kgs/kvFCbGz';
         }
         let socket_data = {
@@ -1509,7 +1687,7 @@ export class WhatsappChatComponent implements OnInit {
     }
 
     sendAppointmentMessage() {
-        if (this.appointmentData.date == null || this.appointmentData.timeFrom == '' || this.appointmentData.timeTo == '') {
+        if (this.appointmentData.date == null || this.appointmentData.timeFrom == '') {
             this.coloredToast('danger', 'Please fill all fields');
         } else {
             this.isMessage = true;
@@ -1517,7 +1695,7 @@ export class WhatsappChatComponent implements OnInit {
             this.appointmentData.cust_mobile = this.currentUser.wb_cus_mobile;
             this.userServices.sendAppointmentMessage(this.appointmentData).subscribe((rdata: any) => {
                 if (rdata.ret_data === 'success') {
-                    this.limit = 30;
+                    this.limit = 20;
                     this.offset = 0;
                     this.updateUsersChat();
                     this.appointmentModal.close();
@@ -1526,7 +1704,7 @@ export class WhatsappChatComponent implements OnInit {
                     this.appointmentData = {
                         date: null,
                         timeFrom: '',
-                        timeTo: '',
+                        // timeTo: '',
                         cust_id: '',
                         cust_mobile: '',
                     };
@@ -1542,8 +1720,13 @@ export class WhatsappChatComponent implements OnInit {
         this.userServices.updateCustomerCategory(this.currentUser).subscribe((rdata: any) => {
             if (rdata.ret_data === 'success') {
                 this.labelmodal.close();
-                this.updateUsersChat();
+                // this.updateUsersChat();
                 this.isMessage = false;
+                if (this.numbers.length > 0) {
+                    this.searchWhatsappCustomersByPhoneNumbers();
+                } else {
+                    this.updateUsersChat();
+                }
             } else {
                 this.isMessage = false;
                 this.coloredToast('danger', "Can't fetch whatsapp messages");
@@ -1616,7 +1799,7 @@ export class WhatsappChatComponent implements OnInit {
                     this.appointmentData = {
                         date: null,
                         timeFrom: '',
-                        timeTo: '',
+                        // timeTo: '',
                         cust_id: '',
                         cust_mobile: '',
                     };
@@ -1654,7 +1837,66 @@ export class WhatsappChatComponent implements OnInit {
     }
 
     sendCampaignMessage() {
-        this.userServices.sendCampaignMessage({ cust_id: this.currentUser.wb_cus_id, cust_mobile: this.currentUser.wb_cus_mobile }).subscribe((rdata: any) => {
+        let data = {
+            alm_wb_msg_source: '2',
+            alm_wb_msg_staff_id: '18',
+            alm_wb_msg_type: '5',
+            alm_wb_msg_status: 1,
+            alm_wb_msg_customer: '',
+            alm_wb_msg_reply_id: '0',
+            alm_wb_msg_created_on: 1748260342075,
+            alm_wb_msg_mobile: [
+                {
+                    mobile: '971502326080',
+                    lead_id: 'CAM_AUG25_364',
+                },
+                {
+                    mobile: '971566661406',
+                    lead_id: 'CAM_AUG25_365',
+                },
+                {
+                    mobile: '971506841735',
+                    lead_id: 'CAM_AUG25_366',
+                },
+                {
+                    mobile: '971506424240',
+                    lead_id: 'CAM_AUG25_367',
+                },
+            ],
+            alm_wb_msg_delete_flag: '0',
+            alm_wb_msg_camp_type: '6',
+            us_firstname: 'Jithin',
+            campaignName: 'AUG_2025_Campaign',
+            campaignDateFrom: '2025-08-22',
+            campaignDateTo: '2025-08-29',
+        };
+
+        this.userServices.sendBroadcastWhatsappCampaignMessage(data).subscribe((rdata: any) => {
+            if (rdata.ret_data === 'success') {
+                this.updateUsersChat();
+                this.selectUser(this.currentUser);
+            } else {
+                this.isMessage = false;
+                this.coloredToast('danger', "Can't fetch whatsapp messages");
+            }
+        });
+
+        // this.userServices.sendCampaignMessage({ cust_id: this.currentUser.wb_cus_id, cust_mobile: this.currentUser.wb_cus_mobile }).subscribe((rdata: any) => {
+        //     if (rdata.ret_data === 'success') {
+        //         this.updateUsersChat();
+        //         this.selectUser(this.currentUser);
+        //     } else {
+        //         this.isMessage = false;
+        //         this.coloredToast('danger', "Can't fetch whatsapp messages");
+        //     }
+        // });
+    }
+
+    sendServiceRemainderCampaignMessage(type: any) {
+        let data = {
+            type: type,
+        };
+        this.userServices.sendServiceRemainderCampaignMessages(data).subscribe((rdata: any) => {
             if (rdata.ret_data === 'success') {
                 this.updateUsersChat();
                 this.selectUser(this.currentUser);
@@ -1913,6 +2155,154 @@ export class WhatsappChatComponent implements OnInit {
             this.normalMessage = false;
             this.campaignMessage = true;
         }
+    }
+
+    onSearchTextChange(event: Event): void {
+        const inputElement = event.target as HTMLInputElement;
+        this.searchText = inputElement.value;
+        this.searchTextChanged.next(this.searchText); // Emit the new search text
+    }
+
+    searchWhatsappCustomersByPhoneNumbers() {
+        let data = {
+            searchNumbers: this.numbers,
+        };
+
+        this.userServices.searchWhatsappCustomersByPhoneNumbers(data).subscribe((rdata: any) => {
+            if (rdata.ret_data === 'success') {
+                this.allCustomersList = rdata.customers;
+                const todayDateOnly = new Date(new Date().setHours(0, 0, 0, 0));
+                this.allCustomersList.forEach((element) => {
+                    if (element.alm_wb_msg_created_on) {
+                        const msgDateOnly = new Date(new Date(element.alm_wb_msg_created_on).setHours(0, 0, 0, 0));
+                        const diffInDays = (todayDateOnly.getTime() - msgDateOnly.getTime()) / (1000 * 3600 * 24);
+
+                        element['time'] =
+                            diffInDays === 0
+                                ? this.datePipe.transform(element.alm_wb_msg_created_on, 'h:mm a') || ''
+                                : diffInDays === 1
+                                ? 'Yesterday'
+                                : this.datePipe.transform(element.alm_wb_msg_created_on, 'dd/MM/yy') || '';
+                    }
+                });
+            } else {
+                this.coloredToast('danger', "Can't fetch whatsapp customers, please try again!");
+            }
+        });
+    }
+
+    getPurposeNotCust(type: any, num: any) {
+        this.selectedFollowUp = num;
+        if (this.isLoading) return;
+
+        this.isLoading = true;
+
+        // — capture old filter before we overwrite it —
+        const wasFilter = this.selectedFilter;
+        this.selectedFilter = type;
+
+        // On filter change (or first run) reset paging
+        if (this.hasMoredata === undefined || type !== wasFilter) {
+            this.offsets = 0; // reset the *offsets* counter
+            this.hasMoredata = true;
+            this.allCustomersList = [];
+        }
+
+        const indata = {
+            categorizes: type,
+            limit: this.limits,
+            offset: this.offsets, // now using offsets consistently
+        };
+
+        this.userServices.getPurposeNotselected(indata).subscribe((rdata: any) => {
+            this.isLoading = false;
+
+            if (rdata.ret_data !== 'success') {
+                this.coloredToast('danger', "Can't fetch whatsapp messages");
+                return;
+            }
+            if (rdata.ret_data == 'success') {
+                // const fetched = rdata.wb_customers || [];
+                const fetched = (rdata.wb_customers || []).map((customer: any) => {
+                    const dateString = customer.alm_wb_msg_created_on;
+                    if (!dateString) return { ...customer, time: 'N/A' };
+
+                    // Create date objects for comparison
+                    const now = new Date();
+                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    const yesterday = new Date(today);
+                    yesterday.setDate(yesterday.getDate() - 1);
+
+                    // Parse API date
+                    const apiDate = new Date(dateString);
+                    const compareDate = new Date(apiDate.getFullYear(), apiDate.getMonth(), apiDate.getDate());
+
+                    // Format time
+                    // Use explicit type casting for time options
+                    const timeOptions: Intl.DateTimeFormatOptions = {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true,
+                    };
+
+                    const timeString = apiDate.toLocaleTimeString('en-US', timeOptions).replace(/^0/, '');
+
+                    // Determine display format
+                    let displayTime;
+                    if (compareDate.getTime() === today.getTime()) {
+                        displayTime = timeString; // Today - show time (e.g., 3:00 PM)
+                    } else if (compareDate.getTime() === yesterday.getTime()) {
+                        displayTime = 'Yesterday'; // Yesterday
+                    } else {
+                        // Format as DD/MM/YY
+                        const day = String(apiDate.getDate()).padStart(2, '0');
+                        const month = String(apiDate.getMonth() + 1).padStart(2, '0');
+                        const year = String(apiDate.getFullYear()).slice(-2);
+                        displayTime = `${day}/${month}/${year}`;
+                    }
+
+                    return {
+                        ...customer,
+                        time: displayTime,
+                    };
+                });
+                // Use offsets here, not offset
+                if (this.offsets === 0) {
+                    this.allCustomersList = fetched;
+                } else {
+                    this.allCustomersList = [...this.allCustomersList, ...fetched];
+                }
+
+                // Decide if there is more data
+                this.hasMoredata = fetched.length >= this.limits;
+
+                // Advance offsets for next time
+                if (this.hasMoredata) {
+                    this.offsets += this.limits;
+                }
+            } else
+                error: (e: any) => {
+                    this.isLoading = false;
+                    this.coloredToast('danger', 'Server error');
+                };
+        });
+    }
+
+    onLeadCategoryChange(newStatus: any, lead_id: any) {
+        let data = {
+            lead_id: lead_id,
+            lead_category: newStatus,
+        };
+
+        this.userServices.updateLeadCategory(data).subscribe((rdata: any) => {
+            if (rdata.ret_data === 'success') {
+                // this.updateUsersChat();
+                // this.selectUser(this.currentUser);
+            } else {
+                this.isMessage = false;
+                this.coloredToast('danger', "Can't fetch whatsapp messages");
+            }
+        });
     }
 
     // forwardMessages() {

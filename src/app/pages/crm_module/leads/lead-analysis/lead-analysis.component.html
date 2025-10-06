@@ -1,0 +1,402 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            Social Media</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Customer Re-Engage Campaign</a>
+    </li>
+</ol>
+<div class="mb-5">
+    <div class="mt-3 mb-5 flex flex-wrap border-b border-white-light dark:border-[#191e3a]">
+        <a href="javascript:;"
+            class="relative -mb-[1px] flex items-center p-5 py-3 !outline-none transition duration-300 before:absolute before:bottom-0 before:left-0 before:right-0 before:m-auto before:h-[1px] before:w-0 before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:w-full"
+            [ngClass]="{ 'before:!w-full text-secondary': tab9.toLowerCase() === 'home' }"
+            (click)="tab9 = 'home';changeSource()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 ltr:mr-2 rtl:ml-2">
+                <circle cx="12" cy="6" r="4" stroke="currentColor" stroke-width="1.5" />
+                <ellipse opacity="0.5" cx="12" cy="17" rx="7" ry="4" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            Leads
+        </a>
+
+        <a href="javascript:;"
+            class="relative -mb-[1px] flex items-center p-5 py-3 !outline-none transition duration-300 before:absolute before:bottom-0 before:left-0 before:right-0 before:m-auto before:h-[1px] before:w-0 before:bg-secondary before:transition-all before:duration-700 hover:text-secondary hover:before:w-full"
+            [ngClass]="{ 'before:!w-full text-secondary': tab9.toLowerCase() === 'profile' }"
+            (click)="tab9 = 'profile';changeSource();">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 ltr:mr-2 rtl:ml-2">
+                <circle cx="12" cy="6" r="4" stroke="currentColor" stroke-width="1.5" />
+                <ellipse opacity="0.5" cx="12" cy="17" rx="7" ry="4" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            Lost Customer
+        </a>
+    </div>
+    <div class="flex-1 text-sm">
+        <div *ngIf="tab9.toLowerCase() === 'home'">
+            <div class="panel mb-5 mt-5 pb-5">
+                <div class="grid grid-cols-6 gap-4 sm:grid-cols-6">
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date From </label>
+                        <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+                    </div>
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date To </label>
+                        <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+                    </div>
+                    <!-- <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Source</label>
+                        <ng-select [searchable]="false" [clearable]="false" [selectOnTab]="true"
+                            class="custom-multiselect" placeholder="Select Source" [(ngModel)]="selectedSource"
+                            ngxTippy="Select Source" disabled="true">
+                            <ng-option value="0">Leads</ng-option>
+                            <ng-option value="1">Lost Customer</ng-option>
+                        </ng-select>
+                    </div> -->
+                    <div *ngIf="selectedSource == '0' " class="col-span-2">
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Lead Source</label>
+                        <ng-select [items]="sourceList" bindLabel="ld_src" bindValue="ld_src_id"
+                            [(ngModel)]="selectedLeadSource" [multiple]="true" [clearable]="false"
+                            placeholder="Select an Lead Source" class="custom-multiselect">
+                        </ng-select>
+                    </div>
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark"
+                            style="color: white;">.</label>
+                        <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                            (click)="getLeadAnalysisReport()">SEARCH</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel mt-6 pb-0">
+                <div class="mb-1 flex flex-col gap-5 md:flex-row md:items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Unconverted Leads</h5>
+                </div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 0" />
+                <!-- <div class="ms-2 mt-2 mb-5 flex w-[35vw] gap-10">
+                    <div class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
+                        style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center">
+                        <div class="px-6 py-7">
+                            <div class="text-center text-1xl font-semibold">Selected Customers Count</div>
+                            <div class="text-center text-2xl font-bold">{{selectedCustomerList?.length}}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3.5 rounded text-secondary bg-secondary-light dark:bg-secondary-dark-light"
+                        *ngIf="selectedCustomerList && selectedCustomerList.length > 0">
+                        <span class="ltr:pr-2 rtl:pl-2">
+                            Approximate Charges For Selected Customers Are
+                        </span>
+                        <a>{{ selectedCustomerList.length * 0.0384 | currency: 'USD' }}</a>
+                        <button type="button" class="ltr:ml-auto rtl:mr-auto hover:opacity-80" aria-label="Close">
+                            <svg> ... </svg>
+                        </button>
+                    </div>
+            
+                </div> -->
+                <div class="ms-2 mt-2 mb-6 flex flex-wrap gap-6" style="justify-content: center;"
+                    *ngIf="selectedCustomerList && selectedCustomerList.length > 0">
+
+                    <div class="flex flex-col justify-center items-center min-w-[15vw] p-6 rounded-lg shadow-md text-white"
+                        style="background: linear-gradient(to right, #1488cc, #2b32b2);">
+                        <div class="text-lg font-semibold">Selected Customers Count</div>
+                        <div class="text-3xl font-bold">{{ selectedCustomerList?.length }}</div>
+                    </div>
+                    <div
+                        class="flex flex-col justify-center items-start min-w-[15vw] p-6 rounded-lg border border-[#e0e6ed] shadow-md bg-secondary-light dark:bg-secondary-dark-light">
+                        <span class="text-lg font-medium text-secondary">
+                            Approximate Charges For Selected Customers : <a
+                                class="text-2xl font-bold text-secondary mt-1">
+                                {{ selectedCustomerList.length * 0.0384 | currency: 'USD' }}
+                            </a>
+                        </span>
+
+                    </div>
+                    <div class="flex sm:col-span-2" style="align-items: center;float: left;">
+                        <button type="button" class="btn btn-success" (click)="campMessageModal.open()"
+                            style="max-block-size: max-content;">Send
+                            Whatsapp Campaign Message</button>
+                    </div>
+                </div>
+
+
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search..."
+                            style="border: 1px solid #009688" />
+                    </div>
+                </div>
+                <div class="datatable" *ngIf="!load_flag">
+                    <ng-datatable #dataTable [rows]="leadList" [columns]="cols" [search]="search" [sortable]="true"
+                        [hasCheckbox]="true" [pageSize]="100" [pageSizeOptions]="[100]"
+                        (rowSelect)="updateCheckedList()" [stickyHeader]="true"
+                        skin="whitespace-nowrap table-hover bh-table-compact"
+                        firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                        previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                        <ng-template slot="name" let-value="data">
+                            <span ngxTippy="{{ value.name }}" *ngIf="value.name!=null"
+                                [tippyProps]="{ theme: 'info' }">{{
+                                value.name | slice : 0 : 30 }}<ng-container
+                                    *ngIf="value.name.length > 50">...</ng-container></span>
+                        </ng-template>
+                        <ng-template slot="lead_code" let-value="data">
+                            <button type="button" class="btn btn-outline-primary btn-sm">
+                                {{ value.lead_code }}
+                            </button>
+                        </ng-template>
+                        <ng-template slot="lead_note" let-value="data">
+                            <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note!=null"
+                                [tippyProps]="{ theme: 'info' }">{{
+                                value.lead_note | slice : 0 : 30 }}<ng-container
+                                    *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                        </ng-template>
+                        <ng-template slot="lead_createdon" let-value="data">
+                            <div class="flex flex-col gap-2 md:flex-row">
+                                <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                        stroke="#1C274C" stroke-width="1.5" />
+                                    <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path
+                                        d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                        fill="#1C274C" />
+                                </svg>
+                                {{ value.lead_createdon }}
+                            </div>
+                        </ng-template>
+                        <ng-template slot="phone" let-value="data">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}"
+                                [tippyProps]="{ theme: 'info' }">
+                                ****{{ value.phone | slice : -6 }}
+                            </button>
+                        </ng-template>
+                    </ng-datatable>
+                </div>
+                <div *ngIf="load_flag" style="text-align: center">
+                    <span
+                        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="tab9.toLowerCase() === 'profile'">
+            <div class="panel mb-5 mt-5 pb-5">
+                <div class="grid grid-cols-6 gap-4 sm:grid-cols-6">
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Months</label>
+                        <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                            class="custom-multiselect" placeholder="Select Month" [(ngModel)]="selectedMonth"
+                            ngxTippy="Select Month" (ngModelChange)="setDates()">
+                            <ng-option value="15">15 Months</ng-option>
+                            <ng-option value="18">18 Months</ng-option>
+                            <ng-option value="21">21 Months</ng-option>
+                            <ng-option value="24">24 Months</ng-option>
+                            <ng-option value="27">27 Months</ng-option>
+                        </ng-select>
+                    </div>
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date From </label>
+                        <input [(ngModel)]="dateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+                    </div>
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Date To </label>
+                        <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+                    </div>
+                    <!-- <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark">Source</label>
+                        <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true"
+                            class="custom-multiselect" placeholder="Select Source" [(ngModel)]="selectedSource"
+                            ngxTippy="Select Source" disabled="true">
+                            <ng-option value="0">Leads</ng-option>
+                            <ng-option value="1">Lost Customer</ng-option>
+                        </ng-select>
+                    </div> -->
+                    <div>
+                        <label for="appt" class="small_label_text m-0 dark:text-white-dark"
+                            style="color: white;">.</label>
+                        <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                            (click)="getLeadAnalysisReport()">SEARCH</button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel mt-6 pb-0">
+                <div class="mb-1 flex flex-col gap-5 md:flex-row md:items-center">
+                    <h5 class="text-lg font-semibold dark:text-white-light">Lost Customers</h5>
+                </div>
+                <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee; margin-top: 0" />
+                <div class="ms-2 mt-2 mb-6 flex flex-wrap gap-6" style="justify-content: center;"
+                    *ngIf="selectedCustomerList && selectedCustomerList.length > 0">
+
+                    <div class="flex flex-col justify-center items-center min-w-[15vw] p-6 rounded-lg shadow-md text-white"
+                        style="background: linear-gradient(to right, #1488cc, #2b32b2);">
+                        <div class="text-lg font-semibold">Selected Customers Count</div>
+                        <div class="text-3xl font-bold">{{ selectedCustomerList?.length }}</div>
+                    </div>
+                    <div
+                        class="flex flex-col justify-center items-start min-w-[15vw] p-6 rounded-lg border border-[#e0e6ed] shadow-md bg-secondary-light dark:bg-secondary-dark-light">
+                        <span class="text-lg font-medium text-secondary">
+                            Approximate Charges For Selected Customers : <a
+                                class="text-2xl font-bold text-secondary mt-1">
+                                {{ selectedCustomerList.length * 0.0384 | currency: 'USD' }}
+                            </a>
+                        </span>
+
+                    </div>
+                    <div class="flex sm:col-span-2" style="align-items: center;float: left;">
+                        <button type="button" class="btn btn-success" (click)="campMessageModal.open()"
+                            style="max-block-size: max-content;">Send
+                            Whatsapp Campaign Message</button>
+                    </div>
+                </div>
+                <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Common Search..."
+                            style="border: 1px solid #009688" />
+                    </div>
+                </div>
+                <div class="datatable" *ngIf="!load_flag">
+                    <ng-datatable #dataTable [rows]="leadList" [columns]="lost_cols" [search]="search" [sortable]="true"
+                        [hasCheckbox]="true" [pageSize]="100" [pageSizeOptions]="[100]"
+                        (rowSelect)="updateCheckedList()" [stickyHeader]="true"
+                        skin="whitespace-nowrap table-hover bh-table-compact"
+                        firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                        previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                        nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                        <ng-template slot="name" let-value="data">
+                            <span ngxTippy="{{ value.name }}" *ngIf="value.name!=null"
+                                [tippyProps]="{ theme: 'info' }">{{
+                                value.name | slice : 0 : 30 }}<ng-container
+                                    *ngIf="value.name.length > 50">...</ng-container></span>
+                        </ng-template>
+                        <ng-template slot="lead_code" let-value="data">
+                            <button type="button" class="btn btn-outline-primary btn-sm">
+                                {{ value.lead_code }}
+                            </button>
+                        </ng-template>
+                        <ng-template slot="lead_note" let-value="data">
+                            <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note!=null"
+                                [tippyProps]="{ theme: 'info' }">{{
+                                value.lead_note | slice : 0 : 30 }}<ng-container
+                                    *ngIf="value.lead_note.length > 50">...</ng-container></span>
+                        </ng-template>
+                        <ng-template slot="lead_createdon" let-value="data">
+                            <div class="flex flex-col gap-2 md:flex-row">
+                                <svg width="14" height="16" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2 12C2 8.22876 2 6.34315 3.17157 5.17157C4.34315 4 6.22876 4 10 4H14C17.7712 4 19.6569 4 20.8284 5.17157C22 6.34315 22 8.22876 22 12V14C22 17.7712 22 19.6569 20.8284 20.8284C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.8284C2 19.6569 2 17.7712 2 14V12Z"
+                                        stroke="#1C274C" stroke-width="1.5" />
+                                    <path d="M7 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M17 4V2.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M2.5 9H21.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                                    <path
+                                        d="M18 17C18 17.5523 17.5523 18 17 18C16.4477 18 16 17.5523 16 17C16 16.4477 16.4477 16 17 16C17.5523 16 18 16.4477 18 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M18 13C18 13.5523 17.5523 14 17 14C16.4477 14 16 13.5523 16 13C16 12.4477 16.4477 12 17 12C17.5523 12 18 12.4477 18 13Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M13 17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17C11 16.4477 11.4477 16 12 16C12.5523 16 13 16.4477 13 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M13 13C13 13.5523 12.5523 14 12 14C11.4477 14 11 13.5523 11 13C11 12.4477 11.4477 12 12 12C12.5523 12 13 12.4477 13 13Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M8 17C8 17.5523 7.55228 18 7 18C6.44772 18 6 17.5523 6 17C6 16.4477 6.44772 16 7 16C7.55228 16 8 16.4477 8 17Z"
+                                        fill="#1C274C" />
+                                    <path
+                                        d="M8 13C8 13.5523 7.55228 14 7 14C6.44772 14 6 13.5523 6 13C6 12.4477 6.44772 12 7 12C7.55228 12 8 12.4477 8 13Z"
+                                        fill="#1C274C" />
+                                </svg>
+                                {{ value.lead_createdon }}
+                            </div>
+                        </ng-template>
+                        <ng-template slot="phone" let-value="data">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}"
+                                [tippyProps]="{ theme: 'info' }">
+                                ****{{ value.phone | slice : -6 }}
+                            </button>
+                        </ng-template>
+                    </ng-datatable>
+                </div>
+                <div *ngIf="load_flag" style="text-align: center">
+                    <span
+                        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<modal #campMessageModal class="modal-top animate animate-slide-in-down extra-small-modal call-view"
+    [closeOnOutsideClick]="false">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex; ">
+            Send Campaign Messages
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-2">
+            <div>
+                <label for="appt" class="small_label_text m-0 dark:text-white-dark">Enter Campaign
+                    Name*</label>
+                <input [(ngModel)]="campaignName" type="text" class="form-input text-xs"
+                    placeholder="Enter Campaign Name" />
+            </div>
+            <div>
+                <label for="appt" class="small_label_text m-0 dark:text-white-dark">Campaign Date From*</label>
+                <input [(ngModel)]="campaignDateFrom" type="date" class="form-input text-xs" placeholder="Date From " />
+            </div>
+            <div>
+                <label for="appt" class="small_label_text m-0 dark:text-white-dark">Campaign Date To*</label>
+                <input [(ngModel)]="campaignDateTo" type="date" class="form-input text-xs" placeholder="Date To " />
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="campMessageModal.close();"
+            class="btn btn-outline-danger m-2">DISMISS</button>
+        <button type="button" (click)="sendBroadcastWhatsappCampaignMessage(campaignName);"
+            class="btn btn-outline-primary m-2" [disabled]="messageFlag">SEND MESSAGES
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"
+                stroke-linecap="round" stroke-linejoin="round"
+                class="inline-block h-5 w-5 shrink-0 animate-[spin_2s_linear_infinite] align-middle ltr:mr-2 rtl:ml-2"
+                *ngIf="messageFlag">
+                <line x1="12" y1="2" x2="12" y2="6"></line>
+                <line x1="12" y1="18" x2="12" y2="22"></line>
+                <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+                <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+                <line x1="2" y1="12" x2="6" y2="12"></line>
+                <line x1="18" y1="12" x2="22" y2="12"></line>
+                <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+                <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+            </svg>
+        </button>
+    </ng-template>
+</modal>

@@ -94,14 +94,6 @@ export class AppointmentOverduesComponent implements OnInit {
                     } else if (element.apptm_transport_service == '8') {
                         element['apptm_transport_service_l'] = 'Drop Off (Self)';
                     }
-
-                    if (element.apptm_pickup_mode == '1') {
-                        element['pickup_mode'] = 'Driver PickUp';
-                    } else if (element.apptm_pickup_mode == '2') {
-                        element['pickup_mode'] = 'Recovery PickUp';
-                    } else {
-                        element['pickup_mode'] = 'Nil';
-                    }
                     
                     if (element.apptm_status == '1') {
                         element['apptm_status_l'] = 'Scheduled';

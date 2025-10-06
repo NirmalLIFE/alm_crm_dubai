@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckboxRequiredValidator, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FlatpickrOptions } from 'ng2-flatpickr';
+import { messagesDict } from 'ngx-tippy-wrapper/lib/consts';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
 
@@ -56,14 +58,27 @@ export class GeneralSettingsComponent implements OnInit {
     public serviceRemainderDaysPhase1: any;
     public serviceRemainderDaysPhase2: any;
     public serviceRemainderDaysPhase3: any;
-    public intervalType = [
-        { id: 3, type: 'Days' }, // your interval options
-        { id: 2, type: 'Hours' },
-        { id: 1, type: 'Minutes' },
-    ];
-    public interval: any = 3;
+    public intervalType: any = [];
+    public interval: any = '2';
 
-    constructor(private userServices: StaffPostAuthService, private fb: FormBuilder) {
+    ruleName = 'Away Message';
+    // automation-rule.component.ts
+    messageTypes = [{ id: '1', name: '', content: '' }];
+
+    // default selection
+    messageTypeId: any;
+    active = true;
+    triggerEvent = 'User Connected';
+    delay = '01';
+    messageText = '';
+    previewMessage: string = '';
+
+    selectedMessageId: string = ''; 
+    userId: any;
+
+    constructor(private userServices: StaffPostAuthService, private fb: FormBuilder,private activeRouter: ActivatedRoute,
+    ) {
+        this.userId = this.activeRouter.snapshot.paramMap.get('id') || '';
         JSON.parse(atob(atob(localStorage.getItem('access_data') || '{}'))).forEach((element: any) => {
             if (element['ft_id'] == 21) {
                 this.permittedAction = element['actions'];
@@ -79,6 +94,42 @@ export class GeneralSettingsComponent implements OnInit {
             psf_feedback_assign_days: [''],
             psf_feedback_assign_days_after_sa: [''],
         });
+        this.intervalType = [
+            { id: '0', type: 'Minutes' },
+            { id: '1', type: 'Hours' },
+            { id: '2', type: 'Days' },
+        ];
+    }
+
+    workshopDays = [
+        { name: 'Monday', start: '', noonStart: '', noonEnd: '', end: '', open: true },
+        { name: 'Tuesday', start: '', noonStart: '', noonEnd: '', end: '', open: true },
+        { name: 'Wednesday', start: '', noonStart: '', noonEnd: '', end: '', open: true },
+        { name: 'Thursday', start: '', noonStart: '', noonEnd: '', end: '', open: true },
+        { name: 'Friday', start: '', noonStart: '', noonEnd: '', end: '', open: true },
+        { name: 'Saturday', start: '', noonStart: '', noonEnd: '', end: '', open: true },
+        { name: 'Sunday', start: '', noonStart: '', noonEnd: '', end: '', open: false },
+    ];
+
+    updateWorkshopTiming() {
+        const payload = { workshopDays: this.workshopDays };
+        console.log('Updated!', payload);
+        this.userServices.updateWorkshopDays(payload).subscribe((rData: any) => {
+            if (rData.ret_data === 'success') {
+                this.coloredToast('success', 'Working days Updated Successfully.');
+            } else {
+                this.coloredToast('danger', 'Failed to update Working days.');
+            }
+        });
+    }
+
+    getWorksdaysTiming() {
+        this.userServices.getWorksdaysTiming().subscribe((rdata: any) => {
+            if (rdata.ret_data === 'success') {
+                this.workshopDays = rdata.workdays;
+            }
+        });
+        this.getSelectedDates();
     }
 
     ngOnInit(): void {
@@ -115,7 +166,6 @@ export class GeneralSettingsComponent implements OnInit {
             }
         });
         this.getSparePartsMargin();
-        this.getUserRoleMargin();
     }
 
     getPSFSettingsData() {
@@ -347,6 +397,8 @@ export class GeneralSettingsComponent implements OnInit {
                 this.coloredToast('danger', 'Some error occurred please try again');
             }
         });
+        this.getUserRoleMargin();
+        this.getWorksdaysTiming();
     }
 
     savePartsMargin(data: any) {
@@ -382,7 +434,6 @@ export class GeneralSettingsComponent implements OnInit {
                             this.coloredToast('danger', 'Some error occurred, please try again');
                         }
                     });
-                    console.log('item>>>>>>>>>>>>>>>>>>>', item, this.sparePartsMargin);
                     // this.sparePartsMargin = this.sparePartsMargin.filter((element) => element.spm_delete_flag !== 1);
                 } else {
                     this.sparePartsMargin = this.sparePartsMargin.filter((element) => {
@@ -423,7 +474,7 @@ export class GeneralSettingsComponent implements OnInit {
             if (rdata.ret_data === 'success') {
                 this.userRoleMargins = rdata.userRoleMargins;
             } else {
-                // this.coloredToast('danger', 'Some error occurred, please try again');
+                this.coloredToast('danger', 'Some error occurred, please try again');
             }
         });
     }
@@ -508,6 +559,126 @@ export class GeneralSettingsComponent implements OnInit {
                 this.coloredToast('error', 'Failed to update service remainder days');
             }
         });
+    }
+
+    saveAwayMessage() {
+        const payload = {
+            messageText: this.messageText,
+            messageId: this.selectedMessageId,
+            userId: this.userId,
+        };
+
+
+        this.userServices.saveAwayMessage(payload).subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                this.getAwayMessage();
+                this.coloredToast('success', 'Message stored Successfully.');
+            } else {
+            }
+        });
+    }
+
+    // general-settings.component.ts
+    tempDate: string | null = null;
+    selectedDates: string[] = [];
+
+    addDate() {
+        // Only add if a date is picked and not already in the list
+        if (this.tempDate && !this.selectedDates.includes(this.tempDate)) {
+            this.selectedDates.push(this.tempDate);
+            this.tempDate = null; // clear the input
+        }
+    }
+
+    removeDate(i: number) {
+        this.selectedDates.splice(i, 1);
+    }
+
+    saveSelectedDays() {
+        // TODO: send to backend via your service
+        // Example: this.http.post('/api/special-days', { dates: this.selectedDates })
+        console.log('Saving dates:', this.selectedDates);
+
+        this.userServices.saveOffDays({ dates: this.selectedDates }).subscribe((rdata: any) => {
+            if (rdata.ret_data === 'success') {
+                this.coloredToast('success', 'Dates saved Successfully.');
+            } else {
+                this.coloredToast('danger', 'Failed to store days');
+            }
+        });
+    }
+
+    getSelectedDates() {
+        this.userServices.getOffDays().subscribe({
+            next: (res: any) => {
+                if (res.ret_data === 'success' && Array.isArray(res.dates)) {
+                    this.selectedDates = res.dates;
+                }
+            },
+            error: () => this.coloredToast('danger', 'Failed to load off days'),
+        });
+        // this.getAwayMessage();
+    }
+
+    getAwayMessage() {
+        this.userServices.getAwayMessage().subscribe({
+            next: (res: any) => {
+                if (res.ret_data === 'success') {
+                    this.messageTypes = res.data.map((m: any) => ({
+                        id: m.wamc_id,
+                        name: m.wamc_message_id,
+                        content: m.wamc_message_content,
+                    }));
+                    this.selectedMessageId = this.messageTypes[0].id;
+                    this.messageText = res.data[0].wamc_message_content;
+                    this.previewMessage = res.data[0].wamc_message_content;
+                }
+            },
+            error: () => this.coloredToast('danger', 'Failed to load off days'),
+        });
+    }
+
+    onMessageTypeChange() {
+        const msg = this.messageTypes.find((m) => m.id === this.messageTypeId);
+        if (msg) {
+            this.messageText = msg.content;
+            this.previewMessage = msg.content;
+        }
+    }
+
+    sampleValues: { [key: string]: string } = {
+        name: 'John Doe',
+        company: 'Al-Maraghi',
+        email: 'john.doe@example.com',
+        phone: '+91 98765 43210',
+        service: 'Car Wash',
+        date: '2025-09-22',
+        time: '10:30 AM',
+    };
+
+    // get previewMessage(): string {
+    //     let preview = this.messageText || 'Your message will appear here...';
+
+    //     // Replace each {variable} with sample value
+    //     for (const key in this.sampleValues) {
+    //         const regex = new RegExp(`\\{${key}\\}`, 'g'); // match {name}, {company}, etc.
+    //         preview = preview.replace(regex, this.sampleValues[key]);
+    //     }
+    //     return preview;
+    // }
+
+    insertVariable(variable: string) {
+        const textarea: HTMLTextAreaElement = document.querySelector('textarea')!;
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+
+        this.messageText = this.messageText.substring(0, startPos) + variable + this.messageText.substring(endPos);
+
+        // Move cursor after the inserted variable
+        setTimeout(() => {
+            textarea.selectionStart = textarea.selectionEnd = startPos + variable.length;
+            textarea.focus();
+        }, 0);
     }
 
     coloredToast(color: string, message: string) {

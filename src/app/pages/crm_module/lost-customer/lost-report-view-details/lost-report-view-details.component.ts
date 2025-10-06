@@ -38,7 +38,6 @@ export class LostReportViewDetailsComponent implements OnInit {
 
     ngOnInit(): void {
         // this.callData(this.userId);
-        console.log('re[portlostdata>>>>>>>>>>>>>>>>>>>>', this.reportLostData);
         let _that = this;
         let data = {
             phone: this.reportLostData.phone,
@@ -110,7 +109,6 @@ export class LostReportViewDetailsComponent implements OnInit {
                             }
                         });
                     });
-                   console.log('this.report-------------',this.report);
                 }
                 // console.log('this.report-------------',this.report);
             }

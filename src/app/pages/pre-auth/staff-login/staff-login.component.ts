@@ -24,6 +24,7 @@ export class StaffLoginComponent implements OnInit {
             email: ['', [Validators.required, Validators.pattern('.+@.+..+')]],
             password: ['', [Validators.required]],
             fcm_token: [''],
+            login: 1,
         });
     }
 
@@ -37,6 +38,7 @@ export class StaffLoginComponent implements OnInit {
         this.isSubmitForm1 = true;
         this.auth_ser.user_login(this.loginForm.value).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
+                sessionStorage.removeItem('Sleads');
                 if (rdata.verify == 'true') {
                     this.otpRequired = false;
                     this.otpValidate = false;
@@ -68,7 +70,6 @@ export class StaffLoginComponent implements OnInit {
                         return acc;
                     }, []);
 
-                    console.log(temp_array);
                     localStorage.setItem('access_data', btoa(btoa(JSON.stringify(temp_array))));
                     setTimeout(() => this.router.navigate(['/dashboard']), 500);
                 } else {
@@ -78,8 +79,8 @@ export class StaffLoginComponent implements OnInit {
                     this.accessData = rdata.access;
                     this.us_phone = rdata.us_phone;
                     this.coloredToast('warning', 'Login Successful, Verify OTP');
-                    // var result = rdata.access;
-                    // var acessdata = [];
+                    var result = rdata.access;
+                    var acessdata = [];
                     // localStorage.setItem("access_data",btoa(btoa(JSON.stringify(temp_array))));
                 }
             } else {
@@ -144,7 +145,6 @@ export class StaffLoginComponent implements OnInit {
                             temp_array.push(tempdata);
                         }
                     });
-                    console.log(temp_array);
                     localStorage.setItem('access_data', btoa(btoa(JSON.stringify(temp_array))));
                     setTimeout(() => this.router.navigate(['/dashboard']), 500);
                 } else {

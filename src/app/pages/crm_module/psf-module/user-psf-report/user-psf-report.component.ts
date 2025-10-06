@@ -15,7 +15,7 @@ export class UserPsfReportComponent implements OnInit {
     startDate: any;
     endDate: any;
     usertype: any;
-    us_lab_id:any;
+    us_lab_id: any;
 
     userpsf_details: any;
     temp_userpsf_details: any[] = [];
@@ -33,7 +33,7 @@ export class UserPsfReportComponent implements OnInit {
         { field: 'psfm_job_no', title: 'Job No' },
         { field: 'psfm_reg_no', title: 'Reg No' },
         { field: 'psfm_invoice_date', title: 'Inv. Date' },
-        { field: 'psfm_psf_assign_date', title: 'PSF Assign Date' },
+        { field: 'psfm_cre_assign_date', title: 'PSF Assign Date' },
         { field: 'attempt_count', title: 'Attempts' },
         { field: 'lastsa_response', title: 'Last SA Response' },
         { field: 'lastcre_response', title: 'Last CRE Response' },
@@ -47,18 +47,17 @@ export class UserPsfReportComponent implements OnInit {
     constructor(private activeRouter: ActivatedRoute, private userServices: StaffPostAuthService) {}
 
     ngOnInit(): void {
-        
-        this.psf_user_id = this.activeRouter.snapshot.queryParamMap.get("id");
-        this.startDate = this.activeRouter.snapshot.queryParamMap.get("sDate");
-        this.endDate = this.activeRouter.snapshot.queryParamMap.get("eDate");
-        this.usertype = this.activeRouter.snapshot.queryParamMap.get("usertype");
-        this.us_lab_id=this.activeRouter.snapshot.queryParamMap.get("us_laabs_id");
+        this.psf_user_id = this.activeRouter.snapshot.queryParamMap.get('id');
+        this.startDate = this.activeRouter.snapshot.queryParamMap.get('sDate');
+        this.endDate = this.activeRouter.snapshot.queryParamMap.get('eDate');
+        this.usertype = this.activeRouter.snapshot.queryParamMap.get('usertype');
+        this.us_lab_id = this.activeRouter.snapshot.queryParamMap.get('us_laabs_id');
         this.getUserPSFcallReport();
     }
 
-    graph(){
+    graph() {
         this.donutChart = {
-            series: [this.psfsagraph[0].value, this.psfsagraph[1].value, this.psfsagraph[2].value,this.psfsagraph[3].value],
+            series: [this.psfsagraph[0].value, this.psfsagraph[1].value, this.psfsagraph[2].value, this.psfsagraph[3].value],
             chart: {
                 height: 300,
                 type: 'donut',
@@ -72,9 +71,9 @@ export class UserPsfReportComponent implements OnInit {
             stroke: {
                 show: false,
             },
-            
-            labels: [this.psfsagraph[0].name, this.psfsagraph[1].name, this.psfsagraph[2].name,this.psfsagraph[3].name],
-            colors: ['#ff0000', '#805dca', '#ffa500','#1acb1a'],
+
+            labels: [this.psfsagraph[0].name, this.psfsagraph[1].name, this.psfsagraph[2].name, this.psfsagraph[3].name],
+            colors: ['#ff0000', '#805dca', '#ffa500', '#1acb1a'],
             responsive: [
                 {
                     breakpoint: 480,
@@ -90,7 +89,6 @@ export class UserPsfReportComponent implements OnInit {
             },
         };
     }
-    
 
     getUserPSFcallReport() {
         this.psfsagraph = [];
@@ -99,7 +97,7 @@ export class UserPsfReportComponent implements OnInit {
             startDate: this.startDate,
             endDate: this.endDate,
             usertype: this.usertype,
-            us_laabs_id:this.us_lab_id,
+            us_laabs_id: this.us_lab_id,
         };
         this.userServices.getPSFUserCallReportData(data).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
@@ -119,7 +117,7 @@ export class UserPsfReportComponent implements OnInit {
                 this.userpsf_details.total_psf_calls = 0;
                 this.userpsf_details.total_calls = 0;
                 this.userpsf_details.total_psf_calls = this.userpsf_details.user_psf_calls.length;
-                this.userpsf_details.total_psf_calls_exculded=0;
+                this.userpsf_details.total_psf_calls_exculded = 0;
                 this.userpsf_details.user_psf_calls.forEach((element: any) => {
                     element.expired = false;
                     element.ext_satisfied = false;
@@ -184,7 +182,7 @@ export class UserPsfReportComponent implements OnInit {
                             Lastsastatustracker[0].pst_psf_status == '7' ||
                             Lastsastatustracker[0].pst_psf_status == '12' ||
                             Lastsastatustracker[0].pst_psf_status == '13' ||
-                            Lastsastatustracker[0].pst_psf_status == '16' || 
+                            Lastsastatustracker[0].pst_psf_status == '16' ||
                             Lastsastatustracker[0].pst_psf_status == '20' ||
                             (Lastsastatustracker[0].pst_psf_status == '14' && Lastsastatustracker[0].pst_response == '8')
                         ) {
@@ -240,15 +238,14 @@ export class UserPsfReportComponent implements OnInit {
                     // if(element.attempt_count == "0" && Lastsastatustracker[0].pst_psf_status == "4" ){
                     //   this.userpsf_details.expired_psf_calls_non_attempt=this.userpsf_details.expired_psf_calls_non_attempt+1;
                     // }
-                    console.log("last sa status tracker",Lastsastatustracker)
 
                     let Lastcrestatustracker = element.psf_calls.filter((pst_psf_call_type: any) => pst_psf_call_type.pst_psf_call_type == '1');
                     //let cre_attempts = Lastcrestatustracker.filter(({ pst_response }) => pst_response != '0');
                     //element.cre_attempts=cre_attempts.length;
+
+                    // cre datas
                     if (atob(atob(this.usertype)) == '9')
-                        element.attempt_count = element.psf_calls.filter(
-                            (pst_sourceid: any, pst_response: any) => pst_sourceid.pst_sourceid == '19' && pst_response.pst_response != '0'
-                        ).length;
+                        element.attempt_count = element.psf_calls.filter((item: any) => item.pst_sourceid == '19' && item.pst_response != '0').length;
                     if (Lastcrestatustracker && Lastcrestatustracker.length > 0 && Lastcrestatustracker[0].rm_name) {
                         element.lastcre_response = Lastcrestatustracker[0].rm_name;
                         if (Lastcrestatustracker[0].rm_id == '1') {
@@ -307,15 +304,13 @@ export class UserPsfReportComponent implements OnInit {
                     }
                 });
                 this.userpsf_details.user_psf_calls.forEach((element: any) => {
-                    if(element.sa_status ==='WIP'){
-                        this.userpsf_details.total_psf_calls_exculded= this.userpsf_details.total_psf_calls_exculded+1;
+                    if (element.sa_status === 'WIP') {
+                        this.userpsf_details.total_psf_calls_exculded = this.userpsf_details.total_psf_calls_exculded + 1;
                     }
                 });
-                if( this.userpsf_details.total_psf_calls!=0){
-                this.userpsf_details.total_calls= this.userpsf_details.total_psf_calls-this.userpsf_details.total_psf_calls_exculded;
+                if (this.userpsf_details.total_psf_calls != 0) {
+                    this.userpsf_details.total_calls = this.userpsf_details.total_psf_calls - this.userpsf_details.total_psf_calls_exculded;
                 }
-                console.log("this.userpsf_details.user_psf_calls??????????",this.userpsf_details.user_psf_calls)
-                console.log("this.userpsf_details??????????",this.userpsf_details)
 
                 this.psfsagraph.push(
                     {
@@ -339,14 +334,12 @@ export class UserPsfReportComponent implements OnInit {
                         name: 'Total Contacted Calls',
                     }
                 );
-                if(this.psfsagraph){
-                    console.log("psfsagraph",this.psfsagraph)
+                if (this.psfsagraph) {
                     this.graph();
                 }
                 this.temp_userpsf_details = this.userpsf_details;
-                this.load_flag=false;
-            }else{
-
+                this.load_flag = false;
+            } else {
             }
         });
     }
@@ -364,7 +357,7 @@ export class UserPsfReportComponent implements OnInit {
                             call_action: element.psf_action,
                             call_reason_text: element.psfr_name,
                             call_remark: element.psf_remark,
-                            call_rating: rdata.psf_info.psfm_sa_rating,
+                            call_rating: element.psf_call_type == '3' ? rdata.psf_info.psfm_cre_rating : rdata.psf_info.psfm_sa_rating,
                             call_disabled: 0,
                             show_reason: element.psf_response == '4' || element.psf_response == '5' ? true : false,
                             show_rating: element.psf_response == '1' ? true : false,

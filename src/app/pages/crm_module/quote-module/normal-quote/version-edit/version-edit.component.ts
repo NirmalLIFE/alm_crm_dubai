@@ -74,7 +74,6 @@ export class VersionEditComponent implements OnInit {
                                 if (this.user_role == '11' && element.qit_margin_price != '0' && element.qit_margin_price != '') {
                                     element.qit_unit_price = element.qit_margin_price / element.item_qty;
                                 }
-                                // i think its for margin flag
                             } else {
                                 count = this.qt_items.filter((element2) => element2.item_id == element.item_id).length;
                             }
@@ -103,8 +102,6 @@ export class VersionEditComponent implements OnInit {
     spareGroups(qt_sp_temp: any) {
         this.qt_spare_item = [];
         const unique = [...new Set(qt_sp_temp.map((item: any) => item.item_id))];
-        console.log('unique', unique);
-        console.log('qt_sp_temp.qt_sp_temp', qt_sp_temp);
 
         unique.forEach((element) => {
             let row_item: any;
@@ -136,7 +133,6 @@ export class VersionEditComponent implements OnInit {
         this.selected_grouping_count = 0;
         let maxGroup = this.qt_items.reduce((max, value) => (max.qtvi_item_group > parseInt(value.qtvi_item_group) ? max : value));
         this.grouped_items = [];
-        console.log('maxGroup.qtvi_item_group', maxGroup.qtvi_item_group);
         if (maxGroup.qtvi_item_group >= 0) {
             for (let i = 0; i <= maxGroup.qtvi_item_group; i++) {
                 if (i > 0) {

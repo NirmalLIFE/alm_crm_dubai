@@ -54,6 +54,7 @@
                         <ng-option value="4">Cancelled</ng-option>
                         <ng-option value="5">Lead To Customer</ng-option>
                         <ng-option value="6">Closed</ng-option>
+                        <ng-option value="8">Open/Whatsapp</ng-option>
                     </ng-select>
                 </div>
                 <div>
@@ -69,17 +70,21 @@
                         <ng-option value="3">Website</ng-option>
                         <ng-option value="5">Direct Lead</ng-option>
                         <ng-option value="6">Lost Customer</ng-option>
+                        <ng-option value="7">Google Marketing</ng-option>
+                        <ng-option value="8">Whatsapp Campaign</ng-option>
+                        <ng-option value="9">Whatsapp Direct</ng-option>
+                        <ng-option value="10">WhatsApp Ser Due</ng-option>
                     </ng-select>
                 </div>
                 <div *ngIf="lead.source_id == '2' ">
                     <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Source</label>
-                    <input type="text" readonly placeholder="Social Media Source"
-                        [(ngModel)]="lead.smcs_name" class="form-input text-xs" maxlength="50" />
+                    <input type="text" readonly placeholder="Social Media Source" [(ngModel)]="lead.smcs_name"
+                        class="form-input text-xs" maxlength="50" />
                 </div>
                 <div class="col-span-2" *ngIf="lead.source_id == '2' ">
                     <label for="name" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign</label>
-                    <input type="text" readonly placeholder="Social Media Campaign"
-                        [(ngModel)]="lead.smc_message" class="form-input text-xs" maxlength="50" />
+                    <input type="text" readonly placeholder="Social Media Campaign" [(ngModel)]="lead.smc_message"
+                        class="form-input text-xs" maxlength="50" />
                 </div>
                 <div *ngIf="lead.assigned!=null">
                     <label for="country" class="small_label_text m-0 dark:text-white-dark">Current Assignee</label>
@@ -101,10 +106,10 @@
                         class="form-input text-xs" maxlength="250" />
                 </div>
             </div>
-            <div>
+            <div *ngIf="lead.status_id == 1">
                 <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />
             </div>
-            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3">
+            <div class="mb-5 grid flex-1 grid-cols-2 gap-2 lg:grid-cols-3 xl:grid-cols-3" *ngIf="lead.status_id == 1">
                 <!-- <div>
                     <label for="country">Call Status</label>
                     <ng-select [searchable]="false" [clearable]="false" placeholder="Select Status"
@@ -116,7 +121,7 @@
                 <div>
                     <label for="country">Update Lead</label>
                     <ng-select [searchable]="false" [clearable]="false" placeholder="Select Status"
-                        [(ngModel)]="lead.new_status" >
+                        [(ngModel)]="lead.new_status">
                         <!-- <ng-option value="0">Select Status</ng-option> -->
                         <ng-option value="1">Schedule Appointment</ng-option>
                         <ng-option value="2">Lead Cancelled</ng-option>
@@ -125,19 +130,19 @@
                     </ng-select>
                 </div>
                 <div *ngIf="lead.new_status == 1 ">
-                    <label for="country" >Appointment Type*</label>
+                    <label for="country">Appointment Type*</label>
                     <ng-select [(ngModel)]="lead.apptm_group" placeholder="Appointment Type">
                         <ng-option value="1">Normal</ng-option>
                         <ng-option value="2">Campaign</ng-option>
                     </ng-select>
                 </div>
                 <div *ngIf="lead.new_status == 1 ">
-                    <label for="vehicle_model" >Vehicle Model</label>
-                    <input for="vehicle_model" type="text" [(ngModel)]="lead.vehicle_model"
-                        placeholder="Vehicle Model" class="form-input text-xs" maxlength="60" />
+                    <label for="vehicle_model">Vehicle Model</label>
+                    <input for="vehicle_model" type="text" [(ngModel)]="lead.vehicle_model" placeholder="Vehicle Model"
+                        class="form-input text-xs" maxlength="60" />
                 </div>
                 <div *ngIf="lead.new_status == 1 ">
-                    <label for="reg_no" >Register Number</label>
+                    <label for="reg_no">Register Number</label>
                     <input for="reg_no" type="text" [(ngModel)]="lead.reg_no" placeholder="Register Number"
                         class="form-input text-xs" maxlength="12" />
                 </div>
@@ -206,6 +211,11 @@
         <div class="panel">
             <div class="mb-5 flex items-center justify-between">
                 <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="form-checkbox text-success peer" [checked]="lead.ld_verify_flag == 1"
+                        (change)="updateLeadVerification(lead, lead.ld_verify_flag == 0 ? 1 : 0)" />
+                    <span class="peer-checked:text-success">Verified</span>
+                </label>
             </div>
             <div class="panel flex-1 p-0">
                 <ng-container>

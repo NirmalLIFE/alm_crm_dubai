@@ -88,6 +88,11 @@
                         <ng-option [value]='1'>OFF</ng-option>
                     </ng-select>
                 </div>
+                <div>
+                    <label for="country" class="small_label_text m-0 dark:text-white-dark">Campaign Budget</label>
+                    <input type="text" placeholder="Campaign Budget" [(ngModel)]="campaignDetails.smc_budget"
+                        class="form-input text-xs" maxlength="10" (change)="updateCampaignBudget(campaignDetails.smc_budget,campaignDetails.smc_id)" />
+                </div>
             </div>
             <div>
                 <hr class="my-4 dark:border-[#191e3a]" style="border: 1px solid #eee" />

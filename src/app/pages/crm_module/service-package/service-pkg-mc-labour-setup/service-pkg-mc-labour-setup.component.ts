@@ -82,7 +82,7 @@ export class ServicePkgMcLabourSetupComponent implements OnInit {
             spmcl_inc_pct: value.spmcl_inc_pct || '',
             spmcl_id: value.spmcl_id || null,
             spmcl_delete_flag: value.spmcl_delete_flag ?? 0,
-            family_code:value.spmcf_family_code || '',
+            family_code: value.spmcf_family_code || '',
         };
 
         this.editModelCode.open();
@@ -165,7 +165,32 @@ export class ServicePkgMcLabourSetupComponent implements OnInit {
         }
     }
 
-    syncDataFromLaabs() {}
+    syncDataFromLaabs() {
+        this.load_flag = true;
+
+        this.userServices.updateModelCodeFromLaabs().subscribe({
+            next: (rdata: any) => {
+                this.load_flag = false;
+
+                if (rdata.ret_data === 'success') {
+                    // Show proper success toast
+                    this.coloredToast(
+                        'success',
+                        `Model codes have been updated successfull`
+                    );
+                    this.getModelCodeLabourRates();
+                } else {
+                    // Info toast if API responds but no data
+                    this.coloredToast('info', 'No new model codes to update.');
+                }
+            },
+            error: (err) => {
+                this.load_flag = false;
+                // Error toast
+                this.coloredToast('error', 'Failed to update model codes. Please try again.');
+            },
+        });
+    }
 
     coloredToast(color: string, message: string) {
         const toast = Swal.mixin({

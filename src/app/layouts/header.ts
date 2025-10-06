@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
 
     userExtensions: any[] = [];
     public user_role = atob(atob(localStorage.getItem('us_role_id') || '{}'));
+    public user_id = atob(atob(localStorage.getItem('us_id') || '{}'));
     selectedExtension: any = null;
 
     public call_data: any = {};
@@ -107,6 +108,7 @@ export class HeaderComponent implements OnInit {
 
     public commonNumbers: any = [];
 
+    public sessionLock: any;
     // private timerSubscription: Subscription;
     private shouldContinue = true;
     @ViewChild('session') session: any;
@@ -172,7 +174,6 @@ export class HeaderComponent implements OnInit {
                 localStorage.setItem('yestar_token', this.keyData.yeastar_token);
                 this.createSocketConnection(atob(atob(atob(this.keyData.yeastar_token))));
                 const us_ext_no = localStorage.getItem('us_ext_no');
-                console.log(us_ext_no);
                 if (!us_ext_no && (this.user_role == '11' || this.user_role == '9')) {
                     this.third_party.getExtensionList(atob(atob(atob(rData.yeastar_data.yeastar_token)))).subscribe((rDataN: any) => {
                         this.userExtensions = rDataN.data;
@@ -226,9 +227,6 @@ export class HeaderComponent implements OnInit {
     }
 
     handleInboundElement(element: any, temp: any) {
-        console.log('element>>>>>>>>>>>>>>>', element);
-        console.log('temp???????????????????????', temp);
-        console.log('this.currentPhone?????????????', this.currentPhone);
         if (
             element['inbound']['from'] !== 'Unknown' &&
             element['inbound']['member_status'] == 'ANSWERED' &&
@@ -240,7 +238,6 @@ export class HeaderComponent implements OnInit {
                 element['inbound']['from'].substring(0, 2) === '02' ||
                 element['inbound']['from'].substring(0, 2) === '04')
         ) {
-            console.log('temp>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', temp);
             this.currentPhone = element['inbound']['from'];
             // this.y_call.push(temp['call_id']); //error on this line
 
@@ -261,7 +258,7 @@ export class HeaderComponent implements OnInit {
     }
 
     tempHandleInboundElement() {
-        this.temp_no = this.generateRandomPhoneNumber();
+        this.temp_no = '0505007974'; //this.generateRandomPhoneNumber();
 
         const data = {
             phone: this.temp_no, //0551651819
@@ -296,7 +293,7 @@ export class HeaderComponent implements OnInit {
         this.temp_no = tempnumber;
         const data = {
             phone: this.temp_no, //0551651819
-            call_to: '200',
+            call_to: '205',
             call_id: '1702040392.39006',
             lcl_call_type: '1',
             lcl_call_source: '1',
@@ -318,7 +315,6 @@ export class HeaderComponent implements OnInit {
             call_log_id: rdata.call_log_id,
         };
         this.storeData.dispatch({ type: 'toggleSidebar' });
-        console.log(this.call_data);
         this.inboundCall.open();
     }
 
@@ -340,7 +336,6 @@ export class HeaderComponent implements OnInit {
             call_log_id: rdata.call_log_id,
         };
         this.storeData.dispatch({ type: 'toggleSidebar' });
-        console.log('this.call_data<>>>>>before opening modal>>>>>>>>>>>>>>>', this.call_data);
         this.inboundCall.open();
         // this.dialogService.open(CallPopupComponent, {
         //     hasBackdrop: true, closeOnBackdropClick: false,
@@ -416,11 +411,27 @@ export class HeaderComponent implements OnInit {
         window.location.reload();
     }
 
-    userLogout() {
-        localStorage.clear();
-        this.coloredToast('warning', 'You are logged out successfully');
-        this.router.navigate(['']).then(() => {
-            window.location.reload();
+    async userLogout() {
+        this.sessionLock = await this.removeSpmcLock();
+
+        if (this.sessionLock?.updated == true) {
+            localStorage.clear();
+            this.coloredToast('warning', 'You are logged out successfully');
+            this.router.navigate(['']).then(() => {
+                window.location.reload();
+            });
+        }
+    }
+
+    removeSpmcLock() {
+        let data = {
+            user_id: this.user_id,
+        };
+        return new Promise((resolve, reject) => {
+            this.userServices.removeSpmcLock(data).subscribe({
+                next: (rdata: any) => resolve(rdata),
+                error: (err) => reject(err),
+            });
         });
     }
 

@@ -45,7 +45,7 @@ export class SocialMediaCampaignListComponent implements OnInit {
             owner: null,
             start_date: '',
             end_date: '',
-            id:''
+            id: '',
         };
         this.userServices.userList().subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
@@ -97,7 +97,7 @@ export class SocialMediaCampaignListComponent implements OnInit {
             owner: null,
             start_date: '',
             end_date: '',
-            id:''
+            id: '',
         };
     }
 
@@ -149,7 +149,7 @@ export class SocialMediaCampaignListComponent implements OnInit {
                 message: this.campaignDetails.message,
                 source: this.campaignDetails.source,
                 status: '0',
-                id:this.campaignDetails.id
+                id: this.campaignDetails.id,
             })
             .subscribe({
                 next: (response: any) => {
@@ -367,6 +367,34 @@ export class SocialMediaCampaignListComponent implements OnInit {
                     });
                 }
             } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Are you sure?',
+                    text: 'You Are About To Change Campaign Status',
+                    showCancelButton: true,
+                    confirmButtonText: 'CHANGE',
+                    padding: '1em',
+                    customClass: 'sweet-alerts',
+                }).then((result) => {
+                    if (result.value) {
+                        let newStatus = originalStatus === '0' ? '1' : '0';
+                        let inData = {
+                            smc_id: item.smc_id,
+                            status: newStatus, // Toggle status
+                        };
+                        this.userServices.changeCampaignStatus(inData).subscribe((rdata: any) => {
+                            if (rdata.ret_data == 'success') {
+                                item.smc_status = newStatus; // Update the status only on success
+                                this.coloredToast('success', 'Campaign Status Changed Successfully');
+                            } else {
+                                checkbox.checked = originalStatus === '0';
+                                this.coloredToast('danger', "Can't Update Campaign Status");
+                            }
+                        });
+                    } else {
+                        checkbox.checked = originalStatus === '0'; // Revert checkbox to original state
+                    }
+                });
             }
         });
     }

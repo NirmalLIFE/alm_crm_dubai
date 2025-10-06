@@ -71,7 +71,7 @@ export class CustomerFollowUpsComponent implements OnInit {
                     this.customersList = rdata.remindCustomersList;
 
                     const today = new Date().toISOString().split('T')[0]; // Get today's date in 'YYYY-MM-DD' format
-                    console.log('today>>>>>>>>>>>>>>>', today);
+
                     this.todayRemindCustomers = this.customersList.filter((element: any) => {
                         // Ensure wb_cus_remind_date is in 'YYYY-MM-DD' format as a string
                         const remindDate = new Date(element.wb_cus_remind_date).toISOString().split('T')[0];
@@ -119,7 +119,7 @@ export class CustomerFollowUpsComponent implements OnInit {
         this.selected = num;
         if (num == 1) {
             const today = new Date().toISOString().split('T')[0]; // Get today's date in 'YYYY-MM-DD' format
-            console.log('today>>>>>>>>>>>>>>>', today);
+
             this.todayRemindCustomers = this.allCustomersList.filter((element: any) => {
                 // Ensure wb_cus_remind_date is in 'YYYY-MM-DD' format as a string
                 const remindDate = new Date(element.wb_cus_remind_date).toISOString().split('T')[0];

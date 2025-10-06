@@ -1,81 +1,112 @@
 <ol class="flex font-semibold text-primary dark:text-white-dark">
     <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <a routerLink="/dashboard"
-            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Admin
-            Settings</a>
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Admin Settings</a
+        >
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
-        <a href="javascript:;"
-            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">General
-            Settings</a>
+        <a
+            href="javascript:;"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >General Settings</a
+        >
     </li>
 </ol>
 <div>
     <div class="pt-5">
-        <div
-            class="mb-5 flex overflow-y-auto whitespace-nowrap border-b border-[#ebedf2] font-semibold dark:border-[#191e3a]">
-            <a href="javascript:;"
+        <div class="mb-5 flex overflow-y-auto whitespace-nowrap border-b border-[#ebedf2] font-semibold dark:border-[#191e3a]">
+            <a
+                href="javascript:;"
                 class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
                 [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'home' }"
-                (click)="activeTab = 'home'">
+                (click)="activeTab = 'home'"
+            >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="3" stroke="#1C274C" stroke-width="1.5" />
                     <path
                         d="M13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74457 2.35523 9.35522 2.74458 9.15223 3.23463C9.05957 3.45834 9.0233 3.7185 9.00911 4.09799C8.98826 4.65568 8.70226 5.17189 8.21894 5.45093C7.73564 5.72996 7.14559 5.71954 6.65219 5.45876C6.31645 5.2813 6.07301 5.18262 5.83294 5.15102C5.30704 5.08178 4.77518 5.22429 4.35436 5.5472C4.03874 5.78938 3.80577 6.1929 3.33983 6.99993C2.87389 7.80697 2.64092 8.21048 2.58899 8.60491C2.51976 9.1308 2.66227 9.66266 2.98518 10.0835C3.13256 10.2756 3.3397 10.437 3.66119 10.639C4.1338 10.936 4.43789 11.4419 4.43786 12C4.43783 12.5581 4.13375 13.0639 3.66118 13.3608C3.33965 13.5629 3.13248 13.7244 2.98508 13.9165C2.66217 14.3373 2.51966 14.8691 2.5889 15.395C2.64082 15.7894 2.87379 16.193 3.33973 17C3.80568 17.807 4.03865 18.2106 4.35426 18.4527C4.77508 18.7756 5.30694 18.9181 5.83284 18.8489C6.07289 18.8173 6.31632 18.7186 6.65204 18.5412C7.14547 18.2804 7.73556 18.27 8.2189 18.549C8.70224 18.8281 8.98826 19.3443 9.00911 19.9021C9.02331 20.2815 9.05957 20.5417 9.15223 20.7654C9.35522 21.2554 9.74457 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8477 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.902C15.0117 19.3443 15.2977 18.8281 15.781 18.549C16.2643 18.2699 16.8544 18.2804 17.3479 18.5412C17.6836 18.7186 17.927 18.8172 18.167 18.8488C18.6929 18.9181 19.2248 18.7756 19.6456 18.4527C19.9612 18.2105 20.1942 17.807 20.6601 16.9999C21.1261 16.1929 21.3591 15.7894 21.411 15.395C21.4802 14.8691 21.3377 14.3372 21.0148 13.9164C20.8674 13.7243 20.6602 13.5628 20.3387 13.3608C19.8662 13.0639 19.5621 12.558 19.5621 11.9999C19.5621 11.4418 19.8662 10.9361 20.3387 10.6392C20.6603 10.4371 20.8675 10.2757 21.0149 10.0835C21.3378 9.66273 21.4803 9.13087 21.4111 8.60497C21.3592 8.21055 21.1262 7.80703 20.6602 7C20.1943 6.19297 19.9613 5.78945 19.6457 5.54727C19.2249 5.22436 18.693 5.08185 18.1671 5.15109C17.9271 5.18269 17.6837 5.28136 17.3479 5.4588C16.8545 5.71959 16.2644 5.73002 15.7811 5.45096C15.2977 5.17191 15.0117 4.65566 14.9909 4.09794C14.9767 3.71848 14.9404 3.45833 14.8477 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224Z"
-                        stroke="#1C274C" stroke-width="1.5" />
+                        stroke="#1C274C"
+                        stroke-width="1.5"
+                    />
                 </svg>
 
                 General Settings
             </a>
-            <a href="javascript:;"
+            <a
+                href="javascript:;"
                 class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
                 [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'payment-detail' }"
-                (click)="activeTab = 'payment-detail'">
+                (click)="activeTab = 'payment-detail'"
+            >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path opacity="0.5"
+                    <path
+                        opacity="0.5"
                         d="M12.9839 22.4946L13.521 21.5879C13.9375 20.8846 14.1458 20.5329 14.4804 20.3384C14.815 20.144 15.2362 20.1367 16.0786 20.1222C17.3224 20.1008 18.1024 20.0247 18.7566 19.7539C19.9704 19.2515 20.9348 18.2878 21.4375 17.0748C21.6226 16.6283 21.7169 16.123 21.7648 15.4515C21.7903 15.0958 21.803 14.9179 21.708 14.7756C21.6131 14.6332 21.4329 14.5728 21.0723 14.452C19.5606 13.9454 16.0584 12.6565 14.1 11.0008C11.8925 9.13444 9.91782 5.3404 9.21118 3.88615C9.0707 3.59705 9.00047 3.4525 8.87715 3.37622C8.75383 3.29994 8.59743 3.30159 8.28463 3.3049C6.25036 3.32638 5.32915 3.43899 4.36538 4.02919C3.69883 4.43737 3.13843 4.9974 2.72997 5.66349C2 6.85388 2 8.47432 2 11.7152V12.7053C2 15.0118 2 16.1651 2.37707 17.0748C2.87984 18.2878 3.84419 19.2515 5.05797 19.7539C5.71215 20.0247 6.49219 20.1008 7.73591 20.1222C8.57837 20.1367 8.9996 20.144 9.33417 20.3384C9.66874 20.5329 9.87702 20.8846 10.2936 21.5879L10.8307 22.4946C11.3094 23.3028 12.5052 23.3028 12.9839 22.4946Z"
-                        fill="#1C274C" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        fill="#1C274C"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M14.8719 0.239228C15.2073 0.55542 15.2039 1.06491 14.8643 1.3772L13.7622 2.39066C14.721 2.39968 15.6433 2.42144 16.4756 2.47388C17.1913 2.51898 17.8616 2.5879 18.4457 2.69609C19.0178 2.80206 19.569 2.95641 20.0069 3.20311C20.8206 3.66166 21.5058 4.29141 22.0058 5.04157C22.4867 5.76328 22.6986 6.57904 22.8003 7.56276C22.8998 8.52518 22.8998 9.72792 22.8998 11.253V11.2953C22.8998 11.7397 22.5128 12.1 22.0355 12.1C21.5582 12.1 21.1712 11.7397 21.1712 11.2953C21.1712 9.7186 21.1703 8.59328 21.0797 7.71697C20.9904 6.85308 20.8201 6.31502 20.5369 5.89005C20.1817 5.35695 19.6936 4.90776 19.1118 4.57993C18.9261 4.47529 18.6031 4.36615 18.1084 4.27451C17.6257 4.18509 17.0367 4.12228 16.3589 4.07957C15.5758 4.03023 14.7025 4.00921 13.7763 4.00026L14.8643 5.00068C15.2039 5.31298 15.2073 5.82246 14.8719 6.13865C14.5364 6.45485 13.9892 6.45801 13.6496 6.14572L11.0568 3.76146C10.8923 3.61027 10.7998 3.40409 10.7998 3.18894C10.7998 2.97379 10.8923 2.76761 11.0568 2.61642L13.6496 0.232165C13.9892 -0.0801259 14.5364 -0.0769636 14.8719 0.239228Z"
-                        fill="#1C274C" />
+                        fill="#1C274C"
+                    />
                 </svg>
                 PSF Settings
             </a>
-            <a href="javascript:;"
+            <a
+                href="javascript:;"
                 class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
                 [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'spm' }"
-                (click)="activeTab = 'spm'">
+                (click)="activeTab = 'spm'"
+            >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
                         d="M7.95525 1.25C7.97013 1.25001 7.98504 1.25001 8 1.25001L16.0447 1.25C16.4776 1.24995 16.8744 1.24991 17.1972 1.29331C17.5527 1.3411 17.9284 1.45355 18.2374 1.76257C18.5465 2.07159 18.6589 2.44732 18.7067 2.8028C18.7501 3.12561 18.7501 3.52245 18.75 3.95526V4.04475C18.7501 4.47757 18.7501 4.8744 18.7067 5.19721C18.6589 5.55269 18.5465 5.92842 18.2374 6.23744C17.9284 6.54647 17.5527 6.65891 17.1972 6.70671C16.8744 6.75011 16.4776 6.75006 16.0447 6.75001L14.75 6.75001V8.91445L16.182 9.27244C16.5838 9.3729 16.8281 9.7801 16.7277 10.1819C16.6272 10.5838 16.22 10.8281 15.8182 10.7277L14.75 10.4606V12.4145L16.182 12.7724C16.5838 12.8729 16.8281 13.2801 16.7277 13.6819C16.6272 14.0838 16.22 14.3281 15.8182 14.2277L14.75 13.9606V14.378C15.6239 14.6869 16.25 15.5203 16.25 16.5C16.25 17.596 15.4664 18.509 14.4288 18.7092C14.6338 19.0941 14.75 19.5335 14.75 20C14.75 21.5188 13.5188 22.75 12 22.75C10.4812 22.75 9.25 21.5188 9.25 20C9.25 19.5335 9.36617 19.0941 9.57116 18.7092C8.53363 18.509 7.75 17.596 7.75 16.5C7.75 15.5203 8.37611 14.6869 9.25 14.378V12.5856L7.81815 12.2277C7.41631 12.1272 7.17199 11.72 7.27245 11.3181C7.37291 10.9163 7.78011 10.672 8.18196 10.7724L9.25 11.0395V9.08562L7.81815 8.72765C7.41631 8.62719 7.17199 8.21999 7.27245 7.81814C7.37291 7.4163 7.78011 7.17198 8.18196 7.27244L9.25 7.53945V6.75001H8C7.98504 6.75001 7.97013 6.75001 7.95526 6.75001C7.52244 6.75006 7.1256 6.75011 6.80279 6.70671C6.44731 6.65891 6.07159 6.54647 5.76256 6.23744C5.45354 5.92842 5.34109 5.5527 5.2933 5.19721C5.2499 4.8744 5.24995 4.47757 5.25 4.04476C5.25 4.02988 5.25 4.01497 5.25 4.00001C5.25 3.98505 5.25 3.97013 5.25 3.95526C5.24995 3.52244 5.2499 3.12561 5.2933 2.8028C5.34109 2.44732 5.45354 2.07159 5.76256 1.76257C6.07159 1.45355 6.44731 1.3411 6.80279 1.29331C7.1256 1.24991 7.52244 1.24995 7.95525 1.25ZM10.75 6.75001V7.91445L13.25 8.53945V6.75001H10.75ZM13.25 10.0856L10.75 9.46062V11.4145L13.25 12.0395V10.0856ZM13.25 13.5856L10.75 12.9606V14.25H13.25V13.5856ZM12 18.75C11.3096 18.75 10.75 19.3097 10.75 20C10.75 20.6904 11.3096 21.25 12 21.25C12.6904 21.25 13.25 20.6904 13.25 20C13.25 19.3097 12.6904 18.75 12 18.75ZM14 17.25C14.4142 17.25 14.75 16.9142 14.75 16.5C14.75 16.0858 14.4142 15.75 14 15.75H10C9.58579 15.75 9.25 16.0858 9.25 16.5C9.25 16.9142 9.58579 17.25 10 17.25H14ZM6.82328 2.82318C6.82361 2.82291 6.82368 2.82278 6.82328 2.82318V2.82318ZM6.82567 2.82187L6.82328 2.82318L6.82186 2.82568C6.82085 2.82761 6.81923 2.83093 6.81716 2.83597C6.8082 2.85775 6.79291 2.90611 6.77992 3.00267C6.75159 3.21339 6.75 3.5074 6.75 4.00001C6.75 4.49261 6.75159 4.78662 6.77992 4.99734C6.79291 5.0939 6.8082 5.14226 6.81716 5.16404C6.81923 5.16909 6.82085 5.1724 6.82186 5.17434L6.82324 5.17677L6.82567 5.17815C6.8276 5.17916 6.83092 5.18077 6.83596 5.18285C6.85774 5.19181 6.90611 5.2071 7.00266 5.22008C7.21339 5.24841 7.50739 5.25001 8 5.25001H16C16.4926 5.25001 16.7866 5.24841 16.9973 5.22008C17.0939 5.2071 17.1423 5.19181 17.164 5.18285C17.1691 5.18077 17.1724 5.17916 17.1743 5.17815L17.1768 5.17677L17.1781 5.17434C17.1791 5.1724 17.1808 5.16909 17.1828 5.16404C17.1918 5.14226 17.2071 5.0939 17.2201 4.99734C17.2484 4.78662 17.25 4.49261 17.25 4.00001C17.25 3.5074 17.2484 3.21339 17.2201 3.00267C17.2071 2.90611 17.1918 2.85775 17.1828 2.83597C17.1808 2.83093 17.1791 2.82761 17.1781 2.82568L17.1768 2.82324L17.1743 2.82187C17.1724 2.82086 17.1691 2.81924 17.164 2.81717C17.1423 2.80821 17.0939 2.79291 16.9973 2.77993C16.7866 2.7516 16.4926 2.75001 16 2.75001H8C7.50739 2.75001 7.21339 2.7516 7.00266 2.77993C6.90611 2.79291 6.85774 2.80821 6.83596 2.81717C6.83092 2.81924 6.8276 2.82086 6.82567 2.82187ZM17.1768 2.82324C17.1766 2.82306 17.1768 2.82328 17.1768 2.82324V2.82324ZM17.1768 2.82324C17.1766 2.82306 17.1768 2.82328 17.1768 2.82324V2.82324ZM6.82324 5.17677C6.82283 5.17636 6.82297 5.17644 6.82324 5.17677V5.17677ZM3.68859 7.4723C3.97999 7.17792 4.45486 7.17551 4.74923 7.46692L5.45634 8.16688C5.75072 8.45828 5.75313 8.93315 5.46173 9.22753C5.17032 9.5219 4.69546 9.52431 4.40108 9.23291L3.69397 8.53295C3.3996 8.24155 3.39719 7.76668 3.68859 7.4723ZM20.3114 7.4723C20.6028 7.76668 20.6004 8.24155 20.306 8.53295L19.5989 9.23291C19.3045 9.52431 18.8297 9.5219 18.5383 9.22753C18.2469 8.93315 18.2493 8.45828 18.5437 8.16688L19.2508 7.46692C19.5451 7.17551 20.02 7.17792 20.3114 7.4723ZM19.25 11.4994C19.25 11.0852 19.5858 10.7494 20 10.7494H22C22.4142 10.7494 22.75 11.0852 22.75 11.4994C22.75 11.9137 22.4142 12.2494 22 12.2494H20C19.5858 12.2494 19.25 11.9137 19.25 11.4994ZM1.25 11.5004C1.25 11.0862 1.58579 10.7504 2 10.7504H4C4.41421 10.7504 4.75 11.0862 4.75 11.5004C4.75 11.9146 4.41421 12.2504 4 12.2504H2C1.58579 12.2504 1.25 11.9146 1.25 11.5004ZM5.46173 13.7723C5.75313 14.0667 5.75072 14.5416 5.45634 14.833L4.74924 15.5329C4.45486 15.8243 3.97999 15.8219 3.68859 15.5276C3.39719 15.2332 3.3996 14.7583 3.69397 14.4669L4.40108 13.767C4.69546 13.4755 5.17032 13.478 5.46173 13.7723ZM18.5383 13.7723C18.8297 13.478 19.3045 13.4755 19.5989 13.767L20.306 14.4669C20.6004 14.7583 20.6028 15.2332 20.3114 15.5276C20.02 15.8219 19.5451 15.8243 19.2508 15.5329L18.5437 14.833C18.2493 14.5416 18.2469 14.0667 18.5383 13.7723Z"
-                        fill="#1C274C" />
+                        fill="#1C274C"
+                    />
                 </svg>
                 Spare Parts Margin Settings
             </a>
-            <a href="javascript:;"
+            <a
+                href="javascript:;"
                 class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
                 [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'usrm' }"
-                (click)="activeTab = 'usrm'">
+                (click)="activeTab = 'usrm'"
+            >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="9" cy="6" r="4" stroke="#1C274C" stroke-width="1.5" />
-                    <path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3" stroke="#1C274C"
-                        stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
                     <path
                         d="M5.88915 20.5843C6.82627 20.8504 7.88256 21 9 21C12.866 21 16 19.2091 16 17C16 14.7909 12.866 13 9 13C5.13401 13 2 14.7909 2 17C2 17.3453 2.07657 17.6804 2.22053 18"
-                        stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
-                    <path d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"
-                        stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        stroke="#1C274C"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    />
+                    <path
+                        d="M18 14C19.7542 14.3847 21 15.3589 21 16.5C21 17.5293 19.9863 18.4229 18.5 18.8704"
+                        stroke="#1C274C"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    />
                 </svg>
                 User Role Wise Margin Settings
             </a>
-            <a href="javascript:;"
+            <a
+                href="javascript:;"
                 class="flex gap-2 border-b border-transparent p-4 !outline-none hover:border-primary hover:text-primary"
                 [ngClass]="{ '!border-primary text-primary': activeTab.toLowerCase() === 'srcs' }"
-                (click)="activeTab = 'srcs'">
+                (click)="activeTab = 'srcs'"
+            >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 19L17.5 17.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
                     <path d="M19 5L17.5 6.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
@@ -86,46 +117,72 @@
                     <path d="M12 4.00021L12 2.00021" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
                     <path
                         d="M10.1214 14.364C8.94978 13.1924 8.94978 11.2929 10.1214 10.1214C11.2929 8.94978 13.1924 8.94978 14.364 10.1214C14.8096 10.567 15.1209 11.4921 15.3355 12.4675C15.6564 13.926 15.8169 14.6553 15.2361 15.2361C14.6553 15.8169 13.926 15.6564 12.4675 15.3355C11.4921 15.1209 10.567 14.8096 10.1214 14.364Z"
-                        stroke="#1C274C" stroke-width="1.5" />
+                        stroke="#1C274C"
+                        stroke-width="1.5"
+                    />
                     <path
                         d="M9 21.5422C4.94289 20.2679 2 16.4776 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 16.4776 19.0571 20.2679 15 21.5422"
-                        stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        stroke="#1C274C"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                    />
                 </svg>
+                <!-- WhatsApp Icon -->
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-green-500">
+                    <path
+                        d="M20.52 3.48A11.84 11.84 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.61 6.01L0 24l6.17-1.61A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.24-6.2-3.48-8.52zM12 21.54c-1.86 0-3.66-.5-5.23-1.44l-.37-.22-3.66.95.98-3.57-.24-.37A9.48 9.48 0 0 1 2.46 12c0-5.26 4.28-9.54 9.54-9.54 2.55 0 4.95.99 6.77 2.77A9.54 9.54 0 0 1 21.54 12c0 5.26-4.28 9.54-9.54 9.54zm5.36-7.24c-.29-.15-1.7-.84-1.96-.94s-.45-.15-.64.15-.74.94-.91 1.13c-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.44-.86-.77-1.44-1.7-1.61-1.99-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.52-.07-.15-.64-1.55-.88-2.13-.23-.55-.47-.48-.64-.48-.17 0-.37-.02-.56-.02-.2 0-.52.07-.8.37s-1.05 1.02-1.05 2.48c0 1.46 1.08 2.87 1.24 3.07.15.2 2.12 3.23 5.13 4.53.72.31 1.28.5 1.71.64.72.23 1.38.2 1.9.12.58-.09 1.7-.7 1.94-1.38.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.34z"
+                    />
+                </svg> -->
                 Service Remainder Campaign Settings
             </a>
         </div>
         <div>
             <div *ngIf="activeTab.toLowerCase() === 'home'">
-                <div
-                    class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+                <div class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
                     <h6 class="mb-5 text-lg font-bold">General Configurations</h6>
                     <div class="flex flex-col sm:flex-row">
                         <div class="grid flex-1 grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2">
                             <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                    style="display: flex">Verification Mobile &nbsp;&nbsp;<svg
+                                <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                    >Verification Mobile &nbsp;&nbsp;<svg
                                         ngxTippy="Send Login verification OTP to this number if the User not in Trusted Group"
-                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            opacity="0.5"
                                             d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                     </svg>
                                 </label>
                                 <div class="flex">
-                                    <input id="v_number" maxlength="10" [(ngModel)]="verificationNumber" type="text"
+                                    <input
+                                        id="v_number"
+                                        maxlength="10"
+                                        [(ngModel)]="verificationNumber"
+                                        type="text"
                                         placeholder="Verification Mobile Number"
                                         class="form-input ltr:rounded-r-none rtl:rounded-l-none"
-                                        (input)="numberEditDetection()" />
-                                    <button type="button" (click)="updateVerificationNumber()"
+                                        (input)="numberEditDetection()"
+                                    />
+                                    <button
+                                        type="button"
+                                        (click)="updateVerificationNumber()"
                                         class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
-                                        [disabled]="numberChangeFlag">
+                                        [disabled]="numberChangeFlag"
+                                    >
                                         UPDATE
                                     </button>
                                 </div>
@@ -139,7 +196,8 @@
                                     (blur)="updateVerificationNumber()"
                                 /> -->
                             </div>
-                            <div class="flex flex-col sm:flex-row" style="align-items: center">
+
+                            <!-- <div class="flex flex-col sm:flex-row" style="align-items: center">
                                 <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
                                     style="display: flex">Workshop Timing &nbsp;&nbsp;<svg
                                         ngxTippy="Workshop open & close timing" width="24" height="24"
@@ -160,65 +218,97 @@
                                     Class="form-input flex-1" ngxTippy="Opening Time" />
                                 <input type="time" id="workEnd" [disabled]="workTimeFlag"
                                     (change)="updateWOrkshopTiming()" name="workEnd" [(ngModel)]="workEnd"
-                                    Class="form-input flex-1" ngxTippy="Closing Time" />
-                                <!-- <ng2-flatpickr
+                                    Class="form-input flex-1" ngxTippy="Closing Time" /> -->
+                            <!-- <ng2-flatpickr
                                     [config]="workshopOpenTime"
                                     ngxTippy="Opening Time"
                                     [(ngModel)]="workStart"
                                     addClass="form-input"
                                 ></ng2-flatpickr> -->
-                                <!-- <ng2-flatpickr [config]="workshopCloseTime" [(ngModel)]="workEnd" ngxTippy="Closing Time" addClass="form-input"></ng2-flatpickr> -->
-                            </div>
+                            <!-- <ng2-flatpickr [config]="workshopCloseTime" [(ngModel)]="workEnd" ngxTippy="Closing Time" addClass="form-input"></ng2-flatpickr> -->
+                            <!-- </div> -->
                             <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                    style="display: flex">Log LandLine Numbers &nbsp;&nbsp;<svg
-                                        ngxTippy="Include LandLine Numbers in Inbound Call Reports" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
+                                <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                    >Log LandLine Numbers &nbsp;&nbsp;<svg
+                                        ngxTippy="Include LandLine Numbers in Inbound Call Reports"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            opacity="0.5"
                                             d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                     </svg>
                                 </label>
                                 <label class="relative h-6 w-12">
-                                    <input type="checkbox"
+                                    <input
+                                        type="checkbox"
                                         class="custom_switch peer absolute z-10 h-full w-full cursor-pointer opacity-0"
-                                        [(ngModel)]="landLineInclude" id="custom_switch_checkbox5"
-                                        (change)="onLandlineLogChange()" [disabled]="landLineFlag" />
-                                    <span for="custom_switch_checkbox5"
-                                        class="outline_checkbox block h-full border-2 border-[#ebedf2] before:absolute before:bottom-1 before:left-1 before:h-4 before:w-4 before:bg-[#ebedf2] before:transition-all before:duration-300 peer-checked:border-primary peer-checked:before:left-7 peer-checked:before:bg-primary dark:border-white-dark dark:before:bg-white-dark"></span>
+                                        [(ngModel)]="landLineInclude"
+                                        id="custom_switch_checkbox5"
+                                        (change)="onLandlineLogChange()"
+                                        [disabled]="landLineFlag"
+                                    />
+                                    <span
+                                        for="custom_switch_checkbox5"
+                                        class="outline_checkbox block h-full border-2 border-[#ebedf2] before:absolute before:bottom-1 before:left-1 before:h-4 before:w-4 before:bg-[#ebedf2] before:transition-all before:duration-300 peer-checked:border-primary peer-checked:before:left-7 peer-checked:before:bg-primary dark:border-white-dark dark:before:bg-white-dark"
+                                    ></span>
                                 </label>
                             </div>
                             <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                    style="display: flex">Missed Call Buffer &nbsp;&nbsp;<svg
+                                <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                    >Missed Call Buffer &nbsp;&nbsp;<svg
                                         ngxTippy="Buffer time allowed for missed call call back in working hours"
-                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            opacity="0.5"
                                             d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                     </svg>
                                 </label>
                                 <div class="flex">
-                                    <input id="missedBuffer" maxlength="10" [(ngModel)]="missedBuffer" type="text"
+                                    <input
+                                        id="missedBuffer"
+                                        maxlength="10"
+                                        [(ngModel)]="missedBuffer"
+                                        type="text"
                                         class="form-input ltr:rounded-r-none rtl:rounded-l-none"
-                                        (input)="bufferEditDetection()" placeholder="__:__"
-                                        [textMask]="{ mask: bufferMask }" />
-                                    <button type="button" (click)="updateMissedCallBuffer()"
+                                        (input)="bufferEditDetection()"
+                                        placeholder="__:__"
+                                        [textMask]="{ mask: bufferMask }"
+                                    />
+                                    <button
+                                        type="button"
+                                        (click)="updateMissedCallBuffer()"
                                         class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
-                                        [disabled]="bufferChangeFlag">
+                                        [disabled]="bufferChangeFlag"
+                                    >
                                         UPDATE
                                     </button>
                                 </div>
@@ -252,208 +342,387 @@
                             </div> -->
                         </div>
                     </div>
+                    <div class="mt-2 flex flex-col sm:flex-row" style="align-items: start; width: 100%">
+                        <div class="w-full">
+                            <label class="mb-2 mt-2 block font-semibold">
+                                Workshop Timings &nbsp;&nbsp;
+                                <svg ngxTippy="Configure day-wise working hours" width="20" height="20" viewBox="0 0 24 24">
+                                    <path opacity="0.5" d="M22 12C22 17.5 ..."></path>
+                                </svg>
+                            </label>
+
+                            <table class="table-bordered table-sm table w-full">
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+                                        <th>Start</th>
+                                        <th>Noon Start</th>
+                                        <th>Noon End</th>
+                                        <th>End</th>
+                                        <th>Open</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let day of workshopDays; let i = index">
+                                        <td>{{ day.name }}</td>
+                                        <td>
+                                            <input type="time" [(ngModel)]="day.start" class="form-control" [disabled]="!day.open" />
+                                        </td>
+                                        <td>
+                                            <input type="time" [(ngModel)]="day.noonStart" class="form-control" [disabled]="!day.open" />
+                                        </td>
+                                        <td>
+                                            <input type="time" [(ngModel)]="day.noonEnd" class="form-control" [disabled]="!day.open" />
+                                        </td>
+                                        <td>
+                                            <input type="time" [(ngModel)]="day.end" class="form-control" [disabled]="!day.open" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" [(ngModel)]="day.open" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-2 flex justify-end">
+                                <button type="button" class="btn btn-secondary mt-2 justify-end" (click)="updateWorkshopTiming()">UPDATE</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Calendar for multiple day selection -->
+                    <div class="mt-5">
+                        <label class="mb-2 block font-semibold">Special Days / Holidays</label>
+
+                        <div class="flex items-center gap-2">
+                            <input type="date" [(ngModel)]="tempDate" class="form-control" />
+                            <button type="button" class="btn btn-primary" (click)="addDate()">Add</button>
+                        </div>
+
+                        <table class="table-bordered mt-3 table" *ngIf="selectedDates.length">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let d of selectedDates; let i = index">
+                                    <td>{{ d | date : 'yyyy-MM-dd' }}</td>
+                                    <td><button class="btn btn-danger btn-sm" (click)="removeDate(i)">Remove</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-2 flex justify-end">
+                            <button type="button" class="btn btn-primary" (click)="saveSelectedDays()">SAVE DAYS</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div *ngIf="activeTab.toLowerCase() === 'payment-detail'">
-                <div
-                    class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+                <div class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
                     <h6 class="mb-5 text-lg font-bold">PSF Configurations</h6>
                     <form [formGroup]="psf_forms" style="width: 100%">
                         <div class="flex flex-col sm:flex-row">
                             <div class="grid flex-1 grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2">
                                 <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                        style="display: flex">PSF Expiry<svg
-                                            ngxTippy="Maximum days allowed to complete psf calls" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.5"
+                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                        >PSF Expiry<svg
+                                            ngxTippy="Maximum days allowed to complete psf calls"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                opacity="0.5"
                                                 d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                         </svg>
                                     </label>
                                     <div class="flex">
-                                        <input id="v_number" maxlength="2" formControlName="psf_allowed_days"
-                                            type="text" placeholder="Verification Mobile Number"
-                                            class="form-input ltr:rounded-r-none rtl:rounded-l-none"
-                                            (input)="psfInputChange(0)" />
-                                        <button type="button" (click)="updatePSFDays(0)"
-                                            class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
-                                            [disabled]="psf_allowed_flag">
-                                            UPDATE
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                        style="display: flex">No of days for Not driven status<svg
-                                            ngxTippy="No of days to reschedule PSF call if customer did'nt drive vehicle"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.5"
-                                                d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                                fill="#1C274C" />
-                                            <path
-                                                d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                                fill="#1C274C" />
-                                            <path
-                                                d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                                fill="#1C274C" />
-                                        </svg>
-                                    </label>
-                                    <div class="flex">
-                                        <input id="v_number" maxlength="2" formControlName="psf_buffer_days" type="text"
+                                        <input
+                                            id="v_number"
+                                            maxlength="2"
+                                            formControlName="psf_allowed_days"
+                                            type="text"
                                             placeholder="Verification Mobile Number"
                                             class="form-input ltr:rounded-r-none rtl:rounded-l-none"
-                                            (input)="psfInputChange(1)" />
-                                        <button type="button" (click)="updatePSFDays(1)"
+                                            (input)="psfInputChange(0)"
+                                        />
+                                        <button
+                                            type="button"
+                                            (click)="updatePSFDays(0)"
                                             class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
-                                            [disabled]="psf_buffer_flag">
+                                            [disabled]="psf_allowed_flag"
+                                        >
                                             UPDATE
                                         </button>
                                     </div>
                                 </div>
                                 <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                        style="display: flex">PSF Call Assign Type<svg
-                                            ngxTippy="How to assign PSF calls, automatically to CRE and SA or to selected staffs"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.5"
+                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                        >No of days for Not driven status<svg
+                                            ngxTippy="No of days to reschedule PSF call if customer did'nt drive vehicle"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                opacity="0.5"
                                                 d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
+                                        </svg>
+                                    </label>
+                                    <div class="flex">
+                                        <input
+                                            id="v_number"
+                                            maxlength="2"
+                                            formControlName="psf_buffer_days"
+                                            type="text"
+                                            placeholder="Verification Mobile Number"
+                                            class="form-input ltr:rounded-r-none rtl:rounded-l-none"
+                                            (input)="psfInputChange(1)"
+                                        />
+                                        <button
+                                            type="button"
+                                            (click)="updatePSFDays(1)"
+                                            class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
+                                            [disabled]="psf_buffer_flag"
+                                        >
+                                            UPDATE
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col sm:flex-row" style="align-items: center">
+                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                        >PSF Call Assign Type<svg
+                                            ngxTippy="How to assign PSF calls, automatically to CRE and SA or to selected staffs"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                opacity="0.5"
+                                                d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+                                                fill="#1C274C"
+                                            />
+                                            <path
+                                                d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
+                                                fill="#1C274C"
+                                            />
+                                            <path
+                                                d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+                                                fill="#1C274C"
+                                            />
                                         </svg>
                                     </label>
                                     <div>
-                                        <ng-select placeholder="Select PSF Assign Type" [searchable]="true"
-                                            [clearable]="false" class="custom-multiselect"
-                                            formControlName="psf_assign_type" (change)="updateAssignStatus()">
+                                        <ng-select
+                                            placeholder="Select PSF Assign Type"
+                                            [searchable]="true"
+                                            [clearable]="false"
+                                            class="custom-multiselect"
+                                            formControlName="psf_assign_type"
+                                            (change)="updateAssignStatus()"
+                                        >
                                             <ng-option value="0">Automatically Assign To CRE & SA</ng-option>
                                             <ng-option value="1">Assign To Selected Users</ng-option>
                                         </ng-select>
                                     </div>
                                 </div>
                                 <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                        style="display: flex">Feedback Assign Days<svg
-                                            ngxTippy="No Of Days Needed To Feedback Assign After invoice" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.5"
+                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                        >Feedback Assign Days<svg
+                                            ngxTippy="No Of Days Needed To Feedback Assign After invoice"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                opacity="0.5"
                                                 d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                         </svg>
                                     </label>
                                     <div class="flex">
-                                        <input id="v_number" maxlength="2" formControlName="psf_feedback_assign_days"
-                                            type="text" placeholder="Feedback Assign Days"
-                                            class="form-input ltr:rounded-r-none rtl:rounded-l-none" />
-                                        <button type="button" (click)="updatePSFDays(2)"
+                                        <input
+                                            id="v_number"
+                                            maxlength="2"
+                                            formControlName="psf_feedback_assign_days"
+                                            type="text"
+                                            placeholder="Feedback Assign Days"
+                                            class="form-input ltr:rounded-r-none rtl:rounded-l-none"
+                                        />
+                                        <button
+                                            type="button"
+                                            (click)="updatePSFDays(2)"
                                             class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
-                                            [disabled]="psf_forms.value.psf_feedback_assign_days == '' || psf_forms.value.psf_feedback_assign_days == 0 ">
+                                            [disabled]="psf_forms.value.psf_feedback_assign_days == '' || psf_forms.value.psf_feedback_assign_days == 0"
+                                        >
                                             UPDATE
                                         </button>
                                     </div>
                                 </div>
                                 <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2"
-                                        style="display: flex">2nd Feedback Assign Days<svg
-                                            ngxTippy="No Of Days Needed To Feedback Assign After SA" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path opacity="0.5"
+                                    <label for="v_number" class="mb-0 rtl:ml-2 sm:w-1/3 sm:ltr:mr-2" style="display: flex"
+                                        >2nd Feedback Assign Days<svg
+                                            ngxTippy="No Of Days Needed To Feedback Assign After SA"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                opacity="0.5"
                                                 d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                             <path
                                                 d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                                fill="#1C274C" />
+                                                fill="#1C274C"
+                                            />
                                         </svg>
                                     </label>
                                     <div class="flex">
-                                        <input id="v_number" maxlength="2"
-                                            formControlName="psf_feedback_assign_days_after_sa" type="text"
+                                        <input
+                                            id="v_number"
+                                            maxlength="2"
+                                            formControlName="psf_feedback_assign_days_after_sa"
+                                            type="text"
                                             placeholder="2nd Feedback Assign Days"
-                                            class="form-input ltr:rounded-r-none rtl:rounded-l-none" />
-                                        <button type="button" (click)="updatePSFDays(3)"
+                                            class="form-input ltr:rounded-r-none rtl:rounded-l-none"
+                                        />
+                                        <button
+                                            type="button"
+                                            (click)="updatePSFDays(3)"
                                             class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none"
-                                            [disabled]="psf_forms.value.psf_feedback_assign_days_after_sa == '' || psf_forms.value.psf_feedback_assign_days_after_sa == 0 ">
+                                            [disabled]="
+                                                psf_forms.value.psf_feedback_assign_days_after_sa == '' ||
+                                                psf_forms.value.psf_feedback_assign_days_after_sa == 0
+                                            "
+                                        >
                                             UPDATE
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="psf_forms.value.psf_assign_type == 1"
-                            style="align-items: center; margin-top: 1.6rem">
+                        <div *ngIf="psf_forms.value.psf_assign_type == 1" style="align-items: center; margin-top: 1.6rem">
                             <h6 class="mb-5 text-lg">Staff assigned for 3rd day PSF call</h6>
                             <div class="grid flex-1 grid-cols-2 gap-5 md:grid-cols-6 lg:grid-cols-6">
                                 <span
                                     class="badge my-4 flex items-center rounded-full bg-danger p-0 text-base ltr:pr-4 rtl:pl-4"
                                     *ngFor="let staff3 of selectedThirdDayStaff"
-                                    style="justify-content: space-between"><img src="./assets/images/user_def.png"
-                                        alt="" class="h-10 w-10 rounded-full object-cover" /><span
-                                        class="ltr:ml-2 rtl:mr-2">{{ staff3.us_firstname | uppercase }}</span><span
-                                        class="cursor-pointer hover:opacity-90 ltr:ml-4 rtl:mr-4"
-                                        (click)="deleteAssignedStaff(staff3)">x</span></span>
+                                    style="justify-content: space-between"
+                                    ><img src="./assets/images/user_def.png" alt="" class="h-10 w-10 rounded-full object-cover" /><span
+                                        class="ltr:ml-2 rtl:mr-2"
+                                        >{{ staff3.us_firstname | uppercase }}</span
+                                    ><span class="cursor-pointer hover:opacity-90 ltr:ml-4 rtl:mr-4" (click)="deleteAssignedStaff(staff3)">x</span></span
+                                >
                             </div>
                             <div>
                                 <label for="userList">Add New Staff</label>
                                 <div class="flex">
-                                    <ng-select [items]="userList" bindLabel="us_firstname" bindValue="us_id"
-                                        placeholder="Select staff To assign" [searchable]="true" [clearable]="false"
-                                        class="custom-multiselect" style="width: 30%" [(ngModel)]="selectedStaff"
-                                        [ngModelOptions]="{ standalone: true }">
+                                    <ng-select
+                                        [items]="userList"
+                                        bindLabel="us_firstname"
+                                        bindValue="us_id"
+                                        placeholder="Select staff To assign"
+                                        [searchable]="true"
+                                        [clearable]="false"
+                                        class="custom-multiselect"
+                                        style="width: 30%"
+                                        [(ngModel)]="selectedStaff"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    >
                                     </ng-select>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1%"
-                                        [disabled]="selectedStaff == null" (click)="addStaffToPSF(0)">
+                                    <button
+                                        type="button"
+                                        class="btn btn-info"
+                                        style="margin-left: 1%"
+                                        [disabled]="selectedStaff == null"
+                                        (click)="addStaffToPSF(0)"
+                                    >
                                         ADD
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="psf_forms.value.psf_assign_type == 1"
-                            style="align-items: center; margin-top: 1.6rem">
+                        <div *ngIf="psf_forms.value.psf_assign_type == 1" style="align-items: center; margin-top: 1.6rem">
                             <h6 class="mb-5 text-lg">Staff assigned for 10th day PSF call</h6>
                             <div class="grid flex-1 grid-cols-2 gap-5 md:grid-cols-6 lg:grid-cols-6">
                                 <span
                                     class="badge my-4 flex items-center rounded-full bg-dark p-0 text-base ltr:pr-4 rtl:pl-4"
                                     *ngFor="let staff3 of selectedTenthDayStaffs"
-                                    style="justify-content: space-between"><img src="./assets/images/user_def.png"
-                                        alt="" class="h-10 w-10 rounded-full object-cover" /><span
-                                        class="ltr:ml-2 rtl:mr-2">{{ staff3.us_firstname | uppercase }}</span><span
-                                        class="cursor-pointer hover:opacity-90 ltr:ml-4 rtl:mr-4"
-                                        (click)="deleteAssignedStaff(staff3)">x</span></span>
+                                    style="justify-content: space-between"
+                                    ><img src="./assets/images/user_def.png" alt="" class="h-10 w-10 rounded-full object-cover" /><span
+                                        class="ltr:ml-2 rtl:mr-2"
+                                        >{{ staff3.us_firstname | uppercase }}</span
+                                    ><span class="cursor-pointer hover:opacity-90 ltr:ml-4 rtl:mr-4" (click)="deleteAssignedStaff(staff3)">x</span></span
+                                >
                             </div>
                             <div>
                                 <label for="userList">Add New Staff</label>
                                 <div class="flex">
-                                    <ng-select [items]="userList" bindLabel="us_firstname" bindValue="us_id"
-                                        placeholder="Select staff To assign" [searchable]="true" [clearable]="false"
-                                        class="custom-multiselect" style="width: 30%"
-                                        [(ngModel)]="selectedTenthDayStaff" [ngModelOptions]="{ standalone: true }">
+                                    <ng-select
+                                        [items]="userList"
+                                        bindLabel="us_firstname"
+                                        bindValue="us_id"
+                                        placeholder="Select staff To assign"
+                                        [searchable]="true"
+                                        [clearable]="false"
+                                        class="custom-multiselect"
+                                        style="width: 30%"
+                                        [(ngModel)]="selectedTenthDayStaff"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    >
                                     </ng-select>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1%"
-                                        [disabled]="selectedTenthDayStaff == null" (click)="addStaffToPSF(1)">
+                                    <button
+                                        type="button"
+                                        class="btn btn-info"
+                                        style="margin-left: 1%"
+                                        [disabled]="selectedTenthDayStaff == null"
+                                        (click)="addStaffToPSF(1)"
+                                    >
                                         ADD
                                     </button>
                                 </div>
@@ -465,18 +734,15 @@
             <div *ngIf="activeTab.toLowerCase() === 'spm'">
                 <div class="panel mb-5 mt-5">
                     <h6 class="mb-5 text-lg font-bold">Spare Parts Margin Settings</h6>
-                    <table id="main_table" style="font-size: 0.9vw; font-weight: 600;" class="table-hover"
-                        *ngIf="sparePartsMargin.length>0">
+                    <table id="main_table" style="font-size: 0.9vw; font-weight: 600" class="table-hover" *ngIf="sparePartsMargin.length > 0">
                         <thead>
                             <!-- <tr style="background-color: #eee !important;">
                                 <th class="col-span-3"    style="text-align:center;padding: 2px;">Spare Parts Margin</th>
                             </tr> -->
                             <tr>
-                                <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Limit Start (in AED)
-                                </th>
-                                <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Limit End (in AED)
-                                </th>
-                                <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Spare Margin (%)</th>
+                                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Limit Start (in AED)</th>
+                                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Limit End (in AED)</th>
+                                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Spare Margin (%)</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -484,36 +750,41 @@
                         <ng-container>
                             <tbody class="master">
                                 <tr *ngFor="let data of sparePartsMargin; let i = index">
-                                    <td class="include" style="text-align: left;padding: 2px;border: 1px solid #ddd;">
-                                        <input type="text" placeholder="" [(ngModel)]="data.spm_start_price"
-                                            class="form-input" maxlength="50" />
+                                    <td class="include" style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                        <input type="text" placeholder="" [(ngModel)]="data.spm_start_price" class="form-input" maxlength="50" />
                                     </td>
-                                    <td style="text-align: left;padding: 2px;border: 1px solid #ddd;">
-                                        <input type="text" placeholder="" [(ngModel)]="data.spm_end_price"
-                                            class="form-input" maxlength="50" />
+                                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                        <input type="text" placeholder="" [(ngModel)]="data.spm_end_price" class="form-input" maxlength="50" />
                                     </td>
                                     <!-- name="target_{{ data.month}}_{{i}}" -->
-                                    <td style="text-align: left;padding: 2px;border: 1px solid #ddd;">
-                                        <input type="text" [(ngModel)]="data.spm_price" placeholder=""
-                                            class="form-input" maxlength="50" />
+                                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                        <input type="text" [(ngModel)]="data.spm_price" placeholder="" class="form-input" maxlength="50" />
                                     </td>
                                     <td>
-                                        <button type="button" ngxTippy data-tippy-content="Delete Spare Parts Margin"
-                                            (click)="deleteSpareMargin(data)">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
-                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" />
+                                        <button type="button" ngxTippy data-tippy-content="Delete Spare Parts Margin" (click)="deleteSpareMargin(data)">
+                                            <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="m-auto h-5 w-5"
+                                            >
+                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                                 <path
                                                     d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
-                                                    stroke-width="1.5" stroke-linecap="round" />
-                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
-                                                    stroke-width="1.5" stroke-linecap="round" />
-                                                <path opacity="0.5"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.5"
+                                                    stroke-linecap="round"
+                                                />
+                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path
+                                                    opacity="0.5"
                                                     d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
-                                                    stroke="currentColor" stroke-width="1.5" />
+                                                    stroke="currentColor"
+                                                    stroke-width="1.5"
+                                                />
                                             </svg>
                                         </button>
                                     </td>
@@ -521,18 +792,14 @@
                                 </tr>
                             </tbody>
                         </ng-container>
-
                     </table>
                 </div>
-                <div class="mt-2 mb-2">
-                    <button type="button" style="float: left;" class="btn btn-primary" (click)="addNewMargin()">Add
-                        New</button>
+                <div class="mb-2 mt-2">
+                    <button type="button" style="float: left" class="btn btn-primary" (click)="addNewMargin()">Add New</button>
                 </div>
-                <div class="mt-2 mb-2">
-                    <button type="button" style="float: right;" class="btn btn-primary"
-                        (click)="savePartsMargin(sparePartsMargin)">SAVE</button>
+                <div class="mb-2 mt-2">
+                    <button type="button" style="float: right" class="btn btn-primary" (click)="savePartsMargin(sparePartsMargin)">SAVE</button>
                 </div>
-
             </div>
             <div *ngIf="activeTab.toLowerCase() === 'usrm'">
                 <div class="panel mb-5 mt-5">
@@ -540,50 +807,64 @@
                     <div class="mb-5 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3">
                         <div>
                             <label for="rdesc">User Role</label>
-                            <ng-select placeholder="Select User Role" [items]="roleList" bindLabel="role_name"
-                                bindValue="role_id" [searchable]="true" [clearable]="false" class="custom-multiselect"
-                                [(ngModel)]="user_role.role_id" (change)="getUserRoleMarginLimit(user_role.role_id)">
+                            <ng-select
+                                placeholder="Select User Role"
+                                [items]="roleList"
+                                bindLabel="role_name"
+                                bindValue="role_id"
+                                [searchable]="true"
+                                [clearable]="false"
+                                class="custom-multiselect"
+                                [(ngModel)]="user_role.role_id"
+                                (change)="getUserRoleMarginLimit(user_role.role_id)"
+                            >
                             </ng-select>
                         </div>
                     </div>
-                    <div class="mb-5 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3"
-                        *ngIf="user_role.role_id != null">
+                    <div class="mb-5 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3" *ngIf="user_role.role_id != null">
                         <div>
                             <label for="role_name">Minimum Margin</label>
-                            <input id="role_name" type="text" class="form-input" [(ngModel)]="user_role.minimum_margin"
-                                placeholder="Minimum Margin For User Role" maxlength="50" />
+                            <input
+                                id="role_name"
+                                type="text"
+                                class="form-input"
+                                [(ngModel)]="user_role.minimum_margin"
+                                placeholder="Minimum Margin For User Role"
+                                maxlength="50"
+                            />
                         </div>
                         <div>
                             <label for="role_name">Maximum Margin</label>
-                            <input id="role_name" type="text" class="form-input" [(ngModel)]="user_role.maximum_margin"
-                                placeholder="Maximum Margin For User Role" maxlength="50" />
+                            <input
+                                id="role_name"
+                                type="text"
+                                class="form-input"
+                                [(ngModel)]="user_role.maximum_margin"
+                                placeholder="Maximum Margin For User Role"
+                                maxlength="50"
+                            />
                         </div>
-
                     </div>
                     <div class="mb-5 grid grid-cols-1 gap-2 md:grid-cols-1 lg:grid-cols-1">
-                        <div class="mt-2 mb-2"
-                            *ngIf="user_role.maximum_margin != null && user_role.minimum_margin != null">
-                            <button type="button" style="float: right;" class="btn btn-primary" *ngIf="!update_flag"
-                                (click)="saveUserRoleMargin(user_role)">SAVE</button>
-                            <button type="button" style="float: right;" class="btn btn-primary" *ngIf="update_flag"
-                                (click)="saveUserRoleMargin(user_role)">Update</button>
+                        <div class="mb-2 mt-2" *ngIf="user_role.maximum_margin != null && user_role.minimum_margin != null">
+                            <button type="button" style="float: right" class="btn btn-primary" *ngIf="!update_flag" (click)="saveUserRoleMargin(user_role)">
+                                SAVE
+                            </button>
+                            <button type="button" style="float: right" class="btn btn-primary" *ngIf="update_flag" (click)="saveUserRoleMargin(user_role)">
+                                Update
+                            </button>
                         </div>
                     </div>
                     <h4 class="mb-5 text-lg font-bold">User Role Wise Margin Limits</h4>
-                    <table id="main_table" style="font-size: 0.9vw; font-weight: 600;" class="table-hover"
-                        *ngIf="sparePartsMargin.length>0">
+                    <table id="main_table" style="font-size: 0.9vw; font-weight: 600" class="table-hover" *ngIf="sparePartsMargin.length > 0">
                         <thead>
                             <!-- <tr style="background-color: #eee !important;">
                                 <th class="col-span-3"    style="text-align:center;padding: 2px;">Spare Parts Margin</th>
                             </tr> -->
                             <tr>
-                                <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Role Name
-                                </th>
-                                <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Minimum Margin
-                                    Percentage
-                                </th>
-                                <th style="text-align: left;border: 1px solid #ddd;padding: 2px;">Maximum Margin
-                                    Percentage</th>
+                                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Role Name</th>
+                                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Minimum Margin Percentage</th>
+                                <th style="text-align: left; border: 1px solid #ddd; padding: 2px">Maximum Margin Percentage</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -591,37 +872,41 @@
                         <ng-container>
                             <tbody class="master">
                                 <tr *ngFor="let data of userRoleMargins; let i = index">
-                                    <td class="include" style="text-align: left;padding: 2px;border: 1px solid #ddd;">
-                                        <input type="text" placeholder="" readonly [(ngModel)]="data.role_name"
-                                            class="form-input" maxlength="50" />
+                                    <td class="include" style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                        <input type="text" placeholder="" readonly [(ngModel)]="data.role_name" class="form-input" maxlength="50" />
                                     </td>
-                                    <td style="text-align: left;padding: 2px;border: 1px solid #ddd;">
-                                        <input type="text" placeholder="" readonly [(ngModel)]="data.ml_minimum_margin"
-                                            class="form-input" maxlength="50" />
+                                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                        <input type="text" placeholder="" readonly [(ngModel)]="data.ml_minimum_margin" class="form-input" maxlength="50" />
                                     </td>
                                     <!-- name="target_{{ data.month}}_{{i}}" -->
-                                    <td style="text-align: left;padding: 2px;border: 1px solid #ddd;">
-                                        <input type="text" readonly [(ngModel)]="data.ml_maximum_margin" placeholder=""
-                                            class="form-input" maxlength="50" />
+                                    <td style="text-align: left; padding: 2px; border: 1px solid #ddd">
+                                        <input type="text" readonly [(ngModel)]="data.ml_maximum_margin" placeholder="" class="form-input" maxlength="50" />
                                     </td>
                                     <td>
-                                        <button type="button" ngxTippy
-                                            data-tippy-content="Delete User Role Margin Limit"
-                                            (click)="deleteUserRoleMargin(data)">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" class="m-auto h-5 w-5">
-                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5"
-                                                    stroke-linecap="round" />
+                                        <button type="button" ngxTippy data-tippy-content="Delete User Role Margin Limit" (click)="deleteUserRoleMargin(data)">
+                                            <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="m-auto h-5 w-5"
+                                            >
+                                                <path d="M20.5001 6H3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                                                 <path
                                                     d="M18.8334 8.5L18.3735 15.3991C18.1965 18.054 18.108 19.3815 17.243 20.1907C16.378 21 15.0476 21 12.3868 21H11.6134C8.9526 21 7.6222 21 6.75719 20.1907C5.89218 19.3815 5.80368 18.054 5.62669 15.3991L5.16675 8.5"
-                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor"
-                                                    stroke-width="1.5" stroke-linecap="round" />
-                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor"
-                                                    stroke-width="1.5" stroke-linecap="round" />
-                                                <path opacity="0.5"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.5"
+                                                    stroke-linecap="round"
+                                                />
+                                                <path opacity="0.5" d="M9.5 11L10 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path opacity="0.5" d="M14.5 11L14 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                                <path
+                                                    opacity="0.5"
                                                     d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
-                                                    stroke="currentColor" stroke-width="1.5" />
+                                                    stroke="currentColor"
+                                                    stroke-width="1.5"
+                                                />
                                             </svg>
                                         </button>
                                     </td>
@@ -629,105 +914,230 @@
                                 </tr>
                             </tbody>
                         </ng-container>
-
                     </table>
                 </div>
             </div>
             <div *ngIf="activeTab.toLowerCase() === 'srcs'">
-                <div
-                    class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
+                <div class="mb-5 rounded-md border border-[#ebedf2] bg-white p-4 dark:border-[#191e3a] dark:bg-[#0e1726]">
                     <h6 class="mb-5 text-lg font-bold">Service Remainder WhatsApp Campaign Configurations</h6>
                     <div class="flex flex-col sm:flex-row">
                         <div class="grid flex-1 grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2">
                             <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                <label for="v_number" class="mb-0 gap-1" style="display: flex">1st Service Reminder Days
-                                    <svg ngxTippy="Enter 1st Service Reminder (in Days)" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
+                                <label for="v_number" class="mb-0 gap-1" style="display: flex"
+                                    >1st Service Reminder Days
+                                    <svg
+                                        ngxTippy="Enter 1st Service Reminder (in Days)"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            opacity="0.5"
                                             d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                     </svg>
                                 </label>
                                 <div class="flex">
-                                    <input id="v_number" maxlength="4" [(ngModel)]="serviceRemainderDaysPhase1"
-                                        type="text" placeholder="Enter Service Remainder In Days"
-                                        class="form-input text-xs same-height" style="width: 10rem;" />
-                                    <ng-select [items]="intervalType" bindLabel="type" [(ngModel)]="interval"
-                                        bindValue="id" [searchable]="true" [clearable]="false" placeholder="days"
-                                        disabled class="custom-multiselect same-height">
+                                    <input
+                                        id="v_number"
+                                        maxlength="4"
+                                        [(ngModel)]="serviceRemainderDaysPhase1"
+                                        type="text"
+                                        placeholder="Enter Service Remainder In Days"
+                                        class="same-height form-input text-xs"
+                                        style="width: 10rem"
+                                    />
+                                    <ng-select
+                                        [items]="intervalType"
+                                        bindLabel="type"
+                                        [(ngModel)]="interval"
+                                        bindValue="id"
+                                        [searchable]="true"
+                                        [clearable]="false"
+                                        placeholder="days"
+                                        disabled
+                                        class="custom-multiselect same-height"
+                                    >
                                     </ng-select>
-                                    <button type="button" (click)="updateServiceRemainderDays(1)"
-                                        class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none same-height">
+                                    <button
+                                        type="button"
+                                        (click)="updateServiceRemainderDays(1)"
+                                        class="btn btn-secondary same-height ltr:rounded-l-none rtl:rounded-r-none"
+                                    >
                                         UPDATE
                                     </button>
                                 </div>
                             </div>
                             <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                <label for="v_number" class="mb-0 gap-1" style="display: flex">2nd Service Reminder Days
-                                    <svg ngxTippy="Enter 2nd Service Reminder (in Days)" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
+                                <label for="v_number" class="mb-0 gap-1" style="display: flex"
+                                    >2nd Service Reminder Days
+                                    <svg
+                                        ngxTippy="Enter 2nd Service Reminder (in Days)"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            opacity="0.5"
                                             d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                     </svg>
                                 </label>
                                 <div class="flex">
-                                    <input id="v_number" maxlength="4" [(ngModel)]="serviceRemainderDaysPhase2"
-                                        type="text" placeholder="Enter Service Remainder In Days"
-                                        class="form-input text-xs same-height" style="width: 10rem;" />
-                                    <ng-select [items]="intervalType" bindLabel="type" [(ngModel)]="interval"
-                                        bindValue="id" [searchable]="true" [clearable]="false" placeholder="days"
-                                        disabled class="custom-multiselect same-height">
+                                    <input
+                                        id="v_number"
+                                        maxlength="4"
+                                        [(ngModel)]="serviceRemainderDaysPhase2"
+                                        type="text"
+                                        placeholder="Enter Service Remainder In Days"
+                                        class="same-height form-input text-xs"
+                                        style="width: 10rem"
+                                    />
+                                    <ng-select
+                                        [items]="intervalType"
+                                        bindLabel="type"
+                                        [(ngModel)]="interval"
+                                        bindValue="id"
+                                        [searchable]="true"
+                                        [clearable]="false"
+                                        placeholder="days"
+                                        disabled
+                                        class="custom-multiselect same-height"
+                                    >
                                     </ng-select>
-                                    <button type="button" (click)="updateServiceRemainderDays(2)"
-                                        class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none same-height">
+                                    <button
+                                        type="button"
+                                        (click)="updateServiceRemainderDays(2)"
+                                        class="btn btn-secondary same-height ltr:rounded-l-none rtl:rounded-r-none"
+                                    >
                                         UPDATE
                                     </button>
                                 </div>
                             </div>
                             <div class="flex flex-col sm:flex-row" style="align-items: center">
-                                <label for="v_number" class="mb-0 gap-1" style="display: flex">3rd Service Reminder Days
-                                    <svg ngxTippy="Enter 3rd Service Reminder (in Days)" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="0.5"
+                                <label for="v_number" class="mb-0 gap-1" style="display: flex"
+                                    >3rd Service Reminder Days
+                                    <svg
+                                        ngxTippy="Enter 3rd Service Reminder (in Days)"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            opacity="0.5"
                                             d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.58584 14.3415 10.232 13.883 10.704C13.7907 10.7989 13.7027 10.8869 13.6187 10.9708C13.4029 11.1864 13.2138 11.3753 13.0479 11.5885C12.8289 11.8699 12.75 12.0768 12.75 12.25V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V12.25C11.25 11.5948 11.555 11.0644 11.8642 10.6672C12.0929 10.3733 12.3804 10.0863 12.6138 9.85346C12.6842 9.78321 12.7496 9.71789 12.807 9.65877C13.0046 9.45543 13.125 9.18004 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                         <path
                                             d="M12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                                            fill="#1C274C" />
+                                            fill="#1C274C"
+                                        />
                                     </svg>
                                 </label>
                                 <div class="flex">
-                                    <input id="v_number" maxlength="4" [(ngModel)]="serviceRemainderDaysPhase3"
-                                        type="text" placeholder="Enter Service Remainder In Days"
-                                        class="form-input text-xs same-height" style="width: 10rem;" />
-                                    <ng-select [items]="intervalType" bindLabel="type" [(ngModel)]="interval"
-                                        bindValue="id" [searchable]="true" [clearable]="false" placeholder="days"
-                                        disabled class="custom-multiselect same-height">
+                                    <input
+                                        id="v_number"
+                                        maxlength="4"
+                                        [(ngModel)]="serviceRemainderDaysPhase3"
+                                        type="text"
+                                        placeholder="Enter Service Remainder In Days"
+                                        class="same-height form-input text-xs"
+                                        style="width: 10rem"
+                                    />
+                                    <ng-select
+                                        [items]="intervalType"
+                                        bindLabel="type"
+                                        [(ngModel)]="interval"
+                                        bindValue="id"
+                                        [searchable]="true"
+                                        [clearable]="false"
+                                        placeholder="days"
+                                        disabled
+                                        class="custom-multiselect same-height"
+                                    >
                                     </ng-select>
-                                    <button type="button" (click)="updateServiceRemainderDays(3)"
-                                        class="btn btn-secondary ltr:rounded-l-none rtl:rounded-r-none same-height">
+                                    <button
+                                        type="button"
+                                        (click)="updateServiceRemainderDays(3)"
+                                        class="btn btn-secondary same-height ltr:rounded-l-none rtl:rounded-r-none"
+                                    >
                                         UPDATE
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- <div>
+                        <h5 class="mb-8 mt-8 text-lg font-bold">WhatsApp Message Settings</h5>
+                        <div class="flex-col-2 container flex">
+                            <div class="left">
+                                <div class="card">
+                                    <h3>Basic Information</h3>
+                                    <p>The message Id is used for identifying the message.</p>
+
+                                    <label>Message Type</label>
+                                    <select [(ngModel)]="messageTypeId" (change)="onMessageTypeChange()">
+                                        <option *ngFor="let type of messageTypes" [value]="type.id">
+                                            {{ type.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                                    <label>Delay (minutes)</label>
+                                    <input type="text" [(ngModel)]="delay" />
+                                </div>
+
+                                <div class="card">
+                                    <h3>Message Content</h3>
+                                    <p>Update your automated message.</p>
+
+                                    <textarea [(ngModel)]="messageText" rows="4"></textarea>
+
+                                    
+                                </div>
+                                <button (click)="saveAwayMessage()" class="btn btn-primary mt-4 justify-end">Save Message</button>
+                            </div>
+
+                            <div class="right">
+                                <div class="preview-card">
+                                    <h3>Message Preview</h3>
+                                    <p>See how your message will appear to recipients</p>
+                                    <div class="preview-box" style="white-space: pre-wrap; word-wrap: break-word; overflow-wrap: break-word">
+                                        {{ messageText }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </div>

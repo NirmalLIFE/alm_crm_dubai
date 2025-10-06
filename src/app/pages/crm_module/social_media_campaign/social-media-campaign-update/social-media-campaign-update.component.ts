@@ -182,4 +182,23 @@ export class SocialMediaCampaignUpdateComponent implements OnInit {
             title: message,
         });
     }
+
+
+    updateCampaignBudget(budget:any,id:any){
+
+        let data  = {
+            smc_budget:budget,
+            smc_id:id
+
+        };
+
+        this.userServices.updateSocialMediaCampaignBudget(data).subscribe((rData: any) => {
+            if (rData.ret_data == 'success') {
+                // this.router.navigateByUrl('campaign_list');
+                this.coloredToast('success', 'Campaign Budget Updated Successfully');
+            } else {
+                this.coloredToast('danger', "Could'nt Update Campaign Budget, please try again later");
+            }
+        });
+    }
 }

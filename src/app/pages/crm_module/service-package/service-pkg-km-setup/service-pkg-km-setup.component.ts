@@ -28,6 +28,11 @@ export class ServicePkgKmSetupComponent implements OnInit {
     public spStatus: any;
     allChecked = false;
 
+    limit = 8;
+    offset = 0;
+    loading = false;
+    allLoaded = false;
+
     @ViewChild('KmMappingModal') KmMappingModal: any;
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe, private activeRouter: ActivatedRoute) {
@@ -110,6 +115,19 @@ export class ServicePkgKmSetupComponent implements OnInit {
     }
 
     ngOnInit() {}
+
+    onScroll(event: any) {
+        const el = event.target as HTMLElement;
+
+        // Use a small buffer or Math.ceil to avoid fractions
+        const buffer = 2; // or 5
+        if (Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight - buffer) {
+            
+            if (!this.loading) {
+                this.checkEngineHasSameSPItems();
+            }
+        }
+    }
 
     getDatas() {
         this.userServices.getESLByModelCode({ model_code: this.model_code }).subscribe((rdata: any) => {
@@ -269,16 +287,29 @@ export class ServicePkgKmSetupComponent implements OnInit {
     }
 
     checkEngineHasSameSPItems() {
+        if (this.loading || this.allLoaded) return;
+
+        this.loading = true;
+
         let data = {
             eng_id: this.engineNO,
             items: this.spareAndLabourList.items,
+            limit: this.limit,
+            offset: this.offset,
         };
 
         this.userServices.checkEngineHasSameSPItems(data).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
-                this.finalItems = rdata.matches;
+                if (rdata.matches.length < this.limit) {
+                    this.allLoaded = true; // No more data
+                }
+                this.finalItems = [...this.finalItems, ...rdata.matches];
                 this.KmMappingModal.open();
+                this.offset = this.offset + rdata.matches.length;
+                this.loading = false;
                 // console.log('Final spareAndLabourList', this.spareAndLabourList);
+            } else {
+                this.loading = false;
             }
         });
     }
@@ -288,7 +319,7 @@ export class ServicePkgKmSetupComponent implements OnInit {
 
         const filteredKmIds = this.kilometers.filter((k: any) => k.km_id !== 1).map((k: any) => k.km_id);
 
-        return filteredKmIds.every((kmId:any) => data.selectedKmIds.includes(kmId));
+        return filteredKmIds.every((kmId: any) => data.selectedKmIds.includes(kmId));
     }
 
     toggleAllKmsForItem(data: any, event: any): void {
@@ -512,8 +543,6 @@ export class ServicePkgKmSetupComponent implements OnInit {
             }
         }
 
-        // console.log('spare and labour list>>>>1456>>>>>>>>>', this.spareAndLabourList);
-        // this.saveFlag = false;
         this.userServices.saveSPKM({ spareAndLabourKMMapped: this.spareAndLabourList }).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 const encodedModel = btoa(this.model_code);
@@ -595,5 +624,9 @@ export class ServicePkgKmSetupComponent implements OnInit {
         toast.fire({
             title: message,
         });
+    }
+    goBack() {
+        const model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
+        this.router.navigate(['/servicePackageLabour', btoa(model_code)]);
     }
 }

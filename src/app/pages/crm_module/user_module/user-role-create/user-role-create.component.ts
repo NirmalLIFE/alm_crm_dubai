@@ -46,7 +46,6 @@ export class UserRoleCreateComponent implements OnInit {
   }
 
   onSelectionChange(event: any) {
-    console.log("--->", event)
     let data = { "dept_id": event.dept_id };
     this.featureData = [];
     this.userServices.FeatureListByDept(data).subscribe((rdata: any) => {

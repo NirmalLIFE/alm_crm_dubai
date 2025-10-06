@@ -89,6 +89,7 @@ export class AppointmentDetailsComponent implements OnInit {
                 this.appointmentDetails = rData.details;
                 this.appointmentCount = rData.Appoints.length;
 
+
                 if (this.appointmentDetails.apptm_group == '1' || this.appointmentDetails.apptm_group == '0') {
                     this.appointmentDetails['apptm_group_l'] = 'Normal';
                 } else if (this.appointmentDetails.apptm_group == '2') {
@@ -126,7 +127,7 @@ export class AppointmentDetailsComponent implements OnInit {
         });
     }
 
-    updateAppointmentDetails() {
+    async updateAppointmentDetails() {
         let submit_flag = true;
         if (this.newStatus == '3') {
             if (
@@ -137,6 +138,59 @@ export class AppointmentDetailsComponent implements OnInit {
             ) {
                 this.coloredToast('danger', 'Please fill all the details for rescheduling');
                 submit_flag = false;
+            } else {
+                if (this.appointmentCount == 4) {
+                    const result = await Swal.fire({
+                        icon: 'warning',
+                        title: 'This Appointment Has Been Rescheduled 3 Times',
+                        text: "This appointment has been rescheduled 3 times. If you're sure about the new date, you can proceed by clicking Yes. Otherwise, it will be cancelled.",
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, Proceed',
+                        cancelButtonText: 'No, Cancel',
+                        customClass: 'sweet-alerts',
+                    });
+
+                    if (!result.isConfirmed) {
+                        await Swal.fire({
+                            title: 'Cancelled',
+                            text: 'Rescheduling was cancelled.',
+                            icon: 'info',
+                            customClass: 'sweet-alerts',
+                        });
+                        submit_flag = false;
+                    }
+                } else if (this.appointmentCount == 5) {
+                    const result = await Swal.fire({
+                        icon: 'info',
+                        title: 'Rescheduling Limit Reached',
+                        text: 'This appointment has already been rescheduled 4 times and cannot be rescheduled again. It will be cancelled now.',
+                        confirmButtonText: 'OK',
+                        customClass: 'sweet-alerts',
+                    });
+
+                    if (result.isConfirmed) {
+                        this.appointmentUpdate.patchValue({
+                            appointment_status: 4,
+                            appointment_id: this.appointmentId,
+                            appointment_lead: this.appointmentDetails.apptm_lead_id,
+                            customer_name: this.appointmentDetails.cust_name,
+                            register_number: this.appointmentDetails.register_number,
+                            cancelReason: 'Auto-cancelled after 4 reschedules',
+                        });
+                        this.userServices.updateAppointmentDetails(this.appointmentUpdate.value).subscribe((rData: any) => {
+                            if (rData.ret_data == 'success') {
+                                this.coloredToast('warning', 'Appointment was cancelled successfully');
+                                this.router.navigateByUrl('leads/appointment/appointment-list');
+                            }
+                        });
+                    }
+                    submit_flag = false;
+                } else {
+                    const confirmed = await this.showAlert();
+                    if (!confirmed) {
+                        submit_flag = false;
+                    }
+                }
             }
         } else if (this.newStatus == '4') {
             if (this.appointmentUpdate.controls['cancelReason'].value == null) {
@@ -185,6 +239,56 @@ export class AppointmentDetailsComponent implements OnInit {
                     }
                 }
             });
+        }
+    }
+
+    updateLeadVerification(lead: any, newFlag: number) {
+        // Set the new verification flag
+        lead.ld_verify_flag = newFlag;
+
+        let data = {
+            ld_verify_flag: newFlag,
+            lead_id: lead.lead_id,
+        };
+
+        this.userServices.updateLeadVerificationFlag(data).subscribe(
+            (rdata: any) => {
+                if (rdata.ret_data == 'success') {
+                    this.coloredToast('success', 'Lead Verify Flag Updated Successfully');
+                    this.getAppointmentDetails(); // Refresh the lead list if needed
+                }
+            },
+            (error: any) => {
+                // Roll back the flag in case of an error
+                lead.ld_verify_flag = newFlag == 1 ? 0 : 1;
+                console.error('Error updating lead verification:', error);
+                this.coloredToast('error', 'Failed to Update Lead Verify Flag');
+            }
+        );
+    }
+
+    async showAlert(): Promise<boolean> {
+        const result = await Swal.fire({
+            icon: 'warning',
+            title: 'Confirm Before Rescheduling',
+            text: 'Did you call the customer and confirm the new date before rescheduling the appointment?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Proceed',
+            cancelButtonText: 'No, Cancel',
+            padding: '2em',
+            customClass: 'sweet-alerts',
+        });
+
+        if (result.isConfirmed) {
+            return true;
+        } else {
+            Swal.fire({
+                title: 'Cancelled',
+                text: 'Rescheduling was cancelled.',
+                icon: 'info',
+                customClass: 'sweet-alerts',
+            });
+            return false;
         }
     }
 

@@ -1,16 +1,37 @@
 @keyframes slide-left-right {
-    0% {transform: translateX(0);}
-    10%, 90% {transform: translateX(-5px);}
-    20%, 80% {transform: translateX(5px);}
-    30%, 50%, 70% {transform: translateX(-5px);}
-    40%, 60% {transform: translateX(5px);}
-    100% {transform: translateX(0);}
+    0% {
+        transform: translateX(0);
+    }
+
+    10%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    80% {
+        transform: translateX(5px);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translateX(-5px);
+    }
+
+    40%,
+    60% {
+        transform: translateX(5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 
 #scrollingText {
     animation: slide-left-right 10s linear infinite;
 }
-
 
 .star-rating {
     display: inline-block;
@@ -47,4 +68,17 @@
     width: 50%;
     /* Make the width 50% for half-filled stars */
 }
-  
+
+.summary-bar {
+    background: #e5e5e590;
+    padding: 8px 12px;
+    text-align: center;
+    font-weight: 600;
+    color: #444;
+    border-radius: 4px;
+}
+
+::ng-deep .modal-dialog {
+    max-width: 95vw !important;
+    width: 90vw !important;
+}

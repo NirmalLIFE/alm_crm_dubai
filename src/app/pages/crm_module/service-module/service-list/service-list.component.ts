@@ -150,7 +150,7 @@ export class ServiceListComponent implements OnInit {
         // });
         // this.serviceDetails.service_price = service_price.toFixed(2);
 
-        console.log('serviceDetails', this.serviceDetails);
+        // console.log('serviceDetails', this.serviceDetails);
     }
 
     serviceModalClose() {

@@ -23,14 +23,35 @@ export class SaDashComponent implements OnInit {
     us_laabs_id: string = atob(atob(localStorage.getItem('us_laabs_id') || '{}'));
     wbMessages: any[] = [];
     saName: string = atob(atob(localStorage.getItem('us_firstname') || '{}'));
-
+    load_flag: boolean = true;
     public dissatisfied_cust_call: any[] = [];
     discust: any[] = [];
+    totalCount: number = 0;
 
     //Star Rating
     value: number = 1.5;
     stars: number[] = [1, 2, 3, 4, 5];
 
+    public retentionCustomers: any[] = [];
+    public filteredCustomers: any[] = [];
+    public selectedMonth: any = null;
+    showRetention = false;
+    public months: any[] = [];
+    failedToRetainCustomers: any[] = [];
+    failedToRetainCount: number = 0;
+    retentionSearch = '';
+    retentionCols = [
+        { field: 'job_no', title: 'Last Job' },
+        { field: 'invoice_date', title: 'Invoice Date' },
+        { field: 'customer_name', title: 'Customer Name' },
+        { field: 'mobile', title: 'Mobile' },
+        { field: 'car_reg_no', title: 'Reg No.' },
+        { field: 'speedometer_reading', title: 'Odometer Reading' },
+        // { field: 'customer_type', title: 'Category' },
+    ];
+    @ViewChild('RetentionModal') RetentionModal: any;
+    retentionGroups: any[] = [];
+    selectedGroup: any = null;
     cols_2 = [
         { field: 'customer_name', title: 'Customer', hide: false },
         { field: 'phone', title: 'Call From' },
@@ -68,6 +89,7 @@ export class SaDashComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getRetentionCustomers();
         this.getMonthlyDissatisfied();
         this.getSaRating();
     }
@@ -78,7 +100,6 @@ export class SaDashComponent implements OnInit {
         //     currentMonth: this.currentMonth,
         //     previousMonth: this.previousMonth,
         // };
-
         // this.userServices.getMonthlyDissatisfied(data).subscribe((rData: any) => {
         //     if (rData.ret_data == 'success') {
         //         this.dissatisfied_currentMonth_Wsapp = rData.messages_currentMonth;
@@ -205,7 +226,6 @@ export class SaDashComponent implements OnInit {
                         // this.all_dissatisfied = [...this.dissatisfied_currentMonth_Wsapp, ...this.dissatisfied_previousMonth_Wsapp];
                     }
                 });
-                console.log('66546468468468', this.analyticCounts);
             } else {
             }
         });
@@ -239,5 +259,80 @@ export class SaDashComponent implements OnInit {
 
     loadQuotation(type: number) {
         type == 0 ? this.router.navigateByUrl('quotation/normal_quote/quote_list') : this.router.navigateByUrl('quotation/special_quote/quote_list');
+    }
+
+    getRetentionCustomers() {
+        let data = {
+            id: this.us_laabs_id,
+            dateFrom: this.dateFrom,
+            dateTo: this.dateTo,
+        };
+        this.userServices.getRetentionCustomers(data).subscribe((rData: any) => {
+            if (rData.ret_data === 'success') {
+                this.load_flag = false;
+                const customersData = rData.customers;
+
+                const months = Object.keys(rData.customers).filter((m) => m !== 'totalCount');
+                this.failedToRetainCustomers = months.flatMap((month) => rData.customers[month]);
+                this.failedToRetainCount = rData.customers.totalCount || 0;
+                // Build retention groups
+                this.retentionGroups = this.buildRetentionGroups(customersData);
+                const defaultGroup = this.retentionGroups[0];
+                if (defaultGroup) {
+                    this.selectedGroup = defaultGroup;
+                    this.retentionCustomers = defaultGroup.customers;
+                }
+
+                // this.RetentionModal.open();
+            } else {
+                this.load_flag = false;
+                this.retentionCustomers = [];
+            }
+        });
+    }
+
+    buildRetentionGroups(customersData: any) {
+        return Object.keys(customersData)
+            .map((month) => {
+                return {
+                    label: month,
+                    count: customersData[month].length,
+                    customers: customersData[month],
+                };
+            })
+            .sort((a, b) => {
+                const parseMonth = (m: string) => {
+                    const [monStr, yrStr] = m.split(' '); // ["Sep", "23"]
+                    const monthIndex = new Date(Date.parse(monStr + ' 1, 2000')).getMonth(); // get 0-11
+                    const year = 2000 + parseInt(yrStr, 10); // convert "23" → 2023
+                    return new Date(year, monthIndex).getTime();
+                };
+                return parseMonth(b.label) - parseMonth(a.label); // descending
+            });
+    }
+
+    // Filter data by selected month
+    filterByMonth(month: any) {
+        this.selectedMonth = month;
+        this.filteredCustomers = month.customers;
+    }
+
+    // Modal control using Bootstrap JS API
+    openRetentionModal() {
+        console.log('the retention modal is called');
+        const modalEl = document.getElementById('retentionModal');
+        console.log('thies is the modal el', modalEl);
+        if (modalEl) {
+            const modal = new (window as any).bootstrap.Modal(modalEl);
+            modal.show();
+        }
+    }
+
+    closeRetentionModal() {
+        const modalEl = document.getElementById('retentionModal');
+        if (modalEl) {
+            const modal = (window as any).bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        }
     }
 }

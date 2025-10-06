@@ -43,16 +43,24 @@
                 style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                 {{allWhatsappLeadList.length}}</span>
         </button>
-        <button type="button" class="btn btn-warning my-4" (click)="filterWhatsappLeads(1)"
-            [ngStyle]="{opacity:selected==1?'100%':'70%'}">
-            WHATSAPP CAMPAIGN LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
-                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+        <button type="button" class="btn btn-warning my-4" [ngStyle]="{ 'opacity':selected==1?'100%':'70%' }">
+            <span (click)="openLeadwiseModal(campaignWhatsappLeads,0)">
+                WHATSAPP CAMPAIGN LEADS
+            </span>
+            <!-- filterWhatsappLeads(1); -->
+            <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;"
+                (click)=" filterWhatsappLeads(1)">
                 {{campaignWhatsappLeads.length}}</span>
         </button>
-        <button type="button" class="btn btn-secondary my-4" (click)="filterWhatsappLeads(2)"
-            [ngStyle]="{opacity:selected==2?'100%':'70%'}">
-            WHATSAPP DIRECT LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
-                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
+        <button type="button" class="btn btn-secondary my-4" [ngStyle]="{ 'opacity':selected==2?'100%':'70%' }">
+            <!-- filterWhatsappLeads(2) -->
+            <span (click)="openLeadwiseModal(directWhatsappLeads,1)">
+                WHATSAPP DIRECT LEADS
+            </span>
+            <span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;"
+                (click)=" filterWhatsappLeads(2)">
                 {{directWhatsappLeads.length}}</span>
         </button>
         <!-- <button type="button" class="btn btn-success my-4" (click)="filterWhatsappLeads(3)"
@@ -84,7 +92,7 @@
     <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
         <h5 class="text-lg font-semibold dark:text-white-light">WhatsApp Leads</h5>
         <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
-            
+
             <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
         </div>
     </div>
@@ -159,46 +167,46 @@
 <modal #jobcardmodal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
     [closeOnOutsideClick]="false" style="max-width: 90vw;">
     <ng-template #modalHeader>
-        <div style=" align-items: center; display: flex; ">
+        <div style=" align-items: center; display: flex;color: #4361ee; ">
             {{jobCardModalHeading}}
         </div>
     </ng-template>
     <ng-template #modalBody>
         <div class="flex flex-wrap items-center justify-center gap-3" *ngIf="campaignJobcardFlag">
-            <button type="button" class="btn btn-primary my-4" (click)="modalFilterWhatsappLeads(1)"
-                [ngStyle]="{opacity:selected==1?'100%':'70%'}">
+            <!-- <button type="button" class="btn btn-primary my-4" (click)="modalFilterWhatsappLeads(0)"
+                [ngStyle]="{opacity:modalSelected==0?'100%':'70%'}">
                 WHATSAPP CONVERTED LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                     style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                     {{ convertedLeads }}</span>
-            </button>
-            <button type="button" class="btn btn-warning my-4" (click)="modalFilterWhatsappLeads(2)"
-                [ngStyle]="{opacity:selected==2?'100%':'70%'}">
+            </button> -->
+            <button type="button" class="btn btn-warning my-4" (click)="modalFilterWhatsappLeads(1)"
+                [ngStyle]="{opacity:modalSelected==1?'100%':'70%'}">
                 OPEN JOBCARD LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                     style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                     {{ openJobcardLeads }}</span>
             </button>
-            <button type="button" class="btn btn-success my-4" (click)="modalFilterWhatsappLeads(3)"
-                [ngStyle]="{opacity:selected==3?'100%':'70%'}">
+            <button type="button" class="btn btn-success my-4" (click)="modalFilterWhatsappLeads(2)"
+                [ngStyle]="{opacity:modalSelected==2?'100%':'70%'}">
                 INVOICE JOBCARD LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                     style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                     {{ invJobcardLeads }}</span>
             </button>
         </div>
         <div class="flex flex-wrap items-center justify-center gap-3" *ngIf="!campaignJobcardFlag">
-            <button type="button" class="btn btn-primary my-4" (click)="modalFilterWhatsappLeads(4)"
-                [ngStyle]="{opacity:selected==1?'100%':'70%'}">
+            <!-- <button type="button" class="btn btn-primary my-4" (click)="modalFilterWhatsappLeads(3)"
+                [ngStyle]="{opacity:modalSelected==3?'100%':'70%'}">
                 WHATSAPP CONVERTED LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                     style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                     {{ convertedLeads }}</span>
-            </button>
-            <button type="button" class="btn btn-warning my-4" (click)="modalFilterWhatsappLeads(5)"
-                [ngStyle]="{opacity:selected==2?'100%':'70%'}">
+            </button> -->
+            <button type="button" class="btn btn-warning my-4" (click)="modalFilterWhatsappLeads(4)"
+                [ngStyle]="{opacity:modalSelected==4?'100%':'70%'}">
                 OPEN JOBCARD LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                     style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                     {{ openJobcardLeads }}</span>
             </button>
-            <button type="button" class="btn btn-success my-4" (click)="modalFilterWhatsappLeads(6)"
-                [ngStyle]="{opacity:selected==3?'100%':'70%'}">
+            <button type="button" class="btn btn-success my-4" (click)="modalFilterWhatsappLeads(5)"
+                [ngStyle]="{opacity:modalSelected==5?'100%':'70%'}">
                 INVOICE JOBCARD LEADS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                     style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                     {{ invJobcardLeads }}</span>
@@ -288,5 +296,93 @@
     </ng-template>
     <ng-template #modalFooter>
         <button type="button" (click)="jobcardmodal.close()" class="btn btn-outline-danger">DISMISS</button>
+    </ng-template>
+</modal>
+<modal #leadWiseModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+    <ng-template #modalHeader>
+        <div style=" align-items: center; display: flex;color: #1b00ff;">
+            Purpose-Wise Lead Status Overview
+        </div>
+    </ng-template>
+    <ng-template #modalBody>
+        <div class="mt-1 mb-2" style="font-size: 15px;font-weight: 700;"> {{allLeadsPurposeCountName}} - <a
+                class="text-secondary">{{allLeadsPurposeCount}}</a></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <ng-container *ngFor="let purpose of leadPurposeArray">
+                <div *ngIf="purpose.purposeArray.length > 0"
+                    class="max-w-[24rem] w-full bg-white shadow-[4px_6px_10px_-3px_#bfc9d4] rounded border border-[#e0e6ed] dark:border-[#1b2e4b] dark:bg-[#191e3a] dark:shadow-none p-5">
+                    <div class="flex justify-between mb-5">
+                        <h6 class="text-[#0e1726] font-semibold text-base dark:text-white-light">{{ purpose.call_purpose
+                            }}</h6>
+                    </div>
+                    <div class="grid grid-cols-3 gap-5">
+                        <div class="text-center">
+                            <span class="font-semibold" style="font-size: small;">Leads</span>
+                            <span class="text-primary font-semibold block">{{ purpose.purposeArray.length }}</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="font-semibold" style="font-size: small;">Closed</span>
+                            <span class="text-danger font-semibold block">{{ purpose.closedCount }}</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="font-semibold" style="font-size: small;">Converted</span>
+                            <span class="text-success font-semibold block">{{ purpose.convertedCount }}</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+
+
+
+
+
+
+
+
+        <!-- <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+            <h5 class="text-lg font-semibold dark:text-white-light">WhatsApp Leads</h5>
+            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+
+                <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
+            </div>
+        </div>
+        <div class="datatable">
+            <ng-datatable [rows]="leadPurposeArray" [columns]="leadCols" [search]="search" [sortable]="true"
+                [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
+                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+
+                <ng-template slot="phone" let-value="data">
+                    <button type="button" (click)="openCallLogs(value.phone)" class="btn btn-outline-secondary btn-sm"
+                        ngxTippy="{{ value.phone }}" [tippyProps]="{ theme: 'info' }">
+                        ****{{ value.phone | slice : -6 }}
+                    </button>
+                </ng-template>
+                <ng-template slot="lead_code" let-value="data">
+                    <button type="button" class="btn btn-outline-primary btn-sm">
+                        {{ value.lead_code }}
+                    </button>
+                </ng-template>
+                <ng-template slot="name" let-value="data">
+                    <span *ngIf="value.name != null">{{value.name}}</span>
+                    <span *ngIf="value.name == null">NIL</span>
+                </ng-template>
+                <ng-template slot="lead_source" let-value="data">
+                    <span>{{value.lead_source}}</span>
+                </ng-template>
+                <ng-template slot="smc_name" let-value="data">
+                    <span *ngIf="value.smc_name != null">{{value.smc_name}}</span>
+                    <span *ngIf="value.smc_name == null">NIL</span>
+                </ng-template>
+            </ng-datatable>
+        </div> -->
+    </ng-template>
+    <ng-template #modalFooter>
+        <button type="button" (click)="closeLeadWiseModal()" class="btn btn-outline-danger">DISMISS</button>
     </ng-template>
 </modal>

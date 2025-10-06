@@ -1,27 +1,21 @@
 <ol class="flex font-semibold text-primary dark:text-white-dark" *ngIf="user_role != '9'">
     <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <a
-            routerLink="/dashboard"
-            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-            >Home</a
-        >
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
-        >
-            MIS</a
-        >
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            MIS</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-        >
-            Social Media Campaign Reports</a
-        >
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Social Media Campaign Reports</a>
     </li>
 </ol>
-<h5 *ngIf="user_role == '9'" class="text-lg font-semibold dark:text-white-light" style="text-align: center; padding-bottom: 1rem">CRE Dashboard</h5>
+<h5 *ngIf="user_role == '9'" class="text-lg font-semibold dark:text-white-light"
+    style="text-align: center; padding-bottom: 1rem">CRE Dashboard</h5>
 <div class="panel mb-5 mt-5 pb-5" *ngIf="user_role != '9'">
     <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
         <div>
@@ -33,24 +27,26 @@
             <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
         </div>
         <div *ngIf="user_role != '9'">
-            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Campaign</label>
-            <ng-select
-                [searchable]="true"
-                [clearable]="false"
-                [selectOnTab]="true"
-                class="custom-multiselect"
-                placeholder="Select Campaign"
-                [(ngModel)]="selectedCampaign"
-                ngxTippy="Select Service Advisor"
-            >
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Campaigns</label>
+            <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                placeholder="Select Campaign" [(ngModel)]="selectedCampaign" ngxTippy="Select a Campaign">
                 <ng-option value="0">All</ng-option>
                 <ng-option value="{{ items.smc_id }}" *ngFor="let items of campList">{{
                     items.smc_name}}</ng-option>
             </ng-select>
         </div>
+        <div *ngIf="user_role != '9'">
+            <label for="appt" class="small_label_text m-0 dark:text-white-dark">Customers</label>
+            <ng-select [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                placeholder="Select Customer Type" [(ngModel)]="selectedCustomers" ngxTippy="Select customer type">
+                <ng-option value="0">All</ng-option>
+                <ng-option value="1">NEW</ng-option>
+            </ng-select>
+        </div>
         <div>
             <label for="appt" class="small_label_text m-0 dark:text-white-dark" style="color: white">.</label>
-            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small" (click)="getCampaignDetails()">SEARCH</button>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getCampaignDetails()">SEARCH</button>
         </div>
     </div>
 </div>
@@ -66,7 +62,8 @@
         </div>
         <div>
             <label for="appt" class="small_label_text m-0 dark:text-white-dark" style="color: white">.</label>
-            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small" (click)="getCampaignDetails()">SEARCH</button>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="getCampaignDetails()">SEARCH</button>
         </div>
     </div>
 </div>
@@ -76,188 +73,253 @@
         Loading...
     </div>
     <div *ngIf="!dataLoadFlag">
-    <div class="flex justify-center">
-        <div class="ms-7 mt-5 flex w-[35vw] justify-center gap-10">
-            <div
-                class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
-                style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center"
-            >
-                <div class="px-6 py-7">
-                    <div class="text-center text-2xl font-semibold">Leads</div>
+        <div class="flex justify-center">
+            <div class="ms-7 mt-5 flex w-[35vw] justify-center gap-10">
+                <div class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
+                    style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center">
+                    <div class="px-6 py-7">
+                        <div class="text-center text-2xl font-semibold">Leads</div>
 
-                    <div class="text-center text-2xl font-bold">{{totalCustomersData?.length}}</div>
+                        <div class="text-center text-2xl font-bold">{{totalCustomersData?.length}}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div
-                class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
-                style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center"
-            >
-                <div class="px-6 py-7">
-                    <div class="text-center text-2xl font-semibold">Appointments</div>
+                <div class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
+                    style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center">
+                    <div class="px-6 py-7">
+                        <div class="text-center text-2xl font-semibold">Appointments</div>
 
-                    <div class="text-center text-2xl font-bold">{{appointment?.length}}</div>
+                        <div class="text-center text-2xl font-bold">{{appointment?.length}}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div
-                class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
-                style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center"
-            >
-                <div class="px-6 py-7">
-                    <div class="text-center text-2xl font-semibold">Visited</div>
+                <div class="min-w-[15vw] rounded border border-[#e0e6ed] shadow-md"
+                    style="background: linear-gradient(to right, #1488cc, #2b32b2); color: white; text-align: -webkit-center">
+                    <div class="px-6 py-7">
+                        <div class="text-center text-2xl font-semibold">Visited</div>
 
-                    <div class="text-center text-2xl font-bold">{{visited.length}}</div>
+                        <div class="text-center text-2xl font-bold">{{visited.length}}</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="mb-5 flex flex-wrap gap-8">
-        <div class="w-[35vw]" *ngIf="countfordaysGraph.length != 0 ">
-            <div class="mt-8 text-center text-xl font-bold">
-                <h1>Customers Visted Through Campaign (Last 7 Days)</h1>
-            </div>
-            <apx-chart
-                [series]="columnChart.series"
-                [chart]="columnChart.chart"
-                [colors]="columnChart.colors"
-                [dataLabels]="columnChart.dataLabels"
-                [stroke]="columnChart.stroke"
-                [plotOptions]="columnChart.plotOptions"
-                [grid]="columnChart.grid"
-                [xaxis]="columnChart.xaxis"
-                [yaxis]="columnChart.yaxis"
-                [tooltip]="columnChart.tooltip"
-                class="rounded-lg bg-white dark:bg-black"
-            ></apx-chart>
-            <div class="mt-8 text-center text-xl font-bold">
-                <h1>Appointemnt Sources</h1>
-            </div>
-            <div *ngIf="campignSourceNames">
-                <apx-chart
-                    [series]="lineChart.series"
-                    [chart]="lineChart.chart"
-                    [colors]="lineChart.colors"
-                    [tooltip]="lineChart.tooltip"
-                    [stroke]="lineChart.stroke"
-                    [xaxis]="lineChart.xaxis"
-                    [yaxis]="lineChart.yaxis"
-                    [grid]="lineChart.grid"
-                    class="rounded-lg bg-white dark:bg-black"
-                ></apx-chart>
-            </div>
-        </div>
-
         <div>
             <div class="mt-8 text-center text-xl font-bold">
                 <h1>Conducted Campaigns</h1>
             </div>
+            <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
+                <h5 class="text-lg font-semibold dark:text-white-light">Campaign Analysis</h5>
+                <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                    <input [(ngModel)]="campaignSearch" type="text" class="form-input w-auto" placeholder="Search..." />
+                </div>
+            </div>
+            <div class="datatable h-auto">
+                <ng-datatable [rows]="conductedCampaigns" [columns]="campCols" [sortable]="true"
+                    [search]="campaignSearch" [stickyHeader]="true" [columnFilter]="false"
+                    skin="whitespace-nowrap table-hover bh-table-compact"
+                    firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
+                    previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+                    nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+
+                    <ng-template slot="name" let-value="data">
+                        <span style="font-weight: 700;text-align: center;">{{value.name}}</span>
+                    </ng-template>
+                    <ng-template slot="leadCount" let-value="data">
+                        <span style="font-weight: 700;text-align: center;color: #805dca;">{{value.leadCount}}</span>
+                    </ng-template>
+                    <ng-template slot="conCount" let-value="data">
+                        <span style="font-weight: 700;text-align: center;color: #4361ee;">{{value.conCount}}</span>
+                    </ng-template>
+                    <ng-template slot="action" let-value="data">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        (click)="redirectToWhatsappChat(value.numbers)" >
+                            <path
+                                d="M9 12C9 12.5523 8.55228 13 8 13C7.44772 13 7 12.5523 7 12C7 11.4477 7.44772 11 8 11C8.55228 11 9 11.4477 9 12Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M17 12C17 12.5523 16.5523 13 16 13C15.4477 13 15 12.5523 15 12C15 11.4477 15.4477 11 16 11C16.5523 11 17 11.4477 17 12Z"
+                                fill="#1C274C" />
+                            <path
+                                d="M17 3.33782C15.5291 2.48697 13.8214 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22C17.5228 22 22 17.5228 22 12C22 10.1786 21.513 8.47087 20.6622 7"
+                                stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </ng-template>
+                </ng-datatable>
+            </div>
+
+
+            <!-- old table -->
+
+
+            <!-- <div class="col-span-2 mt-2 mb-2">
+                <div class="table-wrapper-scroll-y my-custom-scrollbar"
+                    style="border: 1.5px solid black; border-radius: 2px;">
+                    <table class="table table-striped" style="margin-bottom: 0 !important">
+                        <thead>
+                            <tr style="background-color: #eee">
+                                <td style="text-align: center; padding: 0.5%" colspan="3">
+                                    <b>Campaign Analysis</b>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #f5f5f5; text-align: center;">
+                                <th style="padding: 1%"><b>Campaign Name</b></th>
+                                <th style="padding: 1%;text-align: center;"><b>Leads</b></th>
+                                <th style="padding: 1%;text-align: center;"><b>Visited</b></th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 14px">
+                            <tr style="background-color: #fff" *ngFor="let campaign of conductedCampaigns">
+                                <td style="padding: 1%">
+                                    <b>{{ campaign.name }}</b>
+                                </td>
+                                <td style="padding: 1%; text-align: center; cursor: pointer;text-align: center;color: #805dca;" ngxTippy="Leads Count From Campaign">
+                                    <b>{{ campaign.leadCount }}</b>
+                                </td>
+                                <td style="padding: 1%; text-align: center; cursor: pointer;text-align: center;color: #4361ee;" ngxTippy="Visited Count From Campaign">
+                                    <b>{{ campaign.conCount }}</b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="w-[75vw]">
+                <apx-chart [series]="areaChart.series" [chart]="areaChart.chart" [colors]="areaChart.colors"
+                    [dataLabels]="areaChart.dataLabels" [stroke]="areaChart.stroke" [xaxis]="areaChart.xaxis"
+                    [yaxis]="areaChart.yaxis" [labels]="areaChart.labels" [legend]="areaChart.legend"
+                    [grid]="areaChart.grid" [tooltip]="areaChart.tooltip"
+                    class="rounded-lg bg-white dark:bg-black"></apx-chart>
+            </div> -->
+        </div>
+
+        <div class="mb-5 flex flex-wrap gap-8">
+            <div class="w-[35vw]" *ngIf="countfordaysGraph.length != 0 ">
+                <div class="mt-8 text-center text-xl font-bold">
+                    <h1>Customers Visted Through Campaign (Last 7 Days)</h1>
+                </div>
+                <apx-chart [series]="columnChart.series" [chart]="columnChart.chart" [colors]="columnChart.colors"
+                    [dataLabels]="columnChart.dataLabels" [stroke]="columnChart.stroke"
+                    [plotOptions]="columnChart.plotOptions" [grid]="columnChart.grid" [xaxis]="columnChart.xaxis"
+                    [yaxis]="columnChart.yaxis" [tooltip]="columnChart.tooltip"
+                    class="rounded-lg bg-white dark:bg-black"></apx-chart>
+                <!-- <div class="mt-8 text-center text-xl font-bold">
+                    <h1>Appointemnt Sources</h1>
+                </div>
+                <div *ngIf="campignSourceNames">
+                    <apx-chart [series]="lineChart.series" [chart]="lineChart.chart" [colors]="lineChart.colors"
+                        [tooltip]="lineChart.tooltip" [stroke]="lineChart.stroke" [xaxis]="lineChart.xaxis"
+                        [yaxis]="lineChart.yaxis" [grid]="lineChart.grid"
+                        class="rounded-lg bg-white dark:bg-black"></apx-chart>
+                </div> -->
+            </div>
 
             <div class="w-[35vw]">
-                <apx-chart
-                    [series]="areaChart.series"
-                    [chart]="areaChart.chart"
-                    [colors]="areaChart.colors"
-                    [dataLabels]="areaChart.dataLabels"
-                    [stroke]="areaChart.stroke"
-                    [xaxis]="areaChart.xaxis"
-                    [yaxis]="areaChart.yaxis"
-                    [labels]="areaChart.labels"
-                    [legend]="areaChart.legend"
-                    [grid]="areaChart.grid"
-                    [tooltip]="areaChart.tooltip"
-                    class="rounded-lg bg-white dark:bg-black"
-                ></apx-chart>
-            </div>
+                <div class="mt-10 flex flex-col gap-4">
+                    <div class="rounded-md border p-4 py-4 shadow-md"
+                        *ngIf="most_visited_campaign && most_visited_campaign.visitedCount > '0'">
+                        <div class="flex justify-between ">
+                            <div class="flex items-center justify-center">
+                                <div>
+                                    <h1 class="text-xl font-bold text-blue-700">{{most_visited_campaign?.smc_name}}</h1>
+                                    <h1 class="text-lg">Most Customers Visited</h1>
+                                    <h1 class=" text-base">Total Leads: <span class="text-base font-bold" [ngxTippy]="most_visited_campaign?.smc_name && most_visited_campaign?.totalLeads 
+                                            ? most_visited_campaign?.totalLeads + ' leads from ' + most_visited_campaign?.smc_name 
+                                            : 'No leads'">{{most_visited_campaign?.totalLeads}}</span></h1>
+                                </div>
+                            </div>
 
-            <div class="mt-10 flex flex-col gap-4">
-                <div class="rounded-md border p-4 py-4 shadow-md">
-                    <div class="flex justify-between ">
-                        <div class="flex items-center justify-center">
+                            <div class="flex items-center justify-center">
+                                <div class="text-xl font-bold text-blue-700" [ngxTippy]="most_visited_campaign?.smc_name && most_visited_campaign?.visitedCount 
+                                ? most_visited_campaign?.visitedCount + ' customers visited from ' + most_visited_campaign?.smc_name 
+                                : 'No Visited Customers'">
+                                    {{most_visited_campaign?.visitedCount}}</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <div class="flex items-center justify-between">
+                                <div
+                                    class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                    <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#4361ee] to-[#805dca] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                        [ngStyle]="{ width: MostvisiteddayCampaignName + '%' }"></div>
+                                </div>
+                                <span
+                                    class="ltr:ml-5 rtl:mr-5 dark:text-white-light">{{MostvisiteddayCampaignName}}%</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="rounded-md border p-4 py-4 shadow-md">
+                        <div class="flex justify-between ">
+                            <div class="flex items-center justify-center">
+                                <div>
+                                    <h1 class="text-xl font-bold text-blue-700">
+                                        {{most_leads_created_source?.sourceName}}</h1>
+                                    <h1 class="text-lg">More Lead Created Source</h1>
+                                    <h1 class=" text-base">Total Leads: <span class="text-base font-bold" [ngxTippy]="most_leads_created_source?.sourceName && most_leads_created_source?.totalLeads 
+                                            ? most_leads_created_source?.totalLeads + ' leads from ' + most_leads_created_source?.sourceName 
+                                            : 'No leads'">{{most_leads_created_source?.totalLeads}}</span></h1>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-center">
+                                <div class="text-xl font-bold text-blue-700" [ngxTippy]="most_leads_created_source?.sourceName && most_leads_created_source?.visitedCount 
+                                ? most_leads_created_source?.visitedCount + ' customers visited from ' + most_leads_created_source?.sourceName 
+                                : 'No Visited Customers'">
+                                    {{most_leads_created_source?.visitedCount}}</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <div class="flex items-center justify-between">
+                                <div
+                                    class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                    <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#4361ee] to-[#805dca] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                        [ngStyle]="{ width: mostSourcePercentage + '%' }"></div>
+                                </div>
+                                <span class="ltr:ml-5 rtl:mr-5 dark:text-white-light">{{mostSourcePercentage}}%</span>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="rounded-md border p-5 py-5 shadow-md" *ngIf="most_visited_day">
+                        <div class="flex justify-between">
                             <div>
-                                <h1 class="text-xl font-bold text-blue-700">{{highestCampaignName?.name}}</h1>
-                                <h1 class="text-lg">Most Customers Visited</h1>
-                                <h1 class=" text-base">Total Leads: <span class="text-base font-bold">{{totalCustomersData?.length}}</span></h1>
+                                <h1 class="text-xl font-bold text-blue-700">Most Customers Visited in a Day</h1>
+                                <h1 class="text-lg">{{most_visited_day?.date}}</h1>
+                                <!-- <h1 class="text-lg">{{most_visited_day?.smc_name}}</h1> -->
+                            </div>
+
+                            <div class="flex items-center">
+                                <div>
+                                    <h1 class="text-xl font-bold text-blue-700" [ngxTippy]="most_visited_day?.date && most_visited_day?.visitCount 
+                                ? most_visited_day?.visitCount + ' customers visited on ' + most_visited_day?.date 
+                                : 'No Visited Customers'">{{most_visited_day?.visitCount}}</h1>
+                                </div>
                             </div>
                         </div>
-    
-                        <div class="flex items-center justify-center">
-                            <div class="text-xl font-bold text-blue-700">{{highestCampaignName?.conCount}}</div>
-                        </div>
-                    </div>
 
-                    <div class="mt-10">
-                        <div class="flex items-center justify-between">
-                            <div class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                        <!-- <div class="mt-10">
+                            <div class="flex items-center justify-between">
                                 <div
-                                    class="relative h-full w-full rounded-full bg-gradient-to-r from-[#4361ee] to-[#805dca] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
-                                     [ngStyle]="{ width: MostvisiteddayCampaignName + '%' }"
-                                ></div>
+                                    class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
+                                    <div class="relative h-full w-full rounded-full bg-gradient-to-r from-[#4361ee] to-[#805dca] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
+                                        [ngStyle]="{ width: mvistedPercenatge + '%' }"></div>
+                                </div>
+                                <span class="ltr:ml-5 rtl:mr-5 dark:text-white-light">{{mvistedPercenatge}}%</span>
                             </div>
-                            <span class="ltr:ml-5 rtl:mr-5 dark:text-white-light">{{MostvisiteddayCampaignName}}</span>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="rounded-md border p-4 py-4 shadow-md">
-                <div class="flex justify-between ">
-                    <div class="flex items-center justify-center">
-                        <div>
-                            <h1 class="text-xl font-bold text-blue-700">{{highestCampaignSource?.name}}</h1>
-                            <h1 class="text-lg">More Lead Created Source</h1>
-                            <h1 class=" text-base">Total Leads: <span class="text-base font-bold">{{totalCustomersData?.length}}</span></h1>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-center">
-                        <div class="text-xl font-bold text-blue-700">{{highestCampaignSource?.LeadCount}}</div>
-                    </div>
-                </div>
-
-                <div class="mt-10">
-                    <div class="flex items-center justify-between">
-                        <div class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
-                            <div
-                                class="relative h-full w-full rounded-full bg-gradient-to-r from-[#4361ee] to-[#805dca] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
-                                [ngStyle]="{ width: mostSourcePercentage + '%' }"
-                            ></div>
-                        </div>
-                        <span class="ltr:ml-5 rtl:mr-5 dark:text-white-light">{{mostSourcePercentage}}%</span>
-                    </div>
-                </div>
-            </div>
-
-                <div class="rounded-md border p-5 py-5 shadow-md">
-                    <div class="flex justify-between">
-                        <div>
-                            <h1 class="text-xl font-bold text-blue-700">Most Customers Visited in a Day</h1>
-                            <h1 class="text-lg">{{highestVisistedDayDetails?.date}}</h1>
-                            <h1 class="text-lg">{{highestVisistedDayDetails?.campaign}}</h1>
-                        </div>
-
-                        <div class="flex items-center">
-                            <div><h1 class="text-xl font-bold text-blue-700">{{highestVisistedDayDetails?.count}}</h1></div>
-                        </div>
-                    </div>
-
-                    <div class="mt-10">
-                        <div class="flex items-center justify-between">
-                            <div class="h-5 w-full overflow-hidden rounded-full bg-dark-light p-1 shadow-3xl dark:bg-dark-light/10 dark:shadow-none">
-                                <div
-                                    class="relative h-full w-full rounded-full bg-gradient-to-r from-[#4361ee] to-[#805dca] before:absolute before:inset-y-0 before:m-auto before:h-2 before:w-2 before:rounded-full before:bg-white ltr:before:right-0.5 rtl:before:left-0.5"
-                                    [ngStyle]="{ width: mvistedPercenatge + '%' }"
-                                ></div>
-                            </div>
-                            <span class="ltr:ml-5 rtl:mr-5 dark:text-white-light">{{mvistedPercenatge}}%</span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div>
-        <!-- <div class="table-responsive">
+        <div>
+            <!-- <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
@@ -292,6 +354,6 @@
                 </tbody>
             </table>
         </div> -->
-    </div>
+        </div>
     </div>
 </div>

@@ -98,7 +98,6 @@ export class CustomerConversionReportComponent implements OnInit {
                 this.openjobcard = this.customerdata.filter((job_status: any) => job_status.job_status != null);
                 this.totalcustomer_openjobcard = this.openjobcard.length;
                 this.inv_temp = this.customerdata.filter((job_status: any) => job_status.job_status == 'INV');
-                console.log("act-->",this.inv_temp);
                 if (this.inv_temp.length > 0) {
                     this.totalcustconvert = this.inv_temp;
                     this.totalcustomer_converted = this.inv_temp.length;

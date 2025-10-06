@@ -21,7 +21,6 @@ export class LostCountReportComponent implements OnInit {
         var today = this.datepipe.transform(new Date(), 'yyyy-M-dd');
         var Stoday = moment().startOf('month').format('YYYY-MM-DD');
         var Etoday = moment().endOf('month').format('YYYY-MM-DD');
-        console.log(Stoday);
         this.userServices.LcReportList().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.temp_datelist = rdata.datelist;
@@ -55,7 +54,6 @@ export class LostCountReportComponent implements OnInit {
         this.datelist = this.temp_datelist;
         
 
-        console.log('araay????????????????????', this.datelist);
 
         if (tab === 'home') {
             this.datelist = this.datelist.filter(({ duedate }) => duedate >= Stoday);
@@ -67,7 +65,6 @@ export class LostCountReportComponent implements OnInit {
     }
 
     viewInfo(start: any, due: any, filter: any, id: any, code: any) {
-        console.log('start,due,filter,id,code', start, due, filter, id, code);
        
         this.router.navigate(['lost-customer/lost-report-details'], {
             queryParams: {

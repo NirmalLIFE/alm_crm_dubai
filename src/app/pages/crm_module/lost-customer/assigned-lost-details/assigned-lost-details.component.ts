@@ -184,7 +184,6 @@ export class AssignedLostDetailsComponent implements OnInit {
                         
                         this.updateReport();
                         this.load_flag = false;
-                        console.log(tempconverted_count);
 
                     } else {
                         this.coloredToast('danger', 'Call details cant be fetched');
@@ -332,7 +331,6 @@ export class AssignedLostDetailsComponent implements OnInit {
             }
         });
 
-        console.log(type);
         if (type == 0) {
       this.custlist = this.alllist;
          
@@ -349,7 +347,6 @@ export class AssignedLostDetailsComponent implements OnInit {
         }  else if (type == 5) {
             this.custlist = this.alllist.filter(({ call_attempted }) =>call_attempted && call_attempted.trim() !='Attempted');
         }
-        console.log('FilterCustlist',this.custlist);
 
 
         if (this.custlist.length > 0) {
@@ -417,7 +414,6 @@ export class AssignedLostDetailsComponent implements OnInit {
                 }
             });
         }
-        console.log('customer list', this.custlist);
     }
 
 
@@ -450,7 +446,6 @@ export class AssignedLostDetailsComponent implements OnInit {
             reg_no: reg_no,
         };
         this.cust_phone = phone;
-        console.log('assignedlostdata>>>>>>', this.assignedLostData);
         this.assignedlostupdate.open();
     }
 

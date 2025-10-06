@@ -14,11 +14,12 @@
             Leads</a>
     </li>
 </ol>
-<a href="javascript:;" class="float" *ngIf="totalTimeExceedQuotes && totalTimeExceedQuotes.length > 0" (click)="totalTimeExceededQuotations()">
+<a href="javascript:;" class="float" *ngIf="totalTimeExceedQuotes && totalTimeExceedQuotes.length > 0"
+    (click)="totalTimeExceededQuotations()">
     <span
         class="absolute -top-[3px] inline-flex h-full w-full animate-ping rounded-full bg-warning/50 opacity-75 ltr:-left-[3px] rtl:-right-[3px] ng-tns-c8-1"></span>
-    <span style="font-size: 12px;" > Total Time Exceeded Quotations</span><br />
-    <b >{{totalTimeExceedQuotes.length}}</b>
+    <span style="font-size: 12px;"> Total Time Exceeded Quotations</span><br />
+    <b>{{totalTimeExceedQuotes.length}}</b>
 </a>
 <div class="panel mb-5 mt-5 pb-5">
     <div class="grid grid-cols-5 gap-4 sm:grid-cols-5">
@@ -70,27 +71,32 @@
 </div>
 <div class="panel mb-5 mt-5 pb-5" *ngIf="!load_flag">
     <div class="flex flex-wrap items-center justify-center gap-3">
-        <button type="button" class="btn btn-primary my-4" (click)="filterQuotes(0)" [ngStyle]="{opacity:selected==0?'100%':'70%'}">
+        <button type="button" class="btn btn-primary my-4" (click)="filterQuotes(0)"
+            [ngStyle]="{opacity:selected==0?'100%':'70%'}">
             TOTAL QUOTATIONS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                 style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                 {{allSRorQuotes.length}}</span>
         </button>
-        <button type="button" class="btn btn-secondary my-4" (click)="filterQuotes(2)" [ngStyle]="{opacity:selected==2?'100%':'70%'}">
+        <button type="button" class="btn btn-secondary my-4" (click)="filterQuotes(2)"
+            [ngStyle]="{opacity:selected==2?'100%':'70%'}">
             OPENED QUOTATION<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                 style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                 {{openedQuotation.length}}</span>
         </button>
-        <button type="button" class="btn btn-danger my-4" (click)="filterQuotes(3)" [ngStyle]="{opacity:selected==3?'100%':'70%'}">
+        <button type="button" class="btn btn-danger my-4" (click)="filterQuotes(3)"
+            [ngStyle]="{opacity:selected==3?'100%':'70%'}">
             CLOSED QUOTATION<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                 style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                 {{closedQuotation.length}}</span>
         </button>
-        <button type="button" class="btn btn-info my-4" (click)="filterQuotes(1)" [ngStyle]="{opacity:selected==1?'100%':'70%'}">
+        <button type="button" class="btn btn-info my-4" (click)="filterQuotes(1)"
+            [ngStyle]="{opacity:selected==1?'100%':'70%'}">
             CALLBACK CUSTOMERS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                 style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                 {{callbackCust}}</span>
         </button>
-        <button type="button" class="btn btn-success my-4" (click)="filterQuotes(4)" [ngStyle]="{opacity:selected==4?'100%':'70%'}">
+        <button type="button" class="btn btn-success my-4" (click)="filterQuotes(4)"
+            [ngStyle]="{opacity:selected==4?'100%':'70%'}">
             CONVERTED CUSTOMERS<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
                 style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">
                 {{convertedQuote.length}}</span>
@@ -249,6 +255,24 @@
                         </button>
                     </div>
                 </ng-template>
+                <ng-template slot="ld_verify_flag" let-value="data">
+                    <span *ngIf="value.ld_verify_flag == '1'">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 text-success" ngxTippy="Verified">
+                            <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M8.5 12.5L10.5 14.5L15.5 9.5" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    <span *ngIf="value.ld_verify_flag == '0'"><svg width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-warning"
+                            ngxTippy="Not Verified">
+                            <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M14.5 9.50002L9.5 14.5M9.49998 9.5L14.5 14.5" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                </ng-template>
             </ng-datatable>
         </div>
     </div>
@@ -346,7 +370,8 @@
                 </ng-select>
             </div>
             <div class="col-span-2" *ngIf="quotationDetails.source  == '2'">
-                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media Campaign*</label>
+                <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media
+                    Campaign*</label>
                 <ng-select [items]="socialMediaCampaignList" bindLabel="displayLabel" bindValue="smc_id"
                     [(ngModel)]="quotationDetails.social_media_camp" [searchable]="true" [clearable]="false"
                     placeholder="Social Media Campaign List" class="custom-multiselect" appendTo="body"
@@ -357,8 +382,9 @@
                 <label for="lead_source" class="small_label_text m-0 dark:text-white-dark">Social Media
                     Source*</label>
                 <ng-select [items]="socialMediaSourceList" bindLabel="smcs_name" bindValue="smcs_id"
-                    [(ngModel)]="quotationDetails.social_media_source" [disabled]="true" [searchable]="true" [clearable]="false"
-                    placeholder="Social Media Source List" class="custom-multiselect" appendTo="body">
+                    [(ngModel)]="quotationDetails.social_media_source" [disabled]="true" [searchable]="true"
+                    [clearable]="false" placeholder="Social Media Source List" class="custom-multiselect"
+                    appendTo="body">
                 </ng-select>
             </div>
             <div>
@@ -390,8 +416,8 @@
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: -4vh">
             <button class="btn btn-danger" style="float: left" (click)="quotationModalClose()">DISMISS</button>
-            <button class="btn btn-primary"  *ngIf="appoint_flag != true" [disabled]="!quotationDetails.customer_note || createFlag "
-                (click)="createQuote(quotationDetails)">SAVE
+            <button class="btn btn-primary" *ngIf="appoint_flag != true"
+                [disabled]="!quotationDetails.customer_note || createFlag " (click)="createQuote(quotationDetails)">SAVE
                 <span *ngIf="createFlag">
                     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="1.5" fill="none"
                         stroke-linecap="round" stroke-linejoin="round"

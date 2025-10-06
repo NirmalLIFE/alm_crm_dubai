@@ -14,20 +14,23 @@ export class CustomerAnalysisComponent implements OnInit {
     tab7 = 'home';
     public dateFrom: any = this.datePipe.transform(moment(new Date()).startOf('month').toDate(), 'yyyy-MM-dd') || '';
     public dateTo: any = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
-    // public userList: any[] = [];
+    public userList: any[] = [];
     public customers: any[] = [];
     public allCustomers: any[] = [];
     // public existingCustomers: any[] = [];
     // public newCustomers: any[] = [];
     public search = '';
     public load_flag: boolean = true;
-    public selectedSource: any;
+    public selectedSource: any = 15;
     public calllogphn: any = [];
     // public filteredCustomersBySource: any = [];
     public sourceCounts: any = [];
     public load_flag_2: boolean = true;
     public columnChart: any;
     public chartFlag: boolean = false;
+    public selectedSA: any = '0';
+    public sourceNilCustomers: any = '0';
+    public tableHeading: string = this.tab7 == 'home' ? 'Existing Customer Details' : 'New Customer Details';
 
     public leadSources: { [key: number]: string } = {
         // 0: 'Existing',
@@ -42,16 +45,32 @@ export class CustomerAnalysisComponent implements OnInit {
         9: 'Whatsapp Direct',
     };
 
+    public customerSources = [
+        { id: 1, name: 'Phone Call', convertedCount: 0, totalCount: [] as any[] },
+        { id: 2, name: 'Social Media', convertedCount: 0, totalCount: [] as any[] },
+        { id: 3, name: 'Website', convertedCount: 0, totalCount: [] as any[] },
+        { id: 4, name: 'Campaigns', convertedCount: 0, totalCount: [] as any[] },
+        { id: 5, name: 'Direct Lead', convertedCount: 0, totalCount: [] as any[] },
+        { id: 6, name: 'Lost Customer', convertedCount: 0, totalCount: [] as any[] },
+        { id: 7, name: 'Google Marketing', convertedCount: 0, totalCount: [] as any[] },
+        { id: 8, name: 'Whatsapp Campaign', convertedCount: 0, totalCount: [] as any[] },
+        { id: 9, name: 'Whatsapp Direct', convertedCount: 0, totalCount: [] as any[] },
+    ];
+
     public jobcardStatus: any = {
         openJobcard: [],
         wipJobcard: [],
         invJobcard: [],
         closedJobcard: [],
+        tstJobcard: [],
+        susJobcard: [],
+        canJobcard: [],
+        comJobcard: [],
     };
 
     cols = [
         { field: 'customer_no', title: 'Code', isUnique: true, hide: false },
-        { field: 'cust_phone', title: 'Number', hide: false },
+        { field: 'phone', title: 'Number', hide: false },
         { field: 'customer_name', title: 'Customer', hide: false },
         // { field: 'customer_Type', title: 'Type', hide: false },
         { field: 'created_on', title: 'Created Date', hide: false },
@@ -65,11 +84,11 @@ export class CustomerAnalysisComponent implements OnInit {
     ];
 
     constructor(private userServices: StaffPostAuthService, private cdRef: ChangeDetectorRef, public router: Router, public datePipe: DatePipe) {
-        // this.userServices.userList().subscribe((rData: any) => {
-        //     if (rData.ret_data == 'success') {
-        //         this.userList = rData.userList; //.filter((item: any) => item.us_laabs_id !== null)
-        //     }
-        // });
+        this.userServices.userList().subscribe((rData: any) => {
+            if (rData.ret_data == 'success') {
+                this.userList = rData.userList.filter((item: any) => item.us_laabs_id !== null);
+            }
+        });
     }
 
     ngOnInit(): void {
@@ -85,25 +104,49 @@ export class CustomerAnalysisComponent implements OnInit {
             wipJobcard: [],
             invJobcard: [],
             closedJobcard: [],
+            tstJobcard: [],
+            susJobcard: [],
+            canJobcard: [],
+            comJobcard: [],
         };
+        this.customerSources = [
+            { id: 1, name: 'Phone Call', convertedCount: 0, totalCount: [] as any[] },
+            { id: 2, name: 'Social Media', convertedCount: 0, totalCount: [] as any[] },
+            { id: 3, name: 'Website', convertedCount: 0, totalCount: [] as any[] },
+            { id: 4, name: 'Campaigns', convertedCount: 0, totalCount: [] as any[] },
+            { id: 5, name: 'Direct Lead', convertedCount: 0, totalCount: [] as any[] },
+            { id: 6, name: 'Lost Customer', convertedCount: 0, totalCount: [] as any[] },
+            { id: 7, name: 'Google Marketing', convertedCount: 0, totalCount: [] as any[] },
+            { id: 8, name: 'Whatsapp Campaign', convertedCount: 0, totalCount: [] as any[] },
+            { id: 9, name: 'Whatsapp Direct', convertedCount: 0, totalCount: [] as any[] },
+        ];
         let data = {};
         if (num == 0) {
+            this.tableHeading = 'Existing Customer Details';
             data = {
                 dateFrom: this.dateFrom,
                 dateTo: this.dateTo,
                 source: 0,
+                us_id: this.selectedSA,
             };
         } else {
+            this.tableHeading = 'New Customer Details';
             data = {
                 dateFrom: this.dateFrom,
                 dateTo: this.dateTo,
                 source: 1,
+                us_id: this.selectedSA,
             };
         }
 
         this.userServices.getCustomerAnalysisReport(data).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                this.allCustomers = rData.customers;
+                if (num == 0) {
+                    this.allCustomers = rData.customers.filter((job: any) => job.old_jobcard != null);
+                } else {
+                    this.allCustomers = rData.customers.filter((job: any) => job.old_jobcard == null);
+                }
+                //this.allCustomers = rData.customers;
                 // this.existingCustomers = rData.customers.filter((customers: any) => customers.cust_source == 0);
                 // this.newCustomers = rData.customers.filter((customers: any) => customers.cust_source != 0);
                 // if (this.tab7 == 'home') {
@@ -112,14 +155,25 @@ export class CustomerAnalysisComponent implements OnInit {
                 //     this.allCustomers = this.newCustomers;
                 // }
 
+                this.allCustomers = this.allCustomers.map((element) => {
+                    if (element.cust_source in this.leadSources) {
+                        element['ld_src'] = this.leadSources[element.cust_source];
+                    } else {
+                        element['ld_src'] = 'NIL';
+                    }
+                    return element;
+                });
+
                 this.customers = this.allCustomers;
 
                 this.jobcardStatus.openJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'OPN');
-                this.jobcardStatus.wipJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'WIP');
+                this.jobcardStatus.wipJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status == 'WIP');
                 this.jobcardStatus.invJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'INV');
-                this.jobcardStatus.closedJobcard = this.allCustomers.filter(
-                    (jobcard) => jobcard.job_status === 'SUS' || jobcard.job_status === 'CAN' || jobcard.job_status === 'CLO'
-                );
+                this.jobcardStatus.closedJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'CLO');
+                this.jobcardStatus.tstJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'TST');
+                this.jobcardStatus.susJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'SUS');
+                this.jobcardStatus.canJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'CAN');
+                this.jobcardStatus.comJobcard = this.allCustomers.filter((jobcard) => jobcard.job_status === 'COM');
 
                 this.calculateSourceCounts();
 
@@ -133,66 +187,83 @@ export class CustomerAnalysisComponent implements OnInit {
     }
 
     calculateSourceCounts() {
-        for (let i = 0; i <= 9; i++) {
-            this.sourceCounts[i] = 0;
-        }
+        // for (let i = 0; i <= 9; i++) {
+        //     this.sourceCounts[i] = 0;
+        // }
 
-        for (const customer of this.allCustomers) { //this.jobcardStatus.invJobcard
-            const source = customer.cust_source;
-            console.log('source>>>>>>>>>>>', source);
-            switch (source) {
-                // case '0':
-                //     this.sourceCounts[0]++;
-                //     break;
-                case '1':
-                    this.sourceCounts[1]++;
-                    break;
-                case '2':
-                    this.sourceCounts[2]++;
-                    break;
-                case '3':
-                    this.sourceCounts[3]++;
-                    break;
-                case '4':
-                    this.sourceCounts[4]++;
-                    break;
-                case '5':
-                    this.sourceCounts[5]++;
-                    break;
-                case '6':
-                    this.sourceCounts[6]++;
-                    break;
-                case '7':
-                    this.sourceCounts[7]++;
-                    break;
-                case '8':
-                    this.sourceCounts[8]++;
-                    break;
-                case '9':
-                    this.sourceCounts[9]++;
-                    break;
-                default:
-                    break;
+        // for (const customer of this.allCustomers) {
+        //     //this.jobcardStatus.invJobcard
+        //     const source = customer.cust_source;
+        //     console.log('source>>>>>>>>>>>', source);
+        //     switch (source) {
+        //         // case '0':
+        //         //     this.sourceCounts[0]++;
+        //         //     break;
+        //         case '1':
+        //             this.sourceCounts[1]++;
+        //             break;
+        //         case '2':
+        //             this.sourceCounts[2]++;
+        //             break;
+        //         case '3':
+        //             this.sourceCounts[3]++;
+        //             break;
+        //         case '4':
+        //             this.sourceCounts[4]++;
+        //             break;
+        //         case '5':
+        //             this.sourceCounts[5]++;
+        //             break;
+        //         case '6':
+        //             this.sourceCounts[6]++;
+        //             break;
+        //         case '7':
+        //             this.sourceCounts[7]++;
+        //             break;
+        //         case '8':
+        //             this.sourceCounts[8]++;
+        //             break;
+        //         case '9':
+        //             this.sourceCounts[9]++;
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // }
+
+        for (let i = 0; i < this.allCustomers.length; i++) {
+            let customer = this.allCustomers[i];
+            let source = parseInt(customer.cust_source, 10);
+            let jobStatus = customer.job_status;
+            let sourceData = this.customerSources.find((src) => src.id === source);
+
+            if (sourceData) {
+                sourceData.totalCount.push(customer);
+                if (jobStatus === 'INV') {
+                    sourceData.convertedCount++;
+                }
             }
         }
+        this.sourceNilCustomers = this.allCustomers.filter((customer) => customer.cust_source == null || customer.cust_source == 0).length;
 
-        this.chartFlag = this.sourceCounts.some((count: any) => count != 0);
+        this.chartFlag = this.customerSources.some((count: any) => count.convertedCount != 0);
+
 
         this.columnChart = {
             series: [
                 {
-                    name: 'distibuted',
+                    // name: 'distibuted',
                     data: [
                         // this.sourceCounts[0],
-                        this.sourceCounts[1],
-                        this.sourceCounts[2],
-                        this.sourceCounts[3],
-                        this.sourceCounts[4],
-                        this.sourceCounts[5],
-                        this.sourceCounts[6],
-                        this.sourceCounts[7],
-                        this.sourceCounts[8],
-                        this.sourceCounts[9],
+                        this.customerSources[0].convertedCount,
+                        this.customerSources[1].convertedCount,
+                        this.customerSources[2].convertedCount,
+                        this.customerSources[3].convertedCount,
+                        this.customerSources[4].convertedCount,
+                        this.customerSources[5].convertedCount,
+                        this.customerSources[6].convertedCount,
+                        this.customerSources[7].convertedCount,
+                        this.customerSources[8].convertedCount,
                     ],
                 },
             ],
@@ -331,8 +402,6 @@ export class CustomerAnalysisComponent implements OnInit {
         //         },
         //     },
         // };
-
-        console.log(this.sourceCounts); // Log the counts array
     }
 
     openCallLogs(data: any) {
@@ -353,16 +422,35 @@ export class CustomerAnalysisComponent implements OnInit {
     filterCustomers(source: any): void {
         this.customers = [];
         this.selectedSource = source;
-        if (source == 15) {
+        if (source == 12) {
             this.customers = this.allCustomers;
-        } else if (source == 16) {
+            this.tableHeading = this.tab7 == 'home' ? 'Existing Customer Details' : 'New Customer Details';
+        } else if (source == 13) {
             this.customers = this.jobcardStatus.openJobcard;
-        } else if (source == 17) {
-            this.customers = this.jobcardStatus.invJobcard;
-        } else if (source == 18) {
+            this.tableHeading = 'Open Jobcard Customer Details';
+        } else if (source == 14) {
+            this.customers = this.jobcardStatus.tstJobcard;
+            this.tableHeading = 'Tst Jobcard Customer Details';
+        } else if (source == 15) {
             this.customers = this.jobcardStatus.wipJobcard;
+            this.tableHeading = 'Wip Jobcard Customer Details';
+        } else if (source == 16) {
+            this.customers = this.jobcardStatus.invJobcard;
+            this.tableHeading = 'Inv Jobcard Customer Details';
+        } else if (source == 17) {
+            this.customers = this.jobcardStatus.comJobcard;
+            this.tableHeading = 'Com Jobcard Customer Details';
+        } else if (source == 18) {
+            this.customers = this.jobcardStatus.canJobcard;
+            this.tableHeading = 'Can Jobcard Customer Details';
         } else if (source == 19) {
+            this.customers = this.jobcardStatus.susJobcard;
+            this.tableHeading = 'Sus Jobcard Customer Details';
+        } else if (source == 20) {
             this.customers = this.jobcardStatus.closedJobcard;
+            this.tableHeading = 'Closed Jobcard Customer Details';
+        } else if (source == 21) {
+            this.customers = this.allCustomers.filter((customer) => customer.cust_source == null || customer.cust_source == 0);
         } else {
             this.customers = this.allCustomers.filter((customer) => customer.cust_source == source);
         }

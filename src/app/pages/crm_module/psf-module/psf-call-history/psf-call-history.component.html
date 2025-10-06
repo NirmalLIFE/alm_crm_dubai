@@ -25,23 +25,24 @@
                         [(ngModel)]="calldata.call_reason" [searchable]="false" [clearable]="false"
                         placeholder="Select Rating By Customer" class="form-input">
                     </ng-select> -->
-                    <input [(ngModel)]="calldata.call_rating" type="text"
-                    placeholder="Select Rating By Customer" maxlength="200" class="form-input" readonly />
+                    <input [(ngModel)]="calldata.call_rating" type="text" placeholder="Select Rating By Customer"
+                        maxlength="200" class="form-input" readonly />
                 </div>
-                <div *ngIf="calldata.show_reason" class="col-span-2">
+                <div *ngIf="calldata.show_reason && calldata.call_reason_text" class="col-span-2">
                     <label>Response Reason</label>
                     <input id="response_reason" type="text" [(ngModel)]="calldata.call_reason_text"
                         placeholder="Remarks based on customer response" class="form-input" maxlength="100" readonly />
 
                 </div>
-                <div *ngIf="calldata.call_response == '5'" class="col-span-2">
+                <div *ngIf="calldata.call_response == '5' && calldata.psf_action != ''  && calldata.psf_action != null "
+                    class="col-span-2">
                     <label>Further Action</label>
                     <ng-select fullWidth class="tiny-select" [items]="action" bindLabel="name" bindValue="value"
                         [(ngModel)]="calldata.call_action" [searchable]="false" [clearable]="false"
-                        placeholder="Choose Further Action" class="custom-multiselect">
+                        placeholder="Choose Further Action" class="custom-multiselect" [disabled]="true">
                     </ng-select>
                 </div>
-                <div *ngIf="calldata.call_action == '1'">
+                <div *ngIf="calldata.call_action == '1' && calldata.psf_action != ''  && calldata.psf_action != null ">
                     <label>Transfer to</label>
                     <ng-select fullWidth class="tiny-select" [(ngModel)]="calldata.call_transfer_to">
                     </ng-select>

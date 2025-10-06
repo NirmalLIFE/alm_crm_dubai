@@ -34,8 +34,8 @@
                                 stroke-linecap="round" />
                         </svg>
                     </a>
-                </li>
-                <li>  
+                </li> -->
+                <!-- <li>
                     <a href="javascript:;" (click)="tempHandleInboundElement()"
                         class="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,15 +50,18 @@
                                 stroke="currentColor" stroke-width="1.5" />
                         </svg>
                     </a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a routerLink="/apps/chat"
                         class="block rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle r="3" transform="matrix(-1 0 0 1 19 5)" stroke="currentColor" stroke-width="1.5" />
                             <path opacity="0.5"
                                 d="M14 2.20004C13.3538 2.06886 12.6849 2 12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.04346 16.4525C3.22094 16.8088 3.28001 17.2161 3.17712 17.6006L2.58151 19.8267C2.32295 20.793 3.20701 21.677 4.17335 21.4185L6.39939 20.8229C6.78393 20.72 7.19121 20.7791 7.54753 20.9565C8.88837 21.6244 10.4003 22 12 22C17.5228 22 22 17.5228 22 12C22 11.3151 21.9311 10.6462 21.8 10"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                            />
                         </svg>
                     </a>
                 </li> -->
@@ -86,6 +89,13 @@
                             style="width: 75px; height: 40px; margin-left: 6px;">
                     </h5>
                 </div>
+
+
+
+
+
+
+
                 <!-- <form
                     class="absolute inset-x-0 top-1/2 z-10 mx-4 hidden -translate-y-1/2 sm:relative sm:top-0 sm:mx-0 sm:block sm:translate-y-0"
                     [ngClass]="{ '!block': search }" (submit.prevent)="search = false">
@@ -104,8 +114,7 @@
                             </svg>
                         </button>
                         <button type="button"
-                            class="absolute top-1/2 block -translate-y-1/2 hover:opacity-80 ltr:right-2 rtl:left-2 sm:hidden"
-                            >
+                            class="absolute top-1/2 block -translate-y-1/2 hover:opacity-80 ltr:right-2 rtl:left-2 sm:hidden">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <circle opacity="0.5" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" />
@@ -124,9 +133,9 @@
                         <circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5" opacity="0.5" />
                         <path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
-                </button> -->
-            </div>
-            <div>
+                </button>
+             </div>
+             <div>
                 <!-- <a href="javascript:;" *ngIf="store.theme === 'light'"
                     class="flex items-center rounded-full bg-white-light/40 p-2 hover:bg-white-light/90 hover:text-primary dark:bg-dark/40 dark:hover:bg-dark/60"
                     (click)="storeData.dispatch({type: 'toggleTheme', payload:'dark'})">
@@ -1179,7 +1188,8 @@
                 [disabled]="selectedExtension==null">Save Extension</button>
         </ng-template>
     </modal>
-    <modal #inboundCall class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false"  style="max-width: 90vw;">
+    <modal #inboundCall class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+        [closeOnOutsideClick]="false" style="max-width: 90vw;">
         <ng-template #modalHeader>
             <div style=" align-items: center; display: flex; ">
                 New Inbound Call - <b>{{call_data.phone}}</b>
@@ -1190,10 +1200,11 @@
             </div>
         </ng-template>
         <ng-template #modalBody>
-            <app-call-log-add-screen [callData]="call_data" (modalEvent)="closeInboundCallModal()"></app-call-log-add-screen>
+            <app-call-log-add-screen [callData]="call_data"
+                (modalEvent)="closeInboundCallModal()"></app-call-log-add-screen>
         </ng-template>
     </modal>
-    <modal #session class="modal-top profile-modal session-modal"  [closeOnOutsideClick]="false">
+    <modal #session class="modal-top profile-modal session-modal" [closeOnOutsideClick]="false">
         <ng-template #modalBody>
             <div class="pb-2 pt-10 text-center text-white dark:text-white-light">
                 <div class="mx-auto mb-7 h-20 w-20 overflow-hidden">

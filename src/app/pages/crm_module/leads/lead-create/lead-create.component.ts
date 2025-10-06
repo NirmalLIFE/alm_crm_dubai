@@ -47,7 +47,7 @@ export class LeadCreateComponent implements OnInit {
         });
         this.userServices.userList().subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                this.saCreList = rData.userList.filter((item: any) => item.us_role_id == '11' || item.us_role_id == '9');
+                this.saCreList = rData.userList.filter((item: any) => item.us_role_id == '11' || item.us_role_id == '9' || item.us_role_id == '19');
             }
         });
         this.userServices.getLeadSource().subscribe((rData: any) => {
@@ -317,7 +317,6 @@ export class LeadCreateComponent implements OnInit {
     }
 
     appointmentDetails() {
-        console.log('appoint id ', this.appoint_id);
         this.router.navigateByUrl('leads/appointment/appointment-details/' + btoa(this.appoint_id));
     }
 

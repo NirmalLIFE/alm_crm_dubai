@@ -1,180 +1,197 @@
 <ol class="flex font-semibold text-primary dark:text-white-dark">
     <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <a routerLink="/dashboard"
-            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Service
-            Advisor Dashboard</a>
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+            >Service Advisor Dashboard</a
+        >
     </li>
 </ol>
 <div>
-    <div class="panel mt-5 mb-5">
-        <div class=" h-full overflow-hidden border-0">
-            <div class="flex mt-5 mb-5 gap-2">
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+        ></span>
+    </div>
+    <div
+        class="relative mb-4 mt-4 flex items-center justify-between rounded border border-warning bg-warning-light p-3.5 text-warning dark:bg-warning-dark-light"
+        *ngIf="failedToRetainCount > 0 && !load_flag"
+    >
+        <!-- Start: Alert Icon -->
+        <div class="flex-shrink-0">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" class="stroke-orange-600 text-orange-600">
+                <path
+                    opacity="0.5"
+                    d="M5.31171 10.7615C8.23007 5.58716 9.68925 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.31034 17.856 2.52291 15.7061 4.94805 11.4063L5.31171 10.7615Z"
+                    stroke-width="1.5"
+                />
+                <path d="M12 8V13" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="12" cy="16" r="1" fill="currentColor" />
+            </svg>
+        </div>
+
+        <!-- Center: Message -->
+        <div class="flex-1 px-2 text-center text-black">
+            <b class="glow">
+                Customers You Failed to Retain :
+                <span class="badge bg-warning">{{ failedToRetainCount }}</span>
+            </b>
+        </div>
+
+        <!-- End: View Details -->
+        <div class="flex flex-shrink-0 cursor-pointer items-center" (click)="RetentionModal.open()">
+            <span class="mr-1 font-semibold text-black">View Details</span>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+    </div>
+    <div class="panel mb-5 mt-5" *ngIf="!load_flag">
+        <div class="h-full overflow-hidden border-0">
+            <div class="mb-5 mt-5 flex gap-2">
                 <div>
                     <label for="name" class="small_label_text m-0 dark:text-white-dark">Start date</label>
-                    <input type="date" [(ngModel)]="dateFrom" class="form-input" ngxTippy="Start Date"
-                        placeholder="Start Date" />
+                    <input type="date" [(ngModel)]="dateFrom" class="form-input" ngxTippy="Start Date" placeholder="Start Date" />
                 </div>
                 <div>
                     <label for="name" class="small_label_text m-0 dark:text-white-dark">End date</label>
-                    <input type="date" [(ngModel)]="dateTo" class="form-input" ngxTippy="End Date"
-                        placeholder="End Date" />
+                    <input type="date" [(ngModel)]="dateTo" class="form-input" ngxTippy="End Date" placeholder="End Date" />
                 </div>
                 <div>
-                    <label for="name" class="small_label_text m-0 dark:text-white-dark" style="color: white;">.</label>
-                    <button type="button" class="btn btn-primary" style="float: right"
-                        (click)="getSaRating()">SEARCH</button>
+                    <label for="name" class="small_label_text m-0 dark:text-white-dark" style="color: white">.</label>
+                    <button type="button" class="btn btn-primary" style="float: right" (click)="getSaRating()">SEARCH</button>
                 </div>
             </div>
             <div class="flex gap-2">
-                <div class="mb-4 relative
-            flex
-            items-center
-            border
-            p-3.5
-            rounded
-            before:inline-block before:absolute before:top-1/2
-            ltr:before:right-0
-            rtl:before:left-0 rtl:before:rotate-180
-            before:-mt-2 before:border-r-8 before:border-t-8 before:border-b-8 before:border-t-transparent before:border-b-transparent before:border-r-inherit
-            text-danger
-            bg-danger-light
-            border-danger
-            ltr:border-r-[64px]
-            rtl:border-l-[64px]
-            dark:bg-danger-dark-light" *ngIf="dissatisfied_currentMonth_Wsapp .length > 0">
-                    <span class="absolute ltr:-right-11 rtl:-left-11 inset-y-0 text-white w-6 h-6 m-auto"
-                        (click)="openDissatifiedModal(1)" style="cursor: pointer;">
+                <div
+                    class="relative mb-4 flex items-center rounded border border-danger bg-danger-light p-3.5 text-danger before:absolute before:top-1/2 before:-mt-2 before:inline-block before:border-b-8 before:border-r-8 before:border-t-8 before:border-b-transparent before:border-r-inherit before:border-t-transparent ltr:border-r-[64px] ltr:before:right-0 rtl:border-l-[64px] rtl:before:left-0 rtl:before:rotate-180 dark:bg-danger-dark-light"
+                    *ngIf="dissatisfied_currentMonth_Wsapp.length > 0"
+                >
+                    <span
+                        class="absolute inset-y-0 m-auto h-6 w-6 text-white ltr:-right-11 rtl:-left-11"
+                        (click)="openDissatifiedModal(1)"
+                        style="cursor: pointer"
+                    >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path opacity="0.5"
+                            <path
+                                opacity="0.5"
                                 d="M5.31171 10.7615C8.23007 5.58716 9.68925 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.31034 17.856 2.52291 15.7061 4.94805 11.4063L5.31171 10.7615Z"
-                                stroke="#ffffff" stroke-width="1.5" />
+                                stroke="#ffffff"
+                                stroke-width="1.5"
+                            />
                             <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
                             <circle cx="12" cy="16" r="1" fill="#ffffff" />
                         </svg>
                     </span>
-                    <div class="ltr:pr-2 rtl:pl-2 small_label_text" id="scrollingText">
-                        <strong class="ltr:mr-1 rtl:ml-1 ">Warning!</strong>
-                        <b class="glow"><span class="badge bg-warning ">{{dissatisfied_currentMonth_Wsapp
-                                .length}}</span>
-                            of
-                            your customers are dissatisfied with the service during the current month service feedback
-                            from
-                            Whatsapp</b>
+                    <div class="small_label_text ltr:pr-2 rtl:pl-2" id="scrollingText">
+                        <strong class="ltr:mr-1 rtl:ml-1">Warning!</strong>
+                        <b class="glow"
+                            ><span class="badge bg-warning">{{ dissatisfied_currentMonth_Wsapp.length }}</span> of your customers are dissatisfied with the
+                            service during the current month service feedback from Whatsapp</b
+                        >
                     </div>
                 </div>
                 <div class="flex gap-2">
-                    <div class="mb-4 relative
-                    flex
-                    items-center
-                    border
-                    p-3.5
-                    rounded
-                    before:inline-block before:absolute before:top-1/2
-                    ltr:before:right-0
-                    rtl:before:left-0 rtl:before:rotate-180
-                    before:-mt-2 before:border-r-8 before:border-t-8 before:border-b-8 before:border-t-transparent before:border-b-transparent before:border-r-inherit
-                    text-danger
-                    bg-danger-light
-                    border-danger
-                    ltr:border-r-[64px]
-                    rtl:border-l-[64px]
-                    dark:bg-danger-dark-light" *ngIf="dissatisfied_cust_call.length>0">
-                        <span class="absolute ltr:-right-11 rtl:-left-11 inset-y-0 text-white w-6 h-6 m-auto"
-                            (click)="openDissatifiedModal(2)" style="cursor: pointer;">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path opacity="0.5"
+                    <div
+                        class="relative mb-4 flex items-center rounded border border-danger bg-danger-light p-3.5 text-danger before:absolute before:top-1/2 before:-mt-2 before:inline-block before:border-b-8 before:border-r-8 before:border-t-8 before:border-b-transparent before:border-r-inherit before:border-t-transparent ltr:border-r-[64px] ltr:before:right-0 rtl:border-l-[64px] rtl:before:left-0 rtl:before:rotate-180 dark:bg-danger-dark-light"
+                        *ngIf="dissatisfied_cust_call.length > 0"
+                    >
+                        <span
+                            class="absolute inset-y-0 m-auto h-6 w-6 text-white ltr:-right-11 rtl:-left-11"
+                            (click)="openDissatifiedModal(2)"
+                            style="cursor: pointer"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    opacity="0.5"
                                     d="M5.31171 10.7615C8.23007 5.58716 9.68925 3 12 3C14.3107 3 15.7699 5.58716 18.6883 10.7615L19.0519 11.4063C21.4771 15.7061 22.6897 17.856 21.5937 19.428C20.4978 21 17.7864 21 12.3637 21H11.6363C6.21356 21 3.50217 21 2.40626 19.428C1.31034 17.856 2.52291 15.7061 4.94805 11.4063L5.31171 10.7615Z"
-                                    stroke="#ffffff" stroke-width="1.5" />
+                                    stroke="#ffffff"
+                                    stroke-width="1.5"
+                                />
                                 <path d="M12 8V13" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" />
                                 <circle cx="12" cy="16" r="1" fill="#ffffff" />
                             </svg>
                         </span>
-                        <div class="ltr:pr-2 rtl:pl-2  small_label_text" id="scrollingText">
+                        <div class="small_label_text ltr:pr-2 rtl:pl-2" id="scrollingText">
                             <strong class="ltr:mr-1 rtl:ml-1">Warning!</strong>
-                            <b class="glow"><span class="badge bg-warning">{{dissatisfied_cust_call.length}}</span> of
-                                your customers are dissatisfied with the service during the current month service
-                                feedback from
-                                PSF call response</b>
+                            <b class="glow"
+                                ><span class="badge bg-warning">{{ dissatisfied_cust_call.length }}</span> of your customers are dissatisfied with the service
+                                during the current month service feedback from PSF call response</b
+                            >
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="min-h-[110px] bg-gradient-to-r from-[#182848] to-[#4b6cb7] p-6" style="border-radius: 12px;">
+            <div class="min-h-[110px] bg-gradient-to-r from-[#182848] to-[#4b6cb7] p-6" style="border-radius: 12px">
                 <div class="mb-5">
-                    <div class="rounded-full bg-black/50 p-1 font-semibold text-white ltr:pr-3 rtl:pl-3"
-                        style="text-align: -webkit-center;">
-                        {{saName}}
+                    <div class="rounded-full bg-black/50 p-1 font-semibold text-white ltr:pr-3 rtl:pl-3" style="text-align: -webkit-center">
+                        {{ saName }}
                     </div>
                 </div>
             </div>
-            <div class="-mt-12 grid grid-cols-2 gap-2 px-3 bg-gradient-to-r from-[#182848] to-[#4b6cb7]">
-                <div class="rounded-md bg-white px-4 py-2.5 shadow dark:bg-[#060818]" style="background: slategrey;">
-                    <span class="mb-2 flex items-center justify-between text-white" style="font-size: 12px;">WHATSAPP
-                        <div class="star-rating" style="font-size: 20px;">
-                            <span *ngFor="let star of stars" [ngClass]="calculateStarClass(analyticCounts, star,1)">
-                                &#9733;
-                            </span>
-                        </div>({{analyticCounts.totalratingpercentage |
-                        number :
-                        '1.2-2'
-                        }})
+            <div class="-mt-12 grid grid-cols-2 gap-2 bg-gradient-to-r from-[#182848] to-[#4b6cb7] px-3">
+                <div class="rounded-md bg-white px-4 py-2.5 shadow dark:bg-[#060818]" style="background: slategrey">
+                    <span class="mb-2 flex items-center justify-between text-white" style="font-size: 12px"
+                        >WHATSAPP
+                        <div class="star-rating" style="font-size: 20px">
+                            <span *ngFor="let star of stars" [ngClass]="calculateStarClass(analyticCounts, star, 1)"> &#9733; </span>
+                        </div>
+                        ({{ analyticCounts.totalratingpercentage | number : '1.2-2' }})
                     </span>
-                    <div
-                        class="btn w-full border-0 bg-[#ebedf2] py-1 text-base text-[#515365] shadow-none dark:bg-black dark:text-[#bfc9d4]">
-                        {{analyticCounts.total_messages}}</div>
+                    <div class="btn w-full border-0 bg-[#ebedf2] py-1 text-base text-[#515365] shadow-none dark:bg-black dark:text-[#bfc9d4]">
+                        {{ analyticCounts.total_messages }}
+                    </div>
                 </div>
-                <div class="rounded-md bg-white px-4 py-2.5 shadow dark:bg-[#060818]" style="background: slategrey;">
-                    <span class="mb-2 flex items-center justify-between text-white" style="font-size: 12px;">PSF CALL
-                        <div class="star-rating" style="font-size: 20px;">
-                            <span *ngFor="let star of stars" [ngClass]="calculateStarClass(analyticCounts, star,2)">
-                                &#9733;
-                            </span>
-                        </div>({{analyticCounts.totalratingpercentage_call_response |
-                        number :
-                        '1.2-2'
-                        }})
+                <div class="rounded-md bg-white px-4 py-2.5 shadow dark:bg-[#060818]" style="background: slategrey">
+                    <span class="mb-2 flex items-center justify-between text-white" style="font-size: 12px"
+                        >PSF CALL
+                        <div class="star-rating" style="font-size: 20px">
+                            <span *ngFor="let star of stars" [ngClass]="calculateStarClass(analyticCounts, star, 2)"> &#9733; </span>
+                        </div>
+                        ({{ analyticCounts.totalratingpercentage_call_response | number : '1.2-2' }})
                     </span>
-                    <div
-                        class="btn w-full border-0 bg-[#ebedf2] py-1 text-base text-[#515365] shadow-none dark:bg-black dark:text-[#bfc9d4]">
-                        {{analyticCounts.total_call_response}}</div>
+                    <div class="btn w-full border-0 bg-[#ebedf2] py-1 text-base text-[#515365] shadow-none dark:bg-black dark:text-[#bfc9d4]">
+                        {{ analyticCounts.total_call_response }}
+                    </div>
                 </div>
             </div>
-            <div class="p-3 grid grid-cols-2 gap-2 bg-gradient-to-r from-[#182848] to-[#4b6cb7]"
-                style="border-bottom-left-radius: 12px;border-bottom-right-radius: 12px;">
+            <div
+                class="grid grid-cols-2 gap-2 bg-gradient-to-r from-[#182848] to-[#4b6cb7] p-3"
+                style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px"
+            >
                 <div class="group">
                     <div class="mb-1">
-                        <p class="text-white-light" style="font-size: 14px;">Ex-satisfied -
-                            {{analyticCounts.total_ext_happy}}
+                        <p class="text-white-light" style="font-size: 14px">
+                            Ex-satisfied -
+                            {{ analyticCounts.total_ext_happy }}
                         </p>
-                        <p class="text-white-light" style="font-size: 14px;">Fairly-satisfied -
-                            {{analyticCounts.total_very_happy}}
+                        <p class="text-white-light" style="font-size: 14px">
+                            Fairly-satisfied -
+                            {{ analyticCounts.total_very_happy }}
                         </p>
-                        <p class="text-white-light" style="font-size: 14px;">satisfied - {{analyticCounts.total_happy}}
-                        </p>
-                        <p class="text-white-light" style="font-size: 14px;">Dissatisfied -
-                            {{analyticCounts.total_dissatisfied}}</p>
-                        <p class="text-white-light" style="font-size: 14px;">Ex-Dissatisfied -
-                            {{analyticCounts.total_Ex_dissatisfied}}</p>
+                        <p class="text-white-light" style="font-size: 14px">satisfied - {{ analyticCounts.total_happy }}</p>
+                        <p class="text-white-light" style="font-size: 14px">Dissatisfied - {{ analyticCounts.total_dissatisfied }}</p>
+                        <p class="text-white-light" style="font-size: 14px">Ex-Dissatisfied - {{ analyticCounts.total_Ex_dissatisfied }}</p>
                     </div>
                 </div>
                 <div class="group">
                     <div class="mb-1">
-                        <p class="text-white-light" style="font-size: 14px;">Ex-satisfied -
-                            {{analyticCounts.total_ext_happy_call_response}}
+                        <p class="text-white-light" style="font-size: 14px">
+                            Ex-satisfied -
+                            {{ analyticCounts.total_ext_happy_call_response }}
                         </p>
-                        <p class="text-white-light" style="font-size: 14px;">Fairly-satisfied -
-                            {{analyticCounts.total_very_happy_call_response}}
+                        <p class="text-white-light" style="font-size: 14px">
+                            Fairly-satisfied -
+                            {{ analyticCounts.total_very_happy_call_response }}
                         </p>
-                        <p class="text-white-light" style="font-size: 14px;">satisfied -
-                            {{analyticCounts.total_happy_call_response}}</p>
-                        <p class="text-white-light" style="font-size: 14px;">Dissatisfied -
-                            {{analyticCounts.total_dissatisfied_call_response}}</p>
+                        <p class="text-white-light" style="font-size: 14px">satisfied - {{ analyticCounts.total_happy_call_response }}</p>
+                        <p class="text-white-light" style="font-size: 14px">Dissatisfied - {{ analyticCounts.total_dissatisfied_call_response }}</p>
                     </div>
                 </div>
             </div>
@@ -188,13 +205,9 @@
     </div>
 </div>
 
-
-<modal #DissatifiedModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
-    [closeOnOutsideClick]="false" style="max-width: 90vw;">
+<modal #DissatifiedModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
     <ng-template #modalHeader>
-        <div style=" align-items: center; display: flex; ">
-            CUSTOMER INFO
-        </div>
+        <div style="align-items: center; display: flex">CUSTOMER INFO</div>
     </ng-template>
     <ng-template #modalBody>
         <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
@@ -203,31 +216,109 @@
             </div>
         </div>
         <div class="datatable">
-            <ng-datatable [rows]="discust" [columns]="cols_2" [search]="search" [sortable]="true" [columnFilter]="false"
+            <ng-datatable
+                [rows]="discust"
+                [columns]="cols_2"
+                [search]="search"
+                [sortable]="true"
+                [columnFilter]="false"
                 skin="whitespace-nowrap table-hover bh-table-compact"
                 firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
                 lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
                 previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
-                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
+            >
                 <ng-template slot="customer_name" let-value="data">
-                    <span *ngIf="value.customer_name" style="text-transform: capitalize;cursor: pointer;"
-                        class="text-success">
-                        {{ value.customer_name }}</span>
+                    <span *ngIf="value.customer_name" style="text-transform: capitalize; cursor: pointer" class="text-success"> {{ value.customer_name }}</span>
                 </ng-template>
                 <ng-template slot="phone" let-value="data">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}"
-                        [tippyProps]="{ theme: 'info' }">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.phone }}" [tippyProps]="{ theme: 'info' }">
                         ****{{ value.phone | slice : -6 }}
                     </button>
                 </ng-template>
                 <ng-template slot="ldl_note" let-value="data">
-                    <span *ngIf="value.ldl_note" style="text-wrap: wrap;">
-                        {{ value.ldl_note }}</span>
+                    <span *ngIf="value.ldl_note" style="text-wrap: wrap"> {{ value.ldl_note }}</span>
                 </ng-template>
             </ng-datatable>
         </div>
     </ng-template>
     <ng-template #modalFooter>
         <button type="button" (click)="DissatifiedModalClose()" class="btn btn-outline-danger">DISMISS</button>
+    </ng-template>
+</modal>
+
+<modal #RetentionModal class="modal-top animate animate-slide-in-down retention-wide-modal" [closeOnOutsideClick]="false">
+    <!-- Header -->
+    <ng-template #modalHeader>
+        <div style="align-items: center; display: flex">RETENTION CUSTOMERS</div>
+    </ng-template>
+    <!-- Body -->
+    <ng-template #modalBody>
+        <div style="max-height: 70vh; overflow-y: auto">
+            <div class="modal-body">
+                <div class="summary-bar">
+                    <span
+                        >Total Lost Customers : <strong>{{ failedToRetainCount }}</strong></span
+                    >
+                </div>
+                <!-- Month selector -->
+                <div class="mt-2 flex flex-row flex-wrap gap-2">
+                    <ng-container *ngFor="let group of retentionGroups">
+                        <button
+                            *ngIf="group.label !== 'totalCount'"
+                            ype="button"
+                            class="btn btn-sm"
+                            [ngClass]="{
+                                'btn-primary': selectedGroup?.label === group.label,
+                                'btn-outline-primary': selectedGroup?.label !== group.label
+                            }"
+                            (click)="selectedGroup = group; retentionCustomers = group.customers"
+                        >
+                            {{ group.label }} ({{ group.count }})
+                        </button>
+                    </ng-container>
+                </div>
+                <!-- Search bar -->
+                <div class="mb-2 mt-2 flex flex-col gap-5 md:flex-row md:items-center">
+                    <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
+                        <input [(ngModel)]="retentionSearch" type="text" class="form-input w-auto" placeholder="Search..." />
+                    </div>
+                </div>
+                <!-- Table -->
+                <div class="datatable">
+                    <ng-datatable
+                        [rows]="retentionCustomers"
+                        [columns]="retentionCols"
+                        [search]="retentionSearch"
+                        [sortable]="true"
+                        [columnFilter]="false"
+                        skin="whitespace-nowrap table-hover bh-table-compact"
+                    >
+                        <!-- Customer Name -->
+                        <ng-template slot="customer_name" let-value="data">
+                            <span *ngIf="value.customer_name" style="text-transform: capitalize; cursor: pointer" class="text-success">
+                                {{ value.customer_name }}
+                            </span>
+                        </ng-template>
+                        <!-- Phone -->
+                        <ng-template slot="mobile" let-value="data">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" ngxTippy="{{ value.mobile }}" [tippyProps]="{ theme: 'info' }">
+                                ****{{ value.mobile | slice : -6 }}
+                            </button>
+                        </ng-template>
+                        <!-- Category -->
+                        <ng-template slot="customer_cat_type" let-value="data">
+                            <span *ngIf="value.customer_cat_type">
+                                {{ value.customer_cat_type }}
+                            </span>
+                        </ng-template>
+                    </ng-datatable>
+                </div>
+                <!-- Footer -->
+                <div class="mt-2">
+                    <button type="button" (click)="RetentionModal.close()" class="btn btn-outline-danger">DISMISS</button>
+                </div>
+            </div>
+        </div>
     </ng-template>
 </modal>

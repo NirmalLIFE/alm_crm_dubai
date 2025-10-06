@@ -42,7 +42,6 @@ export class DepartmentCreateComponent implements OnInit {
           element.checked = false;
         });
         this.featureData = rData.feature_list;
-        console.log(this.featureData);
       } else {
         this.coloredToast("danger", "System features cant be fetched");
       }

@@ -133,7 +133,6 @@ export class QuoteEditComponent {
 
     tot_unit(itemdata: any) {
         itemdata.net_price = (itemdata.unit_price - itemdata.disc_amount).toFixed(2);
-        console.log(itemdata);
         this.total_calc();
     }
 
@@ -195,7 +194,6 @@ export class QuoteEditComponent {
             item_delete_flag: 0
         });
         this.total_calc();
-        console.log(this.qt_item_spare);
     }
 
     deleteLabour(j: number, element: any) {

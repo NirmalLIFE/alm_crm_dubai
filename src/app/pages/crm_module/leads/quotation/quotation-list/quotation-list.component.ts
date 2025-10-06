@@ -30,7 +30,8 @@ export class QuotationListComponent implements OnInit {
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
     appoint_flag = false;
     public sourceList: any[] = [];
-    public dateFrom: any = this.datepipe.transform(moment(new Date()).startOf('month').toDate(), 'yyyy-MM-dd') || '';
+    // public dateFrom: any = this.datepipe.transform(moment(new Date()).startOf('month').toDate(), 'yyyy-MM-dd') || '';
+    public dateFrom: any = this.datepipe.transform(moment().toDate(), 'yyyy-MM-dd') || '';
     public dateTo: any = null;
     public apptm_id: any;
 
@@ -55,6 +56,8 @@ export class QuotationListComponent implements OnInit {
 
     cols = [
         // { field: 'apptm_code', title: 'Code', isUnique: true, hide: false },
+        { field: 'action', title: 'Action', hide: false },
+        ...(['13', '1', '19'].includes(this.user_role) ? [{ field: 'ld_verify_flag', title: 'Verified', hide: false }] : []),
         { field: 'phone', title: 'Number', hide: false },
         { field: 'customer_name', title: 'Customer', hide: false },
         { field: 'lead_code', title: 'Lead' },
@@ -67,7 +70,6 @@ export class QuotationListComponent implements OnInit {
         { field: 'lead_note', title: 'Remarks', hide: false },
         { field: 'quote_count', title: 'Attempts', hide: false },
         { field: 'status', title: 'Status', hide: false },
-        { field: 'action', title: 'Action', hide: false },
     ];
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datepipe: DatePipe) {
@@ -232,7 +234,6 @@ export class QuotationListComponent implements OnInit {
 
     filterQuotes(value: any) {
         this.SRorQuotes = [];
-        console.log('allSRorQuotes>>>>>>>>>>>>>>>>>', this.allSRorQuotes);
         if (value == 1) {
             this.SRorQuotes = this.allSRorQuotes.filter((data: any) => data.callbackstatus);
             this.selected = 1;

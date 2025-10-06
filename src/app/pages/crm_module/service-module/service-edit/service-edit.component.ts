@@ -327,7 +327,6 @@ export class ServiceEditComponent implements OnInit {
     }
 
     deleteLabour(i: number, element: any) {
-        console.log('i: number, element: any>>>>>>>>>i: number, element: any>>>>>>>>', i, element);
 
         Swal.fire({
             icon: 'warning',
@@ -353,7 +352,6 @@ export class ServiceEditComponent implements OnInit {
 
     updateService() {
         this.getTotalServicePrice();
-        console.log('this.service_details>>>>>>>>>>>>>>>>>>>>', this.service_details);
         this.serviceFlag = true;
         const selectedServiceName: string = this.service_details.sm_name;
         const selectedEngines: string[] = this.service_details.engines;
@@ -376,7 +374,7 @@ export class ServiceEditComponent implements OnInit {
                 }
             }
         }
-        console.log('this.service_details>>.parts>>>>>>>>>>>>>>>>>>', this.service_details.parts);
+        // console.log('this.service_details>>.parts>>>>>>>>>>>>>>>>>>', this.service_details.parts);
         this.service_details.parts.forEach((part: any, index: any) => {
             const pm_id = part.pm_id;
             const isDuplicate = this.service_details.parts.some(

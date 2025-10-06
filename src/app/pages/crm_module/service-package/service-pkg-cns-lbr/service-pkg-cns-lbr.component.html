@@ -1,79 +1,61 @@
 <ol class="flex font-semibold text-primary dark:text-white-dark">
     <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <a
-            routerLink="/dashboard"
-            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-            >Home</a
-        >
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
-        >
-            Service Management</a
-        >
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            Service Management</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/servicePackageRequested"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Service Package Requested</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            routerLink="/servicePackageRequested"
-            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-        >
-            Service Package Requested</a
-        >
-    </li>
-    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
-        <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
-        >
-            Service Package</a
-        >
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            Service Package</a>
     </li>
 </ol>
 
 <div *ngIf="!load_flag" style="text-align: center">
     <span
-        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
-    ></span>
+        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
 </div>
 
 <div class="panel mb-5 mt-5 pb-5" *ngIf="load_flag">
     <div class="grid grid-cols-3 items-start gap-4" *ngIf="requestedServicePackage">
         <div>
             <label>Model Code</label>
-            <input [(ngModel)]="model_code" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="5" [disabled]="true" />
+            <input [(ngModel)]="model_code" type="text" placeholder="Model Number" class="form-input text-xs"
+                maxlength="5" [disabled]="true" />
         </div>
 
         <div>
             <label>Vin No</label>
-            <input [(ngModel)]="vin_no" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="20" [disabled]="true" />
+            <input [(ngModel)]="vin_no" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="20"
+                [disabled]="true" />
         </div>
 
         <div>
             <label>Variant</label>
-            <input [(ngModel)]="variant" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="50" [disabled]="true" />
+            <input [(ngModel)]="variant" type="text" placeholder="Model Number" class="form-input text-xs"
+                maxlength="50" [disabled]="true" />
         </div>
 
         <div>
             <label>Model Year</label>
-            <input [(ngModel)]="model_year" type="text" placeholder="Model Number" class="form-input text-xs" maxlength="20" [disabled]="true" />
+            <input [(ngModel)]="model_year" type="text" placeholder="Model Number" class="form-input text-xs"
+                maxlength="20" [disabled]="true" />
         </div>
 
         <div class="min-h-[90px]">
             <label>Engine No*</label>
-            <ng-select
-                class="custom-multiselect"
-                fullWidth
-                [items]="engines"
-                bindLabel="eng_no"
-                bindValue="eng_id"
-                [(ngModel)]="engineNO"
-                [searchable]="true"
-                [clearable]="false"
-                placeholder="Select Engine Numbers"
-                [multiple]="false"
-                [ngModelOptions]="{ standalone: true }"
-                (change)="getPartsForEngineNo(engineNO)"
-            >
+            <ng-select class="custom-multiselect" fullWidth [items]="engines" bindLabel="eng_no" bindValue="eng_id"
+                [(ngModel)]="engineNO" [searchable]="true" [clearable]="false" placeholder="Select Engine Numbers"
+                [multiple]="false" [ngModelOptions]="{ standalone: true }" (change)="getPartsForEngineNo(engineNO)">
             </ng-select>
             <label *ngIf="!engineNO" class="mt-1 block text-xs text-red-500"> Please Select An Engine No </label>
         </div>
@@ -102,16 +84,13 @@
                 <ng-container *ngFor="let spare of service_details.parts; let i = index">
                     <tr *ngIf="spare.sp_spare_delete_flag == '0'">
                         <td>
-                            <div
-                                class="flex h-5 w-5 items-center justify-center rounded-md"
-                                [ngClass]="spare.applicable == 1 ? 'bg-[#4C6EF5] text-white' : 'bg-gray-100 text-transparent'"
-                            >
-                                <svg *ngIf="spare.applicable == 1" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        fill-rule="evenodd"
+                            <div class="flex h-5 w-5 items-center justify-center rounded-md"
+                                [ngClass]="spare.applicable == 1 ? 'bg-[#4C6EF5] text-white' : 'bg-gray-100 text-transparent'">
+                                <svg *ngIf="spare.applicable == 1" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd"
                                         d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
-                                        clip-rule="evenodd"
-                                    />
+                                        clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </td>
@@ -127,15 +106,9 @@
                             <ng-template #itemTemplate let-item>
                                 <a [innerHTML]="item"></a>
                             </ng-template> -->
-                            <ng-select
-                                [(ngModel)]="spare.DESCRIPTION"
-                                [searchable]="true"
-                                [clearable]="false"
-                                placeholder="Part Name"
-                                ngxTippy="Select Part Name"
-                                (change)="getPartcode(spare)"
-                                [disabled]="true"
-                            >
+                            <ng-select [(ngModel)]="spare.DESCRIPTION" [searchable]="true" [clearable]="false"
+                                placeholder="Part Name" ngxTippy="Select Part Name" (change)="getPartcode(spare)"
+                                [disabled]="true">
                                 <!-- For dropdown items -->
                                 <ng-option *ngFor="let part of descriptions" [value]="part">
                                     {{ toTitleCase(part) }}
@@ -149,20 +122,12 @@
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
                             <div class="ng-autocomplete">
-                                <ng-autocomplete
-                                    [data]="partcodes"
-                                    [searchKeyword]="spareCodeSearch"
-                                    placeholder="Part Code"
-                                    maxlength="30"
-                                    [(ngModel)]="spare.PART_NO"
-                                    [ngModelOptions]="{ standalone: true }"
-                                    name="p_item_code_{{ i }}"
-                                    class="custom-multiselect"
-                                    [itemTemplate]="itemTemplateCode"
-                                    ngxTippy="Enter Part Code"
-                                    (ngModelChange)="getPartsBasedOnPartcode(spare)"
-                                    [disabled]="true"
-                                >
+                                <ng-autocomplete [data]="partcodes" [searchKeyword]="spareCodeSearch"
+                                    placeholder="Part Code" maxlength="30" [(ngModel)]="spare.PART_NO"
+                                    [ngModelOptions]="{ standalone: true }" name="p_item_code_{{ i }}"
+                                    class="custom-multiselect" [itemTemplate]="itemTemplateCode"
+                                    ngxTippy="Enter Part Code" (ngModelChange)="getPartsBasedOnPartcode(spare)"
+                                    [disabled]="true">
                                 </ng-autocomplete>
                             </div>
                             <ng-template #itemTemplateCode let-item>
@@ -175,21 +140,10 @@
                             </ng-select> -->
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <ng-select
-                                [items]="brandList"
-                                bindLabel="brand_name"
-                                bindValue="brand_id"
-                                [searchable]="true"
-                                [clearable]="false"
-                                [selectOnTab]="true"
-                                class="custom-multiselect"
-                                placeholder="Select Brand"
-                                [(ngModel)]="spare.Brand"
-                                name="p_part_brand"
-                                ngxTippy="Select Brand"
-                                [ngModelOptions]="{ standalone: true }"
-                                [disabled]="true"
-                            >
+                            <ng-select [items]="brandList" bindLabel="brand_name" bindValue="brand_id"
+                                [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                                placeholder="Select Brand" [(ngModel)]="spare.Brand" name="p_part_brand"
+                                ngxTippy="Select Brand" [ngModelOptions]="{ standalone: true }" [disabled]="true">
                             </ng-select>
                             <!-- <ng-select [(ngModel)]="spare.Brand" [searchable]="true" [clearable]="false"
                                 placeholder="Brand Name" ngxTippy="Select Brand Name" (change)="getPartPrice(spare)">
@@ -198,33 +152,17 @@
                             </ng-select> -->
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <ng-select
-                                [clearable]="false"
-                                [selectOnTab]="true"
-                                class="custom-multiselect"
-                                placeholder="Select Unit Type"
-                                [(ngModel)]="spare.unit_type"
-                                name="p_part_brand"
-                                [ngModelOptions]="{ standalone: true }"
-                                ngxTippy="Select Unit Type"
-                                [disabled]="true"
-                            >
+                            <ng-select [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                                placeholder="Select Unit Type" [(ngModel)]="spare.unit_type" name="p_part_brand"
+                                [ngModelOptions]="{ standalone: true }" ngxTippy="Select Unit Type" [disabled]="true">
                                 <ng-option value="1">Unit</ng-option>
                                 <ng-option value="2">Litre</ng-option>
                             </ng-select>
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <input
-                                type="text"
-                                style="text-align: left"
-                                class="ltr:text-right rtl:text-left"
-                                [(ngModel)]="spare.qty"
-                                placeholder="Spare Quantity"
-                                class="form-input text-xs"
-                                (ngModelChange)="getPartPrice(spare)"
-                                ngxTippy="Spare Quantity"
-                                readonly="true"
-                            />
+                            <input type="text" style="text-align: left" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="spare.qty" placeholder="Spare Quantity" class="form-input text-xs"
+                                (ngModelChange)="getPartPrice(spare)" ngxTippy="Spare Quantity" readonly="true" />
                         </td>
                         <!-- <td style="padding-left: 2px; padding-right: 2px">
                             <input
@@ -268,25 +206,15 @@
                 <ng-container *ngFor="let consumable of service_details.consumables; let i = index">
                     <tr *ngIf="consumable.sp_spare_delete_flag == '0'">
                         <td>
-                            <input
-                                type="checkbox"
-                                class="form-checkbox"
-                                [(ngModel)]="consumable.applicable"
+                            <input type="checkbox" class="form-checkbox" [(ngModel)]="consumable.applicable"
                                 [ngModelOptions]="{ standalone: true }"
                                 (change)="onApplicableChange(consumable, $event)"
-                                [checked]="consumable.applicable == 1"
-                            />
+                                [checked]="consumable.applicable == 1" />
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <ng-select
-                                [(ngModel)]="consumable.DESCRIPTION"
-                                [searchable]="true"
-                                [clearable]="false"
-                                placeholder="Part Name"
-                                ngxTippy="Select Part Name"
-                                (change)="getPartcode(consumable)"
-                                [disabled]="true"
-                            >
+                            <ng-select [(ngModel)]="consumable.DESCRIPTION" [searchable]="true" [clearable]="false"
+                                placeholder="Part Name" ngxTippy="Select Part Name" (change)="getPartcode(consumable)"
+                                [disabled]="true">
                                 <ng-option *ngFor="let part of consumablesNames" [value]="part">
                                     {{ part }}
                                 </ng-option>
@@ -294,20 +222,11 @@
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
                             <div class="ng-autocomplete">
-                                <ng-select
-                                    [items]="partcodes"
-                                    bindLabel="sp_pm_code"
-                                    bindValue="sp_pm_code"
-                                    placeholder="Select Part Code"
-                                    [searchable]="true"
-                                    [clearable]="false"
-                                    [(ngModel)]="consumable.PART_NO"
-                                    [ngModelOptions]="{ standalone: true }"
-                                    name="p_item_code_{{ i }}"
-                                    class="custom-multiselect"
-                                    [disabled]="consumable.applicable != 1"
-                                    (change)="getConsumablePrice(consumable)"
-                                >
+                                <ng-select [items]="partcodes" bindLabel="sp_pm_code" bindValue="sp_pm_code"
+                                    placeholder="Select Part Code" [searchable]="true" [clearable]="false"
+                                    [(ngModel)]="consumable.PART_NO" [ngModelOptions]="{ standalone: true }"
+                                    name="p_item_code_{{ i }}" class="custom-multiselect"
+                                    [disabled]="consumable.applicable != 1" (change)="getConsumablePrice(consumable)">
                                 </ng-select>
                                 <!-- <ng-autocomplete
                                     [data]="partcodes"
@@ -330,61 +249,29 @@
                             </ng-template>
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <ng-select
-                                [items]="brandList"
-                                bindLabel="brand_name"
-                                bindValue="brand_id"
-                                [searchable]="true"
-                                [clearable]="false"
-                                [selectOnTab]="true"
-                                class="custom-multiselect"
-                                placeholder="Select Brand"
-                                [(ngModel)]="consumable.Brand"
-                                name="p_part_brand"
-                                ngxTippy="Select Brand"
-                                [ngModelOptions]="{ standalone: true }"
-                                [disabled]="true"
-                            >
+                            <ng-select [items]="brandList" bindLabel="brand_name" bindValue="brand_id"
+                                [searchable]="true" [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                                placeholder="Select Brand" [(ngModel)]="consumable.Brand" name="p_part_brand"
+                                ngxTippy="Select Brand" [ngModelOptions]="{ standalone: true }" [disabled]="true">
                             </ng-select>
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <ng-select
-                                [clearable]="false"
-                                [selectOnTab]="true"
-                                class="custom-multiselect"
-                                placeholder="Select Unit Type"
-                                [(ngModel)]="consumable.unit_type"
-                                name="p_part_brand"
-                                [ngModelOptions]="{ standalone: true }"
-                                ngxTippy="Select Unit Type"
-                            >
+                            <ng-select [clearable]="false" [selectOnTab]="true" class="custom-multiselect"
+                                placeholder="Select Unit Type" [(ngModel)]="consumable.unit_type" name="p_part_brand"
+                                [ngModelOptions]="{ standalone: true }" ngxTippy="Select Unit Type">
                                 <ng-option value="1">Unit</ng-option>
                                 <ng-option value="2">Litre</ng-option>
                             </ng-select>
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <input
-                                type="text"
-                                style="text-align: left"
-                                class="ltr:text-right rtl:text-left"
-                                [(ngModel)]="consumable.qty"
-                                placeholder="Quantity"
-                                class="form-input text-xs"
-                                (ngModelChange)="getPartPrice(consumable)"
-                                ngxTippy="Consumable Quantity"
-                            />
+                            <input type="text" style="text-align: left" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="consumable.qty" placeholder="Quantity" class="form-input text-xs"
+                                (ngModelChange)="getPartPrice(consumable)" ngxTippy="Consumable Quantity" />
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <input
-                                type="text"
-                                style="text-align: right"
-                                class="ltr:text-right rtl:text-left"
-                                [(ngModel)]="consumable.PRICE"
-                                placeholder="UNIT PRICE"
-                                class="form-input text-xs"
-                                ngxTippy="Consumable Price"
-                                readonly
-                            />
+                            <input type="text" style="text-align: right" class="ltr:text-right rtl:text-left"
+                                [(ngModel)]="consumable.PRICE" placeholder="UNIT PRICE" class="form-input text-xs"
+                                ngxTippy="Consumable Price" readonly />
                         </td>
                         <!-- <td style="padding-left: 2px; padding-right: 2px">
                             <input
@@ -425,30 +312,15 @@
                 <ng-container *ngFor="let labour of service_details.Labour; let i = index">
                     <tr *ngIf="labour.sp_labour_delete_flag == '0'">
                         <td>
-                            <input
-                                type="checkbox"
-                                class="form-checkbox"
-                                [(ngModel)]="labour.applicable"
-                                [ngModelOptions]="{ standalone: true }"
-                                (change)="onApplicableChange(labour, $event)"
-                                [checked]="labour.applicable == 1"
-                            />
+                            <input type="checkbox" class="form-checkbox" [(ngModel)]="labour.applicable"
+                                [ngModelOptions]="{ standalone: true }" (change)="onApplicableChange(labour, $event)"
+                                [checked]="labour.applicable == 1" />
                         </td>
                         <td style="padding-left: 2px; padding-right: 2px">
-                            <ng-select
-                                class="custom-multiselect"
-                                fullWidth
-                                [items]="labourNames"
-                                bindLabel="sp_pm_name"
-                                bindValue="sp_pm_id"
-                                [(ngModel)]="labour.Name"
-                                [searchable]="true"
-                                [clearable]="false"
-                                placeholder="Select Labour Name"
-                                [multiple]="false"
-                                [ngModelOptions]="{ standalone: true }"
-                                [disabled]="true"
-                            >
+                            <ng-select class="custom-multiselect" fullWidth [items]="labourNames" bindLabel="sp_pm_name"
+                                bindValue="sp_pm_id" [(ngModel)]="labour.Name" [searchable]="true" [clearable]="false"
+                                placeholder="Select Labour Name" [multiple]="false"
+                                [ngModelOptions]="{ standalone: true }" [disabled]="true">
                             </ng-select>
                             <!-- <ng-select [(ngModel)]="labour.Name" [searchable]="true" [clearable]="false"
                                 placeholder="Labour Name" ngxTippy="Select Labour Name">
@@ -487,14 +359,9 @@
                         </td> -->
                         <td style="padding-left: 2px; padding-right: 2px">
                             <div class="ng-autocomplete">
-                                <input
-                                    type="text"
-                                    style="text-align: left"
-                                    class="form-input text-xs ltr:text-right rtl:text-left"
-                                    [(ngModel)]="labour.unit"
-                                    placeholder="Labour Unit"
-                                    (ngModelChange)="getTotalServicePrice()"
-                                />
+                                <input type="text" style="text-align: left"
+                                    class="form-input text-xs ltr:text-right rtl:text-left" [(ngModel)]="labour.unit"
+                                    placeholder="Labour Unit" (ngModelChange)="getTotalServicePrice()" />
                             </div>
                         </td>
                         <!-- <td style="padding-left: 2px;padding-right: 2px;">
@@ -539,7 +406,8 @@
                     <td></td> -->
                     <!-- <td style="float: right;"></td> -->
                     <td>
-                        <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; align-items: center; gap: 12.5rem">
+                        <div
+                            style="margin-top: 1.5rem; display: flex; justify-content: flex-end; align-items: center; gap: 12.5rem">
                             <strong>Total Unit:</strong>
                             <strong>
                                 {{ service_details.unit }}
@@ -560,23 +428,20 @@
     <div class="mt-6 flex justify-end" *ngIf="engineNO">
         <div class="flex items-center gap-2">
             <!-- Draft button -->
-            <button type="button" class="btn btn-secondary flex items-center gap-2" (click)="saveServicePackage(8)" [disabled]="saveFlag || draftButtonFlag">
+            <button type="button" class="btn btn-secondary flex items-center gap-2" (click)="saveServicePackage(8)"
+                [disabled]="saveFlag || draftButtonFlag">
                 <span *ngIf="!draftButtonFlag"> Save As Draft</span>
                 <span *ngIf="draftButtonFlag">Saving...</span>
-                <span *ngIf="draftButtonFlag" class="loader h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+                <span *ngIf="draftButtonFlag"
+                    class="loader h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
             </button>
             <!-- Save button -->
 
-            <button
-                type="button"
-                [disabled]="saveFlag"
-                [ngClass]="
+            <button type="button" [disabled]="saveFlag" [ngClass]="
                     user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2'
                         ? 'btn btn-primary flex items-center gap-2'
                         : 'btn btn-success flex items-center gap-2'
-                "
-                (click)="saveServicePackage(2)"
-            >
+                " (click)="saveServicePackage(2)">
                 <ng-container>
                     <span *ngIf="!saveFlag"> Save </span>
                     <span *ngIf="saveFlag">Saving...</span>
@@ -592,38 +457,45 @@
         </button>
     </div> -->
 </div>
-<modal #partsModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+<modal #partsModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw">
     <ng-template #modalHeader>
         <div style="align-items: center; display: flex">Price List</div>
     </ng-template>
     <ng-template #modalBody>
-        <h2 class="text-center text-2xl">
-            The parts for Engine No. <b>{{ getSelectedEngineNo() }}</b> are already listed below. <br />
-            Would you like to copy those Consumables and Labours for this one?
-        </h2>
+        <div style="max-height: 70vh; overflow-y: auto">
+            <h2 class="text-center text-2xl">
+                Consumables and Labour for Engine No. <b>{{ getSelectedEngineNo() }}</b> are already listed below.
+                <br />
+                Do you want to copy these Consumables and Labour items for the current Model Code <b>{{ model_code
+                    }}</b>?
+            </h2>
 
-        <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
-            <thead class="bg-gray-100 text-left">
-                <tr>
-                    <th class="border px-4 py-2">Engine No</th>
-                    <th class="border px-4 py-2">Model Code</th>
-                    <!-- <th class="border px-4 py-2">Price (AED)</th>
-                    <th class="border px-4 py-2">Total Labour Unit</th> -->
-                    <th class="border px-4 py-2">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let part of enginePartsList">
-                    <td class="border px-4 py-2">{{ part.eng_no }}</td>
-                    <td class="border px-4 py-2">{{ part.model_code }}</td>
-                    <!-- <td class="border px-4 py-2">{{ part.totalConsumablesPrice | number : '1.2-2' }}</td>
-                    <td class="border px-4 py-2">{{ part.totalLabourUnit }}</td> -->
-                    <td class="border px-4 py-2">
-                        <button type="button" class="btn btn-primary text-white" (click)="copyConsuamblesOperations(part)">Copy</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
+                <thead class="bg-gray-100 text-left">
+                    <tr>
+                        <th class="border px-4 py-2">Engine No</th>
+                        <th class="border px-4 py-2">Model Code</th>
+                        <th class="border px-4 py-2">Model Year</th>
+                        <!-- <th class="border px-4 py-2">Total Labour Unit</th> -->
+                        <th class="border px-4 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let part of enginePartsList">
+                        <td class="border px-4 py-2">{{ part.eng_no }}</td>
+                        <td class="border px-4 py-2">{{ part.model_code }}</td>
+                        <td class="border px-4 py-2">{{ part.spmc_model_year }}</td>
+                        <!-- <td class="border px-4 py-2">{{ part.totalConsumablesPrice | number : '1.2-2' }}</td> -->
+                        <!-- <td class="border px-4 py-2">{{ part.totalLabourUnit }}</td> -->
+                        <td class="border px-4 py-2">
+                            <button type="button" class="btn btn-primary text-white"
+                                (click)="copyConsuamblesOperations(part)">Copy</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </ng-template>
 
     <ng-template #modalFooter>

@@ -31,6 +31,7 @@ export class QuoteCreateComponent implements OnInit {
     public spareCodeSearch = 'item_name';
     public labourSearch = 'item_name';
     public genericSearch = 'item_name';
+    public save_data_flag: boolean = false;
 
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
 
@@ -330,6 +331,7 @@ export class QuoteCreateComponent implements OnInit {
 
     updateQuote() {
         let success_flag = true;
+        this.save_data_flag = true;
         const qt_items: any[] = [];
 
         this.qt_item_spare.forEach((element: any) => {
@@ -361,6 +363,7 @@ export class QuoteCreateComponent implements OnInit {
 
         if (!success_flag) {
             this.coloredToast('danger', 'Please fill all the missing spare details');
+            this.save_data_flag = false;
             return;
         }
 
@@ -386,6 +389,7 @@ export class QuoteCreateComponent implements OnInit {
 
         if (!success_flag) {
             this.coloredToast('danger', 'Please fill all the missing labour details');
+            this.save_data_flag = false;
             return;
         }
 
@@ -411,16 +415,19 @@ export class QuoteCreateComponent implements OnInit {
 
         if (!success_flag) {
             this.coloredToast('danger', 'Please fill all the missing generic item details');
+            this.save_data_flag = false;
             return;
         }
 
         if ((this.userForm.get('chassis') || {}).value === '') {
             this.coloredToast('danger', 'Chassis number is mandatory');
+            this.save_data_flag = false;
             return;
         }
 
         if (qt_items.length === 0) {
             this.coloredToast('danger', 'At least one labour or part required');
+            this.save_data_flag = false;
             return;
         }
 
@@ -445,8 +452,10 @@ export class QuoteCreateComponent implements OnInit {
             if (rdata.ret_data == 'success') {
                 this.coloredToast('success', 'Updates saved successfully');
                 this.router.navigate(['/quotation/normal_quote/quote_list']);
+                this.save_data_flag = false;
             } else {
                 this.coloredToast('danger', "Can't create quote. Contact administrator");
+                this.save_data_flag = false;
             }
         });
 

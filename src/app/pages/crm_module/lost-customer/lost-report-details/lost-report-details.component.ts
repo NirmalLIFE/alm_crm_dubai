@@ -143,7 +143,6 @@ export class LostReportDetailsComponent implements OnInit {
                 this.alllist = rdata.customer;
                 this.lclist = rdata.customer;
                 this.total_row = this.custlist.length;
-                console.log('call out temp', this.out_temp);
              
                 this.custlist.map(function (x) {
                     x.phone_strip = '*****' + x.phone.substring(x.phone.length - 5);
@@ -276,9 +275,6 @@ export class LostReportDetailsComponent implements OnInit {
 
     filterData(type: any) {
 
-       
-        console.log(type);
-
         this.alllist.forEach((element) => {
             if (element.customer_cat_type == 2) {
                 element['Categorized'] = 'Interested Customer';
@@ -310,7 +306,6 @@ export class LostReportDetailsComponent implements OnInit {
               }  else if (type == 5) {
                   this.custlist = this.alllist.filter(({ call_attempted }) =>call_attempted && call_attempted.trim() !='Attempted');
               }
-        console.log('FilterCustlist',this.custlist);
 
 
         if (this.custlist.length > 0) {
@@ -340,7 +335,6 @@ export class LostReportDetailsComponent implements OnInit {
     updateReport() {
         
         let dataa = { data: this.input_arr };
-        console.log("updateReport",dataa);
       this.userServices.updateLCReport(dataa).subscribe((rdata: any) => { });
     }
 
@@ -376,7 +370,6 @@ export class LostReportDetailsComponent implements OnInit {
             due_date: this.due_date,
             us_ext: us_ext,
         };
-        console.log('reportLostData>>>>>>', this.reportLostData);
         this.reportViewDetails.open();
     }
 

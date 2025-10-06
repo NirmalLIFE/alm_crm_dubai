@@ -191,35 +191,10 @@ export class AppointmentReportComponent implements OnInit {
     }
 
     filterData(type: any) {
-        console.log(type);
     }
 
     getAppointmentList() {
         this.load_flag = true;
-        this.appointmentList = [];
-        this.marketingAppointments = [];
-        this.last7DaysmarketingAppt = [];
-        this.last7DaysNonmarketingAppt = [];
-        this.last7DaysAppt = [];
-        let data: any;
-        let last7data: any;
-
-        if (this.user_role == '9') {
-            this.selectedSA = atob(atob(localStorage.getItem('us_id') || ''));
-        }
-
-        data = {
-            us_id: this.selectedSA,
-            dateFrom: this.dateFrom,
-            dateTo: this.dateTo,
-        };
-
-        last7data = {
-            us_id: this.selectedSA,
-            dateFrom: this.dateRange[0],
-            dateTo: this.dateRange[6],
-        };
-
         this.appointmentCounts = {
             total_appts: 0,
             visited_appts: 0,
@@ -256,6 +231,29 @@ export class AppointmentReportComponent implements OnInit {
             non_marketing_visited: 0,
             last7DaysAppointment: 0,
             last7DaysAppointment_visited: 0,
+        };
+        this.appointmentList = [];
+        this.marketingAppointments = [];
+        this.last7DaysmarketingAppt = [];
+        this.last7DaysNonmarketingAppt = [];
+        this.last7DaysAppt = [];
+        let data: any;
+        let last7data: any;
+
+        if (this.user_role == '9') {
+            this.selectedSA = atob(atob(localStorage.getItem('us_id') || ''));
+        }
+
+        data = {
+            us_id: this.selectedSA,
+            dateFrom: this.dateFrom,
+            dateTo: this.dateTo,
+        };
+
+        last7data = {
+            us_id: this.selectedSA,
+            dateFrom: this.dateRange[0],
+            dateTo: this.dateRange[6],
         };
 
         this.marketingAppt = {

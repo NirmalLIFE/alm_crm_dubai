@@ -32,16 +32,13 @@ export class AssignedLostCountComponent implements OnInit {
         this.userServices.LcAssignedDateList().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.temp_datelist = rdata.datelist;
-                console.log('tempdatelist',this.temp_datelist);
                 this.datelist = rdata.datelist;
                 this.datelist = this.datelist.filter((duedate: any) => duedate.duedate >= Stoday);
                 this.temp_datelist.forEach((element) => {
                     element['call_percentage'] = element.percentage + '%';
-                    console.log(element);
                   
                   
                 });
-                console.log('this.datelist', this.datelist);
                 
             } else {
                 // this.showToast(
@@ -67,7 +64,6 @@ export class AssignedLostCountComponent implements OnInit {
         } else if (tab === 'profile') {
             this.datelist = this.datelist.filter(({ duedate }) => duedate <= Stoday);
         }
-        console.log('this.datelist', this.datelist);
         this.tab2 = tab;
     }
 

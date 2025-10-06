@@ -40,7 +40,6 @@ export class PsfCallUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.callid);
     let date = new Date();
     this.TodaysDate = date.toLocaleDateString();
     this.userServices.get_PSFresponseMaster().subscribe((rdata: any) => {
@@ -48,7 +47,6 @@ export class PsfCallUpdateComponent implements OnInit {
         this.psfResponse = rdata.response_master;
       }
     });
-    console.log("new date", new Date())
     this.getPsfCallList();
   }
 
@@ -168,7 +166,6 @@ export class PsfCallUpdateComponent implements OnInit {
   }
 
   updateResponseChange(itemData: any, response: any) {
-    console.log(response);
     if (response == 0) {
       itemData.show_reason = false;
       this.coloredToast("danger", "Please select proper response");
@@ -217,11 +214,9 @@ export class PsfCallUpdateComponent implements OnInit {
   updatePSFCall() {
     let call_index = this.psf_details.psfm_num_of_attempts;
     let data;
-    console.log(this.callData[call_index]);
     if (this.callData[call_index].call_response != "0") {
       if (this.callData[call_index].call_response == "1") {
         // if (this.callData[call_index].call_rating != '0') {
-        console.log(this.psfResponse.psfm_id);
         data = {
           psf_id: this.psf_details.psfm_id,
           call_response: this.callData[call_index].call_response,
@@ -273,11 +268,7 @@ export class PsfCallUpdateComponent implements OnInit {
           if (this.callData[call_index].call_reason == "44") {
             if (this.callData[call_index].call_remark != "") {
               if (this.callData[call_index].call_action != "0") {
-                console.log(
-                  this.callData[call_index].call_action +
-                  "-----" +
-                  this.callData[call_index].call_transfer_to
-                );
+
                 if (
                   this.callData[call_index].call_action == "1" &&
                   this.callData[call_index].call_transfer_to == "0"
@@ -380,10 +371,7 @@ export class PsfCallUpdateComponent implements OnInit {
           this.coloredToast("danger", "Response reason is mandatory");
         }
       } else if (this.callData[call_index].call_response == "6") {
-        console.log(
-          "call remark------>>>",
-          this.callData[call_index].call_remark
-        );
+
         if (this.callData[call_index].call_remark != "") {
           data = {
             psf_id: this.psf_details.psfm_id,

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-dasboard-master',
@@ -33,6 +34,8 @@ export class DasboardMasterComponent implements OnInit {
     marketpercentage: any;
     nonmarketpercentage: any;
     directleadpercentage: any;
+    public showWarning: boolean = false;
+    public requestedprices: any = [];
 
     //customer Satisfaction
     radialBarChart: any;
@@ -72,7 +75,7 @@ export class DasboardMasterComponent implements OnInit {
 
     marketing_chart_flag: boolean = false;
 
-    constructor(public storeData: Store<any>, private userServices: StaffPostAuthService, public datepipe: DatePipe) {
+    constructor(public storeData: Store<any>, private userServices: StaffPostAuthService, public datepipe: DatePipe, public router: Router) {
         this.us_role_id = atob(atob(localStorage.getItem('us_role_id') || '{}'));
 
         const currentDate = new Date();
@@ -84,9 +87,55 @@ export class DasboardMasterComponent implements OnInit {
 
     ngOnInit() {
         if (this.us_role_id === '1' || this.us_role_id === '2' || this.us_role_id === '8' || this.us_role_id === '13') {
-            this.getCalls();
-            this.getCsi();
+            // this.getCalls();
+            this.checkForRequestedpriceChange();
+            // this.getCsi();
         }
+    }
+
+    checkForRequestedpriceChange() {
+        this.requestedprices = [];
+        this.userServices.getRequestedPrices().subscribe((rdata: any) => {
+            this.requestedprices = rdata.requests;
+            if (rdata.ret_data == 'success') {
+                if (this.requestedprices.length > 0) {
+                    const count = this.requestedprices.length;
+                    const requestText = `${count} part${count > 1 ? 's' : ''} price change request${count > 1 ? 's' : ''} from the Parts Advisor ${
+                        count > 1 ? 'are' : 'is'
+                    } pending admin approval.`;
+
+                    Swal.fire({
+                        title: 'Before You Proceed',
+                        text: requestText,
+                        icon: 'warning',
+                        showDenyButton: true,
+                        denyButtonText: 'Go to Part Request Price Page',
+                        confirmButtonText: 'Cancel',
+                        confirmButtonColor: '#6c757d', // gray
+                        reverseButtons: true,
+                        allowOutsideClick: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.showWarning = true;
+                            this.getCalls();
+                            this.getCsi();
+                        } else if (result.isDenied) {
+                            this.goToPriceRequests();
+                        }
+                    });
+                } else {
+                    this.getCalls();
+                    this.getCsi();
+                }
+            } else {
+                this.getCalls();
+                this.getCsi();
+            }
+        });
+    }
+
+    goToPriceRequests() {
+        this.router.navigate(['/requestedPartsPrice']);
     }
 
     getCalls() {
@@ -684,8 +733,6 @@ export class DasboardMasterComponent implements OnInit {
                             x.customer = 'new';
                         }
                     });
-
-                    console.log('unique_inbound_marketing>>>>>>>unique_inbound_marketing>>>>>???', this.unique_inbound_marketing);
 
                     let unqMarketingInbound = this.unique_inbound_marketing; //this.removeDuplicates(this.unique_inbound_marketing, 'call_from');
                     // unqMarketingInbound.forEach((element: any) => {

@@ -77,8 +77,14 @@
                 </div>
                 <span class="text-sm font-semibold text-gray-700">Optional Flag</span>
             </label>
+
+            <!-- Back button row -->
+            <div class="mb-3 flex items-center justify-end">
+                <button class="btn rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    (click)="goBack()">Back</button>
+            </div>
         </div>
-        <div class="table-responsive max-h-[520px] overflow-y-auto">
+        <div #scrollContainer class="table-responsive max-h-[520px] overflow-y-auto">
             <table class="custom-table">
                 <thead>
                     <tr>
@@ -131,13 +137,13 @@
                     </tr>
                     <!-- Variable prices calculation -->
                     <tr>
-                        <td colspan="2" style="text-align: right; vertical-align: top;">
-                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                        <td colspan="2" style="text-align: right; vertical-align: top">
+                            <div style="display: flex; flex-direction: column; align-items: flex-end">
                                 <strong>Variable Price</strong>
 
                                 <ng-container *ngIf="hasAnyVariablePrice()">
                                     <label
-                                        style="font-weight: normal; display: flex; align-items: center; gap: 4px; margin-top: 2px;">
+                                        style="font-weight: normal; display: flex; align-items: center; gap: 4px; margin-top: 2px">
                                         Check All
                                         <input type="checkbox" [checked]="allChecked"
                                             (change)="toggleAllVariableChecks($event)" class="form-checkbox h-4 w-4"
@@ -148,7 +154,7 @@
                         </td>
 
                         <td *ngFor="let km of selectedKilometers; let i = index" class="w-27 h-8 text-right text-xs"
-                            style="text-align: right;">
+                            style="text-align: right">
                             <div style="display: flex; align-items: center; justify-content: flex-end; gap: 4px">
                                 <strong [style.color]="km.variable_price < 0 ? 'red' : 'inherit'">
                                     {{ km.variable_price | number : '1.2-2' }}
@@ -276,35 +282,40 @@
         <div style="align-items: center; display: flex">Price List</div>
     </ng-template>
     <ng-template #modalBody>
-        <h3 class="text-center text-2xl">
-            The corresponding <b>Display Price</b> and <b>Markup Price</b> for the same items are shown under the
-            respective Model Codes. <br />
-            Would you like to copy those Prices?
-        </h3>
+        <div style="max-height: 70vh; overflow-y: auto">
+            <h3 class="text-center text-2xl">
+                The corresponding <b>Display Price</b> and <b>Markup Price</b> for the same items are shown under the
+                respective Model Codes. <br />
+                Do you want to copy these prices for Engine No. <b>{{ getSelectedEngineNo() }}</b> and Model Code <b>{{ model_code
+                    }}</b>?
+            </h3>
 
-        <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
-            <thead class="bg-gray-100 text-left">
-                <tr>
-                    <th class="border px-4 py-2">Engine No</th>
-                    <th class="border px-4 py-2">Model Code</th>
-                    <!-- <th class="border px-4 py-2">Price (AED)</th>
+            <table class="mt-4 w-full table-auto border border-gray-300 text-sm">
+                <thead class="bg-gray-100 text-left">
+                    <tr>
+                        <th class="border px-4 py-2">Engine No</th>
+                        <th class="border px-4 py-2">Model Code</th>
+                        <th class="border px-4 py-2">Model Year</th>
+                        <!-- <th class="border px-4 py-2">Price (AED)</th>
                     <th class="border px-4 py-2">Total Labour Unit</th> -->
-                    <th class="border px-4 py-2">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let part of enginePartsList">
-                    <td class="border px-4 py-2">{{ getSelectedEngineNo() }}</td>
-                    <td class="border px-4 py-2">{{ part.model_code }}</td>
-                    <!-- <td class="border px-4 py-2">{{ part.totalConsumablesPrice | number : '1.2-2' }}</td>
+                        <th class="border px-4 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let part of enginePartsList">
+                        <td class="border px-4 py-2">{{ getSelectedEngineNo() }}</td>
+                        <td class="border px-4 py-2">{{ part.model_code }}</td>
+                        <td class="border px-4 py-2">{{ part.spmc_model_year }}</td>
+                        <!-- <td class="border px-4 py-2">{{ part.totalConsumablesPrice | number : '1.2-2' }}</td>
                     <td class="border px-4 py-2">{{ part.totalLabourUnit }}</td> -->
-                    <td class="border px-4 py-2">
-                        <button type="button" (click)="copyPricetoKm(part)"
-                            class="btn btn-primary text-white">Copy</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td class="border px-4 py-2">
+                            <button type="button" (click)="copyPricetoKm(part)"
+                                class="btn btn-primary text-white">Copy</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </ng-template>
 
     <ng-template #modalFooter>

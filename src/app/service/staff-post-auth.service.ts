@@ -631,8 +631,8 @@ export class StaffPostAuthService {
         return this.http.post(environment.base_url + 'get_Customer_details_for_modal', data, { headers: this.reqHeader });
     }
     // Psf module calls
-    get_creDailyPSFCalls(): Observable<any> {
-        return this.http.get(environment.base_url + 'get_creDailyPSFCalls', { headers: this.reqHeader });
+    get_creDailyPSFCalls(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'get_creDailyPSFCalls', data, { headers: this.reqHeader });
     }
     get_crmDailyUserPSFCalls(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'get_crmDailyUserPSFCalls', data, { headers: this.reqHeader });
@@ -943,8 +943,24 @@ export class StaffPostAuthService {
         return this.http.get(environment.base_url + 'getWhatsappCustomersFollowups', { headers: this.reqHeader });
     }
 
-    fetchAllFollowUpCustomers(data: any): Observable<any> {
-        return this.http.post(environment.base_url + 'fetchAllFollowUpCustomers', data, { headers: this.reqHeader });
+    updateSocialMediaCampaignBudget(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateSocialMediaCampaignBudget', data, { headers: this.reqHeader });
+    }
+
+    getLeadsList(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getLeadsList', data, { headers: this.reqHeader });
+    }
+
+    sendBroadcastWhatsappCampaignMessage(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'sendBroadcastWhatsappCampaignMessage', data, { headers: this.reqHeader });
+    }
+
+    getCustomerReEngageCampaigns(): Observable<any> {
+        return this.http.get(environment.base_url + 'Customer/CustomerReEngageCampaignController', { headers: this.reqHeader });
+    }
+
+    getCustomerReEngageCampaignReport(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getCustomerReEngageCampaignReport', data, { headers: this.reqHeader });
     }
 
     getServiceRemainderDays(): Observable<any> {
@@ -955,6 +971,14 @@ export class StaffPostAuthService {
         return this.http.post(environment.base_url + 'updateServiceRemainderDays', data, { headers: this.reqHeader });
     }
 
+    searchWhatsappCustomersByPhoneNumbers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'searchWhatsappCustomersByPhoneNumbers', data, { headers: this.reqHeader });
+    }
+
+    sendServiceRemainderCampaignMessages(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'sendServiceRemainderCampaignMessages', data, { headers: this.reqHeader });
+    }
+
     getSRCReport(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'getSRCReport', data, { headers: this.reqHeader });
     }
@@ -963,11 +987,57 @@ export class StaffPostAuthService {
         return this.http.post(environment.base_url + 'getAppointmentCustomersFromSRC', data, { headers: this.reqHeader });
     }
 
+    fetchAllFollowUpCustomers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'fetchAllFollowUpCustomers', data, { headers: this.reqHeader });
+    }
+
+    getCampaignCustomerJobcards(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getCampaignCustomerJobcards', data, { headers: this.reqHeader });
+    }
+
+    fetchAllNewCustomers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'fetchAllNewCustomers', data, { headers: this.reqHeader });
+    }
+
+    getQuoteDetailsByIdView(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getQuoteDetailsByIdView', data, { headers: this.reqHeader });
+    }
+
+    fetchAllLeadsByPhone(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'fetchAllLeadsByPhone', data, { headers: this.reqHeader });
+    }
+
     updateWhatsappAutoMessageHours(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'updateWhatsappAutoMessageHours', data, { headers: this.reqHeader });
     }
 
-    //Service package modules apis
+    fetchAllNewCustomerLeads(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'fetchAllNewCustomerLeads', data, { headers: this.reqHeader });
+    }
+
+    getPurposeNotselected(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getPurposeNot', data, { headers: this.reqHeader });
+    }
+    updateLeadVerificationFlag(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateLeadVerificationFlag', data, { headers: this.reqHeader });
+    }
+
+    updateLeadCategory(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateLeadCategory', data, { headers: this.reqHeader });
+    }
+
+    getLeadCategoryCount(): Observable<any> {
+        return this.http.get(environment.base_url + 'getLeadCategoryCount', { headers: this.reqHeader });
+    }
+
+    getCategoryCust(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getCategoryCust', data, { headers: this.reqHeader });
+    }
+
+    getLeadCategoryCustomers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getLeadCategoryCustomers', data, { headers: this.reqHeader });
+    }
+
     getServicePackage(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'getServicePackage', data, { headers: this.reqHeader });
     }
@@ -1184,5 +1254,73 @@ export class StaffPostAuthService {
 
     getPartcodeprice(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'getPartcodeprice', data, { headers: this.reqHeader });
+    }
+    getLogsByModelCode(modelCodeId: string): Observable<any> {
+        return this.http.post(environment.base_url + 'getLogsByModelCode', { spmc_id: modelCodeId }, { headers: this.reqHeader });
+    }
+
+    deleteServicePackageModelCode(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'deleteServicePackageModelCode', data, { headers: this.reqHeader });
+    }
+
+    getNewSRCReport(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getNewSRCReport', data, { headers: this.reqHeader });
+    }
+
+    getRetentionCustomers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getRetentionCustomers', data, { headers: this.reqHeader });
+    }
+    removeSpmcLock(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'removeSpmcLock', data, { headers: this.reqHeader });
+    }
+    getIpList(): Observable<any> {
+        return this.http.get(environment.base_url + 'permittedIP', { headers: this.reqHeader });
+    }
+    createIPAddress(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'permittedIP', data, { headers: this.reqHeader });
+    }
+    updateIPAddress(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'PermittedIP/update', data, { headers: this.reqHeader });
+    }
+    deleteIPAddress(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'deleteIPAddress', data, { headers: this.reqHeader });
+    }
+
+    updateWorkshopDays(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateWorkshopDays', data, { headers: this.reqHeader });
+    }
+
+    getWorksdaysTiming(): Observable<any> {
+        return this.http.get(environment.base_url + 'getWorksdaysTiming', { headers: this.reqHeader });
+    }
+
+    saveOffDays(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'saveOffDays', data, { headers: this.reqHeader });
+    }
+
+    getOffDays(): Observable<any> {
+        return this.http.get(environment.base_url + 'getOffDays', { headers: this.reqHeader });
+    }
+
+    saveAwayMessage(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'saveAwayMessage', data, { headers: this.reqHeader });
+    }
+
+    getAwayMessage(): Observable<any> {
+        return this.http.get(environment.base_url + 'getAwayMessage', { headers: this.reqHeader });
+    }
+
+    updateModelCodeFromLaabs(): Observable<any> {
+        return this.http.get(environment.base_url + 'updateModelCodeFromLaabs', { headers: this.reqHeader });
+    }
+    getServicePackageByRegNo(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getServicePackageByRegNo', data, { headers: this.reqHeader });
+    }
+    getCustomerRegNo(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getCustomerRegNo', data, { headers: this.reqHeader });
+    }
+    
+    testMessageSend(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'testMessageSend', data, { headers: this.reqHeader });
     }
 }

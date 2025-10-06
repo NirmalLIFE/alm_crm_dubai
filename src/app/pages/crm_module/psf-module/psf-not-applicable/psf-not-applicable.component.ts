@@ -67,7 +67,6 @@ export class PsfNotApplicableComponent implements OnInit {
             }
           });
         });
-        console.log("array of psf not applicable", this.psf_not_applicable_calls);
         this.load_flag = false;
         this.customerdata();
       } else {
@@ -143,10 +142,6 @@ export class PsfNotApplicableComponent implements OnInit {
             }
           });
           if (this.oldCallData) {
-            console.log(
-              "oldCallData????oldCallData>>>,,,,oldCallData...,.,.,.,,oldCallData",
-              this.oldCallData
-            );
 
             this.openCallHistory();
             // this.dialogService

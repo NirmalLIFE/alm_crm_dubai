@@ -176,7 +176,7 @@
         <modal #changePass class="modal-top animate animate-slide-in-down" [closeOnOutsideClick]="false">
             <ng-template #modalHeader> <div>Update User Password</div> </ng-template>
             <ng-template #modalBody>
-                <form [formGroup]="userPasswordForm" (ngSubmit)="updateUserPassword()" novalidate>
+                <form [formGroup]="userPasswordForm" (ngSubmit)="updateUserPassword(passwordChangeUser.us_id)" novalidate>
                     <div class="relative mb-4">
                         <h4 class="mb-4 text-2xl font-semibold">{{ passwordChangeUser.us_firstname }} - {{ passwordChangeUser.role_name }}</h4>
                     </div>

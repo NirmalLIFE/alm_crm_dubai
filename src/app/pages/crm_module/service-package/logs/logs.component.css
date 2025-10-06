@@ -1,0 +1,31 @@
+/* Container */
+.logs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* space between logs */
+}
+
+/* Each log entry card */
+.log-entry {
+    border: 1px solid #bfdbfe; /* light blue border */
+    border-radius: 0.375rem; /* rounded-md */
+    padding: 1rem; /* p-4 */
+    background-color: #eff6ff; /* light blue background */
+}
+
+/* Meta info (time/date) */
+.log-meta {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem; /* small */
+    color: #2563eb; /* blue-600 */
+    font-weight: 500;
+}
+
+/* Log notes */
+.log-box pre {
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 0.875rem; /* text-sm */
+    color: #1e3a8a; /* blue-900 */
+    line-height: 1.4;
+}

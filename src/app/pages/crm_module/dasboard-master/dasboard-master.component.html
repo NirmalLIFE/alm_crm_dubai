@@ -1,33 +1,64 @@
+<div *ngIf="showWarning"
+    class="relative flex items-center rounded border border-yellow-400 bg-yellow-100 p-2 text-sm text-gray-900">
+
+    <!-- Warning icon -->
+    <span class="text-yellow-600 mr-2 h-5 w-5"> ⚠️ </span>
+
+    <!-- Text content -->
+    <span class="flex-1">
+        <strong class="text-yellow-800">Warning:</strong>
+        Price change request{{ requestedprices.length > 1 ? 's' : '' }}
+        for <strong>{{ requestedprices.length }}</strong> part{{ requestedprices.length > 1 ? 's' : '' }}
+        have been submitted by the Parts Advisor and are awaiting admin approval.
+    </span>
+
+    <!-- Clickable icon -->
+    <span class="ml-2 cursor-pointer text-yellow-600 hover:text-yellow-800" title="View Requests"
+        (click)="goToPriceRequests()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.5 9L11.5 12L8.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M12.5 9L15.5 12L12.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path
+                d="M22 12C22 16.714 22 19.0711 20.5355 20.5355C19.0711 22 16.714 22 12 22C7.28595 22 4.92893 22 3.46447 20.5355C2 19.0711 2 16.714 2 12C2 7.28595 2 4.92893 3.46447 3.46447C4.92893 2 7.28595 2 12 2C16.714 2 19.0711 2 20.5355 3.46447C21.5093 4.43821 21.8356 5.80655 21.9449 8"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+    </span>
+</div>
+
+
 <div *ngIf="us_role_id === '1' || us_role_id === '8' || this.us_role_id === '13'">
     <h5 class="text-lg font-semibold dark:text-white-light" style="text-align: center; padding-bottom: 1rem">Monthly
         Dashboard</h5>
     <div class="mb-5 grid grid-cols-1 gap-4 md:grid-cols-4 md:items-center lg:grid-cols-6" *ngIf="!load_flag">
-        <div class="panel" style="background: linear-gradient(to right, #092c5a,#4089c1);padding: 0.5rem;color: white;">
+        <div class="panel"
+            style="background: linear-gradient(to right, #092c5a, #4089c1); padding: 0.5rem; color: white">
             <div class="text-md font-semibold">Inbound Calls</div>
             <div class="text-3xl font-bold">{{ arr_sample.length }}</div>
         </div>
         <div class="panel"
-            style="background: linear-gradient(to right, #764BA2 , #667EEA);padding: 0.5rem;color: whitesmoke;">
+            style="background: linear-gradient(to right, #764ba2, #667eea); padding: 0.5rem; color: whitesmoke">
             <div class="text-md font-semibold">Unique Inbound Calls</div>
             <div class="text-3xl font-bold">{{ unique_inbound.length }}</div>
         </div>
         <div class="panel"
-            style="background: linear-gradient(to right, #1A2980 , #26D0CE);padding: 0.5rem;color: whitesmoke;">
+            style="background: linear-gradient(to right, #1a2980, #26d0ce); padding: 0.5rem; color: whitesmoke">
             <div class="text-md font-semibold">Marketing Calls</div>
             <div class="text-3xl font-bold">{{ marketing_calls.length }}</div>
         </div>
         <div class="panel"
-            style="background: linear-gradient(to right, #314755, #26a0da);padding: 0.5rem;color: whitesmoke;">
+            style="background: linear-gradient(to right, #314755, #26a0da); padding: 0.5rem; color: whitesmoke">
             <div class="text-md font-semibold">Unique Marketing Calls</div>
             <div class="text-3xl font-bold">{{ totalmarkcount }}</div>
         </div>
         <div class="panel"
-            style="background: linear-gradient(to right, #44A08D, #093637 );padding: 0.5rem;color: whitesmoke;">
+            style="background: linear-gradient(to right, #44a08d, #093637); padding: 0.5rem; color: whitesmoke">
             <div class="text-md font-semibold">Lost Customer Converted</div>
             <div class="text-3xl font-bold">{{ lostconvert }}</div>
         </div>
         <div class="panel"
-            style="background: linear-gradient(to right, #AA076B, #61045F );padding: 0.5rem;color: whitesmoke;">
+            style="background: linear-gradient(to right, #aa076b, #61045f); padding: 0.5rem; color: whitesmoke">
             <div class="text-md font-semibold">Dissatisfied Closed</div>
             <div class="text-3xl font-bold">{{ dis_count }}/{{ dissatisfied_cust.length }}</div>
         </div>
@@ -172,7 +203,7 @@
     </div>
 </div>
 <div
-    *ngIf="us_role_id != '1' && us_role_id != '17' && us_role_id != '11' && this.us_role_id != '13' && this.us_role_id != '8'">
+    *ngIf="us_role_id != '1' && us_role_id != '17' && us_role_id != '11' && this.us_role_id != '13' && this.us_role_id != '8' && this.us_role_id != '20'">
     <app-cre-dash> </app-cre-dash>
 </div>
 <div *ngIf="us_role_id === '17'">

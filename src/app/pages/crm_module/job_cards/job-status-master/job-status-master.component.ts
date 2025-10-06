@@ -52,7 +52,6 @@ export class JobStatusMasterComponent implements OnInit {
           }
         });
 
-        console.log(this.statusMap);
       }
     });
   }

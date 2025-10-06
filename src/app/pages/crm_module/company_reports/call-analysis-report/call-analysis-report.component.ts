@@ -49,6 +49,7 @@ export class CallAnalysisReportComponent implements OnInit {
     public nmk_lvl_2: boolean = true;
 
     public loderForModal: boolean = false;
+    public searchFlag: boolean = false;
 
     @ViewChild('modal5') modal!: ModalComponent;
 
@@ -59,6 +60,7 @@ export class CallAnalysisReportComponent implements OnInit {
         { field: 'datetime', title: 'Datetime', isUnique: false },
         { field: 'src', title: 'Customer Number', isUnique: true },
         { field: 'customer_name', title: 'Customer Name', isUnique: false },
+        { field: 'source', title: 'Lead Source', isUnique: false },
         { field: 'call_purpose', title: 'Purpose', isUnique: false },
         { field: 'converted', title: 'Converted', isUnique: false },
         { field: 'remarks', title: 'Customer Remarks', isUnique: false },
@@ -117,6 +119,7 @@ export class CallAnalysisReportComponent implements OnInit {
     }
 
     getInboundCallDetails() {
+        this.searchFlag = true;
         this.load_flag = true;
         this.mk_lvl_1 = true;
         this.mk_lvl_2 = true;
@@ -156,22 +159,31 @@ export class CallAnalysisReportComponent implements OnInit {
 
         this.userServices.getLatestCallReportData(data).subscribe((rData: any) => {
             let tempNumberMaster = rData.call_data.filter((item: any) => item.dst == '6300' && item.src.length > 5 && item.src != 'Unknown');
-            const seen: Record<number, boolean> = {}; // or use Map<number, boolean>()
-            let totalUniqueCallsTemp = tempNumberMaster.filter((obj: any) => {
-                if (seen[obj.src]) {
-                    return false;
+            // const seen: Record<number, boolean> = {}; // or use Map<number, boolean>()
+            // let totalUniqueCallsTemp = tempNumberMaster.filter((obj: any) => {
+            //     if (seen[obj.src]) {
+            //         return false;
+            //     }
+            //     seen[obj.src] = true;
+            //     return true;
+            // });
+
+            // Step 2: Create a map to store the first call by src based on earliest datetime
+            const firstCallsMap = new Map<string, any>();
+            tempNumberMaster.forEach((call: any) => {
+                const existing = firstCallsMap.get(call.src);
+                if (!existing || new Date(call.datetime) < new Date(existing.datetime)) {
+                    firstCallsMap.set(call.src, call);
                 }
-                seen[obj.src] = true;
-                return true;
             });
+
+            // Step 3: Convert map values to array
+            const totalUniqueCallsTemp = Array.from(firstCallsMap.values());
             this.totalUniqueCalls = totalUniqueCallsTemp.filter((element: any) => {
                 return !this.commonNumbers.some((element2) => {
                     return element.src.substring(element.src.length - 9) === element2.cn_number.substring(element2.cn_number.length - 9);
                 });
             });
-            console.log('total  calla????????????????', tempNumberMaster);
-
-            console.log('total uniquoe calla????????????????', this.totalUniqueCalls);
             this.totalMarketingCalls = this.totalUniqueCalls.filter((item: any) => item.srctrunk == '025503556' || item.srctrunk == '25503556');
             this.totalNonMarketingCalls = this.totalUniqueCalls.filter((item: any) => item.srctrunk != '025503556' && item.srctrunk != '25503556');
             this.load_flag = false;
@@ -182,7 +194,11 @@ export class CallAnalysisReportComponent implements OnInit {
     }
 
     getMarketingCustomerDetails() {
+        this.searchFlag = true;
         let numberArray: any[] = [];
+        this.MarketingExistingCustomers = [];
+        this.MarketingNewCustomers = [];
+        this.MarketingDupeCustomers = [];
         this.totalMarketingCalls.forEach((element: any) => {
             numberArray.push(element.src.substring(element.src.length - 9));
             this.numberArrayMaster.push(element.src.substring(element.src.length - 9));
@@ -209,14 +225,42 @@ export class CallAnalysisReportComponent implements OnInit {
                 });
                 this.mk_lvl_1 = false;
                 this.getMarketingConversion();
+            } else {
+                this.searchFlag = false;
             }
         });
     }
     getMarketingConversion() {
+        this.searchFlag = true;
+        this.MarketingAttendedCustomers = [];
+        this.MarketingMissedCustomers = [];
+        this.MarketingMissedConverted = [];
+        this.MarketingAttendedConverted = [];
+        this.MarketingExstAttendedCustomers = [];
+        this.MarketingExstMissedCustomers = [];
+        this.MarketingExstMissedConverted = [];
+        this.MarketingExstAttendedConverted = [];
         this.MarketingMissedCustomers = this.MarketingNewCustomers.filter((obj: any) => obj.disposition != 'ANSWERED');
         this.MarketingAttendedCustomers = this.MarketingNewCustomers.filter((obj: any) => obj.disposition == 'ANSWERED');
-        this.MarketingMissedConverted = this.MarketingMissedCustomers.filter((obj: any) => obj.customer_details != null);
-        this.MarketingAttendedConverted = this.MarketingAttendedCustomers.filter((obj: any) => obj.customer_details != null);
+        // this.MarketingMissedConverted = this.MarketingMissedCustomers.filter((obj: any) => obj.customer_details != null);
+        // this.MarketingAttendedConverted = this.MarketingAttendedCustomers.filter((obj: any) => obj.customer_details != null);
+        this.MarketingMissedConverted = this.MarketingMissedCustomers.filter(
+            (obj: any) =>
+                obj.customer_details != null &&
+                obj.customer_details.job_cards &&
+                obj.customer_details.job_cards.length > 0 &&
+                obj.customer_details.job_cards[0].job_no != null &&
+                obj.customer_details.job_cards[0].job_no !== ''
+        );
+        this.MarketingAttendedConverted = this.MarketingAttendedCustomers.filter(
+            (obj: any) =>
+                obj.customer_details != null &&
+                obj.customer_details.job_cards &&
+                obj.customer_details.job_cards.length > 0 &&
+                obj.customer_details.job_cards[0].job_no != null &&
+                obj.customer_details.job_cards[0].job_no !== ''
+        );
+
         this.MarketingExstAttendedCustomers = this.MarketingExistingCustomers.filter((obj: any) => obj.disposition == 'ANSWERED');
         this.MarketingExstMissedCustomers = this.MarketingExistingCustomers.filter((obj: any) => obj.disposition != 'ANSWERED');
 
@@ -236,17 +280,17 @@ export class CallAnalysisReportComponent implements OnInit {
                 this.MarketingExstMissedConverted.push(element);
             }
         });
-        console.log('MarketingMissedCustomers>>>>>>>>>>>', this.MarketingMissedCustomers);
-        console.log('MarketingAttendedCustomers>>>>>>>>>>>', this.MarketingAttendedCustomers);
 
         //let missedcustomers = this.MarketingMissedCustomers.filter()
 
         // this.MarketingExstMissedConverted = this.MarketingExstMissedCustomers.filter((obj: any) => obj.customer_details != null);
         // this.MarketingExstAttendedConverted = this.MarketingExstAttendedCustomers.filter((obj: any) => obj.customer_details != null);
         this.mk_lvl_2 = false;
+        this.searchFlag = false;
     }
 
     getNonMarketingCustomerDetails() {
+        this.searchFlag = true;
         let numberArray: any[] = [];
         this.totalNonMarketingCalls.forEach((element: any) => {
             numberArray.push(element.src.substring(element.src.length - 9));
@@ -274,14 +318,32 @@ export class CallAnalysisReportComponent implements OnInit {
                 });
                 this.nmk_lvl_1 = false;
                 this.getNonMarketingConversion();
+            } else {
+                this.searchFlag = false;
             }
         });
     }
     getNonMarketingConversion() {
         this.nonMarketingMissedCustomers = this.nonMarketingNewCustomers.filter((obj: any) => obj.disposition != 'ANSWERED');
         this.nonMarketingAttendedCustomers = this.nonMarketingNewCustomers.filter((obj: any) => obj.disposition == 'ANSWERED');
-        this.nonMarketingMissedConverted = this.nonMarketingMissedCustomers.filter((obj: any) => obj.customer_details != null);
-        this.nonMarketingAttendedConverted = this.nonMarketingAttendedCustomers.filter((obj: any) => obj.customer_details != null);
+        // this.nonMarketingMissedConverted = this.nonMarketingMissedCustomers.filter((obj: any) => obj.customer_details != null);
+        // this.nonMarketingAttendedConverted = this.nonMarketingAttendedCustomers.filter((obj: any) => obj.customer_details != null);
+        this.nonMarketingMissedConverted = this.nonMarketingMissedCustomers.filter(
+            (obj: any) =>
+                obj.customer_details != null &&
+                obj.customer_details.job_cards &&
+                obj.customer_details.job_cards.length > 0 &&
+                obj.customer_details.job_cards[0].job_no != null &&
+                obj.customer_details.job_cards[0].job_no !== ''
+        );
+        this.nonMarketingAttendedConverted = this.nonMarketingAttendedCustomers.filter(
+            (obj: any) =>
+                obj.customer_details != null &&
+                obj.customer_details.job_cards &&
+                obj.customer_details.job_cards.length > 0 &&
+                obj.customer_details.job_cards[0].job_no != null &&
+                obj.customer_details.job_cards[0].job_no !== ''
+        );
         this.nonMarketingExstAttendedCustomers = this.nonMarketingExistingCustomers.filter((obj: any) => obj.disposition == 'ANSWERED');
         this.nonMarketingExstMissedCustomers = this.nonMarketingExistingCustomers.filter((obj: any) => obj.disposition != 'ANSWERED');
 
@@ -305,13 +367,18 @@ export class CallAnalysisReportComponent implements OnInit {
         // this.MarketingExstMissedConverted = this.MarketingExstMissedCustomers.filter((obj: any) => obj.customer_details != null);
         // this.MarketingExstAttendedConverted = this.MarketingExstAttendedCustomers.filter((obj: any) => obj.customer_details != null);
         this.nmk_lvl_2 = false;
+        this.searchFlag = false;
     }
 
     getNewCustomerWithoutCall() {
+        this.searchFlag = true;
         this.userServices
             .getCustomerWithoutCallsData({ numbers: this.numberArrayMaster, start_date: this.start_date, end_date: this.end_date })
             .subscribe((rData: any) => {
                 if (rData.ret_data == 'success') {
+                    this.searchFlag = false;
+                } else {
+                    this.searchFlag = false;
                 }
             });
     }
@@ -522,6 +589,11 @@ export class CallAnalysisReportComponent implements OnInit {
                         if ('customer_details' in element) {
                             if (element.customer_details) {
                                 element.customer_name = element.customer_details.customer_name;
+                                element.customer_code = element.customer_details.customer_code;
+
+                                if (element.customer_details.job_cards) {
+                                    element.car_reg_no = element.customer_details.job_cards[0].car_reg_no;
+                                }
                             }
                             if (!element.customer_details) {
                                 element.customer_name = customer.customer_name;
@@ -541,12 +613,20 @@ export class CallAnalysisReportComponent implements OnInit {
                 element.call_purpose = 'Missing';
                 customer_with_id.forEach((customer: any) => {
                     if (customer.ystar_call_id == element.uniqueid) {
+                        //&& customer.source_id == '1'
                         element.call_purpose = customer.call_purpose == null ? 'Missing' : customer.call_purpose;
                         element.remarks = customer.lead_note == null ? '' : customer.lead_note;
+                        element.source = customer.ld_src == null ? '' : customer.ld_src;
                     }
+
+                    // if (customer.phone.slice(-9) === element.src.slice(-9)) {
+                    //     element.source_id = customer.source_id == null ? '' : customer.source_id;
+                    //     element.lead_createdon = customer.lead_createdon == null ? '' : customer.lead_createdon;
+                    // }
                 });
             });
             this.displaydetailsForModal = dataArray;
+
             this.tempArrayofAllDetails = dataArray;
             //For Filtering missed Call
             this.filterMissing = dataArray.filter((data: any) => {
@@ -635,11 +715,6 @@ export class CallAnalysisReportComponent implements OnInit {
             let not_converterd_gen = this.filterGeneral.filter((item: any) => item.converted == 'Not Converted');
             let not_converterd_camp = this.filterCampaign.filter((item: any) => item.converted == 'Not Converted');
             let not_converterd_quote = this.filterQuotation.filter((item: any) => item.converted == 'Not Converted');
-
-            console.log('filterGeneral>>>>>>>>>>>', not_converterd_gen);
-            console.log('filterAppointment>>>>>>>>>>>', not_converterd_app);
-            console.log('filterQuotation>>>>>>>>>>>', not_converterd_camp);
-            console.log('filterCampaign>>>>>>>>>>>', not_converterd_quote);
 
             this.loderForModal = false;
         });

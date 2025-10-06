@@ -52,7 +52,6 @@ export class UserTimeScheduleComponent implements OnInit {
     });
     this.userServices.getUserWorkingTime(atob(this.userId)).subscribe((rData: any) => {
       if (rData.ret_data == "success") {
-        console.log(rData);
         rData.worktime.forEach((element: any) => {
           // let fn_start=new Date(element.fnstart).toLocaleString('en', {timeZone: 'Asia/Dubai'});
           // console.log(fn_start);
@@ -63,7 +62,6 @@ export class UserTimeScheduleComponent implements OnInit {
           this.workTime.push(element);
         });
       }
-      console.log(this.workTime);
     });
 
   }
@@ -119,7 +117,6 @@ export class UserTimeScheduleComponent implements OnInit {
           'user': this.userId,
           'work': work,
         }
-        console.log(senddata);
         this.userServices.updateUserWorktime(senddata).subscribe((rdata: any) => {
           if (rdata.ret_data == "success") {
             this.coloredToast("success", "Worktime Updated successfully");

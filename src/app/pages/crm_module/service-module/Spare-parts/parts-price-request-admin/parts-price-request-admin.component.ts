@@ -74,23 +74,41 @@ export class PartsPriceRequestAdminComponent implements OnInit {
             </div>
         </div>
 
+        <div style="margin-top:15px;">
+            <label for="thresholdSelect" style="font-weight:bold;">Select Threshold:</label><br>
+            <select id="thresholdSelect" style="
+                padding:6px 10px;
+                border:1px solid #ccc;
+                border-radius:6px;
+                font-size:14px;
+                margin-top:6px;
+                width:300px;
+                cursor:pointer;
+            ">
+                <option value="">-- Select a threshold value--</option>
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+            </select>
+        </div>
+
         <p style="margin-top:8px; color:#d33;">
             <strong>Note:</strong> Updating this part's price will also
             update the display price in all Service Packages that use it.
         </p>
     </div>
-`,
-
-            input: 'number',
-            inputValue: this.roundingThreshold || 10,
-            inputAttributes: {
-                min: '1',
-                step: '1',
-            },
+        `,
             width: 800,
             showCancelButton: true,
             confirmButtonText: 'Apply & Update',
             cancelButtonText: 'Cancel',
+            preConfirm: () => {
+                const val = (document.getElementById('thresholdSelect') as HTMLSelectElement).value;
+                if (!val) {
+                    Swal.showValidationMessage('Please select a threshold value.');
+                    return false;
+                }
+                return val; // Will be passed as result.value
+            },
         }).then((result) => {
             if (!result.isConfirmed) return;
 

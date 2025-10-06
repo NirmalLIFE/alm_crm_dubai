@@ -32,7 +32,6 @@ export class CallLogAddScreenComponent implements OnInit {
     button_act_state = 0;
     public filteredNotesList: any = [];
 
-
     constructor(private userServices: StaffPostAuthService, private fb: FormBuilder) {
         this.userServices.getPreloadDatas().subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
@@ -47,7 +46,7 @@ export class CallLogAddScreenComponent implements OnInit {
         });
         this.userServices.userList().subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                this.saCreList = rData.userList.filter((item: any) => item.us_role_id == '11' || item.us_role_id == '9');
+                this.saCreList = rData.userList.filter((item: any) => item.us_role_id == '11' || item.us_role_id == '9' || item.us_role_id == '19');
             }
         });
 
@@ -69,6 +68,7 @@ export class CallLogAddScreenComponent implements OnInit {
             lead_status: [null],
             lead_code: [null],
             apptm_group: ['1'],
+            lead_category: [null],
         });
         this.basic = {
             dateFormat: 'Y-m-d',
@@ -82,7 +82,6 @@ export class CallLogAddScreenComponent implements OnInit {
             rec_call_id: this.callData.rec_call_id,
             call_log_id: this.callData.call_log_id,
         });
-        console.log('data  after opening modal?????????????', this.callData);
         this.getCallDetails();
     }
 
@@ -157,6 +156,12 @@ export class CallLogAddScreenComponent implements OnInit {
         this.leadLog.controls['assigned_to'].setValue(null);
         this.leadLog.controls['call_note'].setValue(null);
         this.leadLog.controls['campaign_data'].setValue(null);
+
+        if (this.leadLog.controls['call_purpose'].value == '1' || this.leadLog.controls['call_purpose'].value == '3') {
+            this.leadLog.controls['lead_category'].setValue('2');
+        } else {
+            this.leadLog.controls['lead_category'].setValue('0');
+        }
 
         if (this.leadLog.controls['call_purpose'].value == '2') {
             this.userServices.getCampaignList().subscribe((rData: any) => {
@@ -253,6 +258,11 @@ export class CallLogAddScreenComponent implements OnInit {
                     return;
                 }
             }
+            // if (this.leadLog.controls['lead_category'].value == '' || this.leadLog.controls['lead_category'].value == null) {
+            //     this.coloredToast('danger', 'Lead Category  required');
+            //     this.button_act_state = 0;
+            //     return;
+            // }
             if (this.leadLog.value.appointment_date != '' || this.leadLog.value.appointment_date != null) {
                 let datevalD = new Date(this.leadLog.value.appointment_date);
                 this.leadLog.value.appointment_date =
@@ -319,6 +329,22 @@ export class CallLogAddScreenComponent implements OnInit {
     onSearchChange(searchTerm: string) {
         // Filter the notes based on the search term
         this.filteredNotesList = this.notesList.filter((note) => note.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 15); // Limit to 15 results
+    }
+
+    getLeadCategoryClass(value: string | number | null | undefined): string {
+        switch (value) {
+            case '2':
+            case 2:
+                return 'high-priority';
+            case '1':
+            case 1:
+                return 'medium-priority';
+            case '0':
+            case 0:
+                return 'low-priority';
+            default:
+                return '';
+        }
     }
 
     coloredToast(color: string, message: string) {

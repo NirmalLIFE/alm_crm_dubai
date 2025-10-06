@@ -1214,31 +1214,10 @@ export class ServicePkgLabourSetupComponent implements OnInit {
     }
 
     saveServicePackage(type: number) {
-        const seen = new Set<string>();
-        let duplicatePartNo: string | null = null;
-
-        for (const part of this.service_details.parts) {
-            if (part?.PART_NO) {
-                const partNo = String(part.PART_NO).trim().toLowerCase();
-                if (seen.has(partNo)) {
-                    duplicatePartNo = part.PART_NO;
-                    break;
-                }
-                seen.add(partNo);
-            }
-        }
-
-        if (duplicatePartNo) {
-            this.coloredToast('danger', `Duplicate partcode found: ${duplicatePartNo}`);
-            this.saveFlag = false;
-            this.draftButtonFlag = false;
-            return;
-        }
-
         // --- Pending warnings (red SVG) check (run only if not bypassed) ---
         if (!this.pendingWarningBypass && type != 6) {
             const warningIcons = document.querySelectorAll('svg[title="Multiple group items"][fill="red"]');
-            if (warningIcons.length > 0) {
+            if (warningIcons.length > 1) {
                 Swal.fire({
                     html: `
   <!-- Icon row -->
@@ -1410,7 +1389,7 @@ export class ServicePkgLabourSetupComponent implements OnInit {
                     return isValid;
                 });
 
-                console.log('allFieldsHaveValue>>>>>>>>>>', allFieldsHaveValue);
+                // console.log('allFieldsHaveValue>>>>>>>>>>', allFieldsHaveValue);
 
                 if (!allFieldsHaveValue) {
                     this.coloredToast('danger', 'Please fill in all fields and ensure price is not zero for applicable consumables.');
@@ -1565,6 +1544,8 @@ export class ServicePkgLabourSetupComponent implements OnInit {
                             return item;
                         });
                     });
+                    this.saveFlag = false;
+                    this.draftButtonFlag = false;
                 } else {
                     // user cancelled the second swal
                     // reset bypass so future saves check the red SVG again
@@ -1636,29 +1617,7 @@ export class ServicePkgLabourSetupComponent implements OnInit {
     }
 
     saveLabourAndParts(service_details: any, type: number) {
-        console.log('hgfhgfhgfhfhgdfh', service_details);
-
-        const seen = new Set<string>();
-        let duplicatePartNo: string | null = null;
-
-        for (const part of this.service_details.parts) {
-            if (part?.PART_NO) {
-                const partNo = String(part.PART_NO).trim().toLowerCase();
-                if (seen.has(partNo)) {
-                    duplicatePartNo = part.PART_NO;
-                    break;
-                }
-                seen.add(partNo);
-            }
-        }
-
-        if (duplicatePartNo) {
-            this.coloredToast('danger', `Duplicate partcode found: ${duplicatePartNo}`);
-            this.saveFlag = false;
-            this.draftButtonFlag = false;
-            return;
-        }
-
+        // console.log('hgfhgfhgfhfhgdfh', service_details);
         this.userServices.saveServicePackageLabours(service_details).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 const allowedRoles = [1, 2, 10, 13];
@@ -1758,27 +1717,6 @@ export class ServicePkgLabourSetupComponent implements OnInit {
     }
 
     openUnselectedPartsModal(modalRef: any): void {
-        const seen = new Set<string>();
-        let duplicatePartNo: string | null = null;
-
-        for (const part of this.service_details.parts) {
-            if (part?.PART_NO) {
-                const partNo = String(part.PART_NO).trim().toLowerCase();
-                if (seen.has(partNo)) {
-                    duplicatePartNo = part.PART_NO;
-                    break;
-                }
-                seen.add(partNo);
-            }
-        }
-
-        if (duplicatePartNo) {
-            this.coloredToast('danger', `Duplicate partcode found: ${duplicatePartNo}`);
-            this.saveFlag = false;
-            this.draftButtonFlag = false;
-            return;
-        }
-
         this.unselectedSpareParts = this.service_details.parts.filter((part: any) => part.applicable == 0);
         modalRef.open();
     }
@@ -1820,27 +1758,6 @@ export class ServicePkgLabourSetupComponent implements OnInit {
 
     //  LABOURS AND CONSUMABLESSSSSSSSS....
     openunselectedLabourModal(modalRef: any): void {
-        const seen = new Set<string>();
-        let duplicatePartNo: string | null = null;
-
-        for (const part of this.service_details.parts) {
-            if (part?.PART_NO) {
-                const partNo = String(part.PART_NO).trim().toLowerCase();
-                if (seen.has(partNo)) {
-                    duplicatePartNo = part.PART_NO;
-                    break;
-                }
-                seen.add(partNo);
-            }
-        }
-
-        if (duplicatePartNo) {
-            this.coloredToast('danger', `Duplicate partcode found: ${duplicatePartNo}`);
-            this.saveFlag = false;
-            this.draftButtonFlag = false;
-            return;
-        }
-
         this.unselectedLabour = [
             ...this.service_details.Labour.filter((part: any) => part.applicable == 0),
             ...this.service_details.consumables.filter((part: any) => part.applicable == 0),

@@ -675,6 +675,7 @@ export class ServicePkgPartsSetupComponent implements OnInit {
                         this.enginePartsList.push({
                             eng_no: this.getSelectedEngineNo(),
                             model_code: item.spmc_value,
+                            spmc_model_year: item.spmc_model_year,
                             price: partTotal,
                         });
                     }
@@ -765,6 +766,9 @@ export class ServicePkgPartsSetupComponent implements OnInit {
             this.service_details.user_id = atob(atob(localStorage.getItem('us_id') || '{}'));
             this.service_details.engine_id = this.engineNO;
 
+            // this.saveFlag = false;
+            // this.draftButtonFlag = false;
+            // console.log('this.service_details', this.service_details);
             this.userServices.saveServicePackageParts(this.service_details).subscribe((rdata: any) => {
                 if (rdata.ret_data == 'success') {
                     this.router.navigateByUrl('servicePackageRequested');

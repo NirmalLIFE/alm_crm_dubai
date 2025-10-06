@@ -46,7 +46,6 @@ export class QuoteListComponent implements OnInit {
         this.userServices.userList().subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
                 this.usersList = rData.userList.filter((role: any) => role.us_role_id == '11');
-                console.log('this.usersList', this.usersList);
             }
         });
     }

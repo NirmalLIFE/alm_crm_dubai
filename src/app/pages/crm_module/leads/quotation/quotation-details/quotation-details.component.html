@@ -308,8 +308,13 @@
             </div>
         </div>
         <div class="panel">
-            <div class="mb-5 flex items-center justify-between">
+           <div class="mb-5 flex items-center justify-between">
                 <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="form-checkbox text-success peer" [checked]="quotationDetails.ld_verify_flag == 1"
+                        (change)="updateLeadVerification(quotationDetails, quotationDetails.ld_verify_flag == 0 ? 1 : 0)" />
+                    <span class="peer-checked:text-success">Verified</span>
+                </label>
             </div>
             <div class="panel flex-1 p-0">
                 <ng-container>

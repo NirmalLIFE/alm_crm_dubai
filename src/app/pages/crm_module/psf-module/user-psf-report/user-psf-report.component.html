@@ -59,7 +59,7 @@
                         <tr>
                             <td style="padding: 1%;background-color: #fff;">Non Contactable %</td>
                             <td style="padding: 1%; text-align: center; color: red;background-color: #fff">
-                               
+
                                 <b *ngIf="userpsf_details.total_psf_calls != 0">{{
                                     (userpsf_details.non_contactable /
                                     userpsf_details.total_calls) *
@@ -72,7 +72,7 @@
                         <tr>
                             <td style="padding: 1%;background-color: #fff">Incomplete %</td>
                             <td style="padding: 1%; text-align: center; color: orange;background-color: #fff">
-                               
+
                                 <b *ngIf="userpsf_details.total_psf_calls != 0">{{
                                     (userpsf_details.incomplete_calls /
                                     userpsf_details.total_calls) *
@@ -85,8 +85,8 @@
                         <tr>
                             <td style="padding: 1%;background-color: #fff">Contacted %</td>
                             <td style="padding: 1%; text-align: center; color: green;background-color: #fff">
-                               
-                               <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">{{
                                     ((userpsf_details.ext_satisfied +
                                     userpsf_details.fairlyHappy_psf_calls +
                                     userpsf_details.happy_psf_calls +
@@ -136,7 +136,7 @@
                                 Fairly Satisfied %
                             </td>
                             <td style="padding: 1%; text-align: center; color: red;background-color: #fff">
-                                
+
                                 <b *ngIf="userpsf_details.total_psf_calls != 0">
                                     {{(userpsf_details.fairlyHappy_psf_calls /
                                     (userpsf_details.ext_satisfied +
@@ -154,7 +154,7 @@
                                 Satisfied %
                             </td>
                             <td style="padding: 1%; text-align: center; color: red;background-color: #fff">
-                                
+
                                 <b *ngIf="userpsf_details.total_psf_calls != 0">
                                     {{
                                     (userpsf_details.happy_psf_calls /
@@ -173,8 +173,8 @@
                                 Dissatisfied %
                             </td>
                             <td style="padding: 1%; text-align: center; color: red;background-color: #fff;">
-                              
-                               <b *ngIf="userpsf_details.total_psf_calls != 0">{{
+
+                                <b *ngIf="userpsf_details.total_psf_calls != 0">{{
                                     (userpsf_details.dissatisfied_psf_calls /
                                     (userpsf_details.ext_satisfied +
                                     userpsf_details.fairlyHappy_psf_calls +
@@ -272,6 +272,7 @@
                 <span class="badge badge-outline-danger" *ngIf="value.lastcre_response == 'PENDING'">PENDING</span>
                 <span class="badge badge-outline-success" *ngIf="value.lastcre_response == 'EXTREMLY HAPPY'">EXTREMLY
                     HAPPY</span>
+                <span class="badge badge-outline-info" *ngIf="value.lastcre_response == 'HAPPY'">HAPPY</span>
                 <span class="badge badge-outline-warning" *ngIf="value.lastcre_response == 'NOT ANSWERING'">NOT
                     ANSWERING</span>
                 <span class="badge badge-outline-danger"
@@ -536,7 +537,7 @@
     </modal>
     <div *ngIf="load_flag" style="text-align: center">
         <span
-        class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
     </div>
 </div>
 <!-- <div *ngIf="load_flag" style="text-align: center">

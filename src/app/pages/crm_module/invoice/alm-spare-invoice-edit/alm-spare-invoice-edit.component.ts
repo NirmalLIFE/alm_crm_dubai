@@ -93,8 +93,7 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
     }
 
     setMargin(item: any, spare: any, num: any) {
-        console.log(item, num);
-        console.log('this.invoiceDetails', this.invoiceDetails);
+
         const items = item.items;
         if (num == 1) {
             spare.vatflag = false;
@@ -115,14 +114,12 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
                 currentItem.inv_item_qty > '0'
             ) {
                 this.getSparePartsMargin();
-                console.log(currentItem);
             }
         }
     }
 
     getSparePartsMargin() {
         this.invoiceDetails.inv_alm_margin_total = 0;
-        console.log('this.isChecked', this.isChecked);
 
         this.invoiceDetails.items.forEach((element: any) => {
             this.sparePartsMargin.forEach((element2) => {
@@ -146,8 +143,7 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
                 }
             });
         });
-        console.log('invoice list >>>>>>>>>>>', this.invoiceDetails);
-        console.log(' this.sparePartsMargin>>>>>>>>>>>', this.sparePartsMargin);
+
 
         let finalprice = 0;
         let finalvat = 0;
@@ -190,20 +186,18 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
     }
 
     checkReturnQTY(spare: any) {
-        console.log('invoiceDetails', this.invoiceDetails);
-        console.log('spare ', spare);
+
 
         if (spare.inv_item_return_qty >= 0) {
             if (spare.inv_item_return_qty <= spare.inv_item_qty) {
                 let return_amount = spare.inv_item_return_qty * (spare.inv_item_nm_unit_price * 1 + spare.inv_item_nm_vat * 1);
                 spare.return_amount = return_amount.toFixed(2);
                 let item_qty = spare.inv_item_qty - spare.inv_item_return_qty;
-                console.log('invoiceDetails 2 ', this.invoiceDetails);
-                console.log('spare 2', spare);
+
                 if (item_qty != 0) {
                     let subtotal = spare.inv_item_qty * (spare.inv_item_nm_unit_price * 1 + spare.inv_item_nm_vat * 1) - spare.return_amount;
                     this.sparePartsMargin.forEach((element) => {
-                        console.log('subtotal 1', subtotal);
+
                         if (subtotal >= element.spm_start_price && subtotal <= element.spm_end_price) {
                             spare.inv_item_margin = element.spm_price;
                             spare.margin_total = (
@@ -249,7 +243,6 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
         }, 0);
     }
     deleteSpare(i: number, element: any) {
-        console.log('i and number >>>>>>>>>>>', i, element);
         Swal.fire({
             icon: 'warning',
             title: 'You are about to delete a spare, Are you sure?',
@@ -288,9 +281,7 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
                 spare.inv_item_margin = '0.00';
             }
             const margin_applied = parseFloat(spare.inv_item_margin);
-            console.log('margin_applied', margin_applied);
-            console.log('item_qty', item_qty);
-            console.log('subtotal', subtotal);
+
             this.userServices.getUserRoleMargin().subscribe((rdata: any) => {
                 if (rdata.ret_data === 'success') {
                     this.userRoleMargins = rdata.userRoleMargins;
@@ -299,10 +290,6 @@ export class AlmSpareInvoiceEditComponent implements OnInit {
                             if (element.ml_role_id == this.user_role) {
                                 const min_margin = element.ml_minimum_margin;
                                 const max_margin = element.ml_maximum_margin;
-
-                                console.log('min_margin >>>>>>>>', min_margin);
-                                console.log('max_margin >>>>>>>>>', max_margin);
-                                console.log('margin_applied >>>>>>>>>', margin_applied);
 
                                 if (min_margin != 9999) {
                                     if (margin_applied >= min_margin) {

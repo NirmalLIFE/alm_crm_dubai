@@ -201,7 +201,6 @@ export class QuotationDetailsComponent implements OnInit {
         const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-based
         const dd = String(today.getDate()).padStart(2, '0');
         const todayFormatted = `${yyyy}-${mm}-${dd}`;
-        console.log('data>>>>>>>>>>>>>>', data);
         if (data['verify'] != '0') {
             data['lead_id'] = this.lead_id;
 
@@ -248,6 +247,31 @@ export class QuotationDetailsComponent implements OnInit {
                 }
             });
         }
+    }
+
+    updateLeadVerification(lead: any, newFlag: number) {
+        // Set the new verification flag
+        lead.ld_verify_flag = newFlag;
+
+        let data = {
+            ld_verify_flag: newFlag,
+            lead_id: lead.lead_id,
+        };
+
+        this.userServices.updateLeadVerificationFlag(data).subscribe(
+            (rdata: any) => {
+                if (rdata.ret_data == 'success') {
+                    this.coloredToast('success', 'Lead Verify Flag Updated Successfully');
+                    this.getQuoteLeads(); // Refresh the lead list if needed
+                }
+            },
+            (error: any) => {
+                // Roll back the flag in case of an error
+                lead.ld_verify_flag = newFlag == 1 ? 0 : 1;
+                console.error('Error updating lead verification:', error);
+                this.coloredToast('error', 'Failed to Update Lead Verify Flag');
+            }
+        );
     }
 
     coloredToast(color: string, message: string) {

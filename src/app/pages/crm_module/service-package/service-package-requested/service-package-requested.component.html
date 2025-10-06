@@ -1,24 +1,17 @@
 <ol class="flex font-semibold text-primary dark:text-white-dark">
     <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <a
-            routerLink="/dashboard"
-            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-            >Home</a
-        >
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
-        >
-            Service Management</a
-        >
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
+            Service Management</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-        >
-            Service Package Requested</a
-        >
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Service Package Requested</a>
     </li>
 </ol>
 
@@ -26,22 +19,20 @@
     <h3 class="mb-4 text-lg font-semibold text-gray-800">Service Requested Packages</h3>
     <div *ngIf="load_flag" style="text-align: center">
         <span
-            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
-        ></span>
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
     </div>
     <div *ngIf="!load_flag">
         <!-- Parts Advisor -->
         <div *ngIf="user_role == '17'">
             <ng-container *ngIf="filteredPackages.length > 0; else noParts">
-                <div
-                    *ngFor="let pkg of filteredPackages"
+                <div *ngFor="let pkg of filteredPackages"
                     class="mb-3 flex items-center rounded bg-primary-light p-3.5 text-primary dark:bg-primary-dark-light"
-                    style="font-size: 18px"
-                >
+                    style="font-size: 18px">
                     <div class="ltr:pr-2 rtl:pl-2">
                         <p>
                             Parts required for model code <strong>{{ pkg.spmc_value }}</strong> (created on
-                            {{ pkg.spmc_created_on | date : 'dd-MM-yyyy hh:mm a' }}) by <strong>{{ pkg.created_by_name }}</strong>
+                            {{ pkg.spmc_created_on | date : 'dd-MM-yyyy hh:mm a' }}) by <strong>{{ pkg.created_by_name
+                                }}</strong>
                         </p>
                         <div class="mb-1 mt-1 font-semibold">
                             Current Status –
@@ -49,15 +40,15 @@
                                 {{ getPackageStatus(pkg) }}
                             </strong>
                         </div>
-                        <div
-                            *ngIf="(pkg.spmc_status_flag === '7' || pkg.spmc_status_flag === '9') && pkg.spmc_pa_return_note"
-                            class="mt-1 text-sm text-red-700"
-                        >
+                        <div *ngIf="(pkg.spmc_status_flag === '7' || pkg.spmc_status_flag === '9') && pkg.spmc_pa_return_note"
+                            class="mt-1 text-sm text-red-700">
                             <strong>Note:</strong> {{ pkg.spmc_pa_return_note }}
                         </div>
                     </div>
 
-                    <button type="button" class="rounded bg-primary px-3 py-1 text-white hover:opacity-80 ltr:ml-auto rtl:mr-auto" (click)="onYes(pkg)">
+                    <button type="button"
+                        class="rounded bg-primary px-3 py-1 text-white hover:opacity-80 ltr:ml-auto rtl:mr-auto"
+                        (click)="onYes(pkg)">
                         Yes
                     </button>
                 </div>
@@ -72,15 +63,14 @@
         <div *ngIf="user_role == '20'">
             <!-- need to check user role and confirm -->
             <ng-container *ngIf="filteredPackages.length > 0; else noLabour">
-                <div
-                    *ngFor="let pkg of filteredPackages"
+                <div *ngFor="let pkg of filteredPackages"
                     class="mb-3 flex flex-wrap items-start rounded bg-primary-light p-3.5 text-primary dark:bg-primary-dark-light"
-                    style="font-size: 18px"
-                >
+                    style="font-size: 18px">
                     <div class="ltr:pr-2 rtl:pl-2">
                         <p>
                             Labour required for model code <strong>{{ pkg.spmc_value }}</strong> (created on
-                            {{ pkg.spmc_created_on | date : 'dd-MM-yyyy hh:mm a' }}) by <strong>{{ pkg.created_by_name }}</strong>
+                            {{ pkg.spmc_created_on | date : 'dd-MM-yyyy hh:mm a' }}) by <strong>{{ pkg.created_by_name
+                                }}</strong>
                         </p>
                         <div class="mb-1 mt-1 font-semibold">
                             Current Status –
@@ -88,15 +78,15 @@
                                 {{ getPackageStatus(pkg) }}
                             </strong>
                         </div>
-                        <div
-                            *ngIf="(pkg.spmc_status_flag === '8' || pkg.spmc_status_flag === '9') && pkg.spmc_sv_return_note"
-                            class="mt-1 whitespace-normal break-words text-sm text-red-700"
-                        >
+                        <div *ngIf="(pkg.spmc_status_flag === '8' || pkg.spmc_status_flag === '9') && pkg.spmc_sv_return_note"
+                            class="mt-1 whitespace-normal break-words text-sm text-red-700">
                             <strong>Note:</strong> {{ pkg.spmc_sv_return_note }}
                         </div>
                     </div>
 
-                    <button type="button" class="rounded bg-primary px-3 py-1 text-white hover:opacity-80 ltr:ml-auto rtl:mr-auto" (click)="onYes(pkg)">
+                    <button type="button"
+                        class="rounded bg-primary px-3 py-1 text-white hover:opacity-80 ltr:ml-auto rtl:mr-auto"
+                        (click)="onYes(pkg)">
                         Yes
                     </button>
                 </div>
@@ -110,31 +100,52 @@
         <div *ngIf="user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2'">
             <ng-container *ngIf="filteredPackages.length > 0; else noPackages">
                 <div *ngFor="let pkg of filteredPackages">
-                    <div class="mb-3 flex items-center rounded bg-primary-light p-3.5 text-primary dark:bg-primary-dark-light" style="font-size: 18px">
+                    <div class="mb-3 rounded bg-primary-light p-3.5 text-primary dark:bg-primary-dark-light"
+                        style="font-size: 18px">
                         <div class="ltr:pr-2 rtl:pl-2">
                             <p>
-                                Service requested for model code <strong>{{ pkg.spmc_value }}</strong> (created on
-                                {{ pkg.spmc_created_on | date : 'dd-MM-yyyy hh:mm a' }}) by <strong>{{ pkg.created_by_name }}</strong
-                                >.
+                                Service requested for model code
+                                <strong>{{ pkg.spmc_value }}</strong>
+                                (created on {{ pkg.spmc_created_on | date : 'dd-MM-yyyy hh:mm a' }}) by
+                                <strong>{{ pkg.created_by_name }}</strong>.
                             </p>
-                            <div class="mb-1 mt-1 font-semibold">
-                                Current Status –
-                                <strong>
-                                    {{ getPackageStatus(pkg) }}
-                                </strong>
+                            <div class="mb-2 mt-1 font-semibold">
+                                Current Status – <strong>{{ getPackageStatus(pkg) }}</strong>
                             </div>
                         </div>
 
-                        <button type="button" class="rounded bg-primary px-3 py-1 text-white hover:opacity-80 ltr:ml-auto rtl:mr-auto" (click)="onYes(pkg)">
-                            Yes
-                        </button>
+                        <!-- Actions moved to below line -->
+                        <div class="w-full flex justify-end gap-3 mt-2">
+                            <!-- Danger button -->
+                            <button type="button"
+                                class="rounded-md bg-danger px-3 py-1.5 text-white hover:bg-danger/90 transition"
+                                (click)="Delete(pkg)">
+                                Delete
+                            </button>
+                            <!-- Secondary button -->
+                            <button type="button"
+                                class="rounded-md bg-info px-3 py-1.5 text-white hover:bg-info/90 transition"
+                                (click)="goToLog(pkg)">
+                                View Log
+                            </button>
+
+                            <!-- Primary button -->
+                            <button type="button"
+                                class="rounded-md bg-primary px-3 py-1.5 text-white hover:bg-primary/90 transition"
+                                (click)="onYes(pkg)">
+                                Yes
+                            </button>
+                        </div>
                     </div>
                 </div>
             </ng-container>
 
             <ng-template #noPackages>
-                <div class="mt-4 text-center text-gray-500">No pending service package requests available.</div>
+                <div class="mt-4 text-center text-gray-500">
+                    No pending service package requests available.
+                </div>
             </ng-template>
         </div>
+
     </div>
 </div>

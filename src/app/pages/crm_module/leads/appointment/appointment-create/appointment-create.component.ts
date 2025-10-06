@@ -226,8 +226,6 @@ export class AppointmentCreateComponent implements OnInit {
         //     minTime: this.calculateMinTime(),
         // };
 
-        console.log('this.timeSlots>>>>>>>>>>>>>>> ', this.timeSlots);
-
         if (source == '2') {
             let data = {
                 today: this.today,

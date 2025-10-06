@@ -108,6 +108,11 @@ export class SidebarComponent {
                     title: 'Lost Customers Import',
                     link: '/admin_staff/lost_customer/lc_import',
                 });
+            } else if (element['ft_id'] == 13) {
+                this.menuItems.admin_features.push({
+                    title: 'Permitted IP List',
+                    link: 'permitted-ip-list',
+                });
             } else if (element['ft_id'] == 12) {
                 this.menuItems.quotation_features.push(
                     {
@@ -256,8 +261,8 @@ export class SidebarComponent {
                         link: '/servicePackageList',
                     }
                     // {
-                    //     title: 'Service List',
-                    //     link: '/serviceList',
+                    //     title: 'Service Package Requested',
+                    //     link: '/servicePackageRequested',
                     // },
                     // {
                     //     title: 'Parts Master',
@@ -288,15 +293,36 @@ export class SidebarComponent {
                     title: 'Customer Analysis',
                     link: '/customerAnalysis',
                 });
-            } else if (element['ft_id'] == 56) {
-                this.menuItems.report_features.push({
-                    title: 'Service Reminder Report',
-                    link: 'serviceRemainderReport',
+            } else if (element['ft_id'] == 54) {
+                this.menuItems.chat_features.push({
+                    title: 'Customer Re-Engage WhatsApp Campaign',
+                    link: '/leadAnalysis',
                 });
+            } else if (element['ft_id'] == 55) {
+                this.menuItems.report_features.push({
+                    title: 'Customer Re-Engage Campaign Report',
+                    link: '/CustomerReEngageReport',
+                });
+            } else if (element['ft_id'] == 56) {
+                this.menuItems.report_features.push(
+                    {
+                        title: 'Service Reminder Report',
+                        link: 'serviceRemainderReport',
+                    },
+                    {
+                        title: 'Service Reminder Report New',
+                        link: 'serviceReminderReportNew',
+                    }
+                );
             } else if (element['ft_id'] == 58) {
                 this.menuItems.customer_features.push({
                     title: 'Customer Follow-Ups',
                     link: 'customerFollowUps',
+                });
+            } else if (element['ft_id'] == 59) {
+                this.menuItems.report_features.push({
+                    title: 'New Customers',
+                    link: 'newCustomerDashboard',
                 });
             } else if (element['ft_id'] == 60) {
                 this.menuItems.service_features.push(

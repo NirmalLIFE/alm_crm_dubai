@@ -86,7 +86,6 @@ fethchuser(){
 }
 
   filterData(type:any){
-    console.log(type);
   }
 
   // fetchData(){

@@ -36,9 +36,15 @@ export class WhatsappLeadsListComponent {
     public allDirectLeads: any = [];
     public allCampaignLeads: any = [];
     public user_role = atob(atob(localStorage.getItem('us_role_id') || '{}'));
+    public purposeList: any = [];
+    public leadPurposeArray: any = [];
+    public allLeadsPurposeCount: any = 0;
+    public allLeadsPurposeCountName: any;
+    public modalSelected = 1;
 
     @ViewChild('calllogmodal') calllogmodal: any;
     @ViewChild('jobcardmodal') jobcardmodal: any;
+    @ViewChild('leadWiseModal') leadWiseModal: any;
 
     cols = [
         { field: 'lead_code', title: 'Lead Code', isUnique: true, hide: false },
@@ -57,6 +63,7 @@ export class WhatsappLeadsListComponent {
         { field: 'lead_code', title: 'Lead Code', isUnique: true, hide: false },
         { field: 'phone', title: 'Number', hide: false },
         { field: 'name', title: 'Customer', hide: false },
+        { field: 'job_status', title: 'Job Status', hide: false },
         { field: 'ld_src', title: 'Source' },
         { field: 'lead_note', title: 'Note', hide: false },
         { field: 'created', title: 'Created', hide: false },
@@ -65,13 +72,34 @@ export class WhatsappLeadsListComponent {
         { field: 'lead_code', title: 'Lead Code', isUnique: true, hide: false },
         { field: 'phone', title: 'Number', hide: false },
         { field: 'name', title: 'Customer', hide: false },
+        { field: 'job_status', title: 'Job Status', hide: false },
         { field: 'ld_src', title: 'Source' },
         { field: 'campaign_displayname', title: 'Campaign Name' },
         { field: 'lead_note', title: 'Note', hide: false },
         { field: 'created', title: 'Created', hide: false },
     ];
 
-    constructor(private userServices: StaffPostAuthService, public router: Router, private http: HttpClient, public datepipe: DatePipe) {}
+    leadCols = [
+        { field: 'lead_code', title: 'Lead Code', isUnique: true, hide: false },
+        { field: 'phone', title: 'Number', hide: false },
+        { field: 'name', title: 'Customer', hide: false },
+        { field: 'ld_src', title: 'Source' },
+        { field: 'smc_name', title: 'Campaign Name' },
+        { field: 'ld_sts', title: 'Status', hide: false },
+        { field: 'call_purpose', title: 'Purpose', hide: false },
+        { field: 'us_firstname', title: 'Assigned', hide: true },
+        { field: 'lead_note', title: 'Note', hide: false },
+        { field: 'created', title: 'Created', hide: false },
+        // { field: 'action', title: 'Action', hide: false },
+    ];
+
+    constructor(private userServices: StaffPostAuthService, public router: Router, private http: HttpClient, public datepipe: DatePipe) {
+        this.userServices.getCallPurposeList().subscribe((rData: any) => {
+            if (rData.ret_data == 'success') {
+                this.purposeList = rData.purpose;
+            }
+        });
+    }
 
     ngOnInit(): void {
         this.getwhatsAppLeads();
@@ -104,19 +132,15 @@ export class WhatsappLeadsListComponent {
                 this.campaignWhatsappLeads = rData.whatsappLeadList.filter((data: any) => data.source_id == '8');
                 this.directWhatsappLeads = rData.whatsappLeadList.filter((data: any) => data.source_id == '9');
 
-
-
-
-                
                 const phones = rData.whatsappLeadList.map((phn: any) => phn.phone);
                 this.userServices.getLatestJobCard({ phones: phones }).subscribe((rData: any) => {
                     if (rData.ret_data == 'success') {
                         this.latestJobCards = rData.jobcards;
                         this.allWhatsappLeadList.forEach((element: any) => {
+                            element['openjobcard'] = false;
                             this.latestJobCards.forEach((element2: any) => {
                                 if (this.latestJobCards.length > 0) {
                                     if (element.phone.slice(-9) === element2.phone.slice(-9)) {
-                                        element['openjobcard'] = false;
                                         const lead_created = new Date(element.lead_createdon);
                                         const jobOpenDate = new Date(element2.job_open_date);
                                         lead_created.setHours(0, 0, 0, 0);
@@ -133,6 +157,8 @@ export class WhatsappLeadsListComponent {
                             });
                         });
                         this.whatsappLeadList = this.allWhatsappLeadList;
+                        // this.leadPurposeArray = this.allWhatsappLeadList.sort((a: any, b: any) => b.purpose_id - a.purpose_id);
+
                         // this.openJobcardLeads = this.allWhatsappLeadList.filter((data: any) => {
                         //     return data.job_status && data.job_status === 'OPN';
                         // }).length;
@@ -168,12 +194,11 @@ export class WhatsappLeadsListComponent {
     }
 
     jobCardFilterWhatsappLeads() {
-        console.log('allwhatsapp Leads>>>>>>>>>>>>>>>>', this.allWhatsappLeadList);
         this.allCampaignLeads = this.allWhatsappLeadList.filter((data: any) => data.openjobcard && data.openjobcard === true && data.source_id == '8');
         this.allDirectLeads = this.allWhatsappLeadList.filter((data: any) => data.openjobcard && data.openjobcard === true && data.source_id != '8');
-        this.openJobcardCampaignLeads = this.allWhatsappLeadList.filter((data: any) => data.job_status && data.job_status === 'OPN' && data.source_id === '8');
+        this.openJobcardCampaignLeads = this.allWhatsappLeadList.filter((data: any) => data.openjobcard && data.openjobcard === true && data.source_id === '8');
         this.invJobcardCampaignLeads = this.allWhatsappLeadList.filter((data: any) => data.job_status && data.job_status === 'INV' && data.source_id === '8');
-        this.openJobcardDirectLeads = this.allWhatsappLeadList.filter((data: any) => data.job_status && data.job_status === 'OPN' && data.source_id !== '8');
+        this.openJobcardDirectLeads = this.allWhatsappLeadList.filter((data: any) => data.openjobcard && data.openjobcard === true && data.source_id !== '8');
         this.invJobcardDirectLeads = this.allWhatsappLeadList.filter((data: any) => data.job_status && data.job_status === 'INV' && data.source_id !== '8');
         this.load_flag = false;
     }
@@ -184,17 +209,19 @@ export class WhatsappLeadsListComponent {
         this.openJobcardLeads = 0;
         this.invJobcardLeads = 0;
         if (value == 1) {
-            this.jobCardModalHeading = 'WhatsApp Campaign Leads';
-            this.convertedLeads = this.openJobcardCampaignLeads.length + this.invJobcardCampaignLeads.length;
+            this.jobCardModalHeading = 'Job Card Conversion via WhatsApp Campaign';
+            this.convertedLeads = this.allCampaignLeads.length;
             this.openJobcardLeads = this.openJobcardCampaignLeads.length;
             this.invJobcardLeads = this.invJobcardCampaignLeads.length;
             this.campaignJobcardFlag = true;
+            this.modalSelected = 1;
         } else {
-            this.jobCardModalHeading = 'WhatsApp Direct Leads';
-            this.convertedLeads = this.openJobcardDirectLeads.length + this.invJobcardDirectLeads.length;
+            this.jobCardModalHeading = 'Job Card Conversion via WhatsApp Direct';
+            this.convertedLeads = this.allDirectLeads.length;
             this.openJobcardLeads = this.openJobcardDirectLeads.length;
             this.invJobcardLeads = this.invJobcardDirectLeads.length;
             this.campaignJobcardFlag = false;
+            this.modalSelected = 4;
         }
         this.jobcardmodal.open();
     }
@@ -204,12 +231,12 @@ export class WhatsappLeadsListComponent {
             this.allCampaignLeads = value === 1 ? this.openJobcardCampaignLeads : this.invJobcardCampaignLeads;
         } else if (value === 4 || value === 5) {
             this.allDirectLeads = value === 4 ? this.openJobcardDirectLeads : this.invJobcardDirectLeads;
-        } else if (value == 3) {
+        } else if (value == 0) {
             this.allCampaignLeads = this.allWhatsappLeadList.filter((data: any) => data.openjobcard && data.openjobcard === true && data.source_id == '8');
-        } else if (value == 6) {
+        } else if (value == 3) {
             this.allDirectLeads = this.allWhatsappLeadList.filter((data: any) => data.openjobcard && data.openjobcard === true && data.source_id != '8');
         }
-        this.selected = value;
+        this.modalSelected = value;
     }
 
     chatWithCustomer() {
@@ -229,5 +256,35 @@ export class WhatsappLeadsListComponent {
     updateColumn(col: colDef) {
         col.hide = !col.hide;
         this.cols = [...this.cols]; // Create a new reference of the array
+    }
+
+    openLeadwiseModal(allWhatsappLeadList: any, num: any) {
+        if (num == 0) {
+            this.allLeadsPurposeCountName = 'Whatsapp Campaign Leads';
+        } else {
+            this.allLeadsPurposeCountName = 'Whatsapp Direct Leads';
+        }
+        this.allLeadsPurposeCount = allWhatsappLeadList.length;
+        this.leadPurposeArray = this.purposeList.map((item: any) => ({
+            cp_id: item.cp_id,
+            call_purpose: item.call_purpose,
+            purposeArray: [],
+            convertedCount: 0,
+            closedCount: 0,
+        }));
+
+        this.leadPurposeArray.forEach((newItem: any) => {
+            const matchingItems = allWhatsappLeadList.filter((lead: any) => lead.purpose_id == newItem.cp_id);
+            newItem.purposeArray.push(...matchingItems);
+            newItem.convertedCount = matchingItems.filter((lead: any) => lead.status_id == 5).length;
+            newItem.closedCount = matchingItems.filter((lead: any) => lead.status_id == 6).length;
+        });
+
+        this.leadWiseModal.open();
+    }
+
+    closeLeadWiseModal() {
+        this.leadPurposeArray = [];
+        this.leadWiseModal.close();
     }
 }

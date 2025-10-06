@@ -45,6 +45,7 @@ export class QuoteVersionsComponent implements OnInit {
     public marginFlag: boolean = false;
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
     public us_id: any = atob(atob(localStorage.getItem('us_id') || '{}'));
+    public versionCreateFlag: boolean = false;
 
     constructor(private userServices: StaffPostAuthService, private cdRef: ChangeDetectorRef, public router: Router) {}
 
@@ -160,12 +161,10 @@ export class QuoteVersionsComponent implements OnInit {
 
     spareGroups(qt_sp_temp: any) {
         const itemMap = new Map();
-        console.log('qt_sp_temp>>>>>>>>>>>>', qt_sp_temp);
         for (const spare of qt_sp_temp) {
             if (spare.item_delete_flag == 0 && spare.qit_delete_flag == 0) {
                 const key = spare.item_id;
                 let rowItem = itemMap.get(key);
-                console.log('rowItem>>>>>>>>>>>>', rowItem);
 
                 if (!rowItem) {
                     rowItem = {
@@ -304,8 +303,9 @@ export class QuoteVersionsComponent implements OnInit {
                 const qitUnitPrice = parseFloat(element.qit_unit_price);
                 const qitDiscount = parseFloat(element.qit_discount);
                 const qit_margin_price = parseFloat(element.qit_margin_price);
-                // this.us_id == '11' && this.qt_data.qt_service_adv == '11' && flag
+
                 if (this.user_role == 11 && this.marginFlag) {
+                    // && flag
                     if (element.item_type === '2') {
                         this.labour_total += unitPrice;
                     } else if (element.item_type === '3') {
@@ -396,13 +396,14 @@ export class QuoteVersionsComponent implements OnInit {
         //     return;
         // }
         let total_amount = parseFloat(this.quote_total) + parseFloat(this.quote_vat);
-        console.log('amounts>>>>>>>>>>>>>>>>>', total_amount, this.discount);
+        this.versionCreateFlag = true;
 
         if (parseFloat(this.discount) >= total_amount) {
             this.discount = '0';
             this.coloredToast('danger', 'Discount amount should be less than total amount');
             this.total_amt = parseFloat(this.quote_total) + parseFloat(this.quote_vat) - parseFloat(this.discount);
             this.tot_words = this.toWords.convert(parseFloat(this.total_amt.toFixed(2)));
+            this.versionCreateFlag = false;
             return;
         }
         const allGroupsHasOneLabour = this.grouped_items.every((group) => {
@@ -412,6 +413,7 @@ export class QuoteVersionsComponent implements OnInit {
 
         if (!allGroupsHasOneLabour) {
             this.coloredToast('danger', 'Atleast One Labour Or Generic Item Required In Each Group');
+            this.versionCreateFlag = false;
             return;
         }
 
@@ -435,13 +437,16 @@ export class QuoteVersionsComponent implements OnInit {
                 if (r_data.ret_data === 'success') {
                     this.coloredToast('success', 'Quotation saved successfully');
                     this.versioCreate.close();
+                    this.versionCreateFlag = false;
                     this.getQuoteVersions();
                 } else {
                     this.coloredToast('danger', "Can't create quote. Contact administrator");
+                    this.versionCreateFlag = false;
                 }
             },
             error: () => {
                 this.coloredToast('danger', "Can't create quote. Contact administrator");
+                this.versionCreateFlag = false;
             },
         });
     }

@@ -206,7 +206,6 @@ export class PsfWhatsappReportComponent implements OnInit {
             this.saCounts.push({ saId, saName, counts });
         });
 
-        console.log('this.saCounts', this.saCounts);
 
         this.saCounts.forEach((element) => {
             let totalRatingPercentage =
@@ -304,7 +303,6 @@ export class PsfWhatsappReportComponent implements OnInit {
             ],
         };
         this.load_flag = false;
-        console.log('Sales By Category Series', this.analyticCounts);
 
         let ext_happy = parseFloat(this.analyticCounts.total_ext_happy) * 5;
         let happy = parseFloat(this.analyticCounts.total_happy) * 3;
@@ -316,14 +314,12 @@ export class PsfWhatsappReportComponent implements OnInit {
         
 
         this.total_Rating_percentage = total_rating.toFixed(2);
-        console.log('Somethig------', this.total_Rating_percentage);
 
     }
 
     filterFeedback(){
         if(this.filter_selected=='0'){
             this.wbMessages = this.wbMessages1;
-            console.log('All Selected');
 
         } 
         else if(this.filter_selected=='1'){

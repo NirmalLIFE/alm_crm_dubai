@@ -211,8 +211,6 @@ export class CampaignDetailsComponent implements OnInit {
         const dd = String(today.getDate()).padStart(2, '0');
         const todayFormatted = `${yyyy}-${mm}-${dd}`;
 
-        console.log(campEnq);
-        console.log(todayFormatted);
 
 
         if (campEnq['verify'] != '0') {

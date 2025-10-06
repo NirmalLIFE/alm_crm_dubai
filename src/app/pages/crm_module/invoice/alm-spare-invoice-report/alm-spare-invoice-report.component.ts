@@ -248,8 +248,6 @@ export class AlmSpareInvoiceReportComponent implements OnInit {
                     this.suspended_jobcard = rData.invoices.filter((item: any) => item.job_status == 'SUS');
                     this.tst_jobcard = rData.invoices.filter((item: any) => item.job_status == 'TST');
 
-                    console.log('invoice list??????????????????', this.open_jobcard);
-
                     this.open_jobcardGrandTotal = this.calculateTotalGrandTotal(this.open_jobcard).toFixed(2);
                     this.wip_jobcardGrandTotal = this.calculateTotalGrandTotal(this.wip_jobcard).toFixed(2);
                     this.can_jobcardGrandTotal = this.calculateTotalGrandTotal(this.can_jobcard).toFixed(2);
@@ -296,14 +294,12 @@ export class AlmSpareInvoiceReportComponent implements OnInit {
                         gp_amount_tst_jobcard: this.tst_jobcardGrandTotal - this.tst_jobcardsubTotal,
                     };
 
-                    console.log('this.totalGP_with_Job_Card ', this.open_jobcardGrandTotal, this.open_jobcardsubTotal);
 
                     this.total_inv_cost = rData.total_inv_cost.total_inv_cost;
                     this.total_inv_cost_without_margin = rData.total_inv_cost_without_margin.total_inv_cost_without_margin;
                     this.total_inv_cost_without_jobcard = rData.total_inv_cost_without_jobcard.total_inv_cost_without_jobcard;
                     this.total_inv_cost_without_jobcard_margin = rData.total_inv_cost_without_jobcard_margin.total_inv_cost_without_jobcard_margin;
                     this.load_flag = false;
-                    console.log('wip_jobcard', this.wip_jobcard);
 
                     this.totalGP = this.calculateGP(this.total_inv_cost, this.total_inv_cost_without_margin);
                     this.totalGP_amount = this.total_inv_cost - this.total_inv_cost_without_margin;

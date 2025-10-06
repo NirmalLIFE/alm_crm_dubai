@@ -21,6 +21,7 @@ import { filter } from 'rxjs';
 })
 export class AppointmentListComponent implements OnInit {
     public search = '';
+    public selectTab = 'all';
     public load_flag: boolean = true;
     public appointmentList: any = [];
     public allAppointment: any = [];
@@ -28,7 +29,8 @@ export class AppointmentListComponent implements OnInit {
     public userList: any[] = [];
     public overdueAppoints: any[] = [];
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
-    public dateFrom: any = this.datePipe.transform(moment(new Date()).startOf('month').toDate(), 'yyyy-MM-dd') || '';
+    // public dateFrom: any = this.datePipe.transform(moment(new Date()).startOf('month').toDate(), 'yyyy-MM-dd') || '';
+    public dateFrom: any = this.datePipe.transform(moment().toDate(), 'yyyy-MM-dd') || '';
     public dateTo: any = null;
     public today: any = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
     public selectedStatus: any = '0';
@@ -46,16 +48,22 @@ export class AppointmentListComponent implements OnInit {
     public allOverdueAppoints: any = [];
     public latestJobCards: any = [];
     public laabsLoader: boolean = true;
+    public todaysAppointments: any = [];
+    public pendingActionAppointments: any = [];
 
     @ViewChild('appointmentModal') appointmentModal: any;
     @ViewChild('calllogmodal') calllogmodal: any;
 
     cols = [
         { field: 'apptm_code', title: 'Code', isUnique: true, hide: false },
+        ...(['13', '1', '19'].includes(this.user_role) ? [{ field: 'ld_verify_flag', title: 'Verified', hide: false }] : []),
+        ...(this.selectTab != 'all' ? [{ field: 'actionTaken', title: 'Action Taken', hide: false }] : []),
         { field: 'call_from', title: 'Number', hide: false },
         { field: 'cust_name', title: 'Customer', hide: false },
+        { field: 'customer_type', title: 'Customer Type', hide: false },
         { field: 'lead_source', title: 'Source' },
-        { field: 'apptm_group_l', title: 'Type' },
+        { field: 'apptm_status_l', title: 'Status', hide: false },
+        // { field: 'apptm_group_l', title: 'Type' },
         { field: 'appt_date', title: 'App Date', hide: false },
         { field: 'created_date', title: 'Created Date', hide: false },
         { field: 'timeGap', title: 'Time Gap', hide: false },
@@ -66,7 +74,6 @@ export class AppointmentListComponent implements OnInit {
         { field: 'apptm_transport_service_l', title: 'Pick&Drop', hide: false },
         { field: 'pickup_mode', title: 'Pickup Mode ', hide: false },
         { field: 'appt_count', title: 'Attempt No', hide: true },
-        { field: 'apptm_status_l', title: 'Status', hide: false },
         { field: 'action', title: 'Action', hide: false },
     ];
 
@@ -76,6 +83,7 @@ export class AppointmentListComponent implements OnInit {
                 this.userList = rData.userList;
             }
         });
+
     }
     ngOnInit() {
         this.getAppointmentList();
@@ -101,6 +109,10 @@ export class AppointmentListComponent implements OnInit {
         let penstatus = [1, 2, 3];
         let status = [1, 2, 3, 4, 5];
         this.allOverdueAppoints = [];
+        this.todaysAppointments = [];
+        this.pendingActionAppointments = [];
+        this.overdueAppoints = [];
+
         if (this.selectedStatus != '0') {
             status = [this.selectedStatus];
         }
@@ -132,14 +144,88 @@ export class AppointmentListComponent implements OnInit {
         this.userServices.getAppointmentList(data).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
                 // this.appointmentList = rData.appointments;
-                this.allAppointment = rData.appointments;
-                this.appointmentCounts.total_appts = this.allAppointment.length;
+                // this.allAppointment = rData.appointments;
+                const today = new Date();
+                const todayDateString = today.toISOString().split('T')[0];
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                const tomorrowDateString = tomorrow.toISOString().split('T')[0];
+
+                // this.todaysAppointments = this.allAppointment.filter((appointment: any) => appointment.appt_date === todayDateString);
+                // this.pendingActionAppointments = this.allAppointment.filter(
+                //     (appointment: any) =>
+                //         appointment.appt_date == tomorrowDateString &&
+                //         (appointment.apptm_status == '1' || appointment.apptm_status == '2' || appointment.apptm_status == '3')
+                // );
+                if (this.selectTab == 'all') {
+                    this.allAppointment = rData.appointments;
+                    this.appointmentList = this.allAppointment;
+                    this.appointmentCounts.total_appts = this.allAppointment.length;
+                } else if (this.selectTab == 'today') {
+                    this.allAppointment = rData.appointments.filter((appointment: any) => appointment.appt_date === todayDateString);
+                    this.allAppointment.forEach((element: any) => {
+                        element.actionTaken = 'No action taken yet';
+                        const apptDate = element.apptm_updated_on.substring(0, 10); // Or use split(' ')[0]
+                        if (apptDate === todayDateString) {
+                            element.actionTaken = 'Action taken';
+                        }
+                    });
+                    this.todaysAppointments = this.allAppointment.sort((a: any, b: any) => {
+                        return new Date(a.apptm_updated_on).getTime() - new Date(b.apptm_updated_on).getTime();
+                    }); // Descending order -- b-a ,, Ascending order a-b
+                    this.appointmentList = this.todaysAppointments;
+                    this.appointmentCounts.total_appts = this.todaysAppointments.length;
+                } else if (this.selectTab == 'pending') {
+                    this.allAppointment = rData.appointments.filter(
+                        (appointment: any) =>
+                            appointment.appt_date == tomorrowDateString &&
+                            (appointment.apptm_status == '1' || appointment.apptm_status == '2' || appointment.apptm_status == '3')
+                    );
+                    this.allAppointment.forEach((element: any) => {
+                        element.actionTaken = 'No action taken yet';
+                        const apptDate = element.apptm_updated_on.substring(0, 10); // Or use split(' ')[0]
+                        if (apptDate === todayDateString) {
+                            element.actionTaken = 'Action taken';
+                        }
+                    });
+                    this.pendingActionAppointments = this.allAppointment;
+                    this.pendingActionAppointments = this.allAppointment.sort((a: any, b: any) => {
+                        return new Date(a.apptm_updated_on).getTime() - new Date(b.apptm_updated_on).getTime();
+                    });
+                    this.appointmentList = this.pendingActionAppointments;
+                    this.appointmentCounts.total_appts = this.pendingActionAppointments.length;
+                }
+
+                this.cols = [
+                    { field: 'apptm_code', title: 'Code', isUnique: true, hide: false },
+                    ...(['13', '1', '19'].includes(this.user_role) ? [{ field: 'ld_verify_flag', title: 'Verified', hide: false }] : []),
+                    ...(this.selectTab != 'all' ? [{ field: 'actionTaken', title: 'Action Taken', hide: false }] : []),
+                    { field: 'call_from', title: 'Number', hide: false },
+                    { field: 'cust_name', title: 'Customer', hide: false },
+                    { field: 'customer_type', title: 'Customer Type', hide: false },
+                    { field: 'lead_source', title: 'Source' },
+                    { field: 'apptm_status_l', title: 'Status', hide: false },
+                    // { field: 'apptm_group_l', title: 'Type' },
+                    { field: 'appt_date', title: 'App Date', hide: false },
+                    { field: 'created_date', title: 'Created Date', hide: false },
+                    { field: 'timeGap', title: 'Time Gap', hide: false },
+                    { field: 'appoint_time', title: 'Time', hide: false },
+                    { field: 'reg_no', title: 'Reg.No', hide: false },
+                    { field: 'us_firstname', title: 'Assigned', hide: false },
+                    { field: 'apptm_created', title: 'Created', hide: false },
+                    { field: 'apptm_transport_service_l', title: 'Pick&Drop', hide: false },
+                    { field: 'pickup_mode', title: 'Pickup Mode ', hide: false },
+                    { field: 'appt_count', title: 'Attempt No', hide: true },
+                    { field: 'action', title: 'Action', hide: false },
+                ];
+
+                // this.appointmentCounts.total_appts = this.allAppointment.length;
+
                 this.allAppointment.forEach((element: any) => {
                     element['LaabsVisited'] = false;
                     const apptmCreatedOn = element.apptm_created_on;
                     const dateOnly = apptmCreatedOn.substring(0, 10);
                     element['created_date'] = dateOnly;
-                    console.log(dateOnly);
                     const createdOn = new Date(element.apptm_created_on);
                     const apptDateTime = new Date(`${element.appt_date} ${element.appt_time}`);
                     const timeDiff = apptDateTime.getTime() - createdOn.getTime();
@@ -242,7 +328,25 @@ export class AppointmentListComponent implements OnInit {
                         }
                     });
                 });
-                let temp = this.allAppointment.filter((appointment: any) => appointment.apptm_status == '5');
+
+                let newcust = this.allAppointment.filter((appt: any) => appt.customer_type == 'NEW');
+                let Calls = this.allAppointment.filter(
+                    (appointment: any) => appointment.source_id == '9' || appointment.source_id == '8' || appointment.source_id == '4'
+                );
+                let WD = this.allAppointment.filter((appointment: any) => appointment.source_id == '9');
+                let WC = this.allAppointment.filter((appointment: any) => appointment.source_id == '8');
+                let CREW = this.allAppointment.filter((appointment: any) => appointment.source_id == '4');
+
+                // console.log('this.today', this.today);
+                // console.log('appointment visited from whatsapp WD', WD);
+                // console.log('appointment visited from whatsapp WC', WC);
+                // console.log('appointment visited from CRE whatsapp', CREW);
+
+                let temp = this.allAppointment.filter(
+                    (appointment: any) => (appointment.source_id == '8' || appointment.source_id == '9') && appointment.apptm_status == '5'
+                );
+                // console.log("appointment visited from whatsapp",temp)
+
                 this.appointmentList = this.allAppointment;
                 this.load_flag = false;
                 const phones = rData.appointments.filter((appointment: any) => appointment.lphone).map((appointment: any) => appointment.lphone);
@@ -278,6 +382,7 @@ export class AppointmentListComponent implements OnInit {
         });
         this.userServices.getAppointmentList(pendata).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
+                this.allOverdueAppoints = [];
                 this.PenappointmentList = rData.appointments;
                 this.PenappointmentList.forEach((element: any) => {
                     if ((element.apptm_status == '1' || element.apptm_status == '2' || element.apptm_status == '3') && element.appt_date < this.today) {
@@ -289,16 +394,92 @@ export class AppointmentListComponent implements OnInit {
         });
     }
 
+    selectTabName(tabName: any) {
+        this.selectTab = tabName;
+        this.getAppointmentList();
+        // this.appointmentCounts = {
+        //     total_appts: 0,
+        //     scheduled_appts: 0,
+        //     confirmed_appts: 0,
+        //     rescheduled_appts: 0,
+        //     cancelled_appts: 0,
+        //     visited_appts: 0,
+        // };
+        // if (tabName == 'all') {
+        //     this.appointmentList = this.allAppointment;
+        //     this.appointmentCounts.total_appts = this.allAppointment.length;
+        //     this.allAppointment.forEach((element: any) => {
+        //         if (element.apptm_status == '1') {
+        //             this.appointmentCounts.scheduled_appts++;
+        //         } else if (element.apptm_status == '2') {
+        //             this.appointmentCounts.confirmed_appts++;
+        //         } else if (element.apptm_status == '3') {
+        //             this.appointmentCounts.rescheduled_appts++;
+        //         } else if (element.apptm_status == '4') {
+        //             this.appointmentCounts.cancelled_appts++;
+        //         } else if (element.apptm_status == '5') {
+        //             this.appointmentCounts.visited_appts++;
+        //         }
+        //     });
+        // } else if (tabName == 'today') {
+        //     this.appointmentList = this.todaysAppointments;
+        //     this.appointmentCounts.total_appts = this.todaysAppointments.length;
+        //     this.todaysAppointments.forEach((element: any) => {
+        //         if (element.apptm_status == '1') {
+        //             this.appointmentCounts.scheduled_appts++;
+        //         } else if (element.apptm_status == '2') {
+        //             this.appointmentCounts.confirmed_appts++;
+        //         } else if (element.apptm_status == '3') {
+        //             this.appointmentCounts.rescheduled_appts++;
+        //         } else if (element.apptm_status == '4') {
+        //             this.appointmentCounts.cancelled_appts++;
+        //         } else if (element.apptm_status == '5') {
+        //             this.appointmentCounts.visited_appts++;
+        //         }
+        //     });
+        // } else if (tabName == 'pending') {
+        //     this.appointmentList = this.pendingActionAppointments;
+        //     this.appointmentCounts.total_appts = this.pendingActionAppointments.length;
+        //     this.pendingActionAppointments.forEach((element: any) => {
+        //         if (element.apptm_status == '1') {
+        //             this.appointmentCounts.scheduled_appts++;
+        //         } else if (element.apptm_status == '2') {
+        //             this.appointmentCounts.confirmed_appts++;
+        //         } else if (element.apptm_status == '3') {
+        //             this.appointmentCounts.rescheduled_appts++;
+        //         } else if (element.apptm_status == '4') {
+        //             this.appointmentCounts.cancelled_appts++;
+        //         } else if (element.apptm_status == '5') {
+        //             this.appointmentCounts.visited_appts++;
+        //         }
+        //     });
+        // }
+    }
+
     filterAppointments(value: any) {
         this.selected = value;
-        if (value == 0) {
-            this.appointmentList = this.allAppointment;
-        } else if (value == 10) {
-            this.appointmentList = this.overdueAppoints;
-        } else if (value == 11) {
-            this.appointmentList = this.allAppointment.filter((item: any) => item.LaabsVisited == true);
-        } else {
-            this.appointmentList = this.allAppointment.filter((item: any) => item.apptm_status == value);
+        if (this.selectTab == 'all') {
+            if (value == 0) {
+                this.appointmentList = this.allAppointment;
+            } else if (value == 10) {
+                this.appointmentList = this.overdueAppoints;
+            } else if (value == 11) {
+                this.appointmentList = this.allAppointment.filter((item: any) => item.LaabsVisited == true);
+            } else {
+                this.appointmentList = this.allAppointment.filter((item: any) => item.apptm_status == value);
+            }
+        } else if (this.selectTab == 'today') {
+            if (value == 0) {
+                this.appointmentList = this.todaysAppointments;
+            } else {
+                this.appointmentList = this.todaysAppointments.filter((item: any) => item.apptm_status == value);
+            }
+        } else if (this.selectTab == 'pending') {
+            if (value == 0) {
+                this.appointmentList = this.pendingActionAppointments;
+            } else {
+                this.appointmentList = this.pendingActionAppointments.filter((item: any) => item.apptm_status == value);
+            }
         }
     }
     totalOverDueAppoints() {

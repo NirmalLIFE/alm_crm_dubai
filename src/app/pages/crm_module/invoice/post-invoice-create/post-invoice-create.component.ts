@@ -117,7 +117,6 @@ export class PostInvoiceCreateComponent implements OnInit {
     }
 
     setMargin(item: any, spare: any, num: any) {
-        console.log(item, num);
         const items = item.items;
         if (num == 1) {
             spare.vatflag = false;
@@ -133,7 +132,6 @@ export class PostInvoiceCreateComponent implements OnInit {
 
             if (currentItem.UNIT_PRICE !== 0 && currentItem.ITEM_QTY !== '0' && currentItem.VAT_AMOUNT !== '0' && currentItem.ITEM_QTY > '0') {
                 this.getSparePartsMargin();
-                console.log(currentItem);
             }
         }
     }
@@ -208,8 +206,6 @@ export class PostInvoiceCreateComponent implements OnInit {
         });
         // this.show_flag = true;
         // this.load_flag = false;
-        console.log('invoice list >>>>>>>>>>>', this.inv_details.items);
-        console.log(' this.sparePartsMargin>>>>>>>>>>>', this.sparePartsMargin);
 
         let finalprice = 0;
         let finalvat = 0;
@@ -240,7 +236,6 @@ export class PostInvoiceCreateComponent implements OnInit {
                 spare.margin_applied = '0.00';
             }
             let margin_applied = spare.margin_applied;
-            console.log('margin_applied', spare.margin_applied);
             this.userServices.getUserRoleMargin().subscribe((rdata: any) => {
                 if (rdata.ret_data === 'success') {
                     this.userRoleMargins = rdata.userRoleMargins;
@@ -249,10 +244,6 @@ export class PostInvoiceCreateComponent implements OnInit {
                             if (element.ml_role_id == this.user_role) {
                                 const min_margin = element.ml_minimum_margin;
                                 const max_margin = element.ml_maximum_margin;
-
-                                console.log('min_margin', min_margin);
-                                console.log('max_margin ,', max_margin);
-                                console.log('margin_applied ,', margin_applied);
 
                                 if (min_margin != 9999) {
                                     if (parseFloat(margin_applied) >= parseFloat(min_margin)) {

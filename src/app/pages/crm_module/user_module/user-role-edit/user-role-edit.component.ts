@@ -67,7 +67,6 @@ export class UserRoleEditComponent implements OnInit {
           if (rdata.ret_data == "success") {
             this.feature = rdata.feature;
             const { feature, userrole } = rdata;
-            console.log(userrole);
             this.userForm.patchValue({
               roleid: userrole.role_id,
               rname: userrole.role_name,
@@ -102,7 +101,6 @@ export class UserRoleEditComponent implements OnInit {
                 item.export = item2.actions.includes("6");
               }
             });
-            console.log("featuredata==>", this.featureData);
             this.data_load_flag = false;
           } else {
             this.coloredToast("danger", "Cant fetch role data");
@@ -124,7 +122,6 @@ export class UserRoleEditComponent implements OnInit {
   }
 
   onSelectionChange(event: any) {
-    console.log("--->", event)
     let data = { "dept_id": event.dept_id };
     this.featureData = [];
     this.userServices.FeatureListByDept(data).subscribe((rdata: any) => {

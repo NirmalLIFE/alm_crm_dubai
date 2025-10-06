@@ -87,6 +87,17 @@
                 </ng-template>
             </div>
             <div class="mb-3 grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-3" *ngIf="!data_load_flag">
+                <div>
+                    <label for="lead_category" class="small_label_text m-0 dark:text-white-dark">Lead Category*</label>
+                    <ng-select formControlName="lead_category" [searchable]="true" [clearable]="false"
+                        placeholder="Select Lead Category" class="custom-multiselect" appendTo="body"
+                        [ngClass]="getLeadCategoryClass(leadLog.controls['lead_category'].value)">
+                        <ng-option value="0">❄️ Cold Lead</ng-option>
+                        <!-- <ng-option value="1">🌤️ Warm Lead</ng-option> -->
+                        <ng-option value="2">🔥 Hot Lead</ng-option>
+                    </ng-select>
+                </div>
+
                 <div [ngClass]="leadLog.controls['vehicle_model'].touched ? (leadLog.controls['vehicle_model'].errors ? 'has-error' : 'has-success') : ''"
                     *ngIf="
                         leadLog.controls['call_purpose'].value == '4' ||

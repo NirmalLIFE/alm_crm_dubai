@@ -22,6 +22,7 @@ export class LeadUpdateComponent implements OnInit {
     public noteSearch = 'lead_note';
     public naCount: any;
     public updateflag: boolean = false;
+    public user_role = atob(atob(localStorage.getItem('us_role_id') || '{}'));
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datepipe: DatePipe, private activeRouter: ActivatedRoute) {
         this.lead_id = atob(this.activeRouter.snapshot.paramMap.get('id') || ' ');
@@ -55,9 +56,9 @@ export class LeadUpdateComponent implements OnInit {
         this.userServices.getLeadsById(leadid).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.lead = rdata.lead;
-                if(this.lead.cp_id == 2){
+                if (this.lead.cp_id == 2) {
                     this.lead.apptm_group = '2';
-                }else{
+                } else {
                     this.lead.apptm_group = '1';
                 }
                 this.load_flag = false;
@@ -79,7 +80,6 @@ export class LeadUpdateComponent implements OnInit {
     }
 
     leadUpdate(data: any) {
-        console.log('data>>>>>>>>>>>>>>>>>>', data.cancelReason);
         if (data['dateField'] != '') {
             let datevalD = new Date(data['dateField']);
             data['dateField'] = datevalD.getFullYear() + '-' + ('0' + (datevalD.getMonth() + 1)).slice(-2) + '-' + ('0' + datevalD.getDate()).slice(-2);
@@ -104,6 +104,33 @@ export class LeadUpdateComponent implements OnInit {
             // this.coloredToast('danger', 'Some error occurred, please try again later');
         }
     }
+
+    updateLeadVerification(lead: any, newFlag: number) {
+        // Set the new verification flag
+        lead.ld_verify_flag = newFlag;
+
+        let data = {
+            ld_verify_flag: newFlag,
+            lead_id: lead.lead_id,
+        };
+
+        this.userServices.updateLeadVerificationFlag(data).subscribe(
+            (rdata: any) => {
+                if (rdata.ret_data == 'success') {
+                    this.coloredToast('success', 'Lead Verify Flag Updated Successfully');
+                    this.getLeadsById(); // Refresh the lead list if needed
+                }
+            },
+            (error: any) => {
+                // Roll back the flag in case of an error
+                lead.ld_verify_flag = newFlag == 1 ? 0 : 1;
+                console.error('Error updating lead verification:', error);
+                this.coloredToast('error', 'Failed to Update Lead Verify Flag');
+            }
+        );
+    }
+
+   
 
     coloredToast(color: string, message: string) {
         const toast = Swal.mixin({

@@ -21,7 +21,6 @@ export class QuoteLogComponent implements OnInit,AfterViewChecked {
 
     ngOnInit(): void {
         this.getQuoteLogs();
-        console.log("user id>>>>>>>>>>",this.us_id)
     }
     ngAfterViewChecked() {
       if (this.shouldScroll) {

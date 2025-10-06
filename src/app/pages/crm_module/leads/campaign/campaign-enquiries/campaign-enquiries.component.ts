@@ -230,7 +230,6 @@ export class CampaignEnquiriesComponent implements OnInit {
     }
 
     filterCampaigns(value: any) {
-        console.log('allcampaignList>>>>>>>>>>>>>>>>>', this.allcampaignList);
         if (value == 2) {
             this.campaignList = this.allcampaignList.filter((data: any) => data.status_id == '1');
             this.selected = 2;
@@ -341,7 +340,6 @@ export class CampaignEnquiriesComponent implements OnInit {
             }
         }
 
-        console.log("Createflag>>>>",this.createFlag)
 
         if (this.campflag && this.createFlag) {
             this.userServices.createLeadData(data).subscribe((rdata: any) => {

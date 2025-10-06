@@ -621,7 +621,6 @@ export class InboundCallReportComponent implements OnInit {
         this.arr_sample_unique = this.groupBy(this.arr_sample, 'call_from');
         // this.arr_sample_unique = this.getUniqueListBy(this.arr_sample, 'call_from');
         // this.arr_sample_unique = [...new Set(this.arr_sample.map((group) => group.call_from))];
-        console.log('unique callss???????????', this.arr_sample_unique);
 
         this.totalcall = this.arr_sample;
 

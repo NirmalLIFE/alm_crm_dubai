@@ -66,7 +66,6 @@ export class UserpsflistingComponent implements OnInit {
         this.load_flag=true;
         this.psf_calls = [];
         this.temp_psf_calls = [];
-        console.log("selected date", this.assigndate)
         let data = {
             date: this.assigndate,
         };
@@ -128,7 +127,6 @@ export class UserpsflistingComponent implements OnInit {
                         element.psf_expiry = false;
                     }
                 });
-                console.log(rdata.user_monthly_total_count);
                 this.pieChart = {
                     series: rdata.user_monthly_total_count.map(Number),
                     chart: {
@@ -186,7 +184,6 @@ export class UserpsflistingComponent implements OnInit {
         this.psfcallupdate.open();
     }
     closePsfcallupdateModal(flag:any) {
-        console.log(flag);
         this.psfcallupdate.close();
         if(flag==true)this.getPSFCallsList();
     }

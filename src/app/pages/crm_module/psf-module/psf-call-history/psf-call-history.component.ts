@@ -21,8 +21,9 @@ export class PsfCallHistoryComponent implements OnInit {
         { name: 'Not Answered', value: '2' },
     ];
     constructor() {
-        console.log('oldcalldata>>>>>>>>', this.oldcalldata);
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+
+    }
 }

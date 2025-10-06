@@ -251,7 +251,6 @@ export class PsfadminreportComponent implements OnInit {
                                 (psfCalls.last_call_status.pst_psf_status == '14' && psfCalls.last_call_status.pst_response == '8')
                             ) {
                                 //parseInt(psfCalls.last_call_status.attempt_count) == 3 && psfCalls.last_call_status.pst_response == '4'
-                                console.log('closed after max psf attempt');
                                 this.org_psf_data.closed_after_max_psf_attempt = this.org_psf_data.closed_after_max_psf_attempt + 1;
                             }
                             if (
@@ -298,7 +297,6 @@ export class PsfadminreportComponent implements OnInit {
                 });
                 this.org_psf_data.newtotalcalls = this.org_psf_data.total_psf_calls - this.org_psf_data.psf_not_applicable_calls;
 
-                console.log('this.org_psf_data.newtotalcalls', this.org_psf_data.newtotalcalls);
                 this.additionalReports(this.user_psf_calls);
             } else {
                 this.load_flag = false;
@@ -514,7 +512,6 @@ export class PsfadminreportComponent implements OnInit {
         );
     }
     openViewDetails(data: any) {
-        console.log('value>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>1001', data);
         this.router.navigate(['userpsfreport'], {
             queryParams: {
                 id: btoa(btoa(btoa(data.us_id))),

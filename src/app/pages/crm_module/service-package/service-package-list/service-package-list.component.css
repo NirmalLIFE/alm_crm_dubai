@@ -33,3 +33,21 @@
 .ng-autocomplete ::ng-deep .autocomplete-container ::ng-deep .input-container .x i {
   font-size: 15px;
 }
+
+::ng-deep .swal2-popup.sweet-alerts.rounded-icon-popup .swal2-icon.rounded-icon-shadow {
+  border-radius: 50% !important;
+  box-shadow: 0 0 12px rgba(255, 123, 0, 0.8) !important;
+}
+
+::ng-deep .swal2-popup.sweet-alerts.rounded-icon-popup .warning-text {
+  color: #f75f00d5 !important;
+  font-weight: 500 !important;
+}
+
+::ng-deep .swal2-popup.sweet-alerts.rounded-icon-popup .swal2-confirm.confirm-btn {
+  background-color: #013dd7 !important;
+  color: #fff !important;
+  padding: 0.6em 2em !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+}

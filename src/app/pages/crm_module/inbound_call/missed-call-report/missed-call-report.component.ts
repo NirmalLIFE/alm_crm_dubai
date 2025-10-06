@@ -285,7 +285,6 @@ export class MissedCallReportComponent implements OnInit {
                                         }
                                     });
                                 }
-                                console.log('report data>>>>>>>>>>>>', this.report);
                                 this.report.forEach((element) => {
                                     element['misscallarr'] = [];
                                     this.allmisscall.forEach((element2) => {
@@ -587,14 +586,12 @@ export class MissedCallReportComponent implements OnInit {
     cardFilter(type: any) {
         this.selectedCard = type;
         this.report = this.report_temp;
-        console.log("this.report",this.report)
-       console.log(type);
+
         if (type == 'WTMISS') {
             this.report = this.report.filter(({ wt }) => wt == 'true');
         } else if (type == 'NWTMISS') {
             this.report = this.report.filter(({ wt }) => wt != 'true');
         }
-       
         else if(type =='WTEXTCUSMISS'){
             this.report = this.report.filter(({ wt, customer }) => wt == 'true' && customer != 'new');
         
@@ -639,7 +636,6 @@ export class MissedCallReportComponent implements OnInit {
         else if(type =='NWTNEWCUSAPMISS'){
             this.report = this.report.filter(({ wt, customer,call_back, callarr }) => wt != 'true' && customer == 'new' && call_back != 'success' &&  (callarr.length == 0  || (callarr.length > 0 && callarr[callarr.length - 1].disposition == 'NO ANSWER')));
         }
-        console.log("report fetched",this.report);
         
         
     }
@@ -683,7 +679,6 @@ export class MissedCallReportComponent implements OnInit {
                 //this.coloredToast('danger', 'No data for this Number');
             }
             this.getInbound();
-            console.log('customer data>>>>>>>>>>>>>>', this.customerdata);
             this.custDetailModal.open();
         });
     }

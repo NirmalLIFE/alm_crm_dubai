@@ -226,7 +226,6 @@ export class ExpiredanddissatisfiedComponent implements OnInit {
                             ({ expireFlag }: { expireFlag: boolean }) => !expireFlag
                         );
                     } else {
-                        console.log('staus>>>>>>>>>>>>', this.userpsf_details.user_psf_calls);
 
                         this.userpsf_details.user_psf_calls.forEach((element: any) => {
                             let sastatustracker = element.psf_calls.filter((pst_sourceid: any) => pst_sourceid.pst_psf_call_type != '1');
@@ -690,7 +689,6 @@ export class ExpiredanddissatisfiedComponent implements OnInit {
     }
 
     SearchFilter(value: any) {
-        console.log(value);
         this.searchtype = value;
         this.getUserPSFcallReport();
     }
@@ -723,7 +721,6 @@ export class ExpiredanddissatisfiedComponent implements OnInit {
                 });
                 if (this.oldCallData) {
                     this.openCallHistory();
-                    console.log("oldcalldata>>>",this.oldCallData)
                     // this.dialogService
                     //   .open(PsfCallHistoryComponent, {
                     //     context: {

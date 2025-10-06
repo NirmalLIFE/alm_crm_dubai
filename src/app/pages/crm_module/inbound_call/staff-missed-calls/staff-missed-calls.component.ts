@@ -69,9 +69,7 @@ export class StaffMissedCallsComponent implements OnInit {
                     })
                     .subscribe((rData: any) => {
                         if (rData.ret_data == 'success') {
-                            console.log('this.miss>>>>>miss calls>>>>>>>>>>>>>>>>>>>', this.missedCalls);
                             let tempMissedCallsWithLog = rData.customers;
-                            console.log('this.tempMissedCallsWithLog >>>>>>>>>>>>>>>>>', tempMissedCallsWithLog);
                             tempMissedCallsWithLog.forEach((element: any) => {
                                 let current_call = this.missedCalls.filter(
                                     (item: any) => item.src.substring(item.src.length - 9) == element.phone.substring(element.phone.length - 9)
@@ -80,12 +78,10 @@ export class StaffMissedCallsComponent implements OnInit {
                                 let temp_yeastar = element.yeastar_call_logs.filter((item: any) => item.timestamp >= current_call[0].timestamp);
                                 let temp_calls = element.lead_call_logs.filter((item: any) => item.ystar_call_id == current_call[0].uniqueid);
                                 // console.log('temp_calls call>>>>>>>>>>>>>>>>>>', temp_calls);
-                                console.log('temp_yeastar>>>>>>>>>>temp_yeastar>>>111111>>>>>', temp_yeastar);
                                 element.missedHistory = [];
                                 if (temp_yeastar.length > 1) {
                                     temp_yeastar = temp_yeastar.filter((tp_item: any) => !(tp_item.dst == '6300' && tp_item.disposition == 'ANSWERED'));
                                     temp_yeastar = temp_yeastar.sort((a: any, b: any) => parseInt(a.timestamp) - parseInt(b.timestamp));
-                                    console.log('temp_yeastar>>>>>>>>>>222>>>>>>>>', temp_yeastar);
 
                                     for (let i = 0; i < temp_yeastar.length; i++) {
                                         // let log=element.lead_call_logs.filter((item:any)=>item.ystar_call_id==temp_yeastar.uniqueid && item.lcl_call_to==temp_yeastar.dst);
@@ -198,7 +194,6 @@ export class StaffMissedCallsComponent implements OnInit {
         this.calllogphn = {
             phone: data,
         };
-        console.log("calllogphone>>>>>>>>>>",this.calllogphn)
         this.calllogmodal.open();
     }
 

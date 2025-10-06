@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-social-media-campaign-report',
@@ -12,7 +13,8 @@ export class SocialMediaCampaignReportComponent implements OnInit {
     public user_role = atob(atob(localStorage.getItem('us_role_id') || '{}'));
     public dateFrom: any = this.datePipe.transform(moment(new Date()).startOf('month').toDate(), 'yyyy-MM-dd') || '';
     public dateTo: any = this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
-    public selectedCampaign: any;
+    public selectedCampaign: any = '0';
+    public selectedCustomers: any = '0';
     public totalCustomersData: any;
 
     appointment: any;
@@ -44,10 +46,23 @@ export class SocialMediaCampaignReportComponent implements OnInit {
 
     MostvisiteddayCampaignName: any;
 
-    constructor(public datePipe: DatePipe, public auth_services: StaffPostAuthService) {}
+    most_visited_campaign: any;
+    most_leads_created_source: any;
+    most_visited_day: any;
+    conductedCampaigns: any = [];
+    campaignSearch: any;
+
+    constructor(public datePipe: DatePipe, public auth_services: StaffPostAuthService, public router: Router) {}
     lineChart: any;
     columnChart: any;
     areaChart: any;
+
+    campCols = [
+        { field: 'name', title: 'Campaign Name', isUnique: true, hide: false },
+        { field: 'leadCount', title: 'Leads', hide: false },
+        { field: 'conCount', title: 'Visited', hide: false },
+        { field: 'action', title: 'Action', hide: false },
+    ];
 
     ngOnInit() {
         this.getCampaignDetails();
@@ -67,20 +82,60 @@ export class SocialMediaCampaignReportComponent implements OnInit {
             dateFrom: this.dateFrom,
             dateTo: this.dateTo,
             campaign: this.selectedCampaign,
+            customerType: this.selectedCustomers,
         };
         this.auth_services.fetchCampaignDetails(data).subscribe((data: any) => {
-            this.totalCustomersData = data.customer_data;
+            if (this.selectedCustomers == 1) {
+                this.totalCustomersData = data.customer_data.filter(
+                    (item: any) => (item.job_count_after_lead == 0 || item.job_count_after_lead == 1) && item.job_count_before_lead == 0
+                );
 
+                let temp = data.customer_data.filter((item: any) => item.job_count_after_lead != '0');
+
+                let temp1 = data.customer_data.filter((item: any) => item.job_count_before_lead != '0');
+            } else {
+                this.totalCustomersData = data.customer_data;
+            }
             this.appointment = this.totalCustomersData.filter((data: any) => {
                 return data.purpose_id == 1;
             });
 
-            this.visited = this.appointment.filter((data: any) => {
+            this.visited = this.totalCustomersData.filter((data: any) => {
                 return data.apptm_status == 5;
             });
+            // let temp3 = data.customer_data.filter(
+            //     (item: any) =>
+            //         (item.smc_code === 'CMFB0125-0054' || item.smc_code === 'CMFB0125-0055' || item.smc_code === 'CMFB0125-0056') && item.apptm_status !== '5'
+            // );
+
+            // console.log('2025 Jan Campaign - Static Post>>>>>CMFB0125-0054>>>>>>>', temp3);
+            // console.log('total customers data>>>>>>>', this.totalCustomersData);
+            this.most_visited_campaign = this.getMostVisitedCampaign(this.totalCustomersData);
+            if (this.most_visited_campaign) {
+                const mostVisitedDayPercentage = Math.round((this.most_visited_campaign.visitedCount / this.most_visited_campaign.totalLeads) * 100);
+                this.MostvisiteddayCampaignName = mostVisitedDayPercentage;
+            } else {
+                this.MostvisiteddayCampaignName = 0;
+            }
+
+            this.most_leads_created_source = this.getMostLeadsCreatedSource(this.totalCustomersData);
+            if (this.most_leads_created_source) {
+                let sourcePercentage = Math.round((this.most_leads_created_source?.visitedCount / this.most_leads_created_source?.totalLeads) * 100);
+                this.mostSourcePercentage = sourcePercentage;
+            } else {
+                this.mostSourcePercentage = 0;
+            }
+
+            this.most_visited_day = this.getMostVisitedDayWithCampaign(this.totalCustomersData, this.campList);
+            if (this.most_visited_day) {
+                const totalCount = this.visited.length;
+                let VisiteddayPercentage = Math.round((this.most_visited_day?.visitCount / totalCount) * 100);
+                this.mvistedPercenatge = VisiteddayPercentage;
+            } else {
+                this.mvistedPercenatge = 0;
+            }
+
             this.dataLoadFlag = false;
-            console.log('appointment', this.appointment);
-            console.log('visited', this.visited);
             this.DateTrim();
             this.socialMediaSourceFetch();
             this.CampaignNameDetailsStasticsSort();
@@ -93,10 +148,21 @@ export class SocialMediaCampaignReportComponent implements OnInit {
         let dateFromforGraph = new Date(dateToforGraph);
         dateFromforGraph.setDate(dateToforGraph.getDate() - 7);
 
+        // let data = {
+        //     dateFrom: dateFromforGraph.toISOString().split('T')[0],
+        //     dateTo: dateToforGraph.toISOString().split('T')[0],
+        //     campaign: this.selectedCampaign,
+        // };
+
+        let currentDate = new Date(); // Current date
+        let sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(currentDate.getDate() - 6);
+
         let data = {
-            dateFrom: dateFromforGraph.toISOString().split('T')[0],
-            dateTo: dateToforGraph.toISOString().split('T')[0],
+            dateFrom: sevenDaysAgo.toISOString().split('T')[0], // Format as YYYY-MM-DD
+            dateTo: currentDate.toISOString().split('T')[0], // Format as YYYY-MM-DD
             campaign: this.selectedCampaign,
+            customerType: this.selectedCustomers,
         };
 
         this.auth_services.fetchCampaignDetails(data).subscribe((data: any) => {
@@ -112,7 +178,6 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                 }
                 graphData[dateStr]++;
             });
-            console.log('Graph data', graphData);
             let sortedDates = Object.keys(graphData).sort();
 
             // Retrieve counts for the sorted dates
@@ -120,7 +185,6 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                 date: date,
                 count: graphData[date],
             }));
-            console.log('Sorted Count', sortedCounts);
 
             let count = sortedCounts.map((data: any) => {
                 return data.count;
@@ -130,15 +194,11 @@ export class SocialMediaCampaignReportComponent implements OnInit {
             });
             this.countfordaysGraph = count;
             this.datesofDaysGraph = days;
-            console.log('Sorted Dates and Counts countfordaysGraph', this.countfordaysGraph);
-            console.log('Sorted Dates and Counts countfordaysGraph', this.datesofDaysGraph);
 
             //for appointment count
             let appCount = this.daysGraph.filter((data: any) => {
                 return data.purpose_id == 1;
             });
-
-            console.log('appCount', appCount);
 
             const appGraphData: { [key: string]: number } = {};
 
@@ -181,8 +241,6 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                 visitedGraphData[dateStr].count++;
             });
 
-            console.log('Visited GraphData', visitedGraphData);
-
             let visitedsortedDates = Object.keys(visitedGraphData).sort();
 
             let visitedsortedCounts = visitedsortedDates.map((date) => ({
@@ -190,26 +248,24 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                 count: visitedGraphData[date].count,
                 campaign: visitedGraphData[date].campaign,
             }));
-
-            console.log('visitedsortedCounts', visitedsortedCounts);
-
             let highestCountItem;
 
             if (visitedsortedCounts.length > 0) {
                 highestCountItem = visitedsortedCounts.reduce((prev, current) => (prev.count > current.count ? prev : current));
             }
-            console.log(highestCountItem);
             this.highestVisistedDayDetails = highestCountItem;
+
             let viscount = visitedsortedCounts.map((data: any) => {
                 return data.count;
             });
 
-            const totalCount = visitedsortedCounts.reduce((total, item) => total + item.count, 0);
+            // const totalCount = visitedsortedCounts.reduce((total, item) => total + item.count, 0);
+            // console.log('totalCount>???????VisitedtotalCount??????????????', totalCount);
 
-            let MostVisiteddayPercentage = Math.round((highestCountItem?.count / totalCount) * 100);
-            MostVisiteddayPercentage = MostVisiteddayPercentage;
-            console.log('hehe', MostVisiteddayPercentage);
-            this.mvistedPercenatge = MostVisiteddayPercentage;
+            // let MostVisiteddayPercentage = Math.round((highestCountItem?.count / totalCount) * 100);
+            // MostVisiteddayPercentage = MostVisiteddayPercentage;
+            // console.log('hehe', MostVisiteddayPercentage);
+            // this.mvistedPercenatge = MostVisiteddayPercentage;
 
             this.visitedCount = viscount;
 
@@ -224,7 +280,7 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                         data: this.AppointmentCount,
                     },
                     {
-                        name: 'Converted',
+                        name: 'Visited',
                         data: this.visitedCount,
                     },
                 ],
@@ -325,14 +381,14 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                 });
             });
 
-            let highestCountItem = this.campignSourceNames.reduce((prev: any, current: any) => (prev.LeadCount > current.LeadCount ? prev : current));
-            this.highestCampaignSource = highestCountItem;
+            // let highestCountItem = this.campignSourceNames.reduce((prev: any, current: any) => (prev.LeadCount > current.LeadCount ? prev : current));
+            // this.highestCampaignSource = highestCountItem;
+            // // const totalCount = this.campignSourceNames.reduce((total: any, item: any) => total + item.LeadCount, 0);
+            // const totalCount = this.highestCampaignSource?.LeadCount;
 
-            const totalCount = this.campignSourceNames.reduce((total: any, item: any) => total + item.LeadCount, 0);
-
-            let MostVisiteddayPercentage = Math.round((highestCountItem?.LeadCount / totalCount) * 100);
-            this.mostSourcePercentage = MostVisiteddayPercentage;
-            console.log('Numbers found', highestCountItem);
+            // let MostVisiteddayPercentage = Math.round((highestCountItem?.ConvertedCount / totalCount) * 100);
+            // this.mostSourcePercentage = MostVisiteddayPercentage;
+            // console.log('Numbers found', highestCountItem);
 
             let leadCount = this.campignSourceNames.map((data: any) => {
                 return data.LeadCount;
@@ -345,7 +401,6 @@ export class SocialMediaCampaignReportComponent implements OnInit {
             let campaignNames = this.campignSourceNames.map((item: any) => {
                 return item.name;
             });
-            console.log('socialMediaSource', this.socialMediaSource);
             this.lineChart = {
                 series: [
                     {
@@ -353,7 +408,7 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                         data: leadCount,
                     },
                     {
-                        name: 'Converted',
+                        name: 'Visited',
                         data: convertedCount,
                     },
                 ],
@@ -400,16 +455,17 @@ export class SocialMediaCampaignReportComponent implements OnInit {
 
         if (this.campList && this.campList.length > 0) {
             campNameArray = this.campList.map((data: any) => {
-                return { name: data.smc_name, id: data.smc_id, leadCount: 0, conCount: 0 };
+                return { name: data.smc_name, id: data.smc_id, leadCount: 0, conCount: 0, numbers: [] };
             });
         } else {
-            campNameArray = [{ name: '', id: '', leadCount: 0, conCount: 0 }];
+            campNameArray = [{ name: '', id: '', leadCount: 0, conCount: 0, numbers: [] }];
         }
 
         this.totalCustomersData.map((data: any) => {
             campNameArray.map((item: any) => {
                 if (data.smc_id == item.id) {
                     item.leadCount++;
+                    item.numbers.push(data.phone);
                 }
             });
         });
@@ -422,16 +478,16 @@ export class SocialMediaCampaignReportComponent implements OnInit {
             });
         });
 
-        console.log('campNameArray', campNameArray);
+        this.conductedCampaigns = campNameArray;
+
 
         let highestCountItem = campNameArray.reduce((prev: any, current: any) => (prev.conCount > current.conCount ? prev : current));
         this.highestCampaignName = highestCountItem;
-        console.log('highestCampaignName', this.highestCampaignName);
 
-        const totalCount = campNameArray.reduce((total: any, item: any) => total + item.conCount, 0);
-
-        let MostVisiteddayPercentage = Math.round((highestCountItem?.conCount / totalCount) * 100);
-        this.MostvisiteddayCampaignName = MostVisiteddayPercentage;
+        // const totalCount = campNameArray.reduce((total: any, item: any) => total + item.conCount, 0);
+        // const totalCount = this.highestCampaignName?.leadCount;
+        // let MostVisiteddayPercentage = Math.round((highestCountItem?.conCount / totalCount) * 100);
+        // this.MostvisiteddayCampaignName = MostVisiteddayPercentage;
 
         let leadCount = campNameArray.map((data: any) => {
             return data.leadCount;
@@ -452,7 +508,7 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                     data: leadCount,
                 },
                 {
-                    name: 'Converted',
+                    name: 'Visited',
                     data: convertedCount,
                 },
             ],
@@ -496,5 +552,113 @@ export class SocialMediaCampaignReportComponent implements OnInit {
                 theme: 'light',
             },
         };
+    }
+
+    getMostVisitedCampaign(customerData: any[]) {
+        const visitedLeads = customerData.filter((lead) => lead.apptm_status === '5');
+        const campaignMap: { [smc_id: string]: { visitedCount: number; totalLeads: number; smc_name: string } } = {};
+        customerData.forEach((lead) => {
+            const { smc_id, smc_name } = lead;
+            if (!campaignMap[smc_id]) {
+                campaignMap[smc_id] = { visitedCount: 0, totalLeads: 0, smc_name };
+            }
+            campaignMap[smc_id].totalLeads++;
+            if (lead.apptm_status == '5') {
+                campaignMap[smc_id].visitedCount++;
+            }
+        });
+        let mostVisitedCampaign: any;
+        Object.entries(campaignMap).forEach(([smc_id, stats]) => {
+            if (!mostVisitedCampaign || stats.visitedCount > mostVisitedCampaign.visitedCount) {
+                mostVisitedCampaign = {
+                    smc_id,
+                    smc_name: stats.smc_name,
+                    visitedCount: stats.visitedCount,
+                    totalLeads: stats.totalLeads,
+                };
+            }
+        });
+
+        return mostVisitedCampaign;
+    }
+
+    getMostLeadsCreatedSource(customerData: any[]) {
+        const sourceNames: { [key: string]: string } = {
+            '1': 'Facebook',
+            '2': 'Instagram',
+            '3': 'Whatsapp',
+        };
+
+        const sourceMap: { [source_id: string]: any } = {};
+        customerData.forEach((lead) => {
+            const { lead_social_media_source, apptm_status } = lead;
+            if (!sourceMap[lead_social_media_source]) {
+                sourceMap[lead_social_media_source] = {
+                    source_id: lead_social_media_source,
+                    sourceName: sourceNames[lead_social_media_source] || 'Unknown',
+                    totalLeads: 0,
+                    visitedCount: 0,
+                };
+            }
+            sourceMap[lead_social_media_source].totalLeads++;
+            if (apptm_status === '5') {
+                sourceMap[lead_social_media_source].visitedCount++;
+            }
+        });
+
+        let mostLeadsSource: any;
+        Object.values(sourceMap).forEach((stats) => {
+            if (!mostLeadsSource || stats.totalLeads > mostLeadsSource.totalLeads) {
+                mostLeadsSource = {
+                    source_id: stats.source_id,
+                    sourceName: stats.sourceName,
+                    totalLeads: stats.totalLeads,
+                    visitedCount: stats.visitedCount,
+                };
+            }
+        });
+
+        return mostLeadsSource;
+    }
+
+    getMostVisitedDayWithCampaign(customerData: any[], campaignData: any[]) {
+        const dateVisitMap: { [date: string]: { visitCount: number; smc_id: string } } = {};
+        customerData.forEach((lead) => {
+            const leadDate = lead.lead_createdon.split(' ')[0];
+            if (lead.apptm_status === '5') {
+                if (!dateVisitMap[leadDate]) {
+                    dateVisitMap[leadDate] = { visitCount: 0, smc_id: lead.smc_id };
+                }
+                dateVisitMap[leadDate].visitCount++;
+            }
+        });
+        let mostVisitedDay: any;
+        let maxVisitCount = 0;
+        for (const date in dateVisitMap) {
+            if (dateVisitMap[date].visitCount > maxVisitCount) {
+                maxVisitCount = dateVisitMap[date].visitCount;
+                const smc_id = dateVisitMap[date].smc_id;
+                // const campaign = campaignData.find((c) => c.smc_id === smc_id);
+                // const smc_name = campaign ? campaign.smc_name : 'Unknown Campaign';
+                mostVisitedDay = { date, visitCount: maxVisitCount };
+            }
+        }
+
+        return mostVisitedDay;
+    }
+
+    redirectToWhatsappChat(numbers: any) {
+        sessionStorage.setItem('chatNumbers', JSON.stringify(numbers));
+        this.router.navigate(['whatsappchat']);
+
+        // this.router.navigate(['whatsappchat'], {
+        //     queryParams: { numbers: encodeURIComponent(JSON.stringify(numbers)) },
+        // });
+
+        // this.router.navigate(['whatsappchat'], {
+        //     queryParams: {
+        //         numbers: numbers,
+        //     },
+        // });
     }
 }

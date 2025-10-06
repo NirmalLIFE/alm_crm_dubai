@@ -3,7 +3,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 //Routes
@@ -156,9 +156,13 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { WhatsappLeadsListComponent } from './pages/crm_module/leads/whatsapp/whatsapp-leads-list/whatsapp-leads-list.component';
 import { QuoteLogComponent } from './pages/crm_module/quote-module/normal-quote/quote-logs/quote-log/quote-log.component';
 import { WhatsappSettingsComponent } from './pages/crm_module/leads/whatsapp/whatsapp-settings/whatsapp-settings.component';
-import { CustomerAnalysisComponent } from './pages/crm_module/customer/customer-analysis/customer-analysis.component';
+import { CustomerAnalysisComponent } from './pages/crm_module/customers/customer-analysis/customer-analysis.component';
+import { LeadAnalysisComponent } from './pages/crm_module/leads/lead-analysis/lead-analysis.component';
+import { CustomerReEngageReportComponent } from './pages/crm_module/customers/customer-re-engage-report/customer-re-engage-report.component';
+import { ServiceRemainderReportComponent } from './pages/crm_module/service-module/service-remainder/service-remainder-report/service-remainder-report.component';
 import { CustomerFollowUpsComponent } from './pages/crm_module/customers/customer-follow-ups/customer-follow-ups.component';
-import { ServiceRemainderReportComponent } from './pages/crm_module/service-module/service-remainder-report/service-remainder-report.component';
+import { NewCustomerDashComponent } from './pages/crm_module/customers/new-customer-dash/new-customer-dash.component';
+import { CountUpModule } from 'ngx-countup';
 import { ServicePackageListComponent } from './pages/crm_module/service-package/service-package-list/service-package-list.component';
 import { ServicePackageRequestedComponent } from './pages/crm_module/service-package/service-package-requested/service-package-requested.component';
 import { ServicePkgPartsSetupComponent } from './pages/crm_module/service-package/service-pkg-parts-setup/service-pkg-parts-setup.component';
@@ -172,6 +176,11 @@ import { ServicePkgAdminUpdateComponent } from './pages/crm_module/service-packa
 import { ServicePkgCnsLbrComponent } from './pages/crm_module/service-package/service-pkg-cns-lbr/service-pkg-cns-lbr.component';
 import { ServicePkgModelcodeListComponent } from './pages/crm_module/service-package/service-pkg-modelcode-list/service-pkg-modelcode-list.component';
 import { PartsPriceRequestAdminComponent } from './pages/crm_module/service-module/Spare-parts/parts-price-request-admin/parts-price-request-admin.component';
+import { LogsComponent } from './pages/crm_module/service-package/logs/logs.component';
+import { MaintenanceComponent } from './pages/maintenance/maintenance.component';
+import { MaintenanceInterceptor } from './maintenance.interceptor';
+import { ServiceRmdrRptComponent } from './pages/crm_module/service-module/service-remainder/service-rmdr-rpt/service-rmdr-rpt.component';
+import { PermittedIpListComponent } from './pages/crm_module/permitted-ip-list/permitted-ip-list.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true }),
@@ -205,6 +214,7 @@ import { PartsPriceRequestAdminComponent } from './pages/crm_module/service-modu
         AutocompleteLibModule,
         GoogleMapsModule,
         PickerModule,
+        CountUpModule,
     ],
     declarations: [
         AppComponent,
@@ -324,8 +334,11 @@ import { PartsPriceRequestAdminComponent } from './pages/crm_module/service-modu
         QuoteLogComponent,
         WhatsappSettingsComponent,
         CustomerAnalysisComponent,
-        CustomerFollowUpsComponent,
+        LeadAnalysisComponent,
+        CustomerReEngageReportComponent,
         ServiceRemainderReportComponent,
+        CustomerFollowUpsComponent,
+        NewCustomerDashComponent,
         ServicePackageListComponent,
         ServicePackageRequestedComponent,
         ServicePkgPartsSetupComponent,
@@ -339,8 +352,16 @@ import { PartsPriceRequestAdminComponent } from './pages/crm_module/service-modu
         ServicePkgCnsLbrComponent,
         ServicePkgModelcodeListComponent,
         PartsPriceRequestAdminComponent,
+        LogsComponent,
+        MaintenanceComponent,
+        ServiceRmdrRptComponent,
+        PermittedIpListComponent,
     ],
-    providers: [AppService, Title, DatePipe],
+    providers: [AppService, Title, DatePipe,{
+        provide: HTTP_INTERCEPTORS,
+        useClass: MaintenanceInterceptor,
+        multi: true
+    }],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
+import { CountUpModule } from 'ngx-countup';
 
 @Component({
     selector: 'app-service-remainder-report',
@@ -30,6 +31,23 @@ export class ServiceRemainderReportComponent implements OnInit {
     public apptCount: any;
     public originalCustomers: any;
     public appotCustomers: any;
+    public firstReminderCust: any;
+    public secondReminderCust: any;
+    public thirdReminderCust: any;
+    public selectedFilterIndex: any = 0;
+    public secondServiceCust: any;
+    public firstServiceCust: any;
+    public thirdServiceCust: any;
+
+    Fcustwithapp: any[] = [];
+    Fcustwithoutapp: any[] = [];
+    Fcustwithpendingapp: any[] = [];
+    Scustwithapp: any[] = [];
+    Scustwithoutapp: any[] = [];
+    Scustwithpendingapp: any[] = [];
+    Tcustwithapp: any[] = [];
+    Tcustwithoutapp: any[] = [];
+    Tcustwithpendingapp: any[] = [];
 
     cols = [
         { field: 'wb_cus_mobile', title: 'Number', hide: false },
@@ -66,6 +84,10 @@ export class ServiceRemainderReportComponent implements OnInit {
         this.apptCount = 0;
         this.originalCustomers = [];
         this.appotCustomers = [];
+        this.firstReminderCust = [];
+        this.secondReminderCust = [];
+        this.thirdReminderCust = [];
+
 
         let data = {
             dateFrom: this.dateFrom,
@@ -79,6 +101,7 @@ export class ServiceRemainderReportComponent implements OnInit {
                 this.allcustomers = rData.Campaigns.filter(
                     (camp: any) => camp.alm_wb_camp_type == '3' || camp.alm_wb_camp_type == '4' || camp.alm_wb_camp_type == '5'
                 );
+
 
                 const customerGroups = this.allcustomers.reduce((groups: any, element: any) => {
                     const mobile = element.wb_cus_mobile;
@@ -96,6 +119,7 @@ export class ServiceRemainderReportComponent implements OnInit {
                         // Set default statuses
                         element.appstatus = 'Not Scheduled';
                         element.job_status = 'Not Opened';
+                        element.appstatusid = 0;
 
                         groups[mobile].push(element);
                     }
@@ -141,15 +165,30 @@ export class ServiceRemainderReportComponent implements OnInit {
                     .filter((element) => element.wb_cus_mobile)
                     .map(({ wb_cus_mobile, message_date }) => ({ mobile: wb_cus_mobile, message_date }));
 
+                // let thirdCamp = this.allcustomers.filter( (camp: any) =>  camp.alm_wb_camp_type == '5');
+                // console.log("third service reminder>>>>>>>>>>>>>>",thirdCamp)
+
                 this.originalCustomers = [...this.allcustomers]; // Backup original list before filtering
 
                 // 1. Sent 2. Delivered 3. Read 4. Failed 5. Deleted
-                this.totalCampaignMessageSent = this.allcustomers; //filter((camp: any) => camp.alm_wb_msg_status != '4' && camp.alm_wb_msg_status != '5')
+                this.totalCampaignMessageSent = this.allcustomers.filter((camp: any) => camp.alm_wb_msg_status == '1'); //filter((camp: any) => camp.alm_wb_msg_status != '4' && camp.alm_wb_msg_status != '5')
                 this.totalCampaignMessageDelivered = this.allcustomers.filter((camp: any) => camp.alm_wb_msg_status == '2');
                 this.totalCampaignMessageRead = this.allcustomers.filter((camp: any) => camp.alm_wb_msg_status == '3');
                 this.totalCampaignMessageFailed = this.allcustomers.filter((camp: any) => camp.alm_wb_msg_status == '4');
                 this.responseReceived = this.allcustomers.filter((camp: any) => camp.customer_responded == 'true');
-                this.jobOpenedCustomers = this.allcustomers.filter((camp: any) => camp.job_status == 'Opened');
+                this.jobOpenedCustomers = this.allcustomers.filter((camp: any) => camp.job_status === 'Opened');
+
+                this.firstServiceCust = this.allcustomers.filter((cust: any) => cust.alm_wb_camp_type == '3');
+                this.secondServiceCust = this.allcustomers.filter((cust: any) => cust.alm_wb_camp_type == '4');
+                this.thirdServiceCust = this.allcustomers.filter((cust: any) => cust.alm_wb_camp_type == '5');
+                
+                // ---------------------------------------------------------------------------------
+                this.firstReminderCust = this.jobOpenedCustomers.filter((cust: any) => cust.alm_wb_camp_type == '3');
+
+                this.secondReminderCust = this.jobOpenedCustomers.filter((cust: any) => cust.alm_wb_camp_type == '4');
+
+                this.thirdReminderCust = this.jobOpenedCustomers.filter((cust: any) => cust.alm_wb_camp_type == '5');
+
                 const totalMessages = this.totalCampaignMessageSent.length > 0 ? this.totalCampaignMessageSent.length : 0;
                 const responses = this.responseReceived.length > 0 ? this.responseReceived.length : 0;
 
@@ -167,18 +206,39 @@ export class ServiceRemainderReportComponent implements OnInit {
                         this.allcustomers.forEach((element) => {
                             this.apptCustomers.forEach((element2) => {
                                 // Compare only the last 9 digits
-                                if (
-                                    element.wb_cus_mobile?.slice(-9) === element2.phone?.slice(-9) &&
-                                    ((element.alm_wb_camp_type == '3' && element2.apptm_type == '7') ||
+                                if (element.wb_cus_mobile?.slice(-9) === element2.phone?.slice(-9)) {
+                                    element['apptm_type'] = element2.apptm_type;
+                                    if (
+                                        (element.alm_wb_camp_type == '3' && element2.apptm_type == '7') ||
                                         (element.alm_wb_camp_type == '4' && element2.apptm_type == '8') ||
-                                        (element.alm_wb_camp_type == '5' && element2.apptm_type == '9'))
-                                ) {
-                                    element.appstatus = 'Appointment Scheduled';
+                                        (element.alm_wb_camp_type == '5' && element2.apptm_type == '9')
+                                    ) {
+                                        element.appstatusid = 1;
+                                        element.appstatus = 'Appointment Scheduled';
+                                    }
                                 }
                             });
                         });
 
-                        this.apptCount = this.allcustomers.filter((appt: any) => appt.appstatus == 'Appointment Scheduled').length;
+                        this.apptCount = this.allcustomers.filter((appt: any) => appt.appstatusid == 1).length;
+
+                        this.Fcustwithoutapp = this.firstReminderCust.filter((cust: any) => cust.appstatusid == 0);
+                        this.Fcustwithapp = this.firstReminderCust.filter((cust: any) => cust.appstatusid == 1);
+                        this.Fcustwithpendingapp = this.allcustomers.filter(
+                            (appt: any) => appt.alm_wb_camp_type == '3' && appt.apptm_type == '7' && appt.job_open_date == null
+                        );
+
+                        this.Scustwithoutapp = this.secondReminderCust.filter((cust: any) => cust.appstatusid == 0);
+                        this.Scustwithapp = this.secondReminderCust.filter((cust: any) => cust.appstatusid == 1);
+                        this.Scustwithpendingapp = this.allcustomers.filter(
+                            (appt: any) => appt.alm_wb_camp_type == '4' && appt.apptm_type == '8' && appt.job_open_date == null
+                        );
+
+                        this.Tcustwithoutapp = this.thirdReminderCust.filter((cust: any) => cust.appstatusid == 0);
+                        this.Tcustwithapp = this.thirdReminderCust.filter((cust: any) => cust.appstatusid == 1);
+                        this.Tcustwithpendingapp = this.allcustomers.filter(
+                            (appt: any) => appt.alm_wb_camp_type == '5' && appt.apptm_type == '9' && appt.job_open_date == null
+                        );
                     } else {
                         this.load_flag = false;
                     }
@@ -190,6 +250,7 @@ export class ServiceRemainderReportComponent implements OnInit {
     }
 
     filterMessages(num: any) {
+        this.selectedFilterIndex = num;
         switch (num) {
             case 0:
                 this.allcustomers = this.originalCustomers;
@@ -198,9 +259,7 @@ export class ServiceRemainderReportComponent implements OnInit {
                 this.allcustomers = this.totalCampaignMessageDelivered;
                 break;
             case 2:
-                console.log('this is appt');
-                console.log(this.appotCustomers);
-                this.allcustomers = this.originalCustomers.filter((appt: any) => appt.appstatus == 'Appointment Scheduled');
+                this.allcustomers = this.totalCampaignMessageSent;
                 break;
             case 3:
                 this.allcustomers = this.totalCampaignMessageRead;
@@ -209,10 +268,71 @@ export class ServiceRemainderReportComponent implements OnInit {
                 this.allcustomers = this.totalCampaignMessageFailed;
                 break;
             case 5:
-                this.allcustomers = this.responseReceived;
+                this.allcustomers = this.jobOpenedCustomers;
                 break;
             case 6:
-                this.allcustomers = this.jobOpenedCustomers;
+                this.allcustomers = this.firstReminderCust;
+                break;
+            case 7:
+                this.allcustomers = this.secondReminderCust;
+                break;
+            case 8:
+                this.allcustomers = this.thirdReminderCust;
+                break;
+            case 9:
+                this.allcustomers = this.jobOpenedCustomers.filter((element: any) => {
+                    return (
+                        (element.alm_wb_camp_type === '3' && element.apptm_type === '7') ||
+                        (element.alm_wb_camp_type === '4' && element.apptm_type === '8') ||
+                        (element.alm_wb_camp_type === '5' && element.apptm_type === '9')
+                    );
+                });
+                break;
+            case 10:
+                this.allcustomers = this.Fcustwithapp;
+                break;
+            case 11:
+                this.allcustomers = this.Scustwithapp;
+                break;
+            case 12:
+                this.allcustomers = this.Tcustwithapp;
+                break;
+            case 13:
+                this.allcustomers = this.jobOpenedCustomers.filter((element: any) => {
+                    return (
+                        (element.alm_wb_camp_type === '3' && element.appstatus == 'Not Scheduled') ||
+                        (element.alm_wb_camp_type === '4' && element.appstatus == 'Not Scheduled') ||
+                        (element.alm_wb_camp_type === '5' && element.appstatus == 'Not Scheduled')
+                    );
+                });
+                break;
+            case 14:
+                this.allcustomers = this.Fcustwithoutapp;
+                break;
+            case 15:
+                this.allcustomers = this.Scustwithoutapp;
+                break;
+            case 16:
+                this.allcustomers = this.Tcustwithoutapp;
+                break;
+            case 17:
+                this.allcustomers = this.originalCustomers.filter((appt: any) => {
+                    return (
+                        ((appt.alm_wb_camp_type === '3' && appt.apptm_type === '7') ||
+                            (appt.alm_wb_camp_type === '4' && appt.apptm_type === '8') ||
+                            (appt.alm_wb_camp_type === '5' && appt.apptm_type === '9')) &&
+                        appt.job_open_date == null
+                    );
+                });
+                break;
+            case 18:
+                this.allcustomers = this.Fcustwithpendingapp;
+                break;
+            case 19:
+                this.allcustomers = this.Scustwithpendingapp;
+                break;
+            case 20:
+                this.allcustomers = this.Tcustwithpendingapp;
                 break;
             default:
                 console.warn('Invalid filter option:', num);

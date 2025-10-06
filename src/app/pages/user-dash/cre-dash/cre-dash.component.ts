@@ -448,7 +448,6 @@ export class CreDashComponent implements OnInit {
                         }
                     }
                 });
-                console.log('inb_calls_unique', this.inb_calls_unique);
                 this.getInboundCallsDaily();
             } else {
                 this.call_load_flag = false;
@@ -472,7 +471,6 @@ export class CreDashComponent implements OnInit {
         });
 
         this.missedcall = this.todaysCalls.filter((item) => item.disposition == 'NO ANSWER');
-        console.log('todays calls', this.todaysCalls);
         // this.lostCustomerDetails();
         this.getPsfCallData();
     }
@@ -515,7 +513,6 @@ export class CreDashComponent implements OnInit {
     getPsfCallData() {
         //this.call_load_flag = true;
         let us_labs_id = atob(atob(localStorage.getItem('us_laabs_id') || '{}'));
-        console.log(' us_labs_id>>>>>>>>>>>>>>>>', us_labs_id);
         let data = {
             us_id: this.user_id,
             startDate: this.dateFrom,
@@ -573,7 +570,6 @@ export class CreDashComponent implements OnInit {
     }
 
     filterData(type: any) {
-        console.log(type);
     }
 
     getAppointmentList() {
@@ -1843,7 +1839,6 @@ export class CreDashComponent implements OnInit {
 
                 // this.load_flag = false;
 
-                console.log('filterOptions>>>>>>>>>>>>>>>', this.filterOptions);
             }
         });
     }

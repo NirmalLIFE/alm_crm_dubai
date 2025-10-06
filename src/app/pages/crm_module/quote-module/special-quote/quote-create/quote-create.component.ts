@@ -129,7 +129,6 @@ export class QuoteCreateComponent {
         }
     }
     addItemSpare() {
-        console.log("hi");
         this.qt_item_spare.push({
             type: "1",
             item_name: "",

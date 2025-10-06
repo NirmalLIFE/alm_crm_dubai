@@ -35,3 +35,18 @@ th {
     padding: 0 5px 0 5px;
     font-size: 0.7vw
 }
+
+::ng-deep ng-select.high-priority .ng-select-container {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+::ng-deep ng-select.medium-priority .ng-select-container {
+    background-color: #ffc107 !important;
+    color: white !important;
+}
+
+::ng-deep ng-select.low-priority .ng-select-container {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}

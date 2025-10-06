@@ -103,11 +103,7 @@
                     <label for="name" class="small_label_text m-0 dark:text-white-dark">Pickup & Drop Details</label>
                     <ng-select [(ngModel)]="appointmentDetails.apptm_transport_service" disabled="true"
                         [searchable]="false" [clearable]="false">
-                        <!-- <ng-option value="0">Pick & Drop Requirement</ng-option>
-                        <ng-option value="1">Pick Up & Drop Off Required</ng-option>
-                        <ng-option value="2">Pick Up Required</ng-option>
-                        <ng-option value="3">Drop Off Required</ng-option>
-                        <ng-option value="4">Not Required</ng-option> -->
+                        <ng-option value="0">Not Required</ng-option>
                         <ng-option value="1">Free Pick & Drop</ng-option>
                         <ng-option value="2">Free Pick</ng-option>
                         <ng-option value="3">Free Drop</ng-option>
@@ -245,6 +241,11 @@
         <div class="panel">
             <div class="mb-5 flex items-center justify-between">
                 <h5 class="text-lg font-semibold dark:text-white-light">Activity Log</h5>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="form-checkbox text-success peer" [checked]="appointmentDetails.ld_verify_flag == 1"
+                        (change)="updateLeadVerification(appointmentDetails, appointmentDetails.ld_verify_flag == 0 ? 1 : 0)" />
+                    <span class="peer-checked:text-success">Verified</span>
+                </label>
             </div>
             <div class="panel flex-1 p-0">
                 <ng-container>

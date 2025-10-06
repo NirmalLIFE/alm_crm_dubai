@@ -320,7 +320,6 @@ export class InboundCallAnalysisComponent implements OnInit {
         this.nojobcardcustomer = this.arr_sample.filter((data) => data.customer_type == 'n');
         this.jobcardcustomer = this.arr_sample.filter((data) => data.customer_type != 'n');
         this.load_flag = false;
-        console.log('arra?????????????????????????', this.arr_sample);
     }
 
     CallFilter() {
@@ -361,7 +360,6 @@ export class InboundCallAnalysisComponent implements OnInit {
             }
         }
 
-        console.log('=====>', this.arr_sample);
     }
     cardfilter(type: any) {
         switch (type) {

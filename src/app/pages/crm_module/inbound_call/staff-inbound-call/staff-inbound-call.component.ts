@@ -61,8 +61,27 @@ export class StaffInboundCallComponent implements OnInit {
         this.cols = [...this.cols]; // Create a new reference of the array
     }
 
+    formatDubaiDate(dateStr: string): string {
+        // Split date vs time
+        const [datePart, timePart] = dateStr.split(' ');
+        const [year, month, day] = datePart.split('-');
+        let [h, minute /*, sec*/] = timePart.split(':').map((s) => parseInt(s, 10));
+
+        // Compute AM/PM
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 === 0 ? 12 : h % 12;
+
+        // Zero‐pad
+        const dd = day.padStart(2, '0');
+        const MM = month.padStart(2, '0');
+        const yyyy = year;
+        const hh = String(h).padStart(2, '0');
+        const mm = String(minute).padStart(2, '0');
+
+        return `${dd}-${MM}-${yyyy} ${hh}:${mm} ${ampm}`;
+    }
+
     getStaffCallLog() {
-        console.log(this.selectedDate);
         this.load_flag = true;
         this.userServices
             .getStaffInboundCallLog({
@@ -105,38 +124,53 @@ export class StaffInboundCallComponent implements OnInit {
                 }
             });
     }
+    /**
+     * Categorizes CDR (Call Detail Record) calls into:
+     *  - Calls not logged by staff (`unLoggedCalls`)
+     *  - Calls logged by the currently logged-in staff (`staffLoggedCalls`)
+     *  - Attaches matching CDR call details to staff-logged calls
+     */
     categorizeCalls() {
-        console.log("this.cdrCallLog",this.cdrCallLog);
-
+        // Step 1: Filter CDR calls to exclude numbers in `excludedNumbers`
         let tempCdrCalls: any[] = this.cdrCallLog.filter((element: any) => {
             return this.excludedNumbers.every((item: any) => item.cn_number !== element.src);
         });
-        console.log("tempCdrCalls",tempCdrCalls);
+
+        // Step 2: Find CDR calls that are not logged by staff
         this.unLoggedCalls = tempCdrCalls.filter((element: any) => {
             return this.staffLoggedCalls.every((item: any) => item.ystar_call_id !== element.uniqueid);
         });
 
-        console.log("this.staffLoggedCalls",this.staffLoggedCalls);
-        console.log("this.unLoggedCalls",this.unLoggedCalls);
+        // Step 3: Get logged-in user's ID (double base64 decode from localStorage)
+        const loggedInUserId = atob(atob(localStorage.getItem('us_id') || '{}'));
 
-        let temp = this.staffLoggedCalls.filter((element: any) => element.lcl_createdby == atob(atob(localStorage.getItem('us_id') || '{}')));
-        console.log(temp);
-        this.staffLoggedCalls = temp;
+        // Step 4: Filter staff calls to only include those created by the current user
+        this.staffLoggedCalls = this.staffLoggedCalls.filter((element: any) => element.lcl_createdby == loggedInUserId);
+
+        // Step 5: Attach call details from CDR logs to staff calls
         this.staffLoggedCalls.forEach((element) => {
-            console.log(element);
-            let temp = tempCdrCalls.filter((item: any) => item.uniqueid == element.ystar_call_id);
-            if (temp.length > 0) element.call_details = temp[0].purpose_note;
+            // Find matching CDR call
+            let matchedCall = tempCdrCalls.find((item: any) => item.uniqueid == element.ystar_call_id);
+
+            // If found, attach its purpose note
+            if (matchedCall) {
+                element.call_details = matchedCall.purpose_note;
+            }
+
+            // Initialize flag for call history loading
             element.call_history_load = false;
         });
+
+        // Step 6: Mark loading complete and fetch logs by number
         this.load_flag = false;
-        this.loadCallLogsByNumber();
+        // this.loadCallLogsByNumber();
     }
 
-    loadCallLogsByNumber() {}
+    // loadCallLogsByNumber() {}
     openUnLoggedCalls() {
         if (this.unLoggedCalls.length > 0) {
             let numberArray: any[] = this.unLoggedCalls.map((element: any) => element.src);
-            console.log(numberArray);
+
             this.unLoggedCallsModal.open();
             this.userServices
                 .getCustomerInfo({
@@ -157,7 +191,6 @@ export class StaffInboundCallComponent implements OnInit {
     }
 
     assignCallOwnership(selectedRow: any, sectedItem: any) {
-        console.log('data>>>>>>selectedRow, sectedItem>>>>>>>>>>>>', selectedRow, sectedItem);
         Swal.fire({
             icon: 'warning',
             title: 'Confirm the call is answered by you',
@@ -193,12 +226,10 @@ export class StaffInboundCallComponent implements OnInit {
             rec_call_id: element.uniqueid,
             call_log_id: rdata.call_log_id,
         };
-        console.log(this.call_data);
         this.inboundCall.open();
     }
     updateCallDetails(value: any) {
         // let currentLog = value.call_details.filter((item: any) => item.uniqueid == value.ystar_call_id && item.dst == value.call_to)
-        console.log(value);
         this.call_data = {
             title_type: value.lcl_call_source == '0' ? 'Normal Call' : 'Marketing Call',
             phone: value.Call_from, //0551651819
@@ -206,7 +237,7 @@ export class StaffInboundCallComponent implements OnInit {
             rec_call_id: value.ystar_call_id,
             call_log_id: value.lcl_id,
         };
-        console.log(this.call_data);
+
         this.inboundCall.open();
     }
     closeInboundCallModal() {

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
@@ -93,6 +93,16 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
                 this.updateSPSessionLock(this.model_code);
             }
         });
+    }
+
+    @ViewChild('scrollContainer') private scrollContainer!: ElementRef<HTMLDivElement>;
+    // Keep your scroll function as is
+    private scrollToBottom(): void {
+        try {
+            this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+        } catch (err) {
+            // console.error('Scroll error:', err);
+        }
     }
 
     getServicePackagebyKm() {
@@ -204,6 +214,11 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
                     };
                 }
                 this.load_flag = false;
+
+                // Scroll to bottom **after DOM updates**
+                setTimeout(() => {
+                    this.scrollToBottom();
+                }, 0);
 
                 if (!rdata.spareAndLabourData.kmPiceMap?.length) {
                     this.getPricesForEngNo(this.engineNO, this.requestedServicePackage.spmc_id);
@@ -317,6 +332,7 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
     }
 
     saveServicePackageKmPriceMap() {
+        if (this.saveFlag == true) return;
         this.saveFlag = true;
 
         // console.log('this is the kmPriceMap', this.kmPriceMap);
@@ -335,8 +351,8 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
             return;
         }
 
-        this.saveFlag = false;
-
+        // this.saveFlag = false;
+        console.log('this is kmprice map', this.kmPriceMap);
         this.userServices.saveServicePackageKmPriceMap(this.kmPriceMap).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.router.navigateByUrl('servicePackageRequested');
@@ -469,6 +485,11 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
             if (rdata.ret_data == 'success') {
             }
         });
+    }
+
+    goBack() {
+        const model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
+        this.router.navigate(['/servicePackageKm', btoa(model_code)]);
     }
 
     coloredToast(color: string, message: string) {

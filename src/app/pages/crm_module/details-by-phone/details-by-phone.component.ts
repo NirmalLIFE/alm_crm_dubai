@@ -51,6 +51,7 @@ export class DetailsByPhoneComponent implements OnInit {
         this.custpenLeadId = [];
         this.custleads = [];
         this.custleadLog = [];
+        this.load_flag = true;
         this.userServices.getcustomerData({ phone: phone }).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.customerdata = rdata.customer;
@@ -68,6 +69,7 @@ export class DetailsByPhoneComponent implements OnInit {
                     this.getInbound();
                 } else {
                     this.coloredToast('danger', 'No data for this Number');
+                    this.load_flag = false;
                 }
                 //   this.isnNew = true;
                 //   this.loading = false;
@@ -79,6 +81,7 @@ export class DetailsByPhoneComponent implements OnInit {
 
     getInbound() {
         this.log = [];
+        this.load_flag = true;
         let today = moment().format('DD/MM/YYYY');
         let yesterday = moment().subtract(1, 'days').startOf('day').format('DD/MM/YYYY').toString();
 
@@ -144,6 +147,8 @@ export class DetailsByPhoneComponent implements OnInit {
                 } else {
                     this.load_flag = false;
                 }
+            }else{
+                this.load_flag = false;
             }
         });
     }

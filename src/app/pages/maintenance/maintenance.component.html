@@ -1,0 +1,58 @@
+<div class="relative flex min-h-screen items-center justify-center overflow-hidden">
+    <div
+        class=" text-center font-semibold before:container before:absolute before:left-1/2 before:aspect-square before:-translate-x-1/2 before:rounded-full before:bg-[linear-gradient(180deg,#4361EE_0%,rgba(67,97,238,0)_50.73%)] before:opacity-10 ">
+        <div class="relative  w-full max-w-1xl text-center">
+            <img [src]="'./assets/images/maintenence-light.svg'" alt="maintenance"
+                class="mx-auto w-full max-w-md object-contain" />
+            <div
+                class="mb-2 flex items-center justify-center text-xl font-bold leading-none text-primary sm:text-2xl md:mb-8 md:gap-1.5 md:text-[50px]">
+                <div
+                    class="relative inline-flex h-5 w-5 items-center justify-center rounded-md bg-primary-light p-2 sm:h-16 sm:w-16  md:min-w-[96px]">
+                    <div class="absolute inset-1 flex flex-col gap-1">
+                        <span class="h-full w-full rounded-md bg-primary/[12%]"></span>
+                        <span class="h-full w-full rounded-md bg-white"></span>
+                    </div>
+                    <span class="relative">{{ timerset.hours }}</span>
+                </div>
+                <span>:</span>
+                <div
+                    class="relative inline-flex h-5 w-5 items-center justify-center rounded-md bg-primary-light p-2 sm:h-16 sm:w-16 md:min-w-[96px]">
+                    <div class="absolute inset-1 flex flex-col gap-1">
+                        <span class="h-full w-full rounded-md bg-primary/[12%]"></span>
+                        <span class="h-full w-full rounded-md bg-white"></span>
+                    </div>
+                    <span class="relative">{{ timerset.minutes }}</span>
+                </div>
+                <span>:</span>
+                <div
+                    class="relative inline-flex h-5 w-5 items-center justify-center rounded-md bg-primary-light p-2 sm:h-16 sm:w-16  md:min-w-[96px]">
+                    <div class="absolute inset-1 flex flex-col gap-1">
+                        <span class="h-full w-full rounded-md bg-primary/[12%]"></span>
+                        <span class="h-full w-full rounded-md bg-white"></span>
+                    </div>
+                    <span class="relative">{{ timerset.seconds }}</span>
+                </div>
+            </div>
+            <div class="-mt-2 font-semibold dark:text-white">
+                <h2 class="mb-2 text-xl font-bold text-primary md:text-4xl">Under Maintenance</h2>
+                <h5 class="mb-1 text-xl sm:text-xl">Thank you for visiting us.</h5>
+                <p class="text-base ">
+                    We are currently working on making some improvements to give you better user experience. <br
+                        class="hidden sm:block" />
+                    Please visit us again shortly.
+                </p>
+            </div>
+            <button
+                class="btn btn-gradient bg-blue-600 hover:bg-blue-700 text-white flex items-center gap-1 mx-auto !mt-4 w-max border-0 uppercase shadow-none px-4 py-2 rounded-lg"
+                (click)="checkMaintenanceStatus()">
+                Back to Login
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    stroke="#ffffff">
+                    <path
+                        d="M20 7H9C6.23857 7 4 9.23857 3.99999 12C3.99999 14.7614 6.23857 17 8.99999 17M20 7L17 4M20 7L17 10M16 17H13"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>

@@ -27,8 +27,14 @@ export class ServicePackageListComponent implements OnInit {
     selectedKmValue: any;
     public searched: boolean = true;
     visibleItemId: any;
-    _searchMode: 'modelCode' | 'yearVariant' = 'modelCode';
+    _searchMode: 'modelCode' | 'yearVariant' | 'regNo' = 'modelCode';
     modelId: any;
+    regNo: any;
+    regNumbers: any = [];
+    typingTimer: any;
+    typingDelay: number = 300;
+    selectedRegNo: any = '';
+    vin_no: any;
 
     constructor(public router: Router, private userServices: StaffPostAuthService, private activeRouter: ActivatedRoute, public datePipe: DatePipe) {
         let modal = this.activeRouter.snapshot.queryParamMap.get('modelCode');
@@ -77,13 +83,20 @@ export class ServicePackageListComponent implements OnInit {
         const code = this.modelCode?.trim();
         const year = this.modelYear?.trim();
         const varnt = this.variant?.trim();
+        const regNo = this.regNo?.trim();
 
-        if (this.searchMode === 'modelCode') {
+        if (this.searchMode == 'modelCode') {
             if (!code) {
                 this.coloredToast('danger', 'Model code is required to search for a service package.');
                 return;
             }
             this.checkServicePackage(); // Existing flow
+        } else if (this.searchMode == 'regNo') {
+            if (!regNo) {
+                this.coloredToast('danger', 'Reg No is required to search for a service package.');
+                return;
+            }
+            this.checkByRegNo(this.regNo);
         } else {
             if (!year || !varnt) {
                 this.coloredToast('danger', 'Please provide both model year and variant to proceed.');
@@ -93,11 +106,11 @@ export class ServicePackageListComponent implements OnInit {
         }
     }
 
-    get searchMode(): 'modelCode' | 'yearVariant' {
+    get searchMode(): 'modelCode' | 'yearVariant' | 'regNo' {
         return this._searchMode;
     }
 
-    set searchMode(mode: 'modelCode' | 'yearVariant') {
+    set searchMode(mode: 'modelCode' | 'yearVariant' | 'regNo') {
         this._searchMode = mode;
         this.clearSearchFields();
     }
@@ -298,10 +311,128 @@ export class ServicePackageListComponent implements OnInit {
         });
     }
 
+    // checkServicePackage() {
+    //     this.load_flag = true;
+    //     this.servicePackage = [];
+    //     this.searched = false;
+    //     this.vin_no = '';
+    //     this.modelYear = '';
+    //     // if (!this.modelCode) {
+    //     //     this.coloredToast('danger', 'Model code required to search for a service package.');
+    //     //     this.load_flag = false;
+    //     //     return;
+    //     // }
+
+    //     let data = {
+    //         modelCode: this.modelCode ?? '',
+    //         modelYear: this.modelYear ?? '',
+    //         variant: this.variant ?? '',
+    //         // kilometer: this.kilometer,
+    //     };
+
+    //     this.userServices.getServicePackage(data).subscribe((rData: any) => {
+    //         if (rData.ret_data == 'success') {
+    //             if (rData.servicePackage && rData.servicePackage.length > 0) {
+    //                 this.labourFactor = rData.labourFactor;
+    //                 this.modelId = rData.modelId;
+    //                 this.vin_no = rData.Vin_No;
+    //                 this.modelYear = rData.modelYearUsed;
+    //                 this.servicePackage = rData.servicePackage
+    //                     .sort((a: any, b: any) => (a.km_id || 0) - (b.km_id || 0))
+    //                     .map((kmGroup: any) => {
+    //                         const items = kmGroup.items
+    //                             .map((item: any) => {
+    //                                 const itemType = item.item_type;
+    //                                 const price = parseFloat(item.pm_price) || 0;
+    //                                 const qty = parseFloat(item.sp_spare_qty) || 0;
+    //                                 const labourUnit = parseFloat(item.sp_spare_labour_unit) || 0;
+    //                                 const labourFactor = this.labourFactor || 0;
+
+    //                                 let total = 0;
+    //                                 let group_seq = 0;
+
+    //                                 if (itemType === 0) {
+    //                                     total = price * qty + (labourUnit > 0 ? labourUnit * labourFactor : 0);
+    //                                     group_seq = item.sp_spare_group_seq || 0;
+    //                                 } else {
+    //                                     const unit = parseFloat(item.sp_labour_unit) || 0;
+    //                                     total = unit * labourFactor;
+    //                                     group_seq = item.sp_labour_group_seq || 0;
+    //                                 }
+
+    //                                 return {
+    //                                     ...item,
+    //                                     checked: true,
+    //                                     total,
+    //                                     group_seq,
+    //                                 };
+    //                             })
+    //                             .sort((a: any, b: any) => {
+    //                                 const aSeq = Number(a.group_seq) || 0;
+    //                                 const bSeq = Number(b.group_seq) || 0;
+
+    //                                 if (aSeq === 0 && bSeq !== 0) return 1;
+    //                                 if (aSeq !== 0 && bSeq === 0) return -1;
+    //                                 return aSeq - bSeq;
+    //                             });
+
+    //                         const groupTotal = items.reduce((sum: any, i: any) => sum + (i.checked ? i.total : 0), 0);
+    //                         const displayPrice = parseFloat(kmGroup.display_price) || 0;
+    //                         const display_price = groupTotal > displayPrice ? groupTotal : displayPrice;
+
+    //                         return {
+    //                             ...kmGroup,
+    //                             items,
+    //                             totalSPAmount: groupTotal,
+    //                             display_price: display_price, // Bind this to input
+    //                             actualSPAmount: groupTotal,
+    //                         };
+    //                     });
+    //                 if (this.servicePackage.length > 0) {
+    //                     this.selectedKmValue = this.servicePackage[0].km_value;
+    //                     this.onKmSelectionChange(this.selectedKmValue);
+    //                 }
+
+    //                 this.load_flag = false;
+
+    //                 // console.log('servicePackage>>>>>>>>>>>>>>>>>', this.servicePackage);
+    //             } else if (rData.modelData) {
+    //                 const statusFlag = rData.modelData.spmc_status_flag;
+    //                 const statusMessages: { [key: string]: string } = {
+    //                     '0': 'Waiting for both parts and labour details to be entered.',
+    //                     '1': 'Waiting for labour details to be entered by the Supervisor.',
+    //                     '2': 'Waiting for parts details to be entered by the Parts Advisor.',
+    //                     '3': 'Waiting for KM mapping to be completed by the Admin.',
+    //                     '4': 'Waiting for KM-wise price mapping to be completed by the Admin.',
+    //                 };
+
+    //                 const message = statusMessages[statusFlag];
+    //                 if (message) {
+    //                     this.showServicePackageInProgressAlert(message);
+    //                 }
+    //                 this.load_flag = false;
+    //             } else {
+    //                 this.load_flag = false;
+    //                 if (this._searchMode == 'modelCode') {
+    //                     this.showAlert();
+    //                 }
+    //                 // this.showAlert();
+    //             }
+    //         } else {
+    //             this.load_flag = false;
+    //             this.coloredToast('danger', 'No service package found. Create one by searching with the model code.');
+    //             // this.showAlert();
+    //             if (this._searchMode == 'modelCode') {
+    //                 this.showAlert();
+    //             }
+    //         }
+    //     });
+    // }
+
     checkServicePackage() {
         this.load_flag = true;
         this.servicePackage = [];
-        this.searched = false;
+        this.searched = false
         // if (!this.modelCode) {
         //     this.coloredToast('danger', 'Model code required to search for a service package.');
         //     this.load_flag = false;
@@ -317,89 +448,119 @@ export class ServicePackageListComponent implements OnInit {
 
         this.userServices.getServicePackage(data).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                if (rData.servicePackage && rData.servicePackage.length > 0) {
-                    this.labourFactor = rData.labourFactor;
-                    this.modelId = rData.modelId;
-                    this.servicePackage = rData.servicePackage
-                        .sort((a: any, b: any) => (a.km_id || 0) - (b.km_id || 0))
-                        .map((kmGroup: any) => {
-                            const items = kmGroup.items
-                                .map((item: any) => {
-                                    const itemType = item.item_type;
-                                    const price = parseFloat(item.pm_price) || 0;
-                                    const qty = parseFloat(item.sp_spare_qty) || 0;
-                                    const labourUnit = parseFloat(item.sp_spare_labour_unit) || 0;
-                                    const labourFactor = this.labourFactor || 0;
+                const runLogic = () => {
+                    if (rData.servicePackage && rData.servicePackage.length > 0) {
+                        this.labourFactor = rData.labourFactor;
+                        this.modelId = rData.modelId;
+                        this.servicePackage = rData.servicePackage
+                            .sort((a: any, b: any) => (a.km_id || 0) - (b.km_id || 0))
+                            .map((kmGroup: any) => {
+                                const items = kmGroup.items
+                                    .map((item: any) => {
+                                        const itemType = item.item_type;
+                                        const price = parseFloat(item.pm_price) || 0;
+                                        const qty = parseFloat(item.sp_spare_qty) || 0;
+                                        const labourUnit = parseFloat(item.sp_spare_labour_unit) || 0;
+                                        const labourFactor = this.labourFactor || 0;
 
-                                    let total = 0;
-                                    let group_seq = 0;
+                                        let total = 0;
+                                        let group_seq = 0;
 
-                                    if (itemType === 0) {
-                                        total = price * qty + (labourUnit > 0 ? labourUnit * labourFactor : 0);
-                                        group_seq = item.sp_spare_group_seq || 0;
-                                    } else {
-                                        const unit = parseFloat(item.sp_labour_unit) || 0;
-                                        total = unit * labourFactor;
-                                        group_seq = item.sp_labour_group_seq || 0;
-                                    }
+                                        if (itemType === 0) {
+                                            total = price * qty + (labourUnit > 0 ? labourUnit * labourFactor : 0);
+                                            group_seq = item.sp_spare_group_seq || 0;
+                                        } else {
+                                            const unit = parseFloat(item.sp_labour_unit) || 0;
+                                            total = unit * labourFactor;
+                                            group_seq = item.sp_labour_group_seq || 0;
+                                        }
 
-                                    return {
-                                        ...item,
-                                        checked: true,
-                                        total,
-                                        group_seq,
-                                    };
-                                })
-                                .sort((a: any, b: any) => {
-                                    const aSeq = Number(a.group_seq) || 0;
-                                    const bSeq = Number(b.group_seq) || 0;
+                                        return {
+                                            ...item,
+                                            checked: true,
+                                            total,
+                                            group_seq,
+                                        };
+                                    })
+                                    .sort((a: any, b: any) => {
+                                        const aSeq = Number(a.group_seq) || 0;
+                                        const bSeq = Number(b.group_seq) || 0;
 
-                                    if (aSeq === 0 && bSeq !== 0) return 1;
-                                    if (aSeq !== 0 && bSeq === 0) return -1;
-                                    return aSeq - bSeq;
-                                });
+                                        if (aSeq === 0 && bSeq !== 0) return 1;
+                                        if (aSeq !== 0 && bSeq === 0) return -1;
+                                        return aSeq - bSeq;
+                                    });
 
-                            const groupTotal = items.reduce((sum: any, i: any) => sum + (i.checked ? i.total : 0), 0);
-                            const displayPrice = parseFloat(kmGroup.display_price) || 0;
-                            const display_price = groupTotal > displayPrice ? groupTotal : displayPrice;
+                                const groupTotal = items.reduce((sum: any, i: any) => sum + (i.checked ? i.total : 0), 0);
+                                const displayPrice = parseFloat(kmGroup.display_price) || 0;
+                                const display_price = groupTotal > displayPrice ? groupTotal : displayPrice;
 
-                            return {
-                                ...kmGroup,
-                                items,
-                                totalSPAmount: groupTotal,
-                                display_price: display_price, // Bind this to input
-                                actualSPAmount: groupTotal,
-                            };
-                        });
-                    if (this.servicePackage.length > 0) {
-                        this.selectedKmValue = this.servicePackage[0].km_value;
-                        this.onKmSelectionChange(this.selectedKmValue);
+                                return {
+                                    ...kmGroup,
+                                    items,
+                                    totalSPAmount: groupTotal,
+                                    display_price: display_price, // Bind this to input
+                                    actualSPAmount: groupTotal,
+                                };
+                            });
+                        if (this.servicePackage.length > 0) {
+                            this.selectedKmValue = this.servicePackage[0].km_value;
+                            this.onKmSelectionChange(this.selectedKmValue);
+                        }
+
+                        this.load_flag = false;
+
+                        // console.log('servicePackage>>>>>>>>>>>>>>>>>', this.servicePackage);
+                    } else if (rData.modelData) {
+                        const statusFlag = rData.modelData.spmc_status_flag;
+                        const statusMessages: { [key: string]: string } = {
+                            '0': 'Waiting for both parts and labour details to be entered.',
+                            '1': 'Waiting for labour details to be entered by the Supervisor.',
+                            '2': 'Waiting for parts details to be entered by the Parts Advisor.',
+                            '3': 'Waiting for KM mapping to be completed by the Admin.',
+                            '4': 'Waiting for KM-wise price mapping to be completed by the Admin.',
+                        };
+
+                        const message = statusMessages[statusFlag];
+                        if (message) {
+                            this.showServicePackageInProgressAlert(message);
+                        }
+                        this.load_flag = false;
+                    } else {
+                        this.load_flag = false;
+                        if (this._searchMode == 'modelCode') {
+                            this.showAlert();
+                        }
+                        // this.showAlert();
                     }
-
-                    this.load_flag = false;
-
-                    // console.log('servicePackage>>>>>>>>>>>>>>>>>', this.servicePackage);
-                } else if (rData.modelData) {
-                    const statusFlag = rData.modelData.spmc_status_flag;
-                    const statusMessages: { [key: string]: string } = {
-                        '0': 'Waiting for both parts and labour details to be entered.',
-                        '1': 'Waiting for labour details to be entered by the Supervisor.',
-                        '2': 'Waiting for parts details to be entered by the Parts Advisor.',
-                        '3': 'Waiting for KM mapping to be completed by the Admin.',
-                        '4': 'Waiting for KM-wise price mapping to be completed by the Admin.',
-                    };
-
-                    const message = statusMessages[statusFlag];
-                    if (message) {
-                        this.showServicePackageInProgressAlert(message);
-                    }
-                    this.load_flag = false;
+                };
+                // 🚨 Check modelYear and show confirmation if > 2016
+                const year = Number(this.modelYear);
+                if ([2016,2017].includes(year) && this.searchMode == 'regNo') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Attention',
+                        html: '<span class="warning-text">For model years 2016 and 2017, please check the prices of the transmission fluid, gasket, pump, and related items before proceeding.</span>',
+                        iconColor: '#f59e0b', // optional, keep consistent with CSS
+                        confirmButtonText: 'Confirm',
+                        showCancelButton: false,
+                        padding: '2em',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        customClass: {
+                            popup: 'sweet-alerts rounded-icon-popup',
+                            icon: 'rounded-icon-shadow',
+                            confirmButton: 'confirm-btn',
+                        },
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            runLogic();
+                        } else {
+                            this.load_flag = false;
+                        }
+                    });
                 } else {
-                    this.load_flag = false;
-                    if (this._searchMode == 'modelCode') {
-                        this.showAlert();
-                    }
-                    // this.showAlert();
+                    runLogic();
                 }
             } else {
                 this.load_flag = false;
@@ -411,6 +572,60 @@ export class ServicePackageListComponent implements OnInit {
             }
         });
     }
+
+    // Called on every input in ng-autocomplete
+    onRegNoTyping(value: string) {
+        clearTimeout(this.typingTimer);
+
+        if (value.length >= 2) {
+            this.typingTimer = setTimeout(() => {
+                this.fetchRegNoSuggestions(value);
+            }, this.typingDelay);
+        } else {
+            this.regNumbers = [];
+        }
+    }
+
+    // Fetch autocomplete suggestions
+    fetchRegNoSuggestions(regNo: string) {
+        this.userServices.getCustomerRegNo({ regNo }).subscribe((rData: any) => {
+            if (rData.ret_data === 'success') {
+                this.regNumbers = rData.suggestions || [];
+            }
+        });
+    }
+
+    // Called when user selects a suggestion
+    onRegNoSelected(selectedRegNo: string) {
+        this.regNo = selectedRegNo;
+        // this.checkByRegNo(this.regNo); // Fetch model code
+    }
+
+    // Fetch the model code for a selected regNo
+    checkByRegNo(regNo: any) {
+        this.load_flag = true;
+        this.vin_no = '';
+        this.modelYear = '';
+        this.servicePackage = [];
+        this.userServices.getServicePackageByRegNo({ regNo }).subscribe((rData: any) => {
+            if (rData.ret_data === 'success') {
+                this.modelCode = rData.data.MODEL_CODE;
+                this.vin_no = rData.data.CHASSIS_NO;
+                this.modelYear = rData.data.MODEL_YEAR;
+                if (this.modelCode) {
+                    this.checkServicePackage();
+                } else {
+                    this.load_flag = false;
+                    this.coloredToast('danger', 'No service package found. Create one by searching with the model code.');
+                }
+            }
+        });
+    }
+
+    // // Prevent default Enter behavior in autocomplete
+    // preventDefault() {
+    //     event?.preventDefault();
+    // }
 
     toCamelCase(text: string): string {
         if (!text) return '';
@@ -444,17 +659,17 @@ export class ServicePackageListComponent implements OnInit {
 
                 <div style="display: flex; flex-direction: column; width: 40%;">
                     <label for="vinNo" style="font-weight: 400; margin-bottom: 2px;"><b>VIN No</b></label>
-                    <input id="vinNo" class="swal2-input" style="padding: 3px 3px;" placeholder="Enter VIN No">
+                    <input id="vinNo" class="swal2-input" style="padding: 3px 3px; text-transform: uppercase;" placeholder="Enter VIN No">
                 </div>
 
                 <div style="display: flex; flex-direction: column; width: 20%;">
                     <label for="modelYear" style="font-weight: 400; margin-bottom: 2px;"><b>Model Year</b></label>
-                    <input id="modelYear" class="swal2-input" placeholder="Year" value="${this.modelYear || ''}">
+                    <input id="modelYear" class="swal2-input" style="text-transform: uppercase;" placeholder="Year" value="${this.modelYear || ''}">
                 </div>
 
-                <div style="display: flex; flex-direction: column; width: 40%;">
+                <div style="display: flex; flex-direction: column; width: 40%; ">
                     <label for="variant" style="font-weight: 400; margin-bottom: 2px;"><b>Variant</b></label>
-                    <input id="variant" class="swal2-input" placeholder="Enter Variant" value="${this.variant || ''}">
+                    <input id="variant" class="swal2-input"  style="text-transform: uppercase;" placeholder="Enter Variant" value="${this.variant || ''}">
                 </div>
             </div>
         `,
@@ -466,9 +681,9 @@ export class ServicePackageListComponent implements OnInit {
             customClass: 'sweet-alerts',
 
             preConfirm: () => {
-                const vinNo = (document.getElementById('vinNo') as HTMLInputElement).value;
+                const vinNo = (document.getElementById('vinNo') as HTMLInputElement).value.toUpperCase();
                 const modelYear = (document.getElementById('modelYear') as HTMLInputElement).value;
-                const variant = (document.getElementById('variant') as HTMLInputElement).value;
+                const variant = (document.getElementById('variant') as HTMLInputElement).value.toUpperCase();
                 const modelCodeInput = isYearVariantSearch ? (document.getElementById('modelCode') as HTMLInputElement).value : this.modelCode;
 
                 if (!vinNo || !modelYear || !variant || !modelCodeInput) {

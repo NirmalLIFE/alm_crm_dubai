@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicePackageRequestedComponent implements OnInit {
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
+    public user_id: any = atob(atob(localStorage.getItem('us_id') || '{}'));
     public requestedServicePackage: any = [];
     public load_flag: boolean = true;
     public filteredPackages: any = [];
@@ -124,10 +125,12 @@ export class ServicePackageRequestedComponent implements OnInit {
         let data = {
             modelCode: spmc_value,
             sessionLock: 1,
+            user_id: this.user_id,
         };
 
         this.userServices.setSPSessionLock(data).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
+                console.log('thisis the data', data);
             }
         });
     }
@@ -187,5 +190,64 @@ export class ServicePackageRequestedComponent implements OnInit {
 
         // Default fallback
         return `Parts and labour entered${byText}`;
+    }
+
+    goToLog(pkg: any) {
+        console.log('this the pkg', pkg);
+        try {
+            // Combine model_code + model_code_id
+            const packed = `${pkg?.spmc_value ?? ''}|${pkg?.spmc_id ?? ''}`;
+            const encoded = btoa(packed);
+            const from = btoa('req');
+
+            this.router.navigate(['/service-packages/logs'], {
+                queryParams: { modelData: encoded, From: from },
+            });
+        } catch (e) {
+            console.error('Error while encoding:', e);
+        }
+    }
+
+    Delete(pkg: any) {
+        // Confirmation before delete
+        Swal.fire({
+            title: 'Confirm Deletion',
+            html: `
+    <div style="text-align:left; font-size:15px; line-height:1.8;">
+      <div style="padding:12px; border:1px solid #e5e7eb; border-radius:8px; background:#f9fafb; margin-bottom:14px;">
+        <p><strong>Model Code:</strong> <span style="font-weight:700; font-size:16px;">${pkg.spmc_value}</span></p>
+        <p><strong>Variant:</strong> <span style="font-weight:700; font-size:16px;">${pkg.spmc_variant}</span></p>
+        <p><strong>VIN No:</strong> <span style="font-weight:700; font-size:16px;">${pkg.spmc_vin_no}</span></p>
+      </div>
+      <p style="color:#dc2626; font-weight:600; font-size:17px; text-align:center; margin-top:10px;">
+        ⚠️ Are you sure you want to delete this package?
+      </p>
+    </div>
+  `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '🗑️ Yes, Delete',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let data = {
+                    spmc_id: pkg.spmc_id,
+                    spmc_delete_flag: 1,
+                };
+
+                this.userServices.deleteServicePackageModelCode(data).subscribe((rdata: any) => {
+                    if (rdata.ret_data === 'success') {
+                        // ✅ Proper success toast
+                        this.coloredToast('success', 'Package deleted successfully.');
+                        this.getServicePackageRequested();
+                    } else {
+                        // ❌ Error toast
+                        this.coloredToast('danger', 'Failed to delete package. Please try again.');
+                    }
+                });
+            }
+        });
     }
 }

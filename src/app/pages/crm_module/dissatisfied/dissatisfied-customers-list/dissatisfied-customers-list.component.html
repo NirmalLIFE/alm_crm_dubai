@@ -22,16 +22,8 @@
         <div>
             <input [(ngModel)]="dateTo" type="date" class="form-input text-xs" placeholder="Date To " />
         </div>
-        <ng-select
-            fullWidth
-            class="tiny-select"
-            [(ngModel)]="selectedStatus"
-            [searchable]="true"
-            [clearable]="false"
-            placeholder="Select Status"
-            class="form-input"
-            style="padding: 0"
-        >
+        <ng-select fullWidth class="tiny-select" [(ngModel)]="selectedStatus" [searchable]="true" [clearable]="false"
+            placeholder="Select Status" class="form-input" style="padding: 0">
             <ng-option value="0">All</ng-option>
             <ng-option value="1">Opened</ng-option>
             <ng-option value="2">Call Transfered</ng-option>
@@ -40,7 +32,8 @@
             <ng-option value="5">Closed</ng-option>
         </ng-select>
         <div>
-            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small" (click)="dissatisfiedcustomer()">SEARCH</button>
+            <button type="button" class="btn btn-primary btn-md" style="width: 50%" size="small"
+                (click)="dissatisfiedcustomer()">SEARCH</button>
         </div>
     </div>
 </div>
@@ -57,27 +50,31 @@
                 {{counts.opened}}</span>
         </button>
         <button type="button" class="btn btn-warning my-4" (click)="filterDissatisfied(2)">
-            Call Transfered<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4" style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
+            Call Transfered<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
                 counts.Call_Transfered
-            }}</span>
+                }}</span>
         </button>
 
         <button type="button" class="btn btn-danger my-4" (click)="filterDissatisfied(3)">
-            Appointments<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4" style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
+            Appointments<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
                 counts.Appointment
-            }}</span>
+                }}</span>
         </button>
 
         <button type="button" class="btn btn-success my-4" (click)="filterDissatisfied(4)">
-            Resolved/Completed<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4" style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
+            Resolved/Completed<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
                 counts.resolved
-            }}</span>
+                }}</span>
         </button>
 
         <button type="button" class="btn btn-dark my-4" (click)="filterDissatisfied(5)">
-            Closed<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4" style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
+            Closed<span class="badge my-0 bg-white-light text-black ltr:ml-4 rtl:mr-4"
+                style="font-size: 20px; font-weight: 700;padding-top: 0.4rem;padding-bottom: 0.4rem;">{{
                 counts.closed
-            }}</span>
+                }}</span>
         </button>
     </div>
     <!-- <div class="flex flex-wrap items-center justify-center gap-3" *ngIf="notCallbackCust > 0">
@@ -190,6 +187,11 @@
                         </svg>
                         {{value.c_date}}
                     </div>
+                </ng-template>
+                <ng-template slot="ldl_note" let-value="data">
+                    <span ngxTippy="{{ value.ldl_note }}" *ngIf="value.ldl_note!=null"
+                        [tippyProps]="{ theme: 'info' }">{{ value.ldl_note | slice : 0 : 30 }}<ng-container
+                            *ngIf="value.ldl_note.length > 50">...</ng-container></span>
                 </ng-template>
                 <ng-template slot="action" let-value="data">
                     <div class="flex">

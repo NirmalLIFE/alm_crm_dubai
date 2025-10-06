@@ -21,6 +21,7 @@ export class ServicePkgModelcodeListComponent implements OnInit {
         { field: 'eng_no', title: 'Engine No' },
         { field: 'spkmp_display_price', title: 'Display Price' },
         { field: 'action', title: 'Action' },
+        { field: 'log', title: 'Log' },
     ];
 
     constructor(private router: Router, private userServices: StaffPostAuthService) {}
@@ -52,6 +53,20 @@ export class ServicePkgModelcodeListComponent implements OnInit {
             });
         } catch (e) {
             // console.error('Error while encoding :', e);
+        }
+    }
+
+    onViewServicePackageLogs(value: any) {
+        try {
+            // Combine model_code + model_code_id
+            const packed = `${value?.spmc_value ?? ''}|${value?.spmc_id ?? ''}`;
+            const encoded = btoa(packed);
+
+            this.router.navigate(['/service-packages/logs'], {
+                queryParams: { modelData: encoded },
+            });
+        } catch (e) {
+            console.error('Error while encoding:', e);
         }
     }
 }
