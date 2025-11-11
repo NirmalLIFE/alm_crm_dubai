@@ -536,7 +536,6 @@
                                         'medium-priority': currentUser.lead_category === '1',
                                         'low-priority': currentUser.lead_category === '0'
                                     }"
-                                    [disabled]="user_role == '9' || user_role == '19'"
                                     (change)="onLeadCategoryChange(currentUser.lead_category, currentUser.lead_id)"
                                 >
                                     <ng-template ng-label-tmp let-item="item" let-clear="clear">

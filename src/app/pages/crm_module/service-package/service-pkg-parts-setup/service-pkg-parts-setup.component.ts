@@ -4,6 +4,7 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-service-pkg-parts-setup',
@@ -12,6 +13,7 @@ import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs'
 })
 export class ServicePkgPartsSetupComponent implements OnInit {
     public model_code: string;
+    public model_code_type: string;
     public engines: any = [];
     public engineNO: any;
     public descriptions: any[] = [];
@@ -36,12 +38,16 @@ export class ServicePkgPartsSetupComponent implements OnInit {
     public searchPartcode = new Subject<string>();
     searchText: any;
 
+    public copiedModelCode: any ='';
+
     @ViewChild('partsModal') partsModal: any;
 
     service_details: any = [];
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe, private activeRouter: ActivatedRoute) {
         this.model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
+        this.model_code_type = atob(this.activeRouter.snapshot.paramMap.get('type') || '');
+
         this.service_details = {
             model_code: this.model_code,
             engine_id: 0,
@@ -65,6 +71,7 @@ export class ServicePkgPartsSetupComponent implements OnInit {
 
         let data = {
             modelCode: atob(this.activeRouter.snapshot.paramMap.get('id') || ''),
+            type: atob(this.activeRouter.snapshot.paramMap.get('type') || ''),
         };
 
         this.userServices.getServicePackageByModelCode(data).subscribe((rdata: any) => {
@@ -765,6 +772,9 @@ export class ServicePkgPartsSetupComponent implements OnInit {
         if (this.service_details.parts.length > 0) {
             this.service_details.user_id = atob(atob(localStorage.getItem('us_id') || '{}'));
             this.service_details.engine_id = this.engineNO;
+            this.service_details.model_code_type = this.model_code_type;
+            this.service_details.branch_id = environment.branch_id;
+            this.service_details.copyModel = this.copiedModelCode;
 
             // this.saveFlag = false;
             // this.draftButtonFlag = false;
@@ -791,6 +801,8 @@ export class ServicePkgPartsSetupComponent implements OnInit {
     copyPartsToServiceDetails(partSummary: any) {
         this.service_details.parts.forEach((p: any) => (p.applicable = 0));
         const partsToCopy = this.fullPartsData.filter((item) => item.spmc_value === partSummary.model_code);
+
+        this.copiedModelCode= partSummary.model_code;
 
         partsToCopy.forEach((item) => {
             const partCode = item.pm_code || '';

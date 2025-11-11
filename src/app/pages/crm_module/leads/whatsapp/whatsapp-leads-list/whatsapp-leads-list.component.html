@@ -121,6 +121,11 @@
             <ng-template slot="lead_source" let-value="data">
                 <span>{{value.lead_source}}</span>
             </ng-template>
+            <ng-template slot="lead_category_name" let-value="data">
+                <button type="button" class="btn btn-sm" [ngClass]="value.lead_category_class">
+                    {{ value.lead_category_name }}
+                </button>
+            </ng-template>
             <ng-template slot="lead_note" let-value="data">
                 <span ngxTippy="{{ value.lead_note }}" *ngIf="value.lead_note!=null" [tippyProps]="{ theme: 'info' }">{{
                     value.lead_note | slice : 0 : 30 }}<ng-container
@@ -333,54 +338,6 @@
                 </div>
             </ng-container>
         </div>
-
-
-
-
-
-
-
-
-
-        <!-- <div class="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
-            <h5 class="text-lg font-semibold dark:text-white-light">WhatsApp Leads</h5>
-            <div class="flex items-center gap-5 ltr:ml-auto rtl:mr-auto">
-
-                <input [(ngModel)]="search" type="text" class="form-input w-auto" placeholder="Search..." />
-            </div>
-        </div>
-        <div class="datatable">
-            <ng-datatable [rows]="leadPurposeArray" [columns]="leadCols" [search]="search" [sortable]="true"
-                [columnFilter]="false" skin="whitespace-nowrap table-hover bh-table-compact"
-                firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
-                lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
-                previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
-                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
-
-                <ng-template slot="phone" let-value="data">
-                    <button type="button" (click)="openCallLogs(value.phone)" class="btn btn-outline-secondary btn-sm"
-                        ngxTippy="{{ value.phone }}" [tippyProps]="{ theme: 'info' }">
-                        ****{{ value.phone | slice : -6 }}
-                    </button>
-                </ng-template>
-                <ng-template slot="lead_code" let-value="data">
-                    <button type="button" class="btn btn-outline-primary btn-sm">
-                        {{ value.lead_code }}
-                    </button>
-                </ng-template>
-                <ng-template slot="name" let-value="data">
-                    <span *ngIf="value.name != null">{{value.name}}</span>
-                    <span *ngIf="value.name == null">NIL</span>
-                </ng-template>
-                <ng-template slot="lead_source" let-value="data">
-                    <span>{{value.lead_source}}</span>
-                </ng-template>
-                <ng-template slot="smc_name" let-value="data">
-                    <span *ngIf="value.smc_name != null">{{value.smc_name}}</span>
-                    <span *ngIf="value.smc_name == null">NIL</span>
-                </ng-template>
-            </ng-datatable>
-        </div> -->
     </ng-template>
     <ng-template #modalFooter>
         <button type="button" (click)="closeLeadWiseModal()" class="btn btn-outline-danger">DISMISS</button>

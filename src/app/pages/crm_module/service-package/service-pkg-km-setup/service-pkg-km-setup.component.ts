@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-service-pkg-km-setup',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicePkgKmSetupComponent implements OnInit {
     public model_code: any = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
+    public model_code_type: any = atob(this.activeRouter.snapshot.paramMap.get('type') || '');
     public engines: any = [];
     public engineNO: any;
     public kilometers: any = [];
@@ -40,6 +42,7 @@ export class ServicePkgKmSetupComponent implements OnInit {
 
         let data = {
             modelCode: atob(this.activeRouter.snapshot.paramMap.get('id') || ''),
+            type: atob(this.activeRouter.snapshot.paramMap.get('type') || ''),
         };
 
         this.userServices.getServicePackageByModelCode(data).subscribe((rdata: any) => {
@@ -122,7 +125,6 @@ export class ServicePkgKmSetupComponent implements OnInit {
         // Use a small buffer or Math.ceil to avoid fractions
         const buffer = 2; // or 5
         if (Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight - buffer) {
-            
             if (!this.loading) {
                 this.checkEngineHasSameSPItems();
             }
@@ -130,7 +132,7 @@ export class ServicePkgKmSetupComponent implements OnInit {
     }
 
     getDatas() {
-        this.userServices.getESLByModelCode({ model_code: this.model_code }).subscribe((rdata: any) => {
+        this.userServices.getESLByModelCode({ model_code: this.model_code, spmc_type: this.model_code_type }).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.engineNO = rdata.engData.speng_eng_id;
 
@@ -526,10 +528,13 @@ export class ServicePkgKmSetupComponent implements OnInit {
             this.saveFlag = false;
             this.spareAndLabourList.draft_flag = 1;
             this.spareAndLabourList.spmc_status_flag = 3;
+            this.spareAndLabourList.model_code_type = this.model_code_type;
+            this.spareAndLabourList.branch_id = environment.branch_id;
         } else {
             this.draftButtonFlag = false;
             this.saveFlag = true;
             this.spareAndLabourList.draft_flag = 0;
+            this.spareAndLabourList.model_code_type = this.model_code_type;
             if (this.spStatus != 5) {
                 this.spareAndLabourList.spmc_status_flag = 4;
             } else {
@@ -546,6 +551,7 @@ export class ServicePkgKmSetupComponent implements OnInit {
         this.userServices.saveSPKM({ spareAndLabourKMMapped: this.spareAndLabourList }).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 const encodedModel = btoa(this.model_code);
+                const encodedModelType = btoa(this.model_code_type);
 
                 if (type == 1) {
                     this.router.navigateByUrl('servicePackageRequested');
@@ -553,7 +559,7 @@ export class ServicePkgKmSetupComponent implements OnInit {
                     this.saveFlag = false;
                     this.coloredToast('info', 'Service package item KMs have been saved as draft.');
                 } else {
-                    this.router.navigate(['servicePackageKmPriceMap', encodedModel]);
+                    this.router.navigate(['servicePackageKmPriceMap', encodedModel, encodedModelType]);
                     // this.router.navigateByUrl('servicePackageKmPriceMap');
                     this.saveFlag = false;
                     this.coloredToast('success', 'Service package KMs have been added.');
@@ -627,6 +633,6 @@ export class ServicePkgKmSetupComponent implements OnInit {
     }
     goBack() {
         const model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
-        this.router.navigate(['/servicePackageLabour', btoa(model_code)]);
+        this.router.navigate(['/servicePackageLabour', btoa(model_code), btoa(this.model_code_type)]);
     }
 }

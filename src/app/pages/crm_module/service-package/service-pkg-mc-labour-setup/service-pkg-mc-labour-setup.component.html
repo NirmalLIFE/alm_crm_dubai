@@ -5,8 +5,7 @@
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Admin
-            Settings</a>
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Periodic Service</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a href="javascript:;"
@@ -85,6 +84,16 @@
                             </button>
                         </div> -->
                     </div>
+                </ng-template>
+                <ng-template slot="facelift" let-value="data">
+                    <label class="relative h-6 w-12">
+                        <input type="checkbox"
+                            class="custom_switch peer absolute z-10 h-full w-full cursor-pointer opacity-0"
+                            [checked]="value.spmcl_type == '1'" id="custom_switch_checkbox5"
+                            (change)="onFaceliftSwitchChange($event, value)" />
+                        <span for="custom_switch_checkbox5"
+                            class="outline_checkbox block h-full border-2 border-[#ebedf2] before:absolute before:bottom-1 before:left-1 before:h-4 before:w-4 before:bg-[#ebedf2] before:transition-all before:duration-300 peer-checked:border-primary peer-checked:before:left-7 peer-checked:before:bg-primary dark:border-white-dark dark:before:bg-white-dark"></span>
+                    </label>
                 </ng-template>
             </ng-datatable>
         </div>

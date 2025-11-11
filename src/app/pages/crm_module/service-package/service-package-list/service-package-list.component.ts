@@ -311,128 +311,10 @@ export class ServicePackageListComponent implements OnInit {
         });
     }
 
-    // checkServicePackage() {
-    //     this.load_flag = true;
-    //     this.servicePackage = [];
-    //     this.searched = false;
-    //     this.vin_no = '';
-    //     this.modelYear = '';
-    //     // if (!this.modelCode) {
-    //     //     this.coloredToast('danger', 'Model code required to search for a service package.');
-    //     //     this.load_flag = false;
-    //     //     return;
-    //     // }
-
-    //     let data = {
-    //         modelCode: this.modelCode ?? '',
-    //         modelYear: this.modelYear ?? '',
-    //         variant: this.variant ?? '',
-    //         // kilometer: this.kilometer,
-    //     };
-
-    //     this.userServices.getServicePackage(data).subscribe((rData: any) => {
-    //         if (rData.ret_data == 'success') {
-    //             if (rData.servicePackage && rData.servicePackage.length > 0) {
-    //                 this.labourFactor = rData.labourFactor;
-    //                 this.modelId = rData.modelId;
-    //                 this.vin_no = rData.Vin_No;
-    //                 this.modelYear = rData.modelYearUsed;
-    //                 this.servicePackage = rData.servicePackage
-    //                     .sort((a: any, b: any) => (a.km_id || 0) - (b.km_id || 0))
-    //                     .map((kmGroup: any) => {
-    //                         const items = kmGroup.items
-    //                             .map((item: any) => {
-    //                                 const itemType = item.item_type;
-    //                                 const price = parseFloat(item.pm_price) || 0;
-    //                                 const qty = parseFloat(item.sp_spare_qty) || 0;
-    //                                 const labourUnit = parseFloat(item.sp_spare_labour_unit) || 0;
-    //                                 const labourFactor = this.labourFactor || 0;
-
-    //                                 let total = 0;
-    //                                 let group_seq = 0;
-
-    //                                 if (itemType === 0) {
-    //                                     total = price * qty + (labourUnit > 0 ? labourUnit * labourFactor : 0);
-    //                                     group_seq = item.sp_spare_group_seq || 0;
-    //                                 } else {
-    //                                     const unit = parseFloat(item.sp_labour_unit) || 0;
-    //                                     total = unit * labourFactor;
-    //                                     group_seq = item.sp_labour_group_seq || 0;
-    //                                 }
-
-    //                                 return {
-    //                                     ...item,
-    //                                     checked: true,
-    //                                     total,
-    //                                     group_seq,
-    //                                 };
-    //                             })
-    //                             .sort((a: any, b: any) => {
-    //                                 const aSeq = Number(a.group_seq) || 0;
-    //                                 const bSeq = Number(b.group_seq) || 0;
-
-    //                                 if (aSeq === 0 && bSeq !== 0) return 1;
-    //                                 if (aSeq !== 0 && bSeq === 0) return -1;
-    //                                 return aSeq - bSeq;
-    //                             });
-
-    //                         const groupTotal = items.reduce((sum: any, i: any) => sum + (i.checked ? i.total : 0), 0);
-    //                         const displayPrice = parseFloat(kmGroup.display_price) || 0;
-    //                         const display_price = groupTotal > displayPrice ? groupTotal : displayPrice;
-
-    //                         return {
-    //                             ...kmGroup,
-    //                             items,
-    //                             totalSPAmount: groupTotal,
-    //                             display_price: display_price, // Bind this to input
-    //                             actualSPAmount: groupTotal,
-    //                         };
-    //                     });
-    //                 if (this.servicePackage.length > 0) {
-    //                     this.selectedKmValue = this.servicePackage[0].km_value;
-    //                     this.onKmSelectionChange(this.selectedKmValue);
-    //                 }
-
-    //                 this.load_flag = false;
-
-    //                 // console.log('servicePackage>>>>>>>>>>>>>>>>>', this.servicePackage);
-    //             } else if (rData.modelData) {
-    //                 const statusFlag = rData.modelData.spmc_status_flag;
-    //                 const statusMessages: { [key: string]: string } = {
-    //                     '0': 'Waiting for both parts and labour details to be entered.',
-    //                     '1': 'Waiting for labour details to be entered by the Supervisor.',
-    //                     '2': 'Waiting for parts details to be entered by the Parts Advisor.',
-    //                     '3': 'Waiting for KM mapping to be completed by the Admin.',
-    //                     '4': 'Waiting for KM-wise price mapping to be completed by the Admin.',
-    //                 };
-
-    //                 const message = statusMessages[statusFlag];
-    //                 if (message) {
-    //                     this.showServicePackageInProgressAlert(message);
-    //                 }
-    //                 this.load_flag = false;
-    //             } else {
-    //                 this.load_flag = false;
-    //                 if (this._searchMode == 'modelCode') {
-    //                     this.showAlert();
-    //                 }
-    //                 // this.showAlert();
-    //             }
-    //         } else {
-    //             this.load_flag = false;
-    //             this.coloredToast('danger', 'No service package found. Create one by searching with the model code.');
-    //             // this.showAlert();
-    //             if (this._searchMode == 'modelCode') {
-    //                 this.showAlert();
-    //             }
-    //         }
-    //     });
-    // }
-
     checkServicePackage() {
         this.load_flag = true;
         this.servicePackage = [];
-        this.searched = false
+        this.searched = false;
         // if (!this.modelCode) {
         //     this.coloredToast('danger', 'Model code required to search for a service package.');
         //     this.load_flag = false;
@@ -447,118 +329,259 @@ export class ServicePackageListComponent implements OnInit {
         };
 
         this.userServices.getServicePackage(data).subscribe((rData: any) => {
-            if (rData.ret_data == 'success') {
-                const runLogic = () => {
-                    if (rData.servicePackage && rData.servicePackage.length > 0) {
-                        this.labourFactor = rData.labourFactor;
-                        this.modelId = rData.modelId;
-                        this.servicePackage = rData.servicePackage
-                            .sort((a: any, b: any) => (a.km_id || 0) - (b.km_id || 0))
-                            .map((kmGroup: any) => {
-                                const items = kmGroup.items
-                                    .map((item: any) => {
-                                        const itemType = item.item_type;
-                                        const price = parseFloat(item.pm_price) || 0;
-                                        const qty = parseFloat(item.sp_spare_qty) || 0;
-                                        const labourUnit = parseFloat(item.sp_spare_labour_unit) || 0;
-                                        const labourFactor = this.labourFactor || 0;
+            if (rData.ret_data === 'success') {
+                // 🔹 Helper: Bind service package and calculate prices
+                const bindServicePackageData = (selectedModel: any) => {
+                    if (!selectedModel || !selectedModel.servicePackage) return;
 
-                                        let total = 0;
-                                        let group_seq = 0;
+                    this.labourFactor = selectedModel.labourFactor;
+                    this.modelId = selectedModel.modelId;
 
-                                        if (itemType === 0) {
-                                            total = price * qty + (labourUnit > 0 ? labourUnit * labourFactor : 0);
-                                            group_seq = item.sp_spare_group_seq || 0;
-                                        } else {
-                                            const unit = parseFloat(item.sp_labour_unit) || 0;
-                                            total = unit * labourFactor;
-                                            group_seq = item.sp_labour_group_seq || 0;
-                                        }
+                    this.servicePackage = selectedModel.servicePackage
+                        .sort((a: any, b: any) => (a.km_id || 0) - (b.km_id || 0))
+                        .map((kmGroup: any) => {
+                            const items = kmGroup.items.map((item: any) => {
+                                const itemType = item.item_type;
+                                const price = parseFloat(item.pm_price) || 0;
+                                const qty = parseFloat(item.sp_spare_qty) || 0;
+                                const labourUnit = parseFloat(item.sp_spare_labour_unit) || 0;
+                                const labourFactor = this.labourFactor || 0;
 
-                                        return {
-                                            ...item,
-                                            checked: true,
-                                            total,
-                                            group_seq,
-                                        };
-                                    })
-                                    .sort((a: any, b: any) => {
-                                        const aSeq = Number(a.group_seq) || 0;
-                                        const bSeq = Number(b.group_seq) || 0;
+                                let total = 0;
+                                let group_seq = 0;
 
-                                        if (aSeq === 0 && bSeq !== 0) return 1;
-                                        if (aSeq !== 0 && bSeq === 0) return -1;
-                                        return aSeq - bSeq;
-                                    });
+                                if (itemType === 0) {
+                                    total = price * qty + (labourUnit > 0 ? labourUnit * labourFactor : 0);
+                                    group_seq = item.sp_spare_group_seq || 0;
+                                } else {
+                                    const unit = parseFloat(item.sp_labour_unit) || 0;
+                                    total = unit * labourFactor;
+                                    group_seq = item.sp_labour_group_seq || 0;
+                                }
 
-                                const groupTotal = items.reduce((sum: any, i: any) => sum + (i.checked ? i.total : 0), 0);
-                                const displayPrice = parseFloat(kmGroup.display_price) || 0;
-                                const display_price = groupTotal > displayPrice ? groupTotal : displayPrice;
-
-                                return {
-                                    ...kmGroup,
-                                    items,
-                                    totalSPAmount: groupTotal,
-                                    display_price: display_price, // Bind this to input
-                                    actualSPAmount: groupTotal,
-                                };
+                                return { ...item, checked: true, total, group_seq };
                             });
-                        if (this.servicePackage.length > 0) {
-                            this.selectedKmValue = this.servicePackage[0].km_value;
-                            this.onKmSelectionChange(this.selectedKmValue);
-                        }
 
-                        this.load_flag = false;
+                            const groupTotal = items.reduce((sum: any, i: any) => sum + (i.checked ? i.total : 0), 0);
+                            const displayPrice = parseFloat(kmGroup.display_price) || 0;
+                            const display_price = groupTotal > displayPrice ? groupTotal : displayPrice;
 
-                        // console.log('servicePackage>>>>>>>>>>>>>>>>>', this.servicePackage);
-                    } else if (rData.modelData) {
-                        const statusFlag = rData.modelData.spmc_status_flag;
+                            return { ...kmGroup, items, totalSPAmount: groupTotal, display_price, actualSPAmount: groupTotal };
+                        });
+
+                    if (this.servicePackage?.length > 0) {
+                        this.selectedKmValue = this.servicePackage[0].km_value;
+                        this.onKmSelectionChange(this.selectedKmValue);
+                    }
+
+                    this.load_flag = false;
+                };
+
+                // 🔹 Handle selected package status
+                const handlePackageSelection = (selectedModel: any) => {
+                    if (!selectedModel) return;
+
+                    const statusMessages: { [key: string]: string } = {
+                        '0': 'Requested For Parts And Labour',
+                        '1': 'Parts entered and Labour Not entered',
+                        '2': 'Labour Entered and Parts not entered',
+                        '3': 'Parts And Labour Entered',
+                        '4': 'Waiting For Km Price Map',
+                        '5': 'Final Approval By Admin',
+                    };
+
+                    const status = selectedModel.spmc_status_flag;
+
+                    if (status == '5') {
+                        // ✅ Status 5 → bind normally
+                        bindServicePackageData(selectedModel);
+                    } else {
+                        // ⚠ Status not 5 → show Swal with only Cancel
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Service Package Status',
+                            html: `
+                <p>${statusMessages[status] || 'Status unknown'}</p>
+                <p>Please wait until the package is approved.</p>
+            `,
+                            showConfirmButton: false,
+                            showCancelButton: true,
+                            cancelButtonText: 'Close',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            customClass: { popup: 'sweet-alerts rounded-icon-popup' },
+                        });
+                    }
+
+                    this.load_flag = false;
+                };
+
+                // ✅ Main logic function
+                const runLogic = () => {
+                    const models = rData.models || [];
+                    console.log('models:', models);
+
+                    if (rData.spmcl_type == '1') {
+                        const normalModel = models.find((m: any) => m.spmc_type === '0');
+                        const faceliftModel = models.find((m: any) => m.spmc_type === '1');
+
                         const statusMessages: { [key: string]: string } = {
-                            '0': 'Waiting for both parts and labour details to be entered.',
-                            '1': 'Waiting for labour details to be entered by the Supervisor.',
-                            '2': 'Waiting for parts details to be entered by the Parts Advisor.',
-                            '3': 'Waiting for KM mapping to be completed by the Admin.',
-                            '4': 'Waiting for KM-wise price mapping to be completed by the Admin.',
+                            '0': 'Requested For Parts And Labour',
+                            '1': 'Parts entered and Labour Not entered',
+                            '2': 'Labour Entered and Parts not entered',
+                            '3': 'Parts And Labour Entered',
+                            '4': 'Waiting For Km Price Map',
+                            '5': 'Final Approval By Admin',
                         };
 
-                        const message = statusMessages[statusFlag];
-                        if (message) {
-                            this.showServicePackageInProgressAlert(message);
-                        }
-                        this.load_flag = false;
-                    } else {
-                        this.load_flag = false;
-                        if (this._searchMode == 'modelCode') {
-                            this.showAlert();
-                        }
-                        // this.showAlert();
-                    }
-                };
-                // 🚨 Check modelYear and show confirmation if > 2016
-                const year = Number(this.modelYear);
-                if ([2016,2017].includes(year) && this.searchMode == 'regNo') {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Attention',
-                        html: '<span class="warning-text">For model years 2016 and 2017, please check the prices of the transmission fluid, gasket, pump, and related items before proceeding.</span>',
-                        iconColor: '#f59e0b', // optional, keep consistent with CSS
-                        confirmButtonText: 'Confirm',
-                        showCancelButton: false,
-                        padding: '2em',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        customClass: {
-                            popup: 'sweet-alerts rounded-icon-popup',
-                            icon: 'rounded-icon-shadow',
-                            confirmButton: 'confirm-btn',
-                        },
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            runLogic();
-                        } else {
+                        // Case 1: Both facelift & normal found → show Swal to select
+                        if (normalModel && faceliftModel) {
+                            Swal.fire({
+                                title: 'Select Service Package Type',
+                                html: `
+                    <div class="flex flex-col gap-3">
+                        <button id="normalPkgBtn" class="swal2-confirm swal2-styled" style="background-color:#2563eb">
+                            Normal Service Package
+                            <div style="font-size:12px;margin-top:4px;color:#f1f1f1;">
+                                ${statusMessages[normalModel.spmc_status_flag]}
+                            </div>
+                        </button>
+                        <button id="faceliftPkgBtn" class="swal2-confirm swal2-styled" style="background-color:#9333ea">
+                            Facelift Service Package
+                            <div style="font-size:12px;margin-top:4px;color:#f1f1f1;">
+                                ${statusMessages[faceliftModel.spmc_status_flag]}
+                            </div>
+                        </button>
+                    </div>
+                `,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    document.getElementById('normalPkgBtn')?.addEventListener('click', () => {
+                                        Swal.close();
+                                        handlePackageSelection(normalModel);
+                                    });
+                                    document.getElementById('faceliftPkgBtn')?.addEventListener('click', () => {
+                                        Swal.close();
+                                        handlePackageSelection(faceliftModel);
+                                    });
+                                },
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                customClass: { popup: 'sweet-alerts rounded-icon-popup' },
+                            });
                             this.load_flag = false;
+                            return;
                         }
-                    });
+
+                        // Case 2: Only facelift available → show same Swal
+                        if (faceliftModel && !normalModel) {
+                            Swal.fire({
+                                title: 'Select Service Package Type',
+                                html: `
+                    <div class="flex flex-col gap-3">
+                        <button id="normalPkgBtn" class="swal2-confirm swal2-styled" style="background-color:#2563eb">
+                            Normal Service Package
+                            <div style="font-size:12px;margin-top:4px;color:#f1f1f1;">
+                                Create
+                            </div>
+                        </button>
+                        <button id="faceliftPkgBtn" class="swal2-confirm swal2-styled" style="background-color:#9333ea">
+                            Facelift Service Package
+                            <div style="font-size:12px;margin-top:4px;color:#f1f1f1;">
+                                ${statusMessages[faceliftModel.spmc_status_flag]}
+                            </div>
+                        </button>
+                    </div>
+                `,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    document.getElementById('normalPkgBtn')?.addEventListener('click', () => {
+                                        Swal.close();
+                                        this.showAlert(); // Normal clicked but not available
+                                    });
+                                    document.getElementById('faceliftPkgBtn')?.addEventListener('click', () => {
+                                        Swal.close();
+                                        handlePackageSelection(faceliftModel); // Facelift clicked → proceed
+                                    });
+                                },
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                customClass: { popup: 'sweet-alerts rounded-icon-popup' },
+                            });
+                            this.load_flag = false;
+                            return;
+                        }
+
+                        // Case 3: Only normal available → show Swal with both buttons
+                        if (normalModel && !faceliftModel) {
+                            Swal.fire({
+                                title: 'Select Service Package Type',
+                                html: `
+                    <div class="flex flex-col gap-3">
+                        <button id="normalPkgBtn" class="swal2-confirm swal2-styled" style="background-color:#2563eb">
+                            Normal Service Package
+                            <div style="font-size:12px;margin-top:4px;color:#f1f1f1;">
+                                ${statusMessages[normalModel.spmc_status_flag]}
+                            </div>
+                        </button>
+                        <button id="faceliftPkgBtn" class="swal2-confirm swal2-styled" style="background-color:#9333ea">
+                            Facelift Service Package
+                            <div style="font-size:12px;margin-top:4px;color:#f1f1f1;">
+                                Create
+                            </div>
+                        </button>
+                    </div>
+                `,
+                                showConfirmButton: false,
+                                didOpen: () => {
+                                    document.getElementById('normalPkgBtn')?.addEventListener('click', () => {
+                                        Swal.close();
+                                        handlePackageSelection(normalModel); // Normal clicked → proceed
+                                    });
+                                    document.getElementById('faceliftPkgBtn')?.addEventListener('click', () => {
+                                        Swal.close();
+                                        this.faceliftShowAlert(); // Facelift clicked but not available
+                                    });
+                                },
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                customClass: { popup: 'sweet-alerts rounded-icon-popup' },
+                            });
+                            this.load_flag = false;
+                            return;
+                        }
+
+                        // Case 4: No model found
+                        this.showAlert();
+                        this.load_flag = false;
+                        return;
+                    }
+
+                    // Fallback for other spmcl_type values
+                    const normalModel = models.find((m: any) => m.spmc_type === '0');
+                    handlePackageSelection(normalModel);
+                    return;
+                };
+
+                // 🔹 Safety: modelYear warning
+                const year = Number(this.modelYear);
+                if ([2016, 2017].includes(year) && this.searchMode === 'regNo') {
+                    runLogic();
+                    // Swal.fire({
+                    //     icon: 'warning',
+                    //     title: 'Attention',
+                    //     html: '<span class="warning-text">For model years 2016 and 2017, please check the prices before proceeding.</span>',
+                    //     iconColor: '#f59e0b',
+                    //     confirmButtonText: 'Confirm',
+                    //     showCancelButton: false,
+                    //     padding: '2em',
+                    //     allowOutsideClick: false,
+                    //     allowEscapeKey: false,
+                    //     customClass: { popup: 'sweet-alerts rounded-icon-popup' },
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) runLogic();
+                    //     else this.load_flag = false;
+                    // });
                 } else {
                     runLogic();
                 }
@@ -641,7 +664,7 @@ export class ServicePackageListComponent implements OnInit {
         Swal.fire({
             icon: 'info',
             html: `
-            <p class="mb-2">No service package found for 
+            <p class="mb-2">No service package found for
                 <b>${isYearVariantSearch ? `${this.modelYear} / ${this.variant}` : this.modelCode}</b>.
             </p>
             <p class="mb-3">Do you want to create a service request?</p>
@@ -696,6 +719,8 @@ export class ServicePackageListComponent implements OnInit {
                     vinNo,
                     modelYear,
                     variant,
+                    type: 0,
+                    spmc_branch: environment.branch_id, 
                     user_id: atob(atob(localStorage.getItem('us_id') || '{}')),
                 };
 
@@ -722,24 +747,117 @@ export class ServicePackageListComponent implements OnInit {
         });
     }
 
-    // showAlert() {
+    faceliftShowAlert() {
+        Swal.fire({
+            icon: 'info',
+            html: `
+            <p class="mb-2">No service package found for
+                <b>${this.modelCode}</b>.
+            </p>
+            <p class="mb-3">Do you want to create a facelift service request?</p>
+
+            <div style="display: flex; gap: 1px;">
+                <div style="display: flex; flex-direction: column; width: 40%;">
+                    <label for="vinNo" style="font-weight: 400; margin-bottom: 2px;"><b>VIN No</b></label>
+                    <input id="vinNo" class="swal2-input" style="padding: 3px 3px; text-transform: uppercase;" placeholder="Enter VIN No">
+                </div>
+
+                <div style="display: flex; flex-direction: column; width: 20%;">
+                    <label for="modelYear" style="font-weight: 400; margin-bottom: 2px;"><b>Model Year</b></label>
+                    <input id="modelYear" class="swal2-input" style="text-transform: uppercase;" placeholder="Year" value="${this.modelYear || ''}">
+                </div>
+
+                <div style="display: flex; flex-direction: column; width: 40%; ">
+                    <label for="variant" style="font-weight: 400; margin-bottom: 2px;"><b>Variant</b></label>
+                    <input id="variant" class="swal2-input"  style="text-transform: uppercase;" placeholder="Enter Variant" value="${this.variant || ''}">
+                </div>
+            </div>
+        `,
+            width: '1000px',
+            showCancelButton: true,
+            confirmButtonText: 'Create Service Request',
+            cancelButtonText: 'Cancel',
+            focusConfirm: false,
+            customClass: 'sweet-alerts',
+
+            preConfirm: () => {
+                const vinNo = (document.getElementById('vinNo') as HTMLInputElement).value.toUpperCase();
+                const modelYear = (document.getElementById('modelYear') as HTMLInputElement).value;
+                const variant = (document.getElementById('variant') as HTMLInputElement).value.toUpperCase();
+                const modelCodeInput = this.modelCode;
+
+                if (!vinNo || !modelYear || !variant || !modelCodeInput) {
+                    Swal.showValidationMessage('All fields are required');
+                    return false;
+                }
+
+                const data = {
+                    modelCode: modelCodeInput,
+                    vinNo,
+                    modelYear,
+                    variant,
+                    type: 1,
+                    spmc_branch: environment.branch_id, 
+                    user_id: atob(atob(localStorage.getItem('us_id') || '{}')),
+                };
+
+                return new Promise((resolve) => {
+                    this.userServices.createServicePackage(data).subscribe({
+                        next: (rData: any) => {
+                            if (rData.ret_data === 'success') {
+                                resolve(data);
+                            } else {
+                                Swal.showValidationMessage('Service creation failed. Please try again.');
+                            }
+                        },
+                        error: () => {
+                            Swal.showValidationMessage('Something went wrong. Please try again.');
+                        },
+                    });
+                });
+            },
+        }).then((result) => {
+            if (result.isConfirmed && result.value) {
+                const msg = `Service request successfully created for model code <b>${result.value.modelCode}</b>`;
+                this.coloredToast('success', msg);
+            }
+        });
+    }
+
+    // NormalAndFaceliftshowAlert() {
+    //     const isYearVariantSearch = this.searchMode === 'yearVariant';
     //     Swal.fire({
     //         icon: 'info',
     //         html: `
-    //          <p class="mb-2">No service package found for <b>${this.modelCode}</b>.</p>
-    //          <p class="mb-3">Do you want to create a service request for <b>${this.modelCode}</b> ?</p>
-    //         <div style="display: flex; gap: 5px; justify-content: center;">
-    //             <div style="display: flex; flex-direction: column; width: 33%;">
+    //         <p class="mb-2">No service package found for
+    //             <b>${isYearVariantSearch ? `${this.modelYear} / ${this.variant}` : this.modelCode}</b>.
+    //         </p>
+    //         <p class="mb-3">Do you want to create a service request?</p>
+
+    //         <div style="display: flex; gap: 1px;">
+    //             ${
+    //                 isYearVariantSearch
+    //                     ? `
+    //                 <div style="display: flex; flex-direction: column; width: 30%;">
+    //                     <label for="modelCode" style="font-weight: 400; margin-bottom: 2px;"><b>Model Code</b></label>
+    //                     <input id="modelCode" class="swal2-input" placeholder="Enter Model Code">
+    //                 </div>`
+    //                     : ''
+    //             }
+
+    //             <div style="display: flex; flex-direction: column; width: 40%;">
     //                 <label for="vinNo" style="font-weight: 400; margin-bottom: 2px;"><b>VIN No</b></label>
-    //                 <input id="vinNo" class="swal2-input" placeholder="Enter VIN No">
+    //                 <input id="vinNo" class="swal2-input" style="padding: 3px 3px; text-transform: uppercase;" placeholder="Enter VIN No">
     //             </div>
-    //             <div style="display: flex; flex-direction: column; width: 33%;">
+
+    //             <div style="display: flex; flex-direction: column; width: 20%;">
     //                 <label for="modelYear" style="font-weight: 400; margin-bottom: 2px;"><b>Model Year</b></label>
-    //                 <input id="modelYear" class="swal2-input" placeholder="Enter Model Year">
+    //                 <input id="modelYear" class="swal2-input" style="text-transform: uppercase;" placeholder="Year" value="${this.modelYear || ''}">
     //             </div>
-    //             <div style="display: flex; flex-direction: column; width: 33%;">
+
+    //             <div style="display: flex; flex-direction: column; width: 40%; ">
     //                 <label for="variant" style="font-weight: 400; margin-bottom: 2px;"><b>Variant</b></label>
-    //                 <input id="variant" class="swal2-input" placeholder="Enter Variant">
+    //                 <input id="variant" class="swal2-input"  style="text-transform: uppercase;" placeholder="Enter Variant" value="${this.variant || ''}">
     //             </div>
     //         </div>
     //     `,
@@ -750,23 +868,23 @@ export class ServicePackageListComponent implements OnInit {
     //         focusConfirm: false,
     //         customClass: 'sweet-alerts',
 
-    //         // ✅ Handle validation + API call here
     //         preConfirm: () => {
-    //             const vinNo = (document.getElementById('vinNo') as HTMLInputElement).value;
+    //             const vinNo = (document.getElementById('vinNo') as HTMLInputElement).value.toUpperCase();
     //             const modelYear = (document.getElementById('modelYear') as HTMLInputElement).value;
-    //             const variant = (document.getElementById('variant') as HTMLInputElement).value;
+    //             const variant = (document.getElementById('variant') as HTMLInputElement).value.toUpperCase();
+    //             const modelCodeInput = isYearVariantSearch ? (document.getElementById('modelCode') as HTMLInputElement).value : this.modelCode;
 
-    //             if (!vinNo || !modelYear || !variant) {
+    //             if (!vinNo || !modelYear || !variant || !modelCodeInput) {
     //                 Swal.showValidationMessage('All fields are required');
     //                 return false;
     //             }
 
     //             const data = {
-    //                 modelCode: this.modelCode,
-    //                 // kilometer: this.kilometer,
-    //                 vinNo: vinNo,
-    //                 modelYear: modelYear,
-    //                 variant: variant,
+    //                 modelCode: modelCodeInput,
+    //                 vinNo,
+    //                 modelYear,
+    //                 variant,
+    //                 type: 3,
     //                 user_id: atob(atob(localStorage.getItem('us_id') || '{}')),
     //             };
 
@@ -774,7 +892,7 @@ export class ServicePackageListComponent implements OnInit {
     //                 this.userServices.createServicePackage(data).subscribe({
     //                     next: (rData: any) => {
     //                         if (rData.ret_data === 'success') {
-    //                             resolve(data); // ✅ Close modal
+    //                             resolve(data);
     //                         } else {
     //                             Swal.showValidationMessage('Service creation failed. Please try again.');
     //                         }
@@ -787,7 +905,7 @@ export class ServicePackageListComponent implements OnInit {
     //         },
     //     }).then((result) => {
     //         if (result.isConfirmed && result.value) {
-    //             const msg = `Service request has been successfully created for model code <b>${this.modelCode}</b>`;
+    //             const msg = `Service request successfully created for model code <b>${result.value.modelCode}</b>`;
     //             this.coloredToast('success', msg);
     //         }
     //     });
@@ -873,6 +991,8 @@ export class ServicePackageListComponent implements OnInit {
         const km = this.kilometers.find((k: any) => k.km_id === this.kilometer);
         return km ? km.km_value : this.kilometer; // fallback if not found
     }
+
+    createFaceliftPackage() {}
 
     coloredToast(color: string, message: string) {
         const toast = Swal.mixin({

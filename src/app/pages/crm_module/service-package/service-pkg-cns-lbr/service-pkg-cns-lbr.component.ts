@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-service-pkg-cns-lbr',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicePkgCnsLbrComponent implements OnInit {
     public model_code: string;
+    public model_code_type: string;
     public engines: any = [];
     public engineNO: any;
     public descriptions: any[] = [];
@@ -44,11 +46,12 @@ export class ServicePkgCnsLbrComponent implements OnInit {
     public consumablesData: any[] = [];
     public consumablesNames: any[] = [];
     public spStatus: any;
-
+    public copiedModelCode: any = '';
     @ViewChild('partsModal') partsModal: any;
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe, private activeRouter: ActivatedRoute) {
         this.model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
+        this.model_code_type = atob(this.activeRouter.snapshot.paramMap.get('type') || '');
 
         this.service_details = {
             model_code: this.model_code,
@@ -130,6 +133,7 @@ export class ServicePkgCnsLbrComponent implements OnInit {
 
         let data = {
             modelCode: atob(this.activeRouter.snapshot.paramMap.get('id') || ''),
+            type: atob(this.activeRouter.snapshot.paramMap.get('type') || ''),
         };
 
         this.userServices.getServicePackageByModelCode(data).subscribe((rdata: any) => {
@@ -228,7 +232,7 @@ export class ServicePkgCnsLbrComponent implements OnInit {
 
     getEngineAndSparesByModelCode() {
         this.load_flag = false;
-        this.userServices.getEngineAndSparesByModelCode({ model_code: this.model_code }).subscribe((rdata: any) => {
+        this.userServices.getEngineAndSparesByModelCode({ model_code: this.model_code, spmc_type: this.model_code_type }).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 if (rdata?.engData?.speng_eng_id) {
                     this.engineNO = rdata.engData.speng_eng_id;
@@ -328,8 +332,8 @@ export class ServicePkgCnsLbrComponent implements OnInit {
                             labour.sp_labour_group_seq && labour.sp_labour_group_seq != '0'
                                 ? labour.sp_labour_group_seq
                                 : groupSeqs.length === 1
-                                ? groupSeqs[0]
-                                : 0;
+                                    ? groupSeqs[0]
+                                    : 0;
 
                         return {
                             Name: labour.sp_pm_id,
@@ -425,8 +429,8 @@ export class ServicePkgCnsLbrComponent implements OnInit {
                                 labour.sp_labour_group_seq && labour.sp_labour_group_seq != '0'
                                     ? labour.sp_labour_group_seq
                                     : groupSeqs.length === 1
-                                    ? groupSeqs[0]
-                                    : 0;
+                                        ? groupSeqs[0]
+                                        : 0;
 
                             // Build the fresh data object
                             const newData = {
@@ -563,8 +567,8 @@ export class ServicePkgCnsLbrComponent implements OnInit {
                             labour.sp_labour_group_seq && labour.sp_labour_group_seq != '0'
                                 ? labour.sp_labour_group_seq
                                 : groupSeqs.length === 1
-                                ? groupSeqs[0]
-                                : 0;
+                                    ? groupSeqs[0]
+                                    : 0;
 
                         return {
                             Name: labour.sp_pm_id,
@@ -834,6 +838,7 @@ export class ServicePkgCnsLbrComponent implements OnInit {
         this.service_details.consumables.forEach((c: any) => (c.applicable = 0));
         this.service_details.Labour.forEach((l: any) => (l.applicable = 0));
 
+        this.copiedModelCode = partSummary.model_code;
         const parts = partSummary.parts;
 
         const consumables = parts.filter((p: any) => p.sp_spare_category == '1');
@@ -1002,6 +1007,10 @@ export class ServicePkgCnsLbrComponent implements OnInit {
         this.service_details.engine_id = this.engineNO;
         this.service_details.user_role = atob(atob(localStorage.getItem('us_role_id') || '{}'));
         this.service_details.vin_no = this.vin_no;
+        this.service_details.spmc_type = this.model_code_type;
+        this.service_details.branch_id = environment.branch_id;
+        this.service_details.copyModel = this.copiedModelCode;
+
 
         // this.draftButtonFlag = false;
         // this.saveFlag = false;

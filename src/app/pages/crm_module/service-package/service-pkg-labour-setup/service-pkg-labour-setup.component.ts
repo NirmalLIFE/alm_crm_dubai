@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { ModalComponent } from 'angular-custom-modal';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-service-pkg-labour-setup',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicePkgLabourSetupComponent implements OnInit {
     public model_code: string;
+    public model_code_type: string;
     public engines: any = [];
     public engineNO: any;
     public descriptions: any[] = [];
@@ -75,6 +77,8 @@ export class ServicePkgLabourSetupComponent implements OnInit {
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe, private activeRouter: ActivatedRoute) {
         this.model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
+        this.model_code_type = atob(this.activeRouter.snapshot.paramMap.get('type') || '');
+
         this.selectedPartNames = [];
         this.service_details = {
             model_code: this.model_code,
@@ -160,6 +164,7 @@ export class ServicePkgLabourSetupComponent implements OnInit {
 
         let data = {
             modelCode: this.model_code,
+            type: atob(this.activeRouter.snapshot.paramMap.get('type') || ''),
         };
 
         this.userServices.getServicePackageByModelCode(data).subscribe((rdata: any) => {
@@ -305,7 +310,7 @@ export class ServicePkgLabourSetupComponent implements OnInit {
 
     getEngineAndSparesByModelCode() {
         this.load_flag = false;
-        this.userServices.getEngineAndSparesByModelCode({ model_code: this.model_code }).subscribe((rdata: any) => {
+        this.userServices.getEngineAndSparesByModelCode({ model_code: this.model_code, spmc_type: this.model_code_type }).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 if (rdata?.engData?.speng_eng_id) {
                     this.engineNO = rdata.engData.speng_eng_id;
@@ -1467,6 +1472,8 @@ export class ServicePkgLabourSetupComponent implements OnInit {
         this.service_details.engine_id = this.engineNO;
         this.service_details.user_role = atob(atob(localStorage.getItem('us_role_id') || '{}'));
         this.service_details.vin_no = this.vin_no;
+        this.service_details.spmc_type = this.model_code_type;
+        this.service_details.branch_id = environment.branch_id;
 
         // this.service_details.spmc_status_flag = type;
 
@@ -1629,7 +1636,9 @@ export class ServicePkgLabourSetupComponent implements OnInit {
                         this.coloredToast('info', 'Service package Parts And Labour have been saved as draft.');
                     } else {
                         const encodedModel = btoa(this.model_code);
-                        this.router.navigate(['servicePackageKm', encodedModel]);
+                        const encodedModelType = btoa(this.model_code_type);
+
+                        this.router.navigate(['servicePackageKm', encodedModel, encodedModelType]);
                         this.draftButtonFlag = false;
                         this.saveFlag = false;
                         this.coloredToast('success', 'Service package Parts And Labour have been updated successfully.');
@@ -1739,6 +1748,7 @@ export class ServicePkgLabourSetupComponent implements OnInit {
 
         const data = {
             modelcode: this.model_code,
+            model_code_type: this.model_code_type,
             selectpartsName: selectpartsName,
             note: this.noteToSupervisor,
             returnType: '1', //LABOUR
@@ -1785,6 +1795,7 @@ export class ServicePkgLabourSetupComponent implements OnInit {
         let selectLabourName = selectedLabour.filter((parts: any) => parts.Description).map((parts: any) => parts.Description);
         const data = {
             modelcode: this.model_code,
+            model_code_type: this.model_code_type,
             selectLabourName: selectLabourName,
             note: this.noteToSupervisor,
             returnType: '2', //LABOUR

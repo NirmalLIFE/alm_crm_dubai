@@ -37,6 +37,7 @@
         "moment": "^2.29.4",
         "ng-apexcharts": "^1.8.0",
         "ng2-flatpickr": "^9.0.0",
+        "ngx-countup": "^7.3.3",
         "ngx-scrollbar": "^11.0.0",
         "ngx-tippy-wrapper": "^6.1.0",
         "rxjs": "~7.8.0",

@@ -22,8 +22,21 @@ export class ServicePkgAdminUpdateComponent implements OnInit {
     modelCodes: any = [];
     selectedKmValue: any;
     public searched: boolean = true;
+    public type: any = [
+        {
+            spmc_type: '0',
+            spmc_name: 'Normal Service Package',
+        },
+        {
+            spmc_type: '1',
+            spmc_name: 'Facelift Service Package',
+        },
+    ];
+    public package_type: any;
 
-    constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe) {}
+    constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe) {
+        this.package_type = '0';
+    }
 
     ngOnInit() {}
 
@@ -43,9 +56,51 @@ export class ServicePkgAdminUpdateComponent implements OnInit {
 
         this.userServices.getServicePackage(data).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                if (rData.servicePackage && rData.servicePackage.length > 0) {
+                // if (rData.servicePackage && rData.servicePackage.length > 0) {
+                //     const encodedModel = btoa(this.modelCode);
+                //     // const encodedModelType = btoa(model_code);
+                //     this.router.navigate(['servicePackageLabour', encodedModel]);
+                // }
+                if (rData.models && rData.models.length > 1) {
                     const encodedModel = btoa(this.modelCode);
-                    this.router.navigate(['servicePackageLabour', encodedModel]);
+
+                    if (rData.models.length > 1) {
+                        // Show Swal to let user choose Normal or Facelift package
+                        Swal.fire({
+                            title: 'Choose Service Package Type',
+                            text: `The model has both Normal and Facelift service packages. Please select which one you want to update.`,
+                            icon: 'question',
+                            showCancelButton: true,
+                            confirmButtonText: 'Normal Service Package',
+                            cancelButtonText: 'Facelift Service Package',
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                        }).then((result) => {
+                            let selectedPackage: any;
+
+                            if (result.isConfirmed) {
+                                // ✅ User chose Normal
+                                selectedPackage = rData.models.find((pkg: any) => pkg.spmc_type == '0');
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                // ✅ User chose Facelift
+                                selectedPackage = rData.models.find((pkg: any) => pkg.spmc_type == '1');
+                            }
+
+                            if (selectedPackage) {
+                                const encodedModelType = btoa(selectedPackage.spmc_type);
+                                this.router.navigate(['servicePackageLabour', encodedModel, encodedModelType]);
+                            }
+                        });
+                    } else {
+                        // ✅ Only one package, navigate directly
+                        const singlePackage = rData.servicePackage[0];
+                        const encodedModelType = btoa(singlePackage.spmc_type);
+                        this.router.navigate(['servicePackageLabour', encodedModel, encodedModelType]);
+                    }
+                } else if (rData.models && rData.models.length == 1) {
+                    const encodedModel = btoa(this.modelCode);
+                    const encodedModelType = btoa( rData.models.spmc_type);
+                    this.router.navigate(['servicePackageLabour', encodedModel, encodedModelType]);
                 } else if (rData.modelData) {
                     const statusFlag = rData.modelData.spmc_status_flag;
                     const statusMessages: { [key: string]: string } = {

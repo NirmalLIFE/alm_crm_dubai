@@ -38,7 +38,7 @@
         </div>
         <!-- Logs List -->
         <div class="logs-container mr-4 space-y-4">
-            <div *ngIf="logs?.length; else noLogs">
+            <div *ngIf="logs.length; else noLogs">
                 <div *ngFor="let log of logs" class="log-entry mb-4 rounded-md border bg-gray-50 p-4 dark:bg-gray-800">
                     <!-- Log Meta -->
                     <div class="log-meta mb-2 text-xs text-gray-500 dark:text-gray-400">

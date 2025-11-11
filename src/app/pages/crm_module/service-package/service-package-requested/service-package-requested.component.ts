@@ -70,8 +70,8 @@ export class ServicePackageRequestedComponent implements OnInit {
 
     async onYes(pkg: any) {
         const encodedModel = btoa(pkg.spmc_value); // e.g., '117.343'
-
-        const isSessionAvailable = await this.checkSPSessionLock(pkg.spmc_value);
+        const encodedModelType = btoa(pkg.spmc_type);
+        const isSessionAvailable = await this.checkSPSessionLock(pkg.spmc_value, pkg.spmc_type);
 
         if (!isSessionAvailable) {
             this.coloredToast('danger', 'Someone is already updating this package.');
@@ -79,17 +79,17 @@ export class ServicePackageRequestedComponent implements OnInit {
         }
 
         if (this.user_role == 17) {
-            this.router.navigate(['servicePackageParts', encodedModel]);
+            this.router.navigate(['servicePackageParts', encodedModel, encodedModelType]);
             this.updateSPSessionLock(pkg.spmc_value);
         } else if (this.user_role == 20) {
-            this.router.navigate(['servicePkgCnsLbr', encodedModel]);
+            this.router.navigate(['servicePkgCnsLbr', encodedModel, encodedModelType]);
             this.updateSPSessionLock(pkg.spmc_value);
         } else if (this.user_role == 1 || this.user_role == 10 || this.user_role == 13 || this.user_role == 2) {
             if ((pkg.spmc_status_flag == '3' || pkg.spmc_status_flag == '4') && (pkg.spmc_draft_flag == '0' || pkg.spmc_draft_flag == '1')) {
                 if (pkg.spmc_status_flag == '4') {
-                    this.router.navigate(['servicePackageKmPriceMap', encodedModel]);
+                    this.router.navigate(['servicePackageKmPriceMap', encodedModel, encodedModelType]);
                 } else if (pkg.spmc_status_flag != '9') {
-                    this.router.navigate(['servicePackageLabour', encodedModel]);
+                    this.router.navigate(['servicePackageLabour', encodedModel, encodedModelType]);
                 }
                 this.updateSPSessionLock(pkg.spmc_value);
             } else {
@@ -105,9 +105,10 @@ export class ServicePackageRequestedComponent implements OnInit {
         // servicePackageParts
     }
 
-    checkSPSessionLock(spmc_value: any): Promise<boolean> {
+    checkSPSessionLock(spmc_value: any, spmc_type: any): Promise<boolean> {
         let data = {
             modelCode: spmc_value,
+            spmc_type: spmc_type,
         };
 
         return new Promise((resolve) => {
@@ -153,7 +154,7 @@ export class ServicePackageRequestedComponent implements OnInit {
     }
 
     getPackageStatus(pkg: any): string {
-        const name = pkg.updated_by_name?.trim();
+        const name = pkg.spmc_updated_user?.trim();
         const byText = name ? ` by ${name}` : '';
 
         // Handle special draft combos first

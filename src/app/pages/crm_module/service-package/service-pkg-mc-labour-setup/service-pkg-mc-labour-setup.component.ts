@@ -31,6 +31,8 @@ export class ServicePkgMcLabourSetupComponent implements OnInit {
     public familyCodes: any = [];
     public familyNames: any = [];
     public button_flag: boolean = false;
+    public modelYear: any;
+    public variant: any;
 
     @ViewChild('editModelCode') editModelCode: any;
     @ViewChild('labourPercentageModelCode') labourPercentageModelCode: any;
@@ -43,6 +45,7 @@ export class ServicePkgMcLabourSetupComponent implements OnInit {
         { field: 'labour_rate', title: 'Labour Rate', isUnique: false },
         { field: 'spmcl_inc_pct', title: 'Increased Labour Percentage', isUnique: false },
         { field: 'action', title: 'Actions', isUnique: false },
+        { field: 'facelift', title: 'Facelift', slot: 'facelift' },
     ];
 
     constructor(public router: Router, private userServices: StaffPostAuthService, public datePipe: DatePipe, private activeRouter: ActivatedRoute) {}
@@ -174,10 +177,7 @@ export class ServicePkgMcLabourSetupComponent implements OnInit {
 
                 if (rdata.ret_data === 'success') {
                     // Show proper success toast
-                    this.coloredToast(
-                        'success',
-                        `Model codes have been updated successfull`
-                    );
+                    this.coloredToast('success', `Model codes have been updated successfull`);
                     this.getModelCodeLabourRates();
                 } else {
                     // Info toast if API responds but no data
@@ -191,6 +191,105 @@ export class ServicePkgMcLabourSetupComponent implements OnInit {
             },
         });
     }
+
+    onFaceliftSwitchChange(event: any, rowData: any) {
+        if (event.target.checked) {
+            // Switch turned ON → set spmcl_type to 1
+            rowData.spmcl_type = 1;
+        } else {
+            // Switch turned OFF → set spmcl_type to 0 (optional)
+            rowData.spmcl_type = 0;
+        }
+
+        let data = {
+            spmcl_type: rowData.spmcl_type,
+            spmcl_id: rowData.spmcl_id,
+            model_code: rowData.model_code,
+        };
+
+        this.userServices.updateModelCodeFacelift(data).subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                const statusText = data.spmcl_type == 1 ? 'enabled' : 'disabled';
+                this.coloredToast('success', `Facelift has been <b>${statusText}</b> for model code <b>${data.model_code}</b>`);
+                this.getModelCodeLabourRates();
+            }else{
+                this.coloredToast('danger', `Some Error Occurred, please try again later`);
+            }
+        });
+    }
+
+    // showAlert(modelCode: any) {
+    //     Swal.fire({
+    //         icon: 'info',
+    //         html: `
+    //         <p class="mb-3">
+    //             No facelift service package found for <b>${modelCode}</b>.
+    //         </p>
+    //         <p class="mb-3">Do you want to create a new service request?</p>
+
+    //         <div style="display: flex; gap: 1px;">
+    //             <div style="display: flex; flex-direction: column; width: 40%;">
+    //                 <label for="vinNo" style="font-weight: 500; margin-bottom: 2px;">VIN No</label>
+    //                 <input id="vinNo" class="swal2-input" placeholder="Enter VIN No" style="text-transform: uppercase;">
+    //             </div>
+
+    //             <div style="display: flex; flex-direction: column; width: 20%;">
+    //                 <label for="modelYear" style="font-weight: 500; margin-bottom: 2px;">Model Year</label>
+    //                 <input id="modelYear" class="swal2-input" placeholder="Year" value="${this.modelYear || ''}" style="text-transform: uppercase;">
+    //             </div>
+
+    //             <div style="display: flex; flex-direction: column; width: 40%;">
+    //                 <label for="variant" style="font-weight: 500; margin-bottom: 2px;">Variant</label>
+    //                 <input id="variant" class="swal2-input" placeholder="Enter Variant" value="${this.variant || ''}" style="text-transform: uppercase;">
+    //             </div>
+    //         </div>
+    //     `,
+    //         width: '1000px',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Create Service Request',
+    //         cancelButtonText: 'Cancel',
+    //         focusConfirm: false,
+    //         customClass: 'sweet-alerts',
+    //         preConfirm: () => {
+    //             const vinNo = (document.getElementById('vinNo') as HTMLInputElement).value.toUpperCase();
+    //             const modelYear = (document.getElementById('modelYear') as HTMLInputElement).value;
+    //             const variant = (document.getElementById('variant') as HTMLInputElement).value.toUpperCase();
+
+    //             if (!vinNo || !modelYear || !variant) {
+    //                 Swal.showValidationMessage('All fields are required.');
+    //                 return false;
+    //             }
+
+    //             const data = {
+    //                 modelCode, // pass the modelCode directly
+    //                 vinNo,
+    //                 modelYear,
+    //                 variant,
+    //                 user_id: atob(atob(localStorage.getItem('us_id') || '{}')),
+    //             };
+
+    //             return new Promise((resolve) => {
+    //                 this.userServices.createServicePackage(data).subscribe({
+    //                     next: (rData: any) => {
+    //                         if (rData.ret_data === 'success') {
+    //                             resolve(data);
+    //                         } else {
+    //                             Swal.showValidationMessage('Failed to create service request. Please try again.');
+    //                         }
+    //                     },
+    //                     error: () => {
+    //                         Swal.showValidationMessage('Something went wrong. Please try again.');
+    //                     },
+    //                 });
+    //             });
+    //         },
+    //     }).then((result) => {
+    //         if (result.isConfirmed && result.value) {
+    //             const msg = `Service request successfully created for model code <b>${modelCode}</b>`;
+    //             this.coloredToast('success', msg);
+    //         }
+    //     });
+    // }
 
     coloredToast(color: string, message: string) {
         const toast = Swal.mixin({

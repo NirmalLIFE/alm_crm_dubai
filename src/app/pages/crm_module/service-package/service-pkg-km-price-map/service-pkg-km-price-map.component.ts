@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import Swal from 'sweetalert2';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
     selector: 'app-service-pkg-km-price-map',
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ServicePkgKmPriceMapComponent implements OnInit {
     public model_code: string;
+    public model_code_type: any = atob(this.activeRouter.snapshot.paramMap.get('type') || '');
     public engines: any = [];
     public engineNO: any;
     public kilometers: any = [];
@@ -36,6 +38,7 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
 
         let data = {
             modelCode: atob(this.activeRouter.snapshot.paramMap.get('id') || ''),
+            type: atob(this.activeRouter.snapshot.paramMap.get('type') || ''),
         };
 
         this.userServices.getServicePackageByModelCode(data).subscribe((rdata: any) => {
@@ -334,6 +337,9 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
     saveServicePackageKmPriceMap() {
         if (this.saveFlag == true) return;
         this.saveFlag = true;
+        this.kmPriceMap.spmc_type = this.model_code_type;
+        // Append branch ID from environment before saving
+        this.kmPriceMap.branch_id = environment.branch_id;
 
         // console.log('this is the kmPriceMap', this.kmPriceMap);
 
@@ -352,7 +358,7 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
         }
 
         // this.saveFlag = false;
-        console.log('this is kmprice map', this.kmPriceMap);
+        // console.log('this is kmprice map', this.kmPriceMap);
         this.userServices.saveServicePackageKmPriceMap(this.kmPriceMap).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.router.navigateByUrl('servicePackageRequested');
@@ -489,7 +495,7 @@ export class ServicePkgKmPriceMapComponent implements OnInit {
 
     goBack() {
         const model_code = atob(this.activeRouter.snapshot.paramMap.get('id') || '');
-        this.router.navigate(['/servicePackageKm', btoa(model_code)]);
+        this.router.navigate(['/servicePackageKm', btoa(model_code), btoa(this.model_code_type)]);
     }
 
     coloredToast(color: string, message: string) {

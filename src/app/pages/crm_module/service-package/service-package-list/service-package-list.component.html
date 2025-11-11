@@ -6,12 +6,12 @@
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
             class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
-            Service Management</a>
+            Periodic Service</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
             class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
-            Service Package</a>
+            Price List</a>
     </li>
 </ol>
 
@@ -83,7 +83,7 @@
     </div>
 
     <!-- Search Form -->
-    <div class="mb-2 mt-5 pb-5">
+    <div class="mb-1 mt-5 pb-5">
         <div class="grid grid-cols-12 gap-4 items-center">
             <!-- Left Section -->
             <div class="col-span-6 grid grid-cols-4 gap-4 items-end">
@@ -148,6 +148,25 @@
             <a [innerHTML]="item"></a>
         </ng-template>
 
+        <!-- <div class="mt-3 flex items-center justify-between p-4 rounded-lg shadow-md 
+            bg-gradient-to-r from-orange-50 via-amber-100 to-white 
+            border border-amber-200" *ngIf="servicePackage.length > 0 && (user_role == '1' || user_role == '10' || user_role == '13' || user_role == '2')">
+
+            <div class="text-sm text-gray-700">
+                <strong class="text-base font-semibold block mb-1">
+                    Create Facelift Service Package
+                </strong>
+                <span>
+                    Do you want to create a Facelift Service Package for the Model Code:
+                    <span class="font-bold text-orange-600">{{ modelCode }}</span> ?
+                </span>
+            </div>
+
+            <button type="button" class="px-4 py-2 rounded-md border border-orange-400 text-orange-600 
+                               hover:bg-orange-500 hover:text-white transition">
+                Yes
+            </button>
+        </div> -->
     </div>
 </div>
 

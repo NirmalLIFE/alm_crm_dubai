@@ -1323,4 +1323,8 @@ export class StaffPostAuthService {
     testMessageSend(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'testMessageSend', data, { headers: this.reqHeader });
     }
+    
+    updateModelCodeFacelift(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateModelCodeFacelift', data, { headers: this.reqHeader });
+    }
 }

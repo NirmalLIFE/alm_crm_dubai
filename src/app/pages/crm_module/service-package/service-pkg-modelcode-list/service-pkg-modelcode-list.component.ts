@@ -17,6 +17,7 @@ export class ServicePkgModelcodeListComponent implements OnInit {
     public modelCodeColumns = [
         { field: 'spmc_value', title: 'Model Code' },
         { field: 'model_name', title: 'Family Name' },
+        { field: 'spmc_type_name', title: 'Type' },
         { field: 'spmc_model_year', title: 'Model Year' },
         { field: 'eng_no', title: 'Engine No' },
         { field: 'spkmp_display_price', title: 'Display Price' },
@@ -31,15 +32,22 @@ export class ServicePkgModelcodeListComponent implements OnInit {
     }
 
     getServicePkgModelcodelist() {
-        // this.load_flag = true;
+        this.load_flag = true;
         this.userServices.getServicePkgModelcodelist().subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
-                this.modelCodeList = rdata.modellist;
+                this.modelCodeList = rdata.modellist.map((item: any) => {
+                    return {
+                        ...item,
+                        spmc_type_name: item.spmc_type == '0' ? 'Normal Package' : 'Facelift Package',
+                    };
+                });
+                // this.modelCodeList = rdata.modellist;
                 // console.log("this.modelCodeList", this.modelCodeList);
+                this.load_flag = false;
             } else {
                 this.modelCodeList = [];
+                this.load_flag = false;
             }
-            this.load_flag = false;
         });
     }
 

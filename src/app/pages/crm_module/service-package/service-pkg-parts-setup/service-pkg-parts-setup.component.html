@@ -6,7 +6,7 @@
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
             class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">
-            Service Management</a>
+            Periodic Service</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a routerLink="/servicePackageRequested"
@@ -60,6 +60,30 @@
 
                 <label *ngIf="!engineNO" class="mt-1 block text-xs text-red-500"> Please Select An Engine No </label>
             </div>
+
+            <!-- Facelift badge outside all input divs, aligned right -->
+            <!-- <div *ngIf="requestedServicePackage.spmc_type == '1'" class="mt-8 flex justify-end">
+                <div
+                    class="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-blue-700 to-blue-500 text-white font-semibold shadow-md text-sm">
+                    Facelift Service Package
+                </div>
+            </div> -->
+
+             <div *ngIf="requestedServicePackage.spmc_type == '1' || copiedModelCode" class="mt-8 flex flex-col items-end space-y-2">
+            <div
+                *ngIf="requestedServicePackage.spmc_type == '1'"
+                class="inline-block rounded-full bg-gradient-to-r from-blue-700 to-blue-500 px-4 py-1 text-sm font-semibold text-white shadow-md"
+            >
+                Facelift Service Package
+            </div>
+
+            <div
+                *ngIf="copiedModelCode"
+                class="inline-block rounded-full bg-gradient-to-r from-blue-700 to-blue-500 px-4 py-1 text-sm font-semibold text-white shadow-md"
+            >
+                Copied Model Code : {{ copiedModelCode }}
+            </div>
+        </div>
         </div>
 
         <hr class="my-6 border-[#e0e6ed] dark:border-[#1b2e4b]" />

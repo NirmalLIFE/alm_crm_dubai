@@ -50,6 +50,8 @@ export class WhatsappLeadsListComponent {
         { field: 'lead_code', title: 'Lead Code', isUnique: true, hide: false },
         { field: 'phone', title: 'Number', hide: false },
         { field: 'name', title: 'Customer', hide: false },
+        { field: 'customer_Type', title: 'Customer Type', hide: false },
+        { field: 'lead_category_name', title: 'Category', hide: false },
         { field: 'ld_src', title: 'Source' },
         { field: 'campaign_displayname', title: 'Campaign Name' },
         { field: 'reg_no', title: 'Reg.No', hide: true },
@@ -128,7 +130,38 @@ export class WhatsappLeadsListComponent {
 
         this.userServices.getWhatsappLeadsList(data).subscribe((rData: any) => {
             if (rData.ret_data == 'success') {
-                this.allWhatsappLeadList = rData.whatsappLeadList;
+                this.allWhatsappLeadList = rData.whatsappLeadList
+                    .filter((data: any) => data.source_id == '9')
+                    .map((lead: any) => {
+                        let leadCategoryName = '';
+                        let leadCategoryClass = '';
+
+                        switch (lead.lead_category) {
+                            case '0':
+                                leadCategoryName = 'Cold Lead';
+                                leadCategoryClass = 'btn-outline-info'; // gray
+                                break;
+                            case '1':
+                                leadCategoryName = 'Warm Lead';
+                                leadCategoryClass = 'btn-outline-warning'; // yellow/orange
+                                break;
+                            case '2':
+                                leadCategoryName = 'Hot Lead';
+                                leadCategoryClass = 'btn-outline-danger'; // red
+                                break;
+                            default:
+                                leadCategoryName = 'Unknown';
+                                leadCategoryClass = 'btn-outline-dark';
+                                break;
+                        }
+
+                        return {
+                            ...lead,
+                            lead_category_name: leadCategoryName,
+                            lead_category_class: leadCategoryClass,
+                        };
+                    });
+
                 this.campaignWhatsappLeads = rData.whatsappLeadList.filter((data: any) => data.source_id == '8');
                 this.directWhatsappLeads = rData.whatsappLeadList.filter((data: any) => data.source_id == '9');
 
