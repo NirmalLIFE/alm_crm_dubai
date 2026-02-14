@@ -1,0 +1,411 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a
+            routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+            >Home</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
+        >
+            Periodic Service</a
+        >
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
+        >
+            Check Service Contract Price</a
+        >
+    </li>
+</ol>
+<div>
+    <div class="panel mt-6 pb-0">
+        <div class="mb-4 flex items-center gap-6">
+            <label class="flex items-center gap-2">
+                <input type="radio" [(ngModel)]="searchMode" (ngModelChange)="searchMode = $event" value="vinNo" name="searchMode" />
+                <span>Search by <strong>Vin No</strong></span>
+            </label>
+            <label class="flex items-center gap-2">
+                <input type="radio" [(ngModel)]="searchMode" (ngModelChange)="searchMode = $event" value="regNo" name="searchMode" />
+                <span>Search by <strong>Car Reg No</strong></span>
+            </label>
+        </div>
+
+        <div class="mb-1 mt-5 pb-5">
+            <!-- Inputs and button row -->
+            <div class="grid grid-cols-12 items-center gap-4">
+                <div class="col-span-8 grid grid-cols-12 items-end gap-4">
+                    <!-- VIN No -->
+                    <div *ngIf="searchMode === 'vinNo'" class="col-span-4">
+                        <label class="mb-1 text-sm font-medium text-gray-700">Vin No*</label>
+                        <input
+                            [(ngModel)]="vin_No"
+                            type="text"
+                            placeholder="Enter 17-digit VIN NO"
+                            maxlength="17"
+                            class="form-input h-11 w-full rounded-lg border border-gray-300 px-3 text-sm uppercase focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+
+                    <!-- Reg No -->
+                    <div *ngIf="searchMode === 'regNo'" class="col-span-4">
+                        <label class="block text-sm font-medium text-gray-700">Reg No*</label>
+                        <ng-autocomplete
+                            [data]="regNumbers"
+                            placeholder="Reg No"
+                            maxlength="10"
+                            [(ngModel)]="reg_No"
+                            [itemTemplate]="itemTemplateCode"
+                            (selected)="onRegNoSelected($event)"
+                            (inputChanged)="onRegNoTyping($event)"
+                            class="w-full"
+                        >
+                        </ng-autocomplete>
+                        <!-- <label class="mb-1 text-sm font-medium text-gray-700">Reg No*</label>
+                        <input [(ngModel)]="reg_No" type="text" placeholder="Registration No" maxlength="15"
+                            class="form-input h-11 w-full rounded-lg border border-gray-300 px-3 text-sm uppercase focus:border-blue-500 focus:ring-2 focus:ring-blue-500" /> -->
+                    </div>
+
+                    <!-- Kilometer -->
+                    <div class="col-span-4">
+                        <label class="mb-1 text-sm font-medium text-gray-700">Kilometer*</label>
+                        <div class="relative">
+                            <input
+                                [(ngModel)]="Kilometer"
+                                type="text"
+                                placeholder="Kilometer"
+                                maxlength="6"
+                                class="form-input h-11 w-full rounded-lg border border-gray-300 px-3 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                (keypress)="allowOnlyNumbers($event)"
+                                (input)="validateKilometer()"
+                            />
+                            <!-- Error message (absolute, doesn't shift layout) -->
+                            <div *ngIf="kmError" class="absolute left-0 top-full mt-1 text-xs text-red-500">
+                                {{ kmError }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Button (smaller width) -->
+                    <div class="col-span-2">
+                        <label class="mb-1 select-none text-sm font-medium text-transparent">.</label>
+                        <button
+                            type="button"
+                            (click)="searchServiceContract()"
+                            class="h-11 whitespace-nowrap rounded-lg bg-blue-600 px-6 text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-700"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: VIN + Model Year -->
+                <div class="col-span-4 flex justify-end gap-6" *ngIf="searchMode == 'vinNo' && searchedFlag && !contractFlag && reg_No && modelYear">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Reg No </label>
+                        <span class="inline-block rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-sm font-bold text-white shadow">
+                            {{ reg_No }}
+                        </span>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Model Year</label>
+                        <span class="inline-block rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+                            {{ modelYear }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Right: VIN + Model Year -->
+                <div class="col-span-4 flex justify-end gap-6" *ngIf="searchMode == 'regNo' && searchedFlag && !contractFlag && vin_No && modelYear">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Vin No </label>
+                        <span class="inline-block rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-2 text-sm font-bold text-white shadow">
+                            {{ vin_No }}
+                        </span>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Model Year</label>
+                        <span class="inline-block rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 px-4 py-2 text-sm font-bold text-white shadow">
+                            {{ modelYear }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-2 mt-5 flex flex-col">
+                <div class="flex items-center space-x-2">
+                    <input
+                        type="checkbox"
+                        [(ngModel)]="includeLowerKmPackages"
+                        class="h-4 w-4 rounded border-gray-300 bg-gray-200 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-400"
+                    />
+                    <span class="text-sm font-medium text-gray-700 dark:text-white-dark"> Include Lower KM Packages </span>
+                </div>
+                <p class="ml-6 mt-1 text-sm text-gray-500 dark:text-gray-300">
+                    If checked, service packages with lower KM than entered will also be displayed.
+                </p>
+            </div>
+
+            <ng-template #itemTemplateCode let-item>
+                <a [innerHTML]="item"></a>
+            </ng-template>
+        </div>
+    </div>
+    <div *ngIf="load_flag" style="text-align: center">
+        <span
+            class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
+        ></span>
+    </div>
+    <div class="panel" *ngIf="modelVersion && !load_flag">
+        <div class="flex flex-wrap gap-3">
+            <button
+                *ngFor="let serviceContract of serviceContracts"
+                type="button"
+                class="btn rounded-lg px-5 py-2 font-semibold uppercase transition-all duration-300"
+                [ngClass]="getContractClass(serviceContract)"
+                (click)="selectServiceContract(serviceContract)"
+            >
+                {{ serviceContract.sct_name }}
+            </button>
+        </div>
+
+        <div class="flex flex-1 justify-center text-lg font-semibold text-blue-600" *ngIf="selectedServiceContract">
+            Service For
+            {{
+                selectedServiceContract.sct_name === 'Silver'
+                    ? '1 Year'
+                    : selectedServiceContract.sct_name === 'Gold'
+                    ? '2 Years'
+                    : selectedServiceContract.sct_name === 'Platinum'
+                    ? '3 Years'
+                    : ''
+            }}
+            / Unlimited Kilometers
+        </div>
+
+        <!-- Items Table -->
+        <div class="mb-2 mt-5 pb-5">
+            <div>
+                <div class="mb-2 p-4">
+                    <div class="table-responsive" style="max-width: 100%; width: 95%; margin: auto">
+                        <table class="w-full table-fixed text-base">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%"></th>
+                                    <th style="width: 60%">Kilometers</th>
+                                    <th style="width: 30%; text-align: right">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of limitedServicePackages; let i = index">
+                                    <td *ngIf="user_role != '11'">
+                                        <input
+                                            type="checkbox"
+                                            class="form-checkbox rounded border-2 border-dark text-blue-600 focus:ring-blue-500"
+                                            [(ngModel)]="item.checked"
+                                            (change)="onCheckboxChange(i)"
+                                        />
+                                    </td>
+
+                                    <td *ngIf="user_role == '11'"></td>
+
+                                    <td>
+                                        <span ngxTippy="{{ item.km_value }}" class="cursor-pointer">
+                                            {{ item.km_value }}
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <ng-container *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                            {{ item.higherTotal | number : '1.2-2' }}
+                                        </ng-container>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td></td>
+                                    <td class="text-right font-bold" style="text-align: right">Pick Up & Drop</td>
+                                    <td class="text-right font-bold" style="text-align: right">AED {{ selectedServiceContract.sct_pickup_and_drop }}</td>
+                                </tr>
+
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td></td>
+                                    <td class="text-right font-bold" style="text-align: right">Excess for Discount %</td>
+                                    <td class="text-right font-bold" style="text-align: right">{{ selectedServiceContract.sct_excess_discount }} %</td>
+                                </tr>
+
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td></td>
+                                    <td class="text-right font-bold" style="text-align: right">SA Incentive</td>
+                                    <td class="text-right font-bold" style="text-align: right">AED {{ selectedServiceContract.sct_sa_incentive }}</td>
+                                </tr>
+
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td></td>
+                                    <td class="text-right font-bold" style="text-align: right">Discount %</td>
+                                    <td class="text-right font-bold" style="text-align: right">{{ selectedServiceContract.sct_discount }} %</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td class="text-right font-bold" style="text-align: right">Total ASC Amount( Including VAT )</td>
+                                    <td class="text-right font-bold" style="text-align: right">AED {{ totalWith_vatAmount }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <div class="mt-4 flex items-center justify-center gap-3 text-center text-lg font-bold text-blue-600">
+                            <span>Net Payable Amount : AED {{ svcPrice || 0 | number : '1.2-2' }}</span>
+                            <span class="border-l pl-3 text-sm text-gray-500"> VAT Inclusive </span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="float-right flex">
+                        <button type="button" class="btn btn-secondary" (click)="showServiceContractWizard()">Create
+                            Contract</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel" *ngIf="contractFlag && !load_flag">
+        <div class="relative flex w-full items-center">
+            <!-- ✅ Centered Text -->
+            <div class="absolute left-1/2 -translate-x-1/2 text-lg font-semibold text-blue-600" *ngIf="selectedServiceContract">
+                {{ contract_details.sct_name }} - {{ contract_details.sc_contract_duration }} Year / Unlimited Kilometers
+            </div>
+
+            <!-- ✅ Right-Aligned Print Button -->
+            <div class="ml-auto">
+                <button
+                    *ngIf="user_role !== '14'"
+                    type="button"
+                    class="btn btn-primary btn-sm d-flex align-items-center gap-1"
+                    (click)="printServiceContract(contract_details)"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" class="me-1">
+                        <path stroke-linecap="round" stroke-width="1.5" d="M9 10H6"></path>
+                        <path stroke-linecap="round" stroke-width="1.5" d="M19 14L5 14"></path>
+                        <circle r="1" cy="10" cx="17"></circle>
+                        <path stroke-linecap="round" stroke-width="1.5" d="M15 16.5H9"></path>
+                        <path stroke-linecap="round" stroke-width="1.5" d="M13 19H9"></path>
+                        <path
+                            stroke-linecap="round"
+                            stroke-width="1.5"
+                            d="M22 12C22 14.8284 22 16.2426 21.1213 17.1213C20.48 17.7626 19.5535 17.9359 18 17.9827M6 17.9827C4.44655 17.9359 3.51998 17.7626 2.87868 17.1213C2 16.2426 2 14.8284 2 12C2 9.17157 2 7.75736 2.87868 6.87868C3.75736 6 5.17157 6 8 6H16C18.8284 6 20.2426 6 21.1213 6.87868C21.4211 7.17848 21.6186 7.54062 21.7487 8"
+                        ></path>
+                        <path
+                            stroke-linecap="round"
+                            stroke-width="1.5"
+                            d="M17.9827 6C17.9359 4.44655 17.7626 3.51998 17.1213 2.87868C16.2426 2 14.8284 2 12 2C9.17157 2 7.75736 2 6.87868 2.87868C6.23738 3.51998 6.06413 4.44655 6.01732 6M18 15V16C18 18.8284 18 20.2426 17.1213 21.1213C16.48 21.7626 15.5535 21.9359 14 21.9827M6 15V16C6 18.8284 6 20.2426 6.87868 21.1213C7.51998 21.7626 8.44655 21.9359 10 21.9827"
+                        ></path>
+                    </svg>
+                    PRINT
+                </button>
+            </div>
+        </div>
+
+        <div class="table-responsive mx-auto mb-1 mt-5 w-full max-w-[95%] p-4">
+            <table class="w-full table-fixed border border-gray-300 text-base">
+                <tbody>
+                    <tr class="border-b border-gray-300">
+                        <th class="w-1/3 px-3 py-2 text-left">Name of the Customer</th>
+                        <td class="px-3 py-2">{{ contract_details.customer_name }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <th class="px-3 py-2 text-left">Chassis No</th>
+                        <td class="px-3 py-2">{{ contract_details.scv_vin_no }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <th class="px-3 py-2 text-left">Plate Number</th>
+                        <td class="px-3 py-2">{{ contract_details.scv_reg_no }}</td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <th class="px-3 py-2 text-left">Model & Year</th>
+                        <td class="px-3 py-2">{{ contract_details.scv_vehicle_model }} / {{ contract_details.scv_model_year }}</td>
+                    </tr>
+                    <tr>
+                        <th class="px-3 py-2 text-left">Name of the Salesperson</th>
+                        <td class="px-3 py-2"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Items Table -->
+        <div class="mb-2 pb-5">
+            <div>
+                <div class="mb-2 p-4">
+                    <div class="table-responsive" style="max-width: 100%; width: 95%; margin: auto">
+                        <table class="w-full table-fixed text-base" *ngIf="!contractFlag">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%"></th>
+                                    <th style="width: 60%">Kilometers</th>
+                                    <th style="width: 30%; text-align: right">Price</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table class="w-full table-fixed text-base" *ngIf="contractFlag">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70%">Kilometers</th>
+                                    <th style="width: 30%; text-align: right">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of contract_details.km_details; let i = index">
+                                    <td>
+                                        <span ngxTippy="{{ item.km_value }}" class="cursor-pointer">
+                                            {{ item.km_value }}
+                                        </span>
+                                    </td>
+                                    <td style="text-align: right">
+                                        <ng-container *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                            {{ item.sck_price | number : '1.2-2' }}
+                                        </ng-container>
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td class="text-right font-bold" style="text-align: right">Pick Up & Drop</td>
+                                    <td class="text-right font-bold" style="text-align: right">AED {{ contract_details.sct_pickup_and_drop }}</td>
+                                </tr>
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td class="text-right font-bold" style="text-align: right">Excess for Discount %</td>
+                                    <td class="text-right font-bold" style="text-align: right">{{ contract_details.sct_excess_discount }} %</td>
+                                </tr>
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td class="text-right font-bold" style="text-align: right">SA Incentive</td>
+                                    <td class="text-right font-bold" style="text-align: right">AED {{ contract_details.sct_sa_incentive }}</td>
+                                </tr>
+                                <tr *ngIf="user_role == '1' || user_role == '10' || user_role == '13'">
+                                    <td class="text-right font-bold" style="text-align: right">Discount %</td>
+                                    <td class="text-right font-bold" style="text-align: right">{{ contract_details.sct_discount }} %</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right font-bold" style="text-align: right">Total ASC Amount( Including VAT )</td>
+                                    <td class="text-right font-bold" style="text-align: right">AED {{ contract_details.sc_contract_price }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <div class="mt-4 flex items-center justify-center gap-3 text-center text-lg font-bold text-blue-600">
+                            <span>Net Payable Amount : AED {{ contract_details.sc_contract_price || 0 | number : '1.2-2' }}</span>
+                            <span class="border-l pl-3 text-sm text-gray-500"> VAT Inclusive </span>
+                        </div>
+                    </div>
+
+                    <!-- <div class="float-right flex" *ngIf="!contractFlag">
+                        <button type="button" class="btn btn-secondary" (click)="showServiceContractWizard()">Create
+                            Contract</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

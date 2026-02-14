@@ -374,6 +374,21 @@ export class SidebarComponent {
                     title: 'Requested Parts Price',
                     link: '/requestedPartsPrice',
                 });
+            } else if (element['ft_id'] == 68) {
+                this.menuItems.service_features.push({
+                    title: 'Contract History',
+                    link: '/serviceContractCustomers',
+                });
+            } else if (element['ft_id'] == 70) {
+                this.menuItems.service_features.push({
+                    title: 'Service Contract',
+                    link: '/searchServiceContract',
+                });
+            } else if (element['ft_id'] == 69) {
+                this.menuItems.service_features.push({
+                    title: 'Service Contract Tiers',
+                    link: '/ServiceContractTiersList',
+                });
             }
         });
     }

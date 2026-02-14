@@ -181,6 +181,9 @@ import { MaintenanceComponent } from './pages/maintenance/maintenance.component'
 import { MaintenanceInterceptor } from './maintenance.interceptor';
 import { ServiceRmdrRptComponent } from './pages/crm_module/service-module/service-remainder/service-rmdr-rpt/service-rmdr-rpt.component';
 import { PermittedIpListComponent } from './pages/crm_module/permitted-ip-list/permitted-ip-list.component';
+import { SvcCheckListComponent } from './pages/crm_module/service-contract/svc-check-list/svc-check-list.component';
+import { SvcCustListComponent } from './pages/crm_module/service-contract/svc-cust-list/svc-cust-list.component';
+import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/svc-list.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true }),
@@ -356,6 +359,9 @@ import { PermittedIpListComponent } from './pages/crm_module/permitted-ip-list/p
         MaintenanceComponent,
         ServiceRmdrRptComponent,
         PermittedIpListComponent,
+        SvcCheckListComponent,
+        SvcCustListComponent,
+        SvcListComponent,
     ],
     providers: [AppService, Title, DatePipe,{
         provide: HTTP_INTERCEPTORS,

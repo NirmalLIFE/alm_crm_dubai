@@ -116,6 +116,9 @@ import { MaintenanceComponent } from './pages/maintenance/maintenance.component'
 import { MaintenanceGuard } from './maintenance.guard';
 import { ServiceRmdrRptComponent } from './pages/crm_module/service-module/service-remainder/service-rmdr-rpt/service-rmdr-rpt.component';
 import { PermittedIpListComponent } from './pages/crm_module/permitted-ip-list/permitted-ip-list.component';
+import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/svc-list.component';
+import { SvcCustListComponent } from './pages/crm_module/service-contract/svc-cust-list/svc-cust-list.component';
+import { SvcCheckListComponent } from './pages/crm_module/service-contract/svc-check-list/svc-check-list.component';
 
 export const routes: Routes = [
     {
@@ -240,6 +243,9 @@ export const routes: Routes = [
             { path: 'requestedPartsPrice', component: PartsPriceRequestAdminComponent, canActivate: [MaintenanceGuard] },
             { path: 'service-packages/logs', component: LogsComponent, canActivate: [MaintenanceGuard] },
             { path: 'permitted-ip-list', component: PermittedIpListComponent, canActivate: [MaintenanceGuard] },
+            { path: 'ServiceContractTiersList', component: SvcListComponent },
+            { path: 'serviceContractCustomers', component: SvcCustListComponent },
+            { path: 'searchServiceContract', component: SvcCheckListComponent },
         ],
     },
 ];

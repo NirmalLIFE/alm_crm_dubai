@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment.prod';
 export class StaffPostAuthService {
     reqHeader = new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + atob(atob(atob(localStorage.getItem('us_token') || '{}'))) });
     fileHeader = new HttpHeaders({ Authorization: 'Bearer ' + atob(atob(atob(localStorage.getItem('us_token') || '{}'))) });
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
     userLoginValidity(): Observable<any> {
         return this.http.get(environment.base_url + 'checkTokenExpiry', { headers: this.reqHeader });
@@ -1319,12 +1319,50 @@ export class StaffPostAuthService {
     getCustomerRegNo(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'getCustomerRegNo', data, { headers: this.reqHeader });
     }
-    
+
     testMessageSend(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'testMessageSend', data, { headers: this.reqHeader });
     }
-    
+
     updateModelCodeFacelift(data: any): Observable<any> {
         return this.http.post(environment.base_url + 'updateModelCodeFacelift', data, { headers: this.reqHeader });
     }
+
+    getServiceContractTiers(): Observable<any> {
+        return this.http.get(environment.base_url + 'ServiceContract/ServiceContractController', { headers: this.reqHeader });
+    }
+
+
+    getVehicleDetailsByVinNo(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getVehicleDetailsByVinNo', data, { headers: this.reqHeader });
+    }
+
+    checkVehicleServiceContract(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'checkVehicleServiceContract', data, { headers: this.reqHeader });
+    }
+
+    deleteServiceContractCustomers(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'deleteServiceContractCustomers', data, { headers: this.reqHeader });
+    }
+
+    createServiceContract(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'ServiceContract/ServiceContractController', data, { headers: this.reqHeader });
+    }
+
+    getServiceContractCustomers(): Observable<any> {
+        return this.http.get(environment.base_url + 'getServiceContractCustomers', { headers: this.reqHeader });
+    }
+
+    updateContractTierDetails(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateContractTierDetails', data, { headers: this.reqHeader });
+    }
+
+    createServiceContractTier(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'createServiceContractTier', data, { headers: this.reqHeader });
+    }
+
+    deleteServiceContractTier(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'deleteServiceContractTier', data, { headers: this.reqHeader });
+    }
+
 }
