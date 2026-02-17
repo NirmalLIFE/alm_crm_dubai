@@ -1,0 +1,60 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Periodic
+            Service</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/spare-parts/parts-list"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Parts List</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="spare-parts/parts-list/parts-log"
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Parts
+            Log</a>
+    </li>
+</ol>
+
+
+<div class="flex-1 pt-5 text-sm">
+    <div class="panel mt-6">
+        <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-lg font-semibold">Parts Price Change Logs</h2>
+
+            <button class="rounded-md bg-primary px-4 py-2 text-white hover:bg-primary/80"
+                (click)="goBack()">Back</button>
+        </div>
+
+        <!-- Loader -->
+        <div *ngIf="load_flag" style="text-align: center">
+            <span
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
+        </div>
+
+        <!-- Logs Section -->
+        <div class="logs-container mr-4 space-y-4" *ngIf="!load_flag">
+            <div *ngIf="logs?.length > 0; else noLogs">
+                <div *ngFor="let log of logs" class="log-entry mb-4 rounded-md border bg-blue-50 p-4 dark:bg-gray-800">
+                    <!-- Log Date -->
+                    <div class="log-meta mb-2 text-xs text-blue-800 dark:text-gray-600">
+                        {{ log.pm_log_created_on | date : 'short' }}
+                    </div>
+
+                    <!-- Log Notes -->
+                    <div class="log-box text-sm leading-relaxed" [innerHTML]="formatLogNotes(log.pm_log_notes)">
+                    </div>
+
+                </div>
+            </div>
+
+            <ng-template #noLogs>
+                <div class="text-center italic text-gray-500 dark:text-gray-400">No logs available</div>
+            </ng-template>
+        </div>
+    </div>
+</div>

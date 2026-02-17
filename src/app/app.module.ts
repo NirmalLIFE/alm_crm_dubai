@@ -184,6 +184,7 @@ import { PermittedIpListComponent } from './pages/crm_module/permitted-ip-list/p
 import { SvcCheckListComponent } from './pages/crm_module/service-contract/svc-check-list/svc-check-list.component';
 import { SvcCustListComponent } from './pages/crm_module/service-contract/svc-cust-list/svc-cust-list.component';
 import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/svc-list.component';
+import { PartsLogComponent } from './pages/crm_module/service-module/Spare-parts/parts-log/parts-log.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true }),
@@ -362,6 +363,7 @@ import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/s
         SvcCheckListComponent,
         SvcCustListComponent,
         SvcListComponent,
+        PartsLogComponent,
     ],
     providers: [AppService, Title, DatePipe,{
         provide: HTTP_INTERCEPTORS,

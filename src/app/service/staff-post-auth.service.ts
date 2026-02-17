@@ -1365,4 +1365,8 @@ export class StaffPostAuthService {
         return this.http.post(environment.base_url + 'deleteServiceContractTier', data, { headers: this.reqHeader });
     }
 
+    getPartsLog(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getPartsLog', data, { headers: this.reqHeader });
+    }
+
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
+import { environment } from 'src/environments/environment.prod';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,13 +10,15 @@ import Swal from 'sweetalert2';
     styleUrls: ['./parts-list.component.css'],
 })
 export class PartsListComponent implements OnInit {
-    public partsList: [] = [];
+public partsList: [] = [];
     public search: string = '';
     public load_flag: boolean = true;
     public brandList = [];
     public spareCategory = [];
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
     partsDetails: any = [];
+    originalPrice: any;
+    isPriceChanged: boolean = false;
 
     public permittedAction: any[] = [];
     public part_flag: boolean = true;
@@ -151,9 +154,25 @@ export class PartsListComponent implements OnInit {
             sp_pm_name: value.sp_pm_name,
             brand_name: value.brand_name,
             pm_price: value.pm_price,
+            branch_id: environment.branch_id,
         };
+        this.originalPrice = value.pm_price;
+        this.isPriceChanged = false;
         this.partsEditModal.open();
     }
+
+    onPriceChange(value: any) {
+        const numericValue = parseFloat(value);
+        const originalNumeric = parseFloat(this.originalPrice);
+
+        if (isNaN(numericValue)) {
+            this.isPriceChanged = false;
+            return;
+        }
+
+        this.isPriceChanged = numericValue !== originalNumeric;
+    }
+
 
     updatePartsDetails() {
         this.userServices.UpdateSpareParts(this.partsDetails).subscribe((rdata: any) => {
@@ -179,6 +198,18 @@ export class PartsListComponent implements OnInit {
         this.partsEditModal.close();
         this.getAllPartsList();
     }
+
+
+    onViewPartsLog(value: any) {
+
+        const encoded = btoa(value.pm_id);
+
+        this.router.navigate(['/spare-parts/parts-list/parts-log'], {
+            queryParams: { pm_id: encoded },
+        });
+
+    }
+
 
     // deleteParts(value: any) {
     //     if (this.permittedAction.includes('3')) {

@@ -1,23 +1,17 @@
 <ol class="flex font-semibold text-primary dark:text-white-dark">
     <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
-        <a
-            routerLink="/dashboard"
-            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-            >Home</a
-        >
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180"
-            >Service Management</a
-        >
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Periodic
+            Service</a>
     </li>
     <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
         <a
-            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70"
-        >
-            Parts List</a
-        >
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Parts List</a>
     </li>
 </ol>
 <div>
@@ -31,17 +25,12 @@
             </div>
         </div>
         <div class="datatable" *ngIf="!load_flag">
-            <ng-datatable
-                [rows]="partsList"
-                [columns]="cols"
-                [search]="search"
-                [sortable]="true"
+            <ng-datatable [rows]="partsList" [columns]="cols" [search]="search" [sortable]="true"
                 skin="whitespace-nowrap table-hover bh-table-compact"
                 firstArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
                 lastArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg> '
                 previousArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
-                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'
-            >
+                nextArrow='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>'>
                 <ng-template slot="pm_code" let-value="data">
                     <span class="badge" [ngClass]="'badge-outline-primary'">{{ value.pm_code }}</span>
                 </ng-template>
@@ -50,25 +39,33 @@
                 </ng-template>
                 <ng-template slot="action" let-value="data">
                     <div class="flex items-center">
-                        <div>
-                            <button
-                                type="button"
+                        <div class="flex flex-1">
+                            <button type="button"
                                 class="flex h-8 w-8 items-center justify-center rounded ltr:mr-2 rtl:ml-2"
-                                ngxTippy="Edit"
-                                (click)="editParts(value)"
-                            >
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
+                                ngxTippy="Edit" (click)="editParts(value)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-success">
                                     <path
                                         d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
-                                        stroke="currentColor"
-                                        stroke-width="1.5"
-                                    />
-                                    <path
-                                        opacity="0.5"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                    <path opacity="0.5"
                                         d="M14.36 4.07812C14.36 4.07812 14.4759 6.04774 16.2138 7.78564C17.9517 9.52354 19.9213 9.6394 19.9213 9.6394M4.19789 21.6777L2.32178 19.8015"
-                                        stroke="currentColor"
-                                        stroke-width="1.5"
-                                    />
+                                        stroke="currentColor" stroke-width="1.5" />
+                                </svg>
+                            </button>
+
+                            <button type="button"
+                                class="flex h-8 w-8 items-center justify-center rounded ltr:mr-2 rtl:ml-2"
+                                ngxTippy="View Logs" (click)="onViewPartsLog(value)">
+                                <!-- Logging / Notes SVG -->
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 text-primary">
+                                    <path d="M4 4H20V20H4V4Z" stroke="currentColor" stroke-width="1.5" />
+                                    <path d="M8 8H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                    <path d="M8 12H16" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
+                                    <path d="M8 16H13" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" />
                                 </svg>
                             </button>
                         </div>
@@ -97,8 +94,7 @@
         </div>
         <div *ngIf="load_flag" style="text-align: center">
             <span
-                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"
-            ></span>
+                class="m-auto mb-10 inline-block h-14 w-14 animate-[spin_3s_linear_infinite] rounded-full border-8 border-b-success border-l-primary border-r-warning border-t-danger align-middle"></span>
         </div>
     </div>
 </div>
@@ -163,7 +159,8 @@
     </ng-template>
 </modal> -->
 
-<modal #partsEditModal class="modal-top animate animate-slide-in-down extra-large-modal call-view" [closeOnOutsideClick]="false" style="max-width: 90vw">
+<modal #partsEditModal class="modal-top animate animate-slide-in-down extra-large-modal call-view"
+    [closeOnOutsideClick]="false" style="max-width: 90vw">
     <ng-template #modalHeader>
         <div style="align-items: center; display: flex">Update Price for Spare Part</div>
     </ng-template>
@@ -198,7 +195,9 @@
             </div> -->
             <div>
                 <label for="part_price" class="small_label_text m-0 dark:text-white-dark">Part Price</label>
-                <input id="part_price" type="number" [(ngModel)]="partsDetails.pm_price" placeholder="Amount" class="form-input text-xs" maxlength="12" />
+                <input id="part_price" type="number" [(ngModel)]="partsDetails.pm_price"
+                    (ngModelChange)="onPriceChange($event)" placeholder="Amount" class="form-input text-xs" step="0.01"
+                    min="0" max="99999" />
             </div>
         </div>
     </ng-template>
@@ -206,10 +205,10 @@
         <div class="flex w-full items-center justify-between gap-4">
             <!-- Note on the far left -->
             <div class="text-sm text-danger">
-                <ng-container *ngIf="user_role != '1' && user_role != '10'; else emptyNote"> Note: Only admin can change the price of the item. </ng-container>
+                <ng-container *ngIf="user_role != '1' && user_role != '10'; else emptyNote"> Note: Only admin can change
+                    the price of the item. </ng-container>
                 <ng-template #emptyNote>
                     <span>&nbsp;</span>
-                    <!-- keeps layout intact -->
                 </ng-template>
             </div>
 
@@ -217,17 +216,14 @@
             <div class="flex gap-2">
                 <button type="button" (click)="partsEditModalClose()" class="btn btn-outline-danger">Discard</button>
 
-                <button
-                    *ngIf="user_role == '10' || user_role == '1'; else requestAdminBtn"
-                    type="submit"
-                    class="btn btn-primary"
-                    (click)="updatePartsDetails()"
-                >
+                <button *ngIf="user_role == '10' || user_role == '1'; else requestAdminBtn" type="submit"
+                    class="btn btn-primary" [disabled]="!isPriceChanged" (click)="updatePartsDetails()">
                     UPDATE
                 </button>
 
                 <ng-template #requestAdminBtn>
-                    <button type="button" class="btn btn-warning" (click)="updatePartsDetails()">Request to Admin</button>
+                    <button type="button" class="btn btn-warning" [disabled]="!isPriceChanged"
+                        (click)="updatePartsDetails()">Request to Admin</button>
                 </ng-template>
             </div>
         </div>

@@ -119,6 +119,7 @@ import { PermittedIpListComponent } from './pages/crm_module/permitted-ip-list/p
 import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/svc-list.component';
 import { SvcCustListComponent } from './pages/crm_module/service-contract/svc-cust-list/svc-cust-list.component';
 import { SvcCheckListComponent } from './pages/crm_module/service-contract/svc-check-list/svc-check-list.component';
+import { PartsLogComponent } from './pages/crm_module/service-module/Spare-parts/parts-log/parts-log.component';
 
 export const routes: Routes = [
     {
@@ -246,6 +247,7 @@ export const routes: Routes = [
             { path: 'ServiceContractTiersList', component: SvcListComponent },
             { path: 'serviceContractCustomers', component: SvcCustListComponent },
             { path: 'searchServiceContract', component: SvcCheckListComponent },
+            { path: 'spare-parts/parts-list/parts-log', component: PartsLogComponent },
         ],
     },
 ];

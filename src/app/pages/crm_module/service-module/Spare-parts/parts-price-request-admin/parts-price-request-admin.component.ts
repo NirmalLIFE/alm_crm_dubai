@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
+import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -22,7 +23,7 @@ export class PartsPriceRequestAdminComponent implements OnInit {
         this.getRequestedPrices();
     }
 
-    constructor(private userServices: StaffPostAuthService, public router: Router) {}
+    constructor(private userServices: StaffPostAuthService, public router: Router) { }
 
     getRequestedPrices() {
         this.load_flag = true;
@@ -124,6 +125,8 @@ export class PartsPriceRequestAdminComponent implements OnInit {
                 rounding: this.roundingMode,
                 multiple: this.roundingMultiple,
                 threshold: Number(result.value) || 10,
+                branch_id: environment.branch_id,
+                pm_name: pkg.pm_name
             };
 
             this.userServices.acceptPrice(data).subscribe((rdata: any) => {
@@ -219,6 +222,8 @@ export class PartsPriceRequestAdminComponent implements OnInit {
             pm_new_price: pkg.pm_new_price,
             pm_price: pkg.pm_price,
             pm_sp_pm_id: pkg.pm_sp_pm_id,
+            branch_id: environment.branch_id,
+            pm_name: pkg.pm_name,
         };
         this.userServices.cancelPrice(data).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
