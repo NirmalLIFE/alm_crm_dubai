@@ -120,6 +120,7 @@ import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/s
 import { SvcCustListComponent } from './pages/crm_module/service-contract/svc-cust-list/svc-cust-list.component';
 import { SvcCheckListComponent } from './pages/crm_module/service-contract/svc-check-list/svc-check-list.component';
 import { PartsLogComponent } from './pages/crm_module/service-module/Spare-parts/parts-log/parts-log.component';
+import { PartsPriceDetailsComponent } from './pages/crm_module/service-module/Spare-parts/parts-price-details/parts-price-details.component';
 
 export const routes: Routes = [
     {
@@ -248,6 +249,7 @@ export const routes: Routes = [
             { path: 'serviceContractCustomers', component: SvcCustListComponent },
             { path: 'searchServiceContract', component: SvcCheckListComponent },
             { path: 'spare-parts/parts-list/parts-log', component: PartsLogComponent },
+            { path: 'requestedPartsPrice/parts-price-details/:pm_id', component: PartsPriceDetailsComponent },
         ],
     },
 ];

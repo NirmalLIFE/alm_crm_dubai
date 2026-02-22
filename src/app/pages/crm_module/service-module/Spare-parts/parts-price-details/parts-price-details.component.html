@@ -1,0 +1,425 @@
+<ol class="flex font-semibold text-primary dark:text-white-dark">
+    <li class="bg-[#ebedf2] ltr:rounded-l-md rtl:rounded-r-md dark:bg-[#1b2e4b]">
+        <a routerLink="/dashboard"
+            class="relative flex h-full items-center p-1.5 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-3 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-3 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">Home</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Periodic
+            Service</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a routerLink="/requestedPartsPrice"
+            class="relative flex h-full items-center p-1.5 px-3 before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-[#ebedf2] before:border-t-transparent hover:text-primary/70 ltr:pl-6 ltr:before:-right-[15px] rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180 dark:before:border-l-[#1b2e4b] dark:hover:text-white-dark/70">
+            Requested Parts Price</a>
+    </li>
+    <li class="bg-[#ebedf2] dark:bg-[#1b2e4b]">
+        <a
+            class="relative flex h-full items-center bg-primary p-1.5 text-white-light before:absolute before:inset-y-0 before:z-[1] before:m-auto before:h-0 before:w-0 before:border-[16px] before:border-l-[15px] before:border-r-0 before:border-b-transparent before:border-l-primary before:border-t-transparent ltr:pl-6 ltr:pr-2 ltr:before:-right-[15px] rtl:pl-2 rtl:pr-6 rtl:before:-left-[15px] rtl:before:rotate-180">Periodic
+            Price Details</a>
+    </li>
+</ol>
+
+
+<!-- LOADING SHIMMER -->
+<div *ngIf="isLoading" class="shimmer-container">
+
+    <!-- Heading shimmer -->
+    <div class="shimmer-box h-8 w-1/3 mb-4"></div>
+    <div class="shimmer-box h-4 w-1/4 mb-6"></div>
+
+    <!-- Cards shimmer -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="shimmer-box h-24 rounded-xl"></div>
+        <div class="shimmer-box h-24 rounded-xl"></div>
+        <div class="shimmer-box h-24 rounded-xl"></div>
+    </div>
+
+    <!-- Table shimmer -->
+    <div *ngFor="let i of [1,2,3,4,5]" class="shimmer-box h-12 mb-3 rounded-md">
+    </div>
+
+</div>
+
+
+
+<div *ngIf="!isLoading">
+
+    <div class="heading-card mt-4">
+        <div class="left">
+            <h2 class="title mb-1" style="font-size: 20px; font-weight: 700; color: #ffffff;">
+                {{ part.spim_name }}
+            </h2>
+
+            <div class="tags">
+                <span class="part-number gap-2">{{ part.pm_code }}</span>&nbsp;
+                <span class="brand">{{ part.brand_name }}</span>
+            </div>
+            <p>Requested by <strong>{{ part.us_firstname }}</strong></p>
+        </div>
+
+        <div class="right">
+            <p class="label">Price Change</p>
+
+            <small>
+                AED {{ part.pm_price }} → AED {{ part.pm_new_price }}
+            </small>
+        </div>
+    </div>
+
+    <div class="impact-cards">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="icon-box blue">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 7L12 2L21 7V17L12 22L3 17V7Z" stroke="#2F80ED" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h4>Affected Packages</h4>
+            </div>
+
+            <h2>{{ part.model_codes?.length }}</h2>
+            <p>Service packages impacted</p>
+        </div>
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <div class="icon-box green">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 17L9 11L13 15L21 7" stroke="#27AE60" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h4>New Price</h4>
+            </div>
+
+            <h2 style="color: #27AE60;">
+                AED {{ part.pm_new_price | number:'1.2-2' }}
+            </h2>
+
+            <p>For all Service package</p>
+        </div>
+
+
+        <div class="card">
+            <div class="card-header">
+                <div class="icon-box yellow">
+                    <!-- UAE AED Icon -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <text x="2" y="16" font-size="14" font-weight="bold" fill="#F2C94C">
+                            د.إ
+                        </text>
+                    </svg>
+                </div>
+                <h4>Old Price</h4>
+            </div>
+
+            <h2>AED {{ part.pm_price | number:'1.2-2' }}</h2>
+            <!-- <p>Estimated revenue change</p> -->
+        </div>
+
+    </div>
+
+    <!-- Threshold Section -->
+    <div class="threshold-card mt-6 bg-white shadow rounded-xl p-6 border border-gray-200">
+
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">
+            Set Threshold for Price Rounding
+        </h3>
+
+        <p class="text-sm text-gray-600 mb-4">
+            <strong>Threshold</strong> is the rounding step applied to the
+            <em>new display price</em> after adding the price difference.
+            The result is rounded to the nearest multiple of this threshold.
+        </p>
+
+        <!-- Examples -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+
+            <!-- Example 1 -->
+            <div class="border rounded-lg p-4 bg-gray-50 text-sm">
+                <p class="font-semibold mb-2">Example 1 (no change)</p>
+                Current display price: <strong>1040</strong><br>
+                Price difference: <strong>+20</strong><br>
+                Raw new price = 1040 + 20 = <strong>1060</strong><br>
+                Threshold = 5 → <strong>1060</strong><br>
+                Threshold = 10 → <strong>1060</strong>
+            </div>
+
+            <!-- Example 2 -->
+            <div class="border rounded-lg p-4 bg-gray-50 text-sm">
+                <p class="font-semibold mb-2">Example 2 (price changes)</p>
+                Current display price: <strong>1040</strong><br>
+                Price difference: <strong>+16.35</strong><br>
+                Raw new price = 1040 + 12.35 = <strong>1052.35</strong><br>
+                Threshold = 5 → <strong>1055</strong><br>
+                Threshold = 10 → <strong>1060</strong>
+            </div>
+
+        </div>
+
+        <!-- Threshold Selection -->
+        <div class="flex items-center gap-4">
+
+            <label class="font-medium text-sm">Select Threshold:</label>
+
+            <ng-select [items]="[0,5,10]" [(ngModel)]="selectedThreshold" (change)="recalculateWithThreshold()"
+                [clearable]="false" class="w-40">
+            </ng-select>
+
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm"
+                (click)="recalculateWithThreshold()" [disabled]="!selectedThreshold || buttonFlag">
+
+                Apply
+            </button>
+        </div>
+
+        <p class="mt-4 text-sm text-red-600">
+            <strong>Note:</strong> Updating this part's price will also update the
+            display price in all Service Packages that use it.
+        </p>
+
+    </div>
+
+
+    <div class="table-card">
+
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900">
+                    Affected Models & Kilometer-Based Pricing
+                </h3>
+                <p class="text-sm text-gray-500">
+                    Expand models to view and select kilometer-based pricing slabs.
+                </p>
+            </div>
+
+            <button
+                class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-semibold disabled:bg-gray-400"
+                [disabled]="selectedKms.length === 0 || buttonFlag" (click)="updateSelectedPrices()">
+                Update Selected Prices
+            </button>
+        </div>
+
+        <!-- <p class="text-sm text-gray-500 mb-4">
+            Expand models to view and select kilometer-based pricing slabs (15K - 300K km).
+        </p> -->
+
+        <div class="flex gap-6 mb-4 text-sm font-medium">
+            <span>{{ part.model_codes.length }} Models Affected</span>
+            <span [ngClass]="selectedModelCodes.length > 0 ? 'text-blue-600' : 'text-gray-400'">
+                {{ selectedModelCodes.length }} Models Selected
+            </span>
+        </div>
+
+        <div class="relative">
+            <div class="overflow-visible">
+                <table>
+                    <thead class="bg-gray-50 sticky top-0 z-10">
+                        <tr>
+                            <th class="px-4 py-3 border-b">
+                                <input type="checkbox" [checked]="isAllSelected()" (change)="toggleSelectAll($event)"
+                                    class="w-4 h-4" />
+                            </th>
+
+                            <th class="px-6 py-3 text-left text-xs uppercase text-gray-500 border-b">
+                                Model Code
+                            </th>
+
+                            <th class="px-6 py-3 text-right text-xs uppercase text-gray-500 border-b">
+                                Vin NO
+                            </th>
+
+                            <th class="px-6 py-3 text-center text-xs uppercase text-gray-500 border-b">
+                                Qty
+                            </th>
+
+
+                            <th class="px-6 py-3 text-right text-xs uppercase text-gray-500 border-b">
+                                Model Year
+                            </th>
+
+
+
+                            <th class="px-6 py-3 text-right text-xs uppercase text-gray-500 border-b">
+                                Variant Name
+                            </th>
+
+                            <th class="px-6 py-3 text-right text-xs uppercase text-gray-500 border-b">
+                                Package Type
+                            </th>
+
+                            <th class="px-4 py-3 border-b"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <ng-container *ngFor="let model of part.model_codes; let i = index; trackBy: trackByModel">
+
+                            <!-- Main Row -->
+                            <tr class="border-b transition-colors" [ngClass]="selectedModelCodes.includes(model.modelCode) 
+  ? 'bg-blue-50 border-l-4 border-blue-500' 
+  : 'hover:bg-gray-50'">
+
+                                <td class="px-4 py-4">
+                                    <input type="checkbox" [checked]="selectedModelCodes.includes(model.modelCode)"
+                                        (change)="toggleModelSelection(model, $event)" class="w-4 h-4" />
+                                </td>
+
+                                <td class="px-6 py-4 text-sm font-bold text-blue-800 tracking-wide">
+                                    {{ model.spmc_value }}
+                                </td>
+
+
+                                <td class="px-6 py-4 font-bold">
+                                    {{ model.spmc_vin_no }}
+                                </td>
+
+                                <td class="px-6 py-4 text-center">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold"
+                                        [ngClass]="model.sp_spare_qty >= 8 ? 'bg-red-100 text-red-700' 
+                                                : model.sp_spare_qty >= 5 ? 'bg-orange-100 text-orange-700'
+                                                : 'bg-blue-50 text-blue-300'">
+                                        {{ model.sp_spare_qty }}
+                                    </span>
+                                </td>
+
+
+
+                                <td class="px-6 py-4 font-bold">
+                                    {{ model.spmc_model_year }}
+                                </td>
+
+                                <td class="px-6 py-4 font-bold">
+                                    {{ model.spmc_variant }}
+                                </td>
+
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+                                        [ngClass]="model.spmc_type == 0
+      ? 'bg-green-100 text-green-500'
+      : 'bg-blue-100 text-blue-500'">
+
+                                        {{ model.spmc_type == 0
+                                        ? 'Normal Service Package'
+                                        : 'Facelift Service Package' }}
+
+                                    </span>
+                                </td>
+
+                                <td class="px-4 py-4 text-center">
+                                    <button (click)="toggleRow(i)"
+                                        class="bg-green-100 text-green-700 hover:bg-green-200 px-3 py-1 rounded-md text-xs font-semibold transition-all duration-200"
+                                        [ngClass]="expandedRows.includes(i) 
+      ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' 
+      : 'bg-green-100 text-green-700 hover:bg-green-200'">
+
+                                        {{ expandedRows.includes(i) ? 'Hide Pricing Details' : 'View Pricing'
+                                        }}
+
+                                    </button>
+                                </td>
+
+
+                            </tr>
+
+                            <tr [hidden]="!expandedRows.includes(i)" class="bg-gray-50">
+                                <td colspan="8" class="p-6 relative">
+
+                                    <div class="mb-4 relative">
+
+                                        <label class="text-xs font-semibold uppercase text-gray-500 mb-2 block">
+                                            Select Kilometer Slab
+                                        </label>
+
+                                        <ng-select [items]="model.kms" bindLabel="km_value" [clearable]="false"
+                                            [searchable]="false" dropdownPosition="auto" [(ngModel)]="model.selectedKm"
+                                            class="w-64 custom-multiselect">
+
+                                            <ng-template ng-label-tmp let-item="item">
+                                                {{ item.km_id == 1 ? 'Quick Lube' : (item.km_value / 1000) + 'K km' }}
+                                            </ng-template>
+
+                                            <ng-template ng-option-tmp let-item="item">
+                                                {{ item.km_id == 1 ? 'Quick Lube' : (item.km_value / 1000) + 'K km' }}
+                                            </ng-template>
+
+                                        </ng-select>
+
+                                    </div>
+
+                                    <table class="w-full border border-gray-200 rounded">
+                                        <thead class="bg-gray-100 text-xs uppercase  font-semibold text-gray-800">
+                                            <tr>
+                                                <th class="px-4 py-2 text-left">Kilometer</th>
+                                                <th class="px-4 py-2 text-right">Markup Price</th>
+                                                <th class="px-4 py-2 text-right">New Markup</th>
+                                                <th class="px-4 py-2 text-right">Display Price</th>
+                                                <th class="px-4 py-2 text-right">New Display</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody *ngIf="model.selectedKm">
+                                            <tr class="border-t">
+
+                                                <td class="px-4 py-2 font-semibold">
+                                                    {{ model.selectedKm?.km_id == 1
+                                                    ? 'Quick Lube'
+                                                    : (model.selectedKm?.km_value / 1000) + 'K km' }}
+                                                </td>
+
+
+                                                <!-- Old Markup -->
+                                                <td class="px-4 py-2 text-right">
+                                                    AED {{ model.selectedKm.markup_price | number:'1.2-2' }}
+                                                </td>
+
+                                                <!-- New Markup -->
+                                                <td class="px-4 py-2 text-right" [ngClass]="model.selectedKm.new_markup_price > model.selectedKm.markup_price 
+              ? 'text-green-600 font-bold' 
+              : model.selectedKm.new_markup_price < model.selectedKm.markup_price 
+              ? 'text-red-600 font-bold' 
+              : ''">
+
+                                                    AED {{ model.selectedKm.new_markup_price | number:'1.2-2' }}
+                                                </td>
+
+                                                <!-- Old Display -->
+                                                <td class="px-4 py-2 text-right">
+                                                    AED {{ model.selectedKm.display_price | number:'1.2-2' }}
+                                                </td>
+
+                                                <!-- New Display -->
+                                                <td class="px-4 py-2 text-right text-blue-600 font-bold" [ngClass]="model.selectedKm.new_display_price > model.selectedKm.display_price 
+                                                                ? 'text-green-600 font-bold' 
+                                                                : model.selectedKm.new_display_price < model.selectedKm.display_price 
+                                                                ? 'text-red-600 font-bold' 
+                                                                : ''">
+
+                                                    AED {{ model.selectedKm.new_display_price | number:'1.2-2' }}
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                        </ng-container>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>

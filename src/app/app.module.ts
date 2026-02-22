@@ -185,6 +185,7 @@ import { SvcCheckListComponent } from './pages/crm_module/service-contract/svc-c
 import { SvcCustListComponent } from './pages/crm_module/service-contract/svc-cust-list/svc-cust-list.component';
 import { SvcListComponent } from './pages/crm_module/service-contract/svc-list/svc-list.component';
 import { PartsLogComponent } from './pages/crm_module/service-module/Spare-parts/parts-log/parts-log.component';
+import { PartsPriceDetailsComponent } from './pages/crm_module/service-module/Spare-parts/parts-price-details/parts-price-details.component';
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled', useHash: true }),
@@ -364,6 +365,7 @@ import { PartsLogComponent } from './pages/crm_module/service-module/Spare-parts
         SvcCustListComponent,
         SvcListComponent,
         PartsLogComponent,
+        PartsPriceDetailsComponent,
     ],
     providers: [AppService, Title, DatePipe,{
         provide: HTTP_INTERCEPTORS,

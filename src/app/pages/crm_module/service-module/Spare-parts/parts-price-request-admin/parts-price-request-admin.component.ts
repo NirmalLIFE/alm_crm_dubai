@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -41,116 +41,124 @@ export class PartsPriceRequestAdminComponent implements OnInit {
     }
 
     acceptPrice(pkg: any) {
+
+        this.router.navigate([
+            'requestedPartsPrice',
+            'parts-price-details',
+            encodeURIComponent(btoa(pkg.pm_id))
+        ]);
+
+
         if (this.buttonFlag) return;
 
-        Swal.fire({
-            title: 'Set Threshold for Price Rounding',
-            html: `
-    <div style="text-align:left; font-size:14px;">
-        <p>
-            <strong>Threshold</strong> is the rounding step applied to the
-            <em>new display price</em> after adding the price difference.
-            The result is rounded to the nearest multiple of this threshold.
-        </p>
+        //     Swal.fire({
+        //         title: 'Set Threshold for Price Rounding',
+        //         html: `
+        // <div style="text-align:left; font-size:14px;">
+        //     <p>
+        //         <strong>Threshold</strong> is the rounding step applied to the
+        //         <em>new display price</em> after adding the price difference.
+        //         The result is rounded to the nearest multiple of this threshold.
+        //     </p>
 
-        <div style="display:flex; gap:20px; margin-top:8px;">
-            <!-- Example 1 -->
-            <div style="flex:1; border:1px solid #ccc; padding:8px; border-radius:4px;">
-                <p><strong>Example 1 (no change)</strong></p>
-                Current display price: <strong>1040</strong><br>
-                Price difference: <strong>+20</strong><br>
-                Raw new price = 1040 + 20 = <strong>1060</strong><br>
-                Threshold = 5 → <strong>1060</strong> (already multiple of 5)<br>
-                Threshold = 10 → <strong>1060</strong> (already multiple of 10)
-            </div>
+        //     <div style="display:flex; gap:20px; margin-top:8px;">
+        //         <!-- Example 1 -->
+        //         <div style="flex:1; border:1px solid #ccc; padding:8px; border-radius:4px;">
+        //             <p><strong>Example 1 (no change)</strong></p>
+        //             Current display price: <strong>1040</strong><br>
+        //             Price difference: <strong>+20</strong><br>
+        //             Raw new price = 1040 + 20 = <strong>1060</strong><br>
+        //             Threshold = 5 → <strong>1060</strong> (already multiple of 5)<br>
+        //             Threshold = 10 → <strong>1060</strong> (already multiple of 10)
+        //         </div>
 
-            <!-- Example 2 -->
-            <div style="flex:1; border:1px solid #ccc; padding:8px; border-radius:4px;">
-                <p><strong>Example 2 (price changes)</strong></p>
-                Current display price: <strong>1040</strong><br>
-                Price difference: <strong>+12.35</strong><br>
-                Raw new price = 1040 + 12.35 = <strong>1052.35</strong><br>
-                Threshold = 5 → <strong>1050</strong><br>
-                Threshold = 10 → <strong>1050</strong>
-            </div>
-        </div>
+        //         <!-- Example 2 -->
+        //         <div style="flex:1; border:1px solid #ccc; padding:8px; border-radius:4px;">
+        //             <p><strong>Example 2 (price changes)</strong></p>
+        //             Current display price: <strong>1040</strong><br>
+        //             Price difference: <strong>+12.35</strong><br>
+        //             Raw new price = 1040 + 12.35 = <strong>1052.35</strong><br>
+        //             Threshold = 5 → <strong>1050</strong><br>
+        //             Threshold = 10 → <strong>1050</strong>
+        //         </div>
+        //     </div>
 
-        <div style="margin-top:15px;">
-            <label for="thresholdSelect" style="font-weight:bold;">Select Threshold:</label><br>
-            <select id="thresholdSelect" style="
-                padding:6px 10px;
-                border:1px solid #ccc;
-                border-radius:6px;
-                font-size:14px;
-                margin-top:6px;
-                width:300px;
-                cursor:pointer;
-            ">
-                <option value="">-- Select a threshold value--</option>
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-            </select>
-        </div>
+        //     <div style="margin-top:15px;">
+        //         <label for="thresholdSelect" style="font-weight:bold;">Select Threshold:</label><br>
+        //         <select id="thresholdSelect" style="
+        //             padding:6px 10px;
+        //             border:1px solid #ccc;
+        //             border-radius:6px;
+        //             font-size:14px;
+        //             margin-top:6px;
+        //             width:300px;
+        //             cursor:pointer;
+        //         ">
+        //             <option value="">-- Select a threshold value--</option>
+        //             <option value="5">5</option>
+        //             <option value="10" selected>10</option>
+        //         </select>
+        //     </div>
 
-        <p style="margin-top:8px; color:#d33;">
-            <strong>Note:</strong> Updating this part's price will also
-            update the display price in all Service Packages that use it.
-        </p>
-    </div>
-        `,
-            width: 800,
-            showCancelButton: true,
-            confirmButtonText: 'Apply & Update',
-            cancelButtonText: 'Cancel',
-            preConfirm: () => {
-                const val = (document.getElementById('thresholdSelect') as HTMLSelectElement).value;
-                if (!val) {
-                    Swal.showValidationMessage('Please select a threshold value.');
-                    return false;
-                }
-                return val; // Will be passed as result.value
-            },
-        }).then((result) => {
-            if (!result.isConfirmed) return;
+        //     <p style="margin-top:8px; color:#d33;">
+        //         <strong>Note:</strong> Updating this part's price will also
+        //         update the display price in all Service Packages that use it.
+        //     </p>
+        // </div>
+        //     `,
+        //         width: 800,
+        //         showCancelButton: true,
+        //         confirmButtonText: 'Apply & Update',
+        //         cancelButtonText: 'Cancel',
+        //         preConfirm: () => {
+        //             const val = (document.getElementById('thresholdSelect') as HTMLSelectElement).value;
+        //             if (!val) {
+        //                 Swal.showValidationMessage('Please select a threshold value.');
+        //                 return false;
+        //             }
+        //             return val; // Will be passed as result.value
+        //         },
+        //     }).then((result) => {
+        //         if (!result.isConfirmed) return;
 
-            this.buttonFlag = true;
+        //         this.buttonFlag = true;
 
-            const data = {
-                pm_brand: pkg.pm_brand,
-                pm_code: pkg.pm_code,
-                pm_id: pkg.pm_id,
-                pm_new_price: pkg.pm_new_price,
-                pm_price: pkg.pm_price,
-                pm_sp_pm_id: pkg.pm_sp_pm_id,
-                rounding: this.roundingMode,
-                multiple: this.roundingMultiple,
-                threshold: Number(result.value) || 10,
-                branch_id: environment.branch_id,
-                pm_name: pkg.pm_name
-            };
+        //         const data = {
+        //             pm_brand: pkg.pm_brand,
+        //             pm_code: pkg.pm_code,
+        //             pm_id: pkg.pm_id,
+        //             pm_new_price: pkg.pm_new_price,
+        //             pm_price: pkg.pm_price,
+        //             pm_sp_pm_id: pkg.pm_sp_pm_id,
+        //             rounding: this.roundingMode,
+        //             multiple: this.roundingMultiple,
+        //             threshold: Number(result.value) || 10,
+        //             branch_id: environment.branch_id,
+        //             pm_name: pkg.pm_name
+        //         };
 
-            this.userServices.acceptPrice(data).subscribe((rdata: any) => {
-                if (rdata.ret_data == 'success') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Price Updated',
-                        text: `New price of ${pkg.pm_new_price} has been added to item ${pkg.pm_code} (${pkg.brand_name}).`,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'OK',
-                    });
-                    this.getRequestedPrices();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Update Failed',
-                        text: 'Something went wrong while updating the price.',
-                        confirmButtonColor: '#d33',
-                        confirmButtonText: 'OK',
-                    });
-                }
-                this.buttonFlag = false;
-            });
-        });
+        //         this.userServices.acceptPrice(data).subscribe((rdata: any) => {
+        //             if (rdata.ret_data == 'success') {
+        //                 Swal.fire({
+        //                     icon: 'success',
+        //                     title: 'Price Updated',
+        //                     text: `New price of ${pkg.pm_new_price} has been added to item ${pkg.pm_code} (${pkg.brand_name}).`,
+        //                     confirmButtonColor: '#3085d6',
+        //                     confirmButtonText: 'OK',
+        //                 });
+        //                 this.getRequestedPrices();
+        //             } else {
+        //                 Swal.fire({
+        //                     icon: 'error',
+        //                     title: 'Update Failed',
+        //                     text: 'Something went wrong while updating the price.',
+        //                     confirmButtonColor: '#d33',
+        //                     confirmButtonText: 'OK',
+        //                 });
+        //             }
+        //             this.buttonFlag = false;
+        //         });
+        //     });
     }
 
     // acceptPrice(pkg: any) {

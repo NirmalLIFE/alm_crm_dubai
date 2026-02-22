@@ -1369,4 +1369,12 @@ export class StaffPostAuthService {
         return this.http.post(environment.base_url + 'getPartsLog', data, { headers: this.reqHeader });
     }
 
+    getPartsPriceDetails(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'getPartsPriceDetails', data, { headers: this.reqHeader });
+    }
+
+    updateSelectedPrices(data: any): Observable<any> {
+        return this.http.post(environment.base_url + 'updateSelectedPrices', data, { headers: this.reqHeader });
+    }
+
 }
