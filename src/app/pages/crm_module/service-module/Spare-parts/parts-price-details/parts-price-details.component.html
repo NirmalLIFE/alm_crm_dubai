@@ -92,6 +92,8 @@
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <path d="M3 17L9 11L13 15L21 7" stroke="#27AE60" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" />
+                        <path d="M14 7H21V14" stroke="#27AE60" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </div>
                 <h4>New Price</h4>
@@ -120,6 +122,26 @@
 
             <h2>AED {{ part.pm_price | number:'1.2-2' }}</h2>
             <!-- <p>Estimated revenue change</p> -->
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="icon-box yellow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 17L9 11L13 15L21 7" stroke="#F2C94C" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M14 7H21V14" stroke="#F2C94C" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h4>Price Difference</h4>
+            </div>
+
+            <h2>
+                <span [class.text-green-600]="priceDiff > 0" [class.text-red-600]="priceDiff < 0">
+                    {{ priceDiff | number:'1.2-2' }}
+                </span>
+            </h2>
         </div>
 
     </div>
@@ -187,10 +209,9 @@
 
 
     <div class="table-card">
-
         <div class="flex justify-between items-center mb-4">
             <div>
-                <h3 class="text-lg font-semibold text-gray-900">
+                <h3 class="text-lg font-semibold text-gray-800 tracking-wide">
                     Affected Models & Kilometer-Based Pricing
                 </h3>
                 <p class="text-sm text-gray-500">
@@ -204,17 +225,34 @@
                 Update Selected Prices
             </button>
         </div>
-
-        <!-- <p class="text-sm text-gray-500 mb-4">
-            Expand models to view and select kilometer-based pricing slabs (15K - 300K km).
-        </p> -->
-
         <div class="flex gap-6 mb-4 text-sm font-medium">
             <span>{{ part.model_codes.length }} Models Affected</span>
             <span [ngClass]="selectedModelCodes.length > 0 ? 'text-blue-600' : 'text-gray-400'">
                 {{ selectedModelCodes.length }} Models Selected
             </span>
         </div>
+
+        <div *ngIf="hasAnyMarkupIssue()"
+            class="mb-4 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 flex items-start gap-2">
+
+            <span class="font-semibold">⚠ Pricing Notice:</span>
+
+            After applying the selected threshold, the markup for one or more models has been reduced to
+            <strong>0</strong>.
+            Please review the highlighted models before proceeding with the price update.
+
+        </div>
+
+        <!-- <div class="mb-4 flex justify-between items-center">
+            <div class="relative w-80">
+                <input type="text" [(ngModel)]="searchTerm" placeholder="Search by Model Code or VIN..."
+                    class="w-full px-4 py-2 pl-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    🔍
+                </span>
+            </div>
+        </div> -->
 
         <div class="relative">
             <div class="overflow-visible">
@@ -238,11 +276,9 @@
                                 Qty
                             </th>
 
-
                             <th class="px-6 py-3 text-right text-xs uppercase text-gray-500 border-b">
                                 Model Year
                             </th>
-
 
 
                             <th class="px-6 py-3 text-right text-xs uppercase text-gray-500 border-b">
@@ -262,16 +298,20 @@
                         <ng-container *ngFor="let model of part.model_codes; let i = index; trackBy: trackByModel">
 
                             <!-- Main Row -->
-                            <tr class="border-b transition-colors" [ngClass]="selectedModelCodes.includes(model.modelCode) 
-  ? 'bg-blue-50 border-l-4 border-blue-500' 
-  : 'hover:bg-gray-50'">
+                            <tr class="border-b transition-colors" [ngClass]="
+                                            model.hasMarkupIssue
+                                                ? 'border-l-4 border-red-500 bg-red-50/40'
+                                                : selectedModelCodes.includes(model.modelCode)
+                                                ? 'bg-blue-50 border-l-4 border-blue-500'
+                                                : 'hover:bg-gray-50'">
 
                                 <td class="px-4 py-4">
                                     <input type="checkbox" [checked]="selectedModelCodes.includes(model.modelCode)"
                                         (change)="toggleModelSelection(model, $event)" class="w-4 h-4" />
                                 </td>
 
-                                <td class="px-6 py-4 text-sm font-bold text-blue-800 tracking-wide">
+                                <td class="px-6 py-4 text-sm font-bold tracking-wide"
+                                    [ngClass]="model.hasMarkupIssue ? 'text-red-700' : 'text-blue-800'">
                                     {{ model.spmc_value }}
                                 </td>
 
@@ -313,101 +353,146 @@
                                 </td>
 
                                 <td class="px-4 py-4 text-center">
-                                    <button (click)="toggleRow(i)"
-                                        class="bg-green-100 text-green-700 hover:bg-green-200 px-3 py-1 rounded-md text-xs font-semibold transition-all duration-200"
-                                        [ngClass]="expandedRows.includes(i) 
-      ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' 
-      : 'bg-green-100 text-green-700 hover:bg-green-200'">
+                                    <button (click)="toggleRow(i)" type="button" class="px-3 py-2 rounded-lg text-xs font-semibold 
+                                                            transition-all duration-200 
+                                                            shadow-sm hover:shadow-md
+                                                            active:scale-95 active:shadow-sm
+                                                            focus:outline-none focus:ring-2 focus:ring-offset-1
+                                                            cursor-pointer"
+                                        [ngClass]="expandedRows.includes(i)
+                                                        ? 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-400'
+                                                        : 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-400'">
 
-                                        {{ expandedRows.includes(i) ? 'Hide Pricing Details' : 'View Pricing'
-                                        }}
-
+                                        {{ expandedRows.includes(i) ? 'Hide Pricing' : 'View Pricing' }}
                                     </button>
                                 </td>
 
 
                             </tr>
 
-                            <tr [hidden]="!expandedRows.includes(i)" class="bg-gray-50">
-                                <td colspan="8" class="p-6 relative">
+                            <tr *ngIf="expandedRows.includes(i)" class="bg-gray-50 border-t">
+                                <td colspan="8" class="p-4 relative">
+                                    <div class="mb-4 p-4 bg-white rounded-2xl border border-gray-200 shadow-lg">
 
-                                    <div class="mb-4 relative">
+                                        <div class="h-1 bg-blue-500 rounded-t-xl mb-2"></div>
+                                        <div *ngIf="model.hasMarkupIssue"
+                                            class="mb-3 p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
 
-                                        <label class="text-xs font-semibold uppercase text-gray-500 mb-2 block">
-                                            Select Kilometer Slab
-                                        </label>
+                                            <strong>Warning:</strong> Markup became zero for:
 
-                                        <ng-select [items]="model.kms" bindLabel="km_value" [clearable]="false"
-                                            [searchable]="false" dropdownPosition="auto" [(ngModel)]="model.selectedKm"
-                                            class="w-64 custom-multiselect">
+                                            <span class="font-semibold">
+                                                {{ getProblematicKilometers(model) }}
+                                            </span>
 
-                                            <ng-template ng-label-tmp let-item="item">
-                                                {{ item.km_id == 1 ? 'Quick Lube' : (item.km_value / 1000) + 'K km' }}
-                                            </ng-template>
+                                        </div>
 
-                                            <ng-template ng-option-tmp let-item="item">
-                                                {{ item.km_id == 1 ? 'Quick Lube' : (item.km_value / 1000) + 'K km' }}
-                                            </ng-template>
+                                        <div class="flex flex-col lg:flex-row items-start gap-4">
 
-                                        </ng-select>
+                                            <div class="w-full md:w-1/3">
+                                                <label class="text-xs font-semibold uppercase text-gray-500 mb-2 block">
+                                                    Select Kilometer Slab
+                                                </label>
 
+                                                <ng-container *ngIf="model.kms?.length > 0; else noKm">
+                                                    <ng-select [items]="model.kms" bindLabel="km_value"
+                                                        [clearable]="false" [searchable]="false" dropdownPosition="auto"
+                                                        [(ngModel)]="model.selectedKm"
+                                                        class="w-full custom-multiselect">
+
+                                                        <ng-template ng-label-tmp let-item="item">
+                                                            {{ item.km_id == 1 ? 'Quick Lube' : (item.km_value / 1000) +
+                                                            'K km' }}
+                                                        </ng-template>
+
+                                                        <ng-template ng-option-tmp let-item="item">
+                                                            {{ item.km_id == 1 ? 'Quick Lube' : (item.km_value / 1000) +
+                                                            'K km' }}
+                                                        </ng-template>
+
+                                                    </ng-select>
+                                                </ng-container>
+
+                                                <!-- Fallback message when kms array empty -->
+                                                <ng-template #noKm>
+                                                    <div
+                                                        class="mt-2 rounded border border-dashed border-gray-200 bg-gray-50 p-3 text-sm text-gray-600">
+                                                        There is no kilometer slab selected for this model code for this
+                                                        part.
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+
+                                            <!-- Right: pricing table (responsive) -->
+                                            <div class="w-full md:w-2/3 mt-4 md:mt-0">
+                                                <table class="w-full border border-gray-100 rounded-xl overflow-hidden">
+                                                    <thead
+                                                        class="bg-gray-100 text-xs uppercase font-semibold text-blue-800">
+                                                        <tr>
+                                                            <th class="px-4 py-2 text-left">Kilometer</th>
+                                                            <th class="px-4 py-2 text-right">Markup Price</th>
+                                                            <th class="px-4 py-2 text-right">New Markup</th>
+                                                            <th class="px-4 py-2 text-right">Display Price</th>
+                                                            <th class="px-4 py-2 text-right">New Display</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <!-- show table only when a km is selected -->
+                                                    <tbody *ngIf="model.selectedKm; else selectHint">
+                                                        <tr class="border-t">
+                                                            <td class="px-4 py-2 font-semibold">
+                                                                {{ model.selectedKm?.km_id == 1 ? 'Quick Lube' :
+                                                                (model.selectedKm?.km_value / 1000) + 'K km' }}
+                                                            </td>
+
+                                                            <!-- Old Markup -->
+                                                            <td class="px-4 py-2 text-right font-semibold">
+                                                                AED {{ model.selectedKm.markup_price | number:'1.2-2' }}
+                                                            </td>
+
+                                                            <!-- New Markup -->
+                                                            <td class="px-4 py-2 text-right"
+                                                                [class.text-green-600]="model.selectedKm.new_markup_price > model.selectedKm.markup_price"
+                                                                [class.text-red-600]="model.selectedKm.new_markup_price < model.selectedKm.markup_price"
+                                                                [class.font-bold]="model.selectedKm.new_markup_price !== model.selectedKm.markup_price">
+                                                                AED {{ model.selectedKm.new_markup_price |
+                                                                number:'1.2-2' }}
+                                                            </td>
+
+                                                            <!-- Old Display -->
+                                                            <td class="px-4 py-2 text-right font-semibold">
+                                                                AED {{ model.selectedKm.display_price | number:'1.2-2'
+                                                                }}
+                                                            </td>
+
+                                                            <!-- New Display -->
+                                                            <td class="px-4 py-2 text-right"
+                                                                [class.text-green-600]="model.selectedKm.new_display_price > model.selectedKm.display_price"
+                                                                [class.text-red-600]="model.selectedKm.new_display_price < model.selectedKm.display_price"
+                                                                class="font-bold">
+                                                                AED {{ model.selectedKm.new_display_price |
+                                                                number:'1.2-2' }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                    <!-- Hint shown when kms exist but user hasn't picked a slab -->
+                                                    <ng-template #selectHint>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td colspan="5"
+                                                                    class="px-4 py-6 text-center text-sm text-gray-500">
+                                                                    Please select a kilometer slab to view pricing for
+                                                                    this model.
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </ng-template>
+
+                                                </table>
+                                            </div>
+
+                                        </div>
                                     </div>
-
-                                    <table class="w-full border border-gray-200 rounded">
-                                        <thead class="bg-gray-100 text-xs uppercase  font-semibold text-gray-800">
-                                            <tr>
-                                                <th class="px-4 py-2 text-left">Kilometer</th>
-                                                <th class="px-4 py-2 text-right">Markup Price</th>
-                                                <th class="px-4 py-2 text-right">New Markup</th>
-                                                <th class="px-4 py-2 text-right">Display Price</th>
-                                                <th class="px-4 py-2 text-right">New Display</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody *ngIf="model.selectedKm">
-                                            <tr class="border-t">
-
-                                                <td class="px-4 py-2 font-semibold">
-                                                    {{ model.selectedKm?.km_id == 1
-                                                    ? 'Quick Lube'
-                                                    : (model.selectedKm?.km_value / 1000) + 'K km' }}
-                                                </td>
-
-
-                                                <!-- Old Markup -->
-                                                <td class="px-4 py-2 text-right">
-                                                    AED {{ model.selectedKm.markup_price | number:'1.2-2' }}
-                                                </td>
-
-                                                <!-- New Markup -->
-                                                <td class="px-4 py-2 text-right" [ngClass]="model.selectedKm.new_markup_price > model.selectedKm.markup_price 
-              ? 'text-green-600 font-bold' 
-              : model.selectedKm.new_markup_price < model.selectedKm.markup_price 
-              ? 'text-red-600 font-bold' 
-              : ''">
-
-                                                    AED {{ model.selectedKm.new_markup_price | number:'1.2-2' }}
-                                                </td>
-
-                                                <!-- Old Display -->
-                                                <td class="px-4 py-2 text-right">
-                                                    AED {{ model.selectedKm.display_price | number:'1.2-2' }}
-                                                </td>
-
-                                                <!-- New Display -->
-                                                <td class="px-4 py-2 text-right text-blue-600 font-bold" [ngClass]="model.selectedKm.new_display_price > model.selectedKm.display_price 
-                                                                ? 'text-green-600 font-bold' 
-                                                                : model.selectedKm.new_display_price < model.selectedKm.display_price 
-                                                                ? 'text-red-600 font-bold' 
-                                                                : ''">
-
-                                                    AED {{ model.selectedKm.new_display_price | number:'1.2-2' }}
-                                                </td>
-
-                                            </tr>
-                                        </tbody>
-
-                                    </table>
 
                                 </td>
                             </tr>

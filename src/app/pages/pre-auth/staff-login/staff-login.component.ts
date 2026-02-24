@@ -18,7 +18,7 @@ export class StaffLoginComponent implements OnInit {
     otpval = '';
     otpValidate = false;
     us_phone: any;
-
+    showPassword: boolean = false;
     constructor(public router: Router, private fb: FormBuilder, private auth_ser: StaffLoginService) {
         this.loginForm = this.fb.group({
             email: ['', [Validators.required, Validators.pattern('.+@.+..+')]],
@@ -152,6 +152,10 @@ export class StaffLoginComponent implements OnInit {
                 }
             });
         }
+    }
+
+    togglePassword() {
+        this.showPassword = !this.showPassword;
     }
 
     coloredToast(color: string, message: string) {

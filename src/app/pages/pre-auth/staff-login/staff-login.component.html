@@ -60,8 +60,8 @@
                         <div>
                             <label for="Password">Password</label>
                             <div class="relative text-white-dark">
-                                <input id="Password" name="password" type="password" minlength="6" maxlength="50"
-                                    placeholder="Enter Password" formControlName="password"
+                                <input id="Password" name="password" [type]="showPassword ? 'text' : 'password'"
+                                    minlength="6" maxlength="50" placeholder="Enter Password" formControlName="password"
                                     class="form-input ps-10 placeholder:text-white-dark" />
                                 <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -82,6 +82,30 @@
                                             fill="currentColor" />
                                     </svg>
                                 </span>
+                                <span
+                                    class="absolute end-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700"
+                                    (click)="togglePassword()">
+
+                                    <!-- Eye (Password Hidden) -->
+                                    <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+
+                                    <!-- Eye Off (Password Visible) -->
+                                    <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M17.94 17.94A10.94 10.94 0 0112 19c-5 0-9-3.11-10-7a10.94 10.94 0 012.06-3.18" />
+                                        <path d="M1 1l22 22" />
+                                        <path d="M9.88 9.88A3 3 0 0012 15a3 3 0 002.12-.88" />
+                                    </svg>
+
+                                </span>
+
 
                             </div>
                             <ng-container *ngIf="isSubmitForm1 && loginForm.controls['password'].errors">

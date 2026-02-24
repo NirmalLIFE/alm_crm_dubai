@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { er } from '@fullcalendar/core/internal-common';
 import { StaffPostAuthService } from 'src/app/service/staff-post-auth.service';
 import { environment } from 'src/environments/environment.prod';
 import Swal from 'sweetalert2';
@@ -10,7 +11,7 @@ import Swal from 'sweetalert2';
     styleUrls: ['./parts-list.component.css'],
 })
 export class PartsListComponent implements OnInit {
-public partsList: [] = [];
+    public partsList: [] = [];
     public search: string = '';
     public load_flag: boolean = true;
     public brandList = [];
@@ -36,6 +37,7 @@ public partsList: [] = [];
     @ViewChild('partsModal') partsModal: any;
     @ViewChild('partsEditModal') partsEditModal: any;
     @Output() modalEvent = new EventEmitter<boolean>();
+    requested: boolean = false;
 
     constructor(private userServices: StaffPostAuthService, public router: Router) {
         JSON.parse(atob(atob(localStorage.getItem('access_data') || '{}'))).forEach((element: any) => {
@@ -175,21 +177,27 @@ public partsList: [] = [];
 
 
     updatePartsDetails() {
+        if (this.requested) return;
+        this.requested = true;
         this.userServices.UpdateSpareParts(this.partsDetails).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.partsEditModal.close();
                 this.getAllPartsList();
                 this.coloredToast('success', 'Spare Parts Updated Successfully');
+                this.requested = false;
             } else if (rdata.ret_data == 'duplicate') {
                 // this.partsEditModal.close();
                 // this.getAllPartsList();
                 this.coloredToast('warning', rdata.message);
+                this.requested = false;
             } else if (rdata.ret_data == 'admin_approved') {
                 this.partsEditModal.close();
                 this.coloredToast('success', rdata.message);
                 this.getAllPartsList();
+                this.requested = false;
             } else {
                 this.coloredToast('danger', 'Unable to update price.');
+                this.requested = false;
             }
         });
     }

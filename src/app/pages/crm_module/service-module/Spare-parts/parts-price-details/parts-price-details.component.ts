@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class PartsPriceDetailsComponent implements OnInit {
 
   selectedModelCodes: string[] = [];
-  // selectedModelCodes: string[] = [];
+  buttonClicked: boolean = false;
   expandedRows: number[] = [];
   selectedThreshold: number = 10;
   buttonFlag: boolean = false;
@@ -23,7 +23,8 @@ export class PartsPriceDetailsComponent implements OnInit {
   part: any;
   selectedKms: any[] = [];
   isLoading: boolean = true;
-
+  priceDiff: any;
+  searchTerm: string = '';
 
   ngOnInit(): void {
     // this.calculateValues();
@@ -56,6 +57,8 @@ export class PartsPriceDetailsComponent implements OnInit {
           const difference =
             Number(data.pm_new_price || 0) - Number(data.pm_price || 0);
 
+          this.priceDiff = difference;
+
           this.part = {
             ...data,
             model_codes: []
@@ -78,8 +81,15 @@ export class PartsPriceDetailsComponent implements OnInit {
                   // 🔥 Calculate rounding adjustment
                   const roundingAdjustment = roundedDisplay - baseDisplay;
 
-                  // 🔥 Add rounding impact into markup
-                  const adjustedMarkup = originalMarkup + roundingAdjustment;
+                  let adjustedMarkup = originalMarkup + roundingAdjustment;
+
+                  // clamp to 0
+                  if (adjustedMarkup < 0) {
+                    adjustedMarkup = 0;
+                  }
+
+                  // detect zero or negative condition
+                  const isZeroOrNegative = adjustedMarkup <= 0;
 
                   return {
                     ...km,
@@ -88,10 +98,14 @@ export class PartsPriceDetailsComponent implements OnInit {
                     original_display_price: originalDisplay,
 
                     new_display_price: roundedDisplay,
-                    new_markup_price: adjustedMarkup
+                    new_markup_price: adjustedMarkup,
+
+                    hasZeroOrNegativeMarkup: isZeroOrNegative
                   };
 
                 });
+
+                const hasIssue = updatedKms.some((k: any) => k.hasZeroOrNegativeMarkup);
 
                 this.part.model_codes.push({
                   modelCode: model.spmc_value,
@@ -102,28 +116,25 @@ export class PartsPriceDetailsComponent implements OnInit {
                   spmc_type: model.spmc_type,
                   kms: updatedKms,
                   sp_spare_qty: spareQty,
-                  selectedKm: updatedKms.length ? updatedKms[0] : null
+                  selectedKm: updatedKms.length ? updatedKms[0] : null,
+                  hasMarkupIssue: hasIssue,
                 });
-                console.log("this is the part", this.part);
-
+                // console.log("this is the part", this.part);
               });
-
             });
-
           }
-
           this.isLoading = false;
-
-          // this.calculateValues();
         }
 
       });
-
   }
 
 
 
   updateSelectedPrices() {
+    if (this.buttonClicked) return;
+    this.buttonClicked = true;
+
     if (this.selectedModelCodes.length === 0) return;
     this.buttonFlag = true;
     const updated_kms: any[] = [];
@@ -133,6 +144,7 @@ export class PartsPriceDetailsComponent implements OnInit {
         model.kms.forEach((km: any) => {
           updated_kms.push({
             spkmp_id: km.spkmp_id,
+            modelCode: km.spmc_value,
             new_display_price: km.new_display_price,
             new_markup_price: km.new_markup_price
           });
@@ -142,23 +154,30 @@ export class PartsPriceDetailsComponent implements OnInit {
 
     const payload = {
       pm_id: this.part.pm_id,
+      pm_price: this.part.pm_price,
       pm_new_price: this.part.pm_new_price,
       updated_kms: updated_kms
     };
 
-    console.log(payload);
+    // console.log(payload);
 
     this.userServices.updateSelectedPrices(payload)
       .subscribe((rdata: any) => {
         this.buttonFlag = false;
         if (rdata.ret_data === 'success') {
+          this.buttonClicked = false;
+
           this.coloredToast('success', 'Prices Updated Successfully!');
           this.router.navigateByUrl('/requestedPartsPrice');
         } else {
+          this.buttonClicked = false;
+
           this.buttonFlag = false;
           this.coloredToast('danger', 'Something went wrong!');
         }
       }, () => {
+        this.buttonClicked = false;
+
         this.buttonFlag = false;
       });
   }
@@ -187,158 +206,69 @@ export class PartsPriceDetailsComponent implements OnInit {
       Number(this.part.pm_price || 0);
 
     this.part.model_codes.forEach((model: any) => {
-
+      const spareQty = Number(model.sp_spare_qty || 1);
       model.kms.forEach((km: any) => {
 
         const originalMarkup = Number(km.original_markup_price || 0);
         const originalDisplay = Number(km.original_display_price || 0);
 
-        // Step 1: Apply price difference
         const baseMarkup = originalMarkup + difference;
-        const baseDisplay = originalDisplay + difference;
+        const baseDisplay = originalDisplay + (difference * spareQty);
 
-        // Step 2: Apply threshold rounding
         const roundedDisplay =
           threshold > 0
             ? this.roundToThreshold(baseDisplay, threshold)
             : baseDisplay;
 
-        // Step 3: Calculate rounding adjustment
         const roundingAdjustment = roundedDisplay - baseDisplay;
 
-        // Step 4: Final values (same logic as working code)
+        // km.new_display_price = roundedDisplay;
+        // km.new_markup_price = originalMarkup + roundingAdjustment;
+        let adjustedMarkup = originalMarkup + roundingAdjustment;
+
+        if (adjustedMarkup < 0) {
+          adjustedMarkup = 0;
+        }
+
         km.new_display_price = roundedDisplay;
-        km.new_markup_price = originalMarkup + roundingAdjustment;
+        km.new_markup_price = adjustedMarkup;
+        km.hasZeroOrNegativeMarkup = adjustedMarkup <= 0;
 
       });
-
+      model.hasMarkupIssue = model.kms.some(
+        (km: any) => km.hasZeroOrNegativeMarkup
+      );
     });
-
-  }
-
-
-
-
-  calculateValues() {
-
-    if (!this.part) return;
-
-    const oldPrice = this.part.pm_price || 0;
-    const newPrice = this.part.pm_new_price || 0;
-
-    this.priceDifference = newPrice - oldPrice;
-
-    this.percentageChange =
-      oldPrice ? (this.priceDifference / oldPrice) * 100 : 0;
-
-    this.avgIncrease = this.priceDifference * 0.8;
-
-    this.totalImpact =
-      (this.part.model_codes?.length || 0) * this.avgIncrease;
-  }
-
-
-  applyThreshold() {
-
-    if (!this.selectedThreshold) return;
-
-    this.buttonFlag = true;
-
-    const data = {
-      pm_id: this.part.pm_id,
-      pm_code: this.part.pm_code,
-      pm_brand: this.part.pm_brand,
-      pm_price: this.part.pm_price,
-      pm_new_price: this.part.pm_new_price,
-      pm_sp_pm_id: this.part.pm_sp_pm_id,
-      threshold: this.selectedThreshold
-    };
-
-    this.userServices.acceptPrice(data).subscribe((rdata: any) => {
-
-      if (rdata.ret_data === 'success') {
-
-
-
-      } else {
-
-      }
-
-      this.buttonFlag = false;
-
-    }, () => {
-      this.buttonFlag = false;
-    });
-
   }
 
   toggleSelectAll(event: any) {
-
     const checked = event.target.checked;
 
     this.selectedModelCodes = [];
-    this.selectedKms = [];
 
     if (checked) {
-
       this.part.model_codes.forEach((model: any) => {
-
-        // ✅ For UI
         this.selectedModelCodes.push(model.modelCode);
-
-        // ✅ For payload
-        if (model.selectedKm) {
-          this.selectedKms.push({
-            skmp_id: model.selectedKm.skmp_id,
-            new_display_price: model.selectedKm.new_display_price,
-            new_markup_price: model.selectedKm.new_markup_price
-          });
-        }
-
       });
-
+    } else {
+      this.selectedModelCodes = [];
     }
 
+    this.syncSelectedKmsFromSelectedModelCodes();
   }
 
 
-
   toggleModelSelection(model: any, event: any) {
-
     const checked = event.target.checked;
-
-    if (!model.selectedKm) return;
-
-    const payload = {
-      skmp_id: model.selectedKm.skmp_id,
-      new_display_price: model.selectedKm.new_display_price,
-      new_markup_price: model.selectedKm.new_markup_price
-    };
-
     if (checked) {
-
-      // ✅ UI state
       if (!this.selectedModelCodes.includes(model.modelCode)) {
         this.selectedModelCodes.push(model.modelCode);
       }
-
-      // ✅ payload state
-      if (!this.selectedKms.find(x => x.skmp_id === payload.skmp_id)) {
-        this.selectedKms.push(payload);
-      }
-
     } else {
 
-      // remove from UI
-      this.selectedModelCodes =
-        this.selectedModelCodes.filter(code => code !== model.modelCode);
-
-      // remove from payload
-      this.selectedKms =
-        this.selectedKms.filter(x => x.skmp_id !== payload.skmp_id);
-
+      this.selectedModelCodes = this.selectedModelCodes.filter(code => code !== model.modelCode);
     }
-
+    this.syncSelectedKmsFromSelectedModelCodes();
   }
 
 
@@ -361,6 +291,63 @@ export class PartsPriceDetailsComponent implements OnInit {
     return item.modelCode; // or unique id
   }
 
+  filteredModels() {
+    if (!this.searchTerm) {
+      return this.part?.model_codes || [];
+    }
+
+    const term = this.searchTerm.toLowerCase();
+
+    return (this.part?.model_codes || []).filter((model: any) =>
+      model.spmc_value?.toLowerCase().includes(term) ||
+      model.spmc_vin_no?.toLowerCase().includes(term)
+    );
+  }
+
+
+
+  private syncSelectedKmsFromSelectedModelCodes() {
+    this.selectedKms = [];
+
+    if (!this.part?.model_codes?.length) return;
+
+    this.part.model_codes.forEach((model: any) => {
+      if (!this.selectedModelCodes.includes(model.modelCode)) return;
+      // ensure a km is selected for this model before pushing
+      if (model.selectedKm) {
+        this.selectedKms.push({
+          // use the same key name as your backend expects. 
+          // I use `skmp_id` here because your component uses it earlier.
+          // If backend expects `spkmp_id` change this to that.
+          skmp_id: model.selectedKm.skmp_id,
+          new_display_price: model.selectedKm.new_display_price,
+          new_markup_price: model.selectedKm.new_markup_price
+        });
+      }
+    });
+  }
+
+
+  getProblematicKilometers(model: any): string {
+    if (!model?.kms) return '';
+
+    return model.kms
+      .filter((km: any) => km.hasZeroOrNegativeMarkup)
+      .map((km: any) =>
+        km.km_id == 1
+          ? 'Quick Lube'
+          : (km.km_value / 1000) + 'K km'
+      )
+      .join(', ');
+  }
+
+  hasAnyMarkupIssue(): boolean {
+    if (!this.part?.model_codes) return false;
+
+    return this.part.model_codes.some(
+      (model: any) => model.hasMarkupIssue
+    );
+  }
 
   coloredToast(color: string, message: string) {
     const toast = Swal.mixin({
@@ -378,6 +365,5 @@ export class PartsPriceDetailsComponent implements OnInit {
       title: message,
     });
   }
-
 
 }
