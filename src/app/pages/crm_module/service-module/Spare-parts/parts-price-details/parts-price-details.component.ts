@@ -349,6 +349,14 @@ export class PartsPriceDetailsComponent implements OnInit {
     );
   }
 
+  getRequestedBy(value: any): string {
+  if (value === null || value === undefined || value === '') {
+    return '—';
+  }
+
+  return !isNaN(Number(value)) ? 'User' : value;
+}
+
   coloredToast(color: string, message: string) {
     const toast = Swal.mixin({
       toast: true,
@@ -365,5 +373,6 @@ export class PartsPriceDetailsComponent implements OnInit {
       title: message,
     });
   }
+
 
 }

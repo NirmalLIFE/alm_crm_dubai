@@ -55,7 +55,10 @@
                 <span class="part-number gap-2">{{ part.pm_code }}</span>&nbsp;
                 <span class="brand">{{ part.brand_name }}</span>
             </div>
-            <p>Requested by <strong>{{ part.us_firstname }}</strong></p>
+            <p>
+                Requested by
+                <strong>{{ getRequestedBy(part.pm_price_requested_by) }}</strong>
+            </p>
         </div>
 
         <div class="right">

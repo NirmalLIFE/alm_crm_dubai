@@ -201,6 +201,14 @@ export class PartsPriceRequestAdminComponent implements OnInit {
     //     });
     // }
 
+    getRequestedBy(value: any): string {
+        if (value === null || value === undefined || value === '') {
+            return '—';
+        }
+
+        return !isNaN(Number(value)) ? 'User' : value;
+    }
+
     confirmCancelPrice(pm_id: any) {
         Swal.fire({
             title: 'Are you sure?',

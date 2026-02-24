@@ -45,7 +45,7 @@
                                 class="mt-1 flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
                                 <span>{{ pkg.brand_name }}</span>
                                 <span>•</span>
-                                <span>Requested by {{ pkg.us_firstname }}</span>
+                                <span>Requested by {{ getRequestedBy(pkg.pm_price_requested_by) }}</span>
                                 <span>•</span>
 
                                 <span class="flex items-center gap-1">

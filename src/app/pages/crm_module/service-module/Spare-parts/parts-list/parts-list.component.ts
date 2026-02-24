@@ -179,6 +179,10 @@ export class PartsListComponent implements OnInit {
     updatePartsDetails() {
         if (this.requested) return;
         this.requested = true;
+        this.partsDetails.us_id = atob(atob(localStorage.getItem('us_id') || ''));
+        this.partsDetails.us_firstname = atob(atob(localStorage.getItem('us_firstname') || ''));
+        this.partsDetails.us_role = atob(atob(localStorage.getItem('us_role_id') || ''));
+
         this.userServices.UpdateSpareParts(this.partsDetails).subscribe((rdata: any) => {
             if (rdata.ret_data == 'success') {
                 this.partsEditModal.close();
