@@ -34,18 +34,26 @@
 // }
 
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MaintenanceService } from './maintenance.service';
-
+import { filter } from 'rxjs/operators';
+import { NotificationService } from './service/notification.service';
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html'
+    templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-    constructor(private maintenanceService: MaintenanceService, private router: Router) { }
+    constructor(private maintenanceService: MaintenanceService, private router: Router, private notificationService: NotificationService) {}
 
     ngOnInit() {
         // this.clickApiaction(); // Initial check when the app starts
+        // Load count when app starts
+        this.notificationService.refreshPriceRequestCount();
+
+        // Refresh count on every page navigation
+        this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+            this.notificationService.refreshPriceRequestCount();
+        });
     }
 
     // Global listener for user clicks anywhere in the document.Each click triggers a maintenance status check.

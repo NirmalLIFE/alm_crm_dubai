@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { slideDownUp } from '../shared/animations';
+import { NotificationService } from '../service/notification.service';
 
 @Component({
     moduleId: module.id,
@@ -31,8 +32,10 @@ export class SidebarComponent {
         chat_features: [],
         customer_features: [],
     };
+    priceRequestCount: number = 0;
+    hasServiceNotification: boolean = true;
 
-    constructor(public translate: TranslateService, public storeData: Store<any>, public router: Router) {
+    constructor(public translate: TranslateService, public storeData: Store<any>, public router: Router, public notificationService: NotificationService) {
         this.initStore();
     }
     async initStore() {
@@ -46,6 +49,15 @@ export class SidebarComponent {
     ngOnInit() {
         this.setActiveDropdown();
         this.menuDefiner();
+        this.notificationService.priceRequestCount$.subscribe((count) => {
+            const menuItem = this.menuItems.service_features.find((item: any) => item.link === '/requestedPartsPrice');
+            if (menuItem) {
+                menuItem.badgeCount = count;
+                this.priceRequestCount = count;
+            }
+            // ✅ Add this line
+            this.hasServiceNotification = count > 0;
+        });
     }
 
     menuDefiner() {
@@ -373,6 +385,7 @@ export class SidebarComponent {
                 this.menuItems.service_features.push({
                     title: 'Requested Parts Price',
                     link: '/requestedPartsPrice',
+                    badgeCount: 0,
                 });
             } else if (element['ft_id'] == 68) {
                 this.menuItems.service_features.push({

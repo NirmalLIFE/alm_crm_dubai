@@ -17,6 +17,7 @@ export class PartsListComponent implements OnInit {
     public brandList = [];
     public spareCategory = [];
     public user_role: any = atob(atob(localStorage.getItem('us_role_id') || '{}'));
+    public user_id: any = atob(atob(localStorage.getItem('us_id') || '{}'));
     partsDetails: any = [];
     originalPrice: any;
     isPriceChanged: boolean = false;
@@ -150,6 +151,14 @@ export class PartsListComponent implements OnInit {
     // }
 
     editParts(value: any) {
+        // 🔐 Permission Check
+        const allowedRoles = ['1', '10'];
+        const hasPermission = this.user_id == '35' || allowedRoles.includes(this.user_role);
+        if (!hasPermission) {
+            this.coloredToast('danger', "You don't have permission to edit.");
+            return;
+        }
+
         this.partsDetails = {
             pm_id: value.pm_id,
             pm_code: value.pm_code,
@@ -175,7 +184,6 @@ export class PartsListComponent implements OnInit {
         this.isPriceChanged = numericValue !== originalNumeric;
     }
 
-
     updatePartsDetails() {
         if (this.requested) return;
         this.requested = true;
@@ -187,10 +195,16 @@ export class PartsListComponent implements OnInit {
             if (rdata.ret_data == 'success') {
                 this.partsEditModal.close();
                 this.getAllPartsList();
-                this.coloredToast('success', 'Spare Parts Updated Successfully');
+                // 🔐 Check Permission
+                const hasDirectEditPermission = this.user_role == '1' || this.user_role == '10';
+                if (hasDirectEditPermission) {
+                    this.coloredToast('success', 'Spare Parts Updated Successfully');
+                } else {
+                    this.coloredToast('info', 'Price change request sent to Admin for approval');
+                }
                 this.requested = false;
             } else if (rdata.ret_data == 'duplicate') {
-                // this.partsEditModal.close();
+                this.partsEditModal.close();
                 // this.getAllPartsList();
                 this.coloredToast('warning', rdata.message);
                 this.requested = false;
@@ -211,17 +225,13 @@ export class PartsListComponent implements OnInit {
         this.getAllPartsList();
     }
 
-
     onViewPartsLog(value: any) {
-
         const encoded = btoa(value.pm_id);
 
         this.router.navigate(['/spare-parts/parts-list/parts-log'], {
             queryParams: { pm_id: encoded },
         });
-
     }
-
 
     // deleteParts(value: any) {
     //     if (this.permittedAction.includes('3')) {
