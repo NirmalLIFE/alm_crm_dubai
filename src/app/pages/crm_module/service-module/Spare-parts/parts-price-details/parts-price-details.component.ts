@@ -266,6 +266,62 @@ export class PartsPriceDetailsComponent implements OnInit {
         });
     }
 
+    confirmCancelPrice() {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once declined, this price change request cannot be reverted.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, Decline it',
+            cancelButtonText: 'No, Keep it',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.cancelPrice(this.part);
+            }
+        });
+    }
+
+    cancelPrice(pkg: any) {
+        if (this.buttonFlag) return;
+
+        this.buttonFlag = true;
+
+        const data = {
+            pm_brand: pkg.pm_brand,
+            pm_code: pkg.pm_code,
+            pm_id: pkg.pm_id,
+            pm_new_price: pkg.pm_new_price,
+            pm_price: pkg.pm_price,
+            pm_sp_pm_id: pkg.pm_sp_pm_id,
+            branch_id: environment.branch_id,
+            pm_name: pkg.spim_name,
+            user_name: atob(atob(localStorage.getItem('us_firstname') || '{}'))
+        };
+        this.userServices.cancelPrice(data).subscribe((rdata: any) => {
+            if (rdata.ret_data == 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Cancelled',
+                    text: 'The price change has been cancelled.',
+                    confirmButtonColor: '#3085d6',
+                });
+                this.router.navigateByUrl('/requestedPartsPrice');
+                this.buttonFlag = false;
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to cancel the price change.',
+                    confirmButtonColor: '#d33',
+                });
+                this.buttonFlag = false;
+            }
+        });
+    }
+
+
     roundToThreshold(value: number, threshold: number): number {
         if (!threshold || threshold === 0) {
             return Number(value);
